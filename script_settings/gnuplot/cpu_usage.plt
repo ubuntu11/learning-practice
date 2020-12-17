@@ -1,0 +1,1 @@
+set terminal png ; set output "/tmp/HOST_cpu_loading_SDATE.png" ; set xdata time ; set timefmt "%H:%M" ; set format x "%H" ; set grid ; set size 1,0.5 ; set origin 0,0 ; set ylabel 'HOST cpu%' ; set xlabel 'Date: LDATE' ; set yr [0:100] ; set xr ["00":"24"] ; plot "/tmp/HOST_cpu_loading_SDATE.dat" using 2:3 title 'cpu consumtion' with line ;

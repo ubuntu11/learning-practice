@@ -1,0 +1,4 @@
+#!/bin/sh
+CURRENT_TIME=`date +"%Y-%m-%d %H:%M:%S"`
+CPU_LOADING=`/usr/bin/sar -u -P 0 1 1 | tail -n 1 | cut -b 25-30 | sed -e "s/ //g"`
+echo "$CURRENT_TIME $CPU_LOADING"

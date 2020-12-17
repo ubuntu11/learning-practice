@@ -1,0 +1,37 @@
+#!/bin/sh
+usage(){
+	echo "Usage: $0 DB_NAME USER_NAME"
+	exit
+}
+
+dropUser(){
+cat << EOF
+DROP USER "$USER" CASCADE;
+quit;
+EOF
+}
+
+createUser(){
+cat << EOF
+CREATE USER "$USER" PROFILE "DEFAULT" IDENTIFIED BY "12345" DEFAULT TABLESPACE "USERS" TEMPORARY TABLESPACE "TEMP" ACCOUNT UNLOCK;
+GRANT CREATE SEQUENCE TO "$USER";
+GRANT CREATE TABLE TO "$USER";
+GRANT CREATE VIEW TO "$USER";
+GRANT CREATE TRIGGER TO "$USER";
+GRANT CREATE PROCEDURE TO "$USER";
+GRANT UNLIMITED TABLESPACE TO "$USER";
+GRANT "CONNECT" TO "$USER";
+quit;
+EOF
+}
+
+if [ $# != 2 ]
+then
+	usage
+fi
+
+DB=$1
+USER=`echo $2 | sed 's/.*/\U&/'`
+
+dropUser | sqlplus -L SYSTEM/12345@localhost/$DB
+createUser | sqlplus -L SYSTEM/12345@localhost/$DB

@@ -1,0 +1,12 @@
+#!/bin/sh
+. ${HOME}/.catalinarc
+CURRENT_TIME=`date +"%Y-%m-%d %H:%M:%S"`
+OPENED_FILES=`sudo /usr/sbin/lsof | wc -l`
+OPENED_FILES_BY_CTU=`/usr/sbin/lsof | wc -l`
+TomcatPID=`ps -C java -o pid,args | grep "${CATALINA_HOME}/conf/logging.properties" | grep "${JAVA_HOME}/bin/java" | cut -b -5`
+if [ "${TomcatPID}" == "" ]; then
+	OPENED_FILES_BY_TOMCAT=0
+else
+	OPENED_FILES_BY_TOMCAT=`/usr/sbin/lsof -p $TomcatPID | wc -l`
+fi
+echo "$CURRENT_TIME $OPENED_FILES_BY_CTU $OPENED_FILES_BY_TOMCAT $OPENED_FILES"

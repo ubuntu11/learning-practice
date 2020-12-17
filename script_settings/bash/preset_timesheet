@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# run this script on every Saturday.
+#
+DBHOST="vm-dbserver"
+DB="tm10"
+COMPKEY=100
+USERKEY=163
+TIMECODEKEY=934403
+friday=`date +"%Y-%m-%d"`
+#
+# can speficy friday here to override the generated friday value above
+#
+#friday="2017-11-03"
+
+#
+#variables for testing on biz1.et.com
+#DBHOST="camden-pgsql"
+#DB="biz1"
+#COMPKEY=100
+#USERKEY=122
+#TIMECODEKEY=2679
+
+#time sheet report for monday-friday
+for ((a=0; a <5 ; a++))
+do
+    reportday=`date +"%Y%m%d" -d "$friday-$a days"`
+    /usr/bin/psql -U ctu -h $DBHOST -c "INSERT INTO time_sheet(company_key, report_obj_key, user_key, timecode_key, rt, ot, report_day) VALUES($COMPKEY, NEXTVAL('obj_key_seq'), $USERKEY, $TIMECODEKEY, (SELECT 8.0 - COALESCE(SUM(rt),0) FROM time_sheet WHERE user_key=$USERKEY and report_day=$reportday), 0.0, $reportday);" $DB
+done
+

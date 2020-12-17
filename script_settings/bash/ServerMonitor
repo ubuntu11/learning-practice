@@ -1,0 +1,136 @@
+#!/bin/sh
+until [ -z $1 ]
+do
+    if [ $receiptants ]
+    then
+        receiptants="$receiptants,$1"
+    else
+        receiptants="$1"
+    fi
+    shift
+done
+
+GNUPLOT_SCRIPT_HOME="/home/ctu/bin/gnuplot"
+SEND_IMAGE="Y"
+
+if [[ $# = 1 || $# = 2 ]]
+then
+	CURRENT_DATE=$1
+else
+	CURRENT_DATE=`date +%Y-%m-%d`
+fi
+
+if [ $# = 2 ]
+then
+	SEND_IMAGE=$2
+fi
+
+CURRENT_DATE_SHORT=`echo $CURRENT_DATE | sed "s/-//g"`
+
+#=======================================================================
+# subroutines
+#=======================================================================
+
+clear_old_files(){
+	rm -f /tmp/mtsv*
+}
+
+draw(){
+    case $FILE in
+    "jvm")
+        TITLE="JVM Heap Space"
+        ;;
+    "cpu")
+        TITLE="CPU Loading"
+        ;;
+    "opened")
+        TITLE="Opened File Handles"
+        ;;
+     esac
+
+        #if [[ $FILE =~ "jvm" ]]
+	#then
+	#	TITLE="JVM Heap Space"
+	#else if [[ $FILE =~ "cpu" ]]
+	#then
+	#	TITLE="CPU Loading"
+	#else if [[ $FILE =~ "opened" ]]
+	#then
+	#	TITLE="Opened File Handles"
+	#fi
+	#fi
+	#fi
+
+	DATA_FILE="/tmp/${HOST}_${FILE}_${CURRENT_DATE_SHORT}.dat"
+	IMG_FILE="/tmp/${HOST}_${FILE}_${CURRENT_DATE_SHORT}.png"
+	ssh ctu@$HOST grep $CURRENT_DATE /home/ctu/logs/$FILE > $DATA_FILE
+
+	if [ -f $DATA_FILE ]
+	then
+		cat $GNUPLOT_SCRIPT_HOME/$GNUPLOT_SCRIPT | sed "s/HOST/$HOST/g;s/SDATE/$CURRENT_DATE_SHORT/g;s/LDATE/$CURRENT_DATE/g;" | gnuplot
+	fi
+}
+
+addJVMOpts(){
+    	IMG_FILE="/tmp/${HOST}_${FILE}_${CURRENT_DATE_SHORT}.png"
+	JVM_OPTS=`ssh ctu@${HOST} ~/bin/getJVMOpts`
+        DRAW_CMD="convert $IMG_FILE -font courier -pointsize 12 -fill tomato"
+        echo $JVM_OPTS | awk '{for(i=1;i<NF;i++){printf(" -draw \"text 100,%d \x27%s\x27\"",10+20*i,$i);}} END{print " /tmp/jvm_temp.png"}' > /tmp/awk_result
+	DRAW_CMD="$DRAW_CMD `cat /tmp/awk_result`"
+        echo "$DRAW_CMD" | /bin/sh
+        cp /tmp/jvm_temp.png $IMG_FILE
+}
+
+sendimages(){
+	command="convert"
+	imagename="ServerMonitor-$CURRENT_DATE.png"
+	FILES=`ls /tmp/mtsv*.png | sort`
+	for file in $FILES
+	do
+		command="$command '(' $file ')' "
+	done
+	command="$command -append /tmp/$imagename"
+	echo "$command" | /bin/sh
+	sleep 3 
+
+	#uuencode /tmp/$imagename $imagename | mail -s "Server Monitor - `date +%Y-%m-%d`" $receiptants
+	mutt -s "Server Monitor - $CURRENT_DATE" -a /tmp/$imagename $receiptants < /dev/null
+}
+
+draw_by_host(){
+FILE="jvm_heap_space"
+GNUPLOT_SCRIPT="jvm_heap.plt"
+draw
+addJVMOpts
+
+FILE="cpu_loading"
+GNUPLOT_SCRIPT="cpu_usage.plt"
+draw
+
+FILE="opened_files"
+GNUPLOT_SCRIPT="opened_files.plt"
+draw
+
+#FILE="db_conn"
+#GNUPLOT_SCRIPT="db_conn.plt"
+#draw
+
+}
+
+#=======================================================================
+# main program
+#=======================================================================
+
+#clear old data and graphs firest
+clear_old_files
+
+HOST="mtsv9"
+draw_by_host
+
+HOST="mtsv6"
+draw_by_host
+
+if [ $SEND_IMAGE = "Y" ]
+then
+	sendimages
+fi

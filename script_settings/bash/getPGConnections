@@ -1,0 +1,4 @@
+#!/bin/sh
+CURRENT_TIME=`date +"%Y-%m-%d %H:%M:%S"`
+CONN_TM10=`/usr/bin/psql -h vm-dbserver -c "SELECT numbackends FROM pg_stat_database View WHERE datname='tm10'" tm10 | awk '/.*[0-9]$/ {print $1}'`
+echo "$CURRENT_TIME $CONN_TM10"
