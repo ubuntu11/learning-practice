@@ -1,0 +1,7 @@
+FROM postgres:13-alpine
+
+ENV POSTGRES_USER hwacom
+ENV POSTGRES_PASSWORD hwacom
+ENV POSTGRES_DB iot_emm
+
+RUN apk --no-cache add bash

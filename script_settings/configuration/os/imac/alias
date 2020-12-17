@@ -1,0 +1,81 @@
+#
+# machine
+#
+alias kubuntu="ssh -l ken kubuntu"
+alias jenkins="ssh -l hwacom -p 2222 jenkins"
+alias tbda="ssh -l devuser da-server-t01"
+alias tbp1="ssh -l devuser da-predictor-t01"
+alias tbp2="ssh -l devuser da-predictor-t02"
+alias fptb3="ssh -l devuser fptb3"
+alias clda="ssh -l devuser da-server-01"
+alias clp1="ssh -l devuser da-predictor-01"
+alias clp2="ssh -l devuser da-predictor-02"
+alias oss="ssh -l admin -p 8092 localhost"
+
+#
+# database
+#
+alias mysqllo="mysqlsh -u familyplus -pfamilyplus -h 127.0.0.1 -D familyplus"
+alias mongolo="mongo --host 127.0.0.1 kaa"
+alias mysqltb='mysql -h kaa-node-t03 -u devuser -p1qaz@WSX wordpress_fplus'
+alias mongotb='mongo --host 192.168.15.12 --username kaaUser --password pwdOfKaaUser kaa'
+alias mongocl='mongo --host localhost -u kaaUser -p pwdOfKaaUser kaa'
+alias webcrawler="ssh -l devuser -p 3333 webcrawler"
+alias pmm-mongo="mongo 'mongodb+srv://cluster0-dvlzv.mongodb.net/pmm' --username ken"
+
+#
+# maven
+#
+alias mvn="mvn -Dtest=!WebFilterDnsTest -DfailIfNoTests=false"
+alias mvnpass="mvn -Dmaven.test.skip=true -Dcheckstyle.skip=true -DfailIfNoTests=false"
+alias checkstyle="mvn checkstyle:check"
+alias sbrun="mvn spring-boot:run -Drun.arguments=--logging.smtp.recipient=kendrivepolo@aim.com"
+
+#
+# minikube
+#
+alias mk="minikube"
+alias mkdocker="eval $(mk docker-env)"
+
+#
+# docker
+#
+alias dc="docker-compose"
+alias dcup="docker-compose up -d --no-deps"
+
+#
+# kubernetes
+#
+alias kc="kubectl"
+alias kcnf="kc config"
+alias kgc="kc get configMaps"
+alias kgd="kc get deployments"
+alias kgj="kc get jobs"
+alias kgp="kc get pods"
+alias kgsvc="kc get services"
+alias kgsec="kc get secrets"
+alias kapl="kc apply"
+alias kdes="kc describe"
+alias kdel="kc delete"
+
+#
+# WISE-PaaS
+#
+#alias kla="kc logs -f $(kgp | grep 'emm-frontend' | awk '{print $1}') -c api-gateway"
+#alias klo="kc logs -f $(kgp | grep 'core-service' | awk '{print $1}') -c outsourcing-service"
+#alias keu="kc exec -it $(kgp | grep 'system-service' | awk '{print $1}') -c user-service"
+
+alias behave="behave --color --no-snippets"
+alias his="history"
+alias jshell="${JAVA11_HOME}/bin/jshell PRINTING"
+
+#
+# iot_emm
+#
+alias dcmysql="dc exec db-service mysql -u hwacom -phwacom iot_emm"
+alias dcpsql="dc exec db-service psql -U hwacom -W iot_emm"
+
+#
+# familyplus
+#
+alias jarrun="java -Dda.enableScheduledService=true -Dda.fplusRouterListCron='0 1 * * 12 ?' -Dda.doPredictionCron='0 5 * * 12 ?' -Dda.workingDirectory=/Users/huzhongwei/Development/java/fp-springboot-2019/dataAnalyzer -Dlogging.path=/Users/huzhongwei/Development/java/fp-springboot-2019/dataAnalyzer/logs -Dlogging.smtp.recipient=kendrivepolo@aim.com"

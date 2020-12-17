@@ -1,0 +1,51 @@
+#!/bin/bash
+#
+# Use tmux to build a window 3x3 panes, and cd to a microservice folder in each pane.
+#
+# Must set environment variable "SMARTQ_HOME", ex: $HOME/Development/aiot-quickstart/iot-emm
+
+cd $SMARTQ_HOME
+tmux new-session \; \
+  split-window -v -p 66 \; \
+  split-window -v -p 50 \; \
+  select-pane -t 0 \; \
+  split-window -h -p 33 \; \
+  select-pane -t 0 \; \
+  split-window -h -p 50 \; \
+  select-pane -t 3 \; \
+  split-window -h -p 33 \; \
+  select-pane -t 3 \; \
+  split-window -h -p 50 \; \
+  select-pane -t 6 \; \
+  split-window -h -p 33 \; \
+  select-pane -t 6 \; \
+  split-window -h -p 50 \; \
+  select-pane -t 0 \; \
+  send-keys 'cd cloud-config; clear' C-m \; \
+  send-keys 'mvn spring-boot:run' \; \
+  select-pane -t 1 \; \
+  send-keys 'cd service-discovery; clear' C-m \; \
+  send-keys 'mvn spring-boot:run' \; \
+  select-pane -t 2 \; \
+  send-keys 'cd api-gateway; clear' C-m \; \
+  send-keys 'mvn spring-boot:run' \; \
+  select-pane -t 3 \; \
+  send-keys 'cd user-service; clear' C-m \; \
+  send-keys 'mvn spring-boot:run' \; \
+  select-pane -t 4 \; \
+  send-keys 'export FLASK_RUN_PORT=9030; export FLASK_ENV="development"; cd notify-service; clear' C-m \; \
+  send-keys 'source python_venv/bin/activate' C-m \; \
+  send-keys 'flask run' \; \
+  select-pane -t 5 \; \
+  send-keys 'cd equipment-service; clear' C-m \; \
+  send-keys 'mvn spring-boot:run' \; \
+  select-pane -t 6 \; \
+  send-keys 'cd outsourcing-service; clear' C-m \; \
+  send-keys 'mvn spring-boot:run' \; \
+  select-pane -t 7 \; \
+  send-keys 'cd workorder-service; clear' C-m \; \
+  send-keys 'mvn spring-boot:run' \; \
+  select-pane -t 8 \; \
+  send-keys 'cd emm-ui; clear' C-m \; \
+  send-keys 'yarn serve' \; \
+  select-pane -t 0 \;

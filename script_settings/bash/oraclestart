@@ -1,0 +1,43 @@
+#!/bin/sh
+. /home/oracle/bin/ORA_INSTANCES
+
+start_instance(){
+case $SID in 
+tm10|tm10dev)
+    export ORRRACLE_DATABASE_FILE_DIR="/opt/oracle/oradata/$SID"
+    export ORACLE_SID=$SID
+    sqlplus "/as sysdba"<<EOF
+    startup
+    quit;
+EOF
+
+    emctl start dbconsole
+    ;;
+*)
+    export ORRRACLE_DATABASE_FILE_DIR="/home/oracle/tist/$SID"
+    export ORACLE_SID=$SID
+    sqlplus "/as sysdba"<<EOF
+    startup
+    quit;
+EOF
+
+    #only start dbconsole for tm10, tm10dev
+    #emctl start dbconsole
+    ;;
+esac
+}
+
+source $HOME/.bashrc
+
+lsnrctl start
+
+for inst in $INSTANCES
+do
+	SID="$inst"
+        start_instance
+done
+
+#
+# start isqlplus web interface
+#
+isqlplusctl start

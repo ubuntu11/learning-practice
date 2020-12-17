@@ -1,0 +1,9 @@
+FROM aiothwacom/python
+
+COPY ./requirements-flask-uwsgi.txt /requirements.txt
+# need gcc for uwsgi
+RUN apk add --no-cache --virtual .build-deps gcc libc-dev linux-headers
+RUN apk --no-cache add bash
+
+RUN pip install -r /requirements.txt
+RUN apk del .build-deps

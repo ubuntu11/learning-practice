@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#JAVA_HOME="/home/ctu/jdk1.6.0_26"
+#CATALINA_PID=`cat /home/ctu/tmp/catalina.pid`
+
+# $CATALINA_PID's value is a file containing the pid in the .catalinarc 
+. ${HOME}/.catalinarc
+CATALINA_PID="$(cat "${CATALINA_PID}")"
+
+GCUTIL=`$JAVA_HOME/bin/jstat -gcutil $CATALINA_PID | tail -n 1`
+CURRENT_TIME=`date +"%Y-%m-%d %H:%M:%S"`
+echo "$CURRENT_TIME $GCUTIL"

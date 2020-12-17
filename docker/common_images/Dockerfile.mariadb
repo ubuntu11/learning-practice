@@ -1,0 +1,14 @@
+FROM mariadb/server:10.3
+ENV MARIADB_ROOT_PASSWORD hwacom
+ENV MARIADB_ALLOW_EMPTY_PASSWORD true
+ENV MARIADB_DATABASE iot_emm
+ENV MARIADB_USER hwacom
+ENV MARIADB_PASSWORD hwacom
+
+# utf8 everywhere
+COPY utf8.cnf /etc/mysql/mariadb.conf.d/
+COPY my.cnf /etc/mysql/
+
+# see https://hub.docker.com/r/mariadb/server
+# COPY init_data.sql /docker-entrypoint-initdb.d
+

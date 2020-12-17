@@ -1,0 +1,1 @@
+set terminal png ; set output "/tmp/tm_spi.png" ; set xdata time ; set timefmt "%Y-%m-%d" ; set grid ; set size 1,0.5 ; set origin 0,0 ; set ylabel 'spi' ; set xlabel 'Date' ; set xr ['2009-05-01':'2009-05-31'] ; set yr [0:100] ; set y2tics 0, 5, 100 ; set format x "%b-%d" ;  plot "/tmp/tm_spi_data" using 1:3 title 'spi value' with line;

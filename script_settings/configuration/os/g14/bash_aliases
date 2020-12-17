@@ -1,0 +1,52 @@
+#
+# machine
+#
+
+#
+# database
+#
+
+
+#
+# maven
+#
+alias mvn="mvn -Dtest=!WebFilterDnsTest -DfailIfNoTests=false"
+alias mvnpass="mvn -Dmaven.test.skip=true -Dcheckstyle.skip=true -DfailIfNoTests=false"
+alias checkstyle="mvn checkstyle:check"
+alias sbrun="mvn spring-boot:run -Drun.arguments=--logging.smtp.recipient=kendrivepolo@aim.com"
+
+#
+# minikube
+#
+
+
+#
+# docker
+#
+alias dc="docker-compose"
+alias dcup="docker-compose up -d --no-deps"
+
+#
+# kubernetes
+#
+alias kc="kubectl"
+alias kcnf="kc config"
+alias kgc="kc get configMaps"
+alias kgd="kc get deployments"
+alias kgj="kc get jobs"
+alias kgp="kc get pods"
+alias kgs="kc get services"
+alias kapl="kc apply"
+alias kdel="kc delete"
+alias kdes="kc describe"
+
+#
+# WISE-PaaS
+#
+
+#
+# command shortcuts
+#
+alias behave="behave --color --no-snippets"
+alias his="history"
+alias jshell="jshell PRINTING"
