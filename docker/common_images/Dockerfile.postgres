@@ -1,4 +1,4 @@
-FROM postgres:13-alpine
+FROM postgres:10-alpine
 
 ENV POSTGRES_USER hwacom
 ENV POSTGRES_PASSWORD hwacom
