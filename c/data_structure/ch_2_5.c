@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+/*
+有一棟五層樓出租公寓，房號從101、102、103到501、502、503。每房租金5000元，第201、402、303、102、501、302已交本月租金，
+請寫一個程式輸入已交租金的房號，可以顯示未交房租的房號及全部已交、未交的房租總金額。
+*/
+
 struct room
 {
   int number;
@@ -29,6 +34,7 @@ int main()
   struct room rooms[15];
   int roomNumber, paidRoomNumber;
   int count = 0;
+  int totalPaid = 0, totalUnpaid = 0;
 
   init(rooms, 15);
   while(paidRoomNumber != 0 && count < 15) {
@@ -44,7 +50,11 @@ int main()
 
   for(int i=0; i<15; i++) {
     if (rooms[i].paid == 0) {
+      totalUnpaid += 5000;
       printf("room(%d) not paid yet.\n", rooms[i].number);
+    } else {
+      totalPaid += 5000;
     }
   }
+  printf("total paid money=%d, unpaid money=%d\n", totalPaid, totalUnpaid);
 }
