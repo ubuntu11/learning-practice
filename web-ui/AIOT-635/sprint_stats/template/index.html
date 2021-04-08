@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}衝刺過程統計{% endblock %}
+
+{% block navbar %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <!-- 每日回報工時 -->
+    <div class="col-sm">
+      <img src="barChart.png" class="img-fluid" alt="Responsive image">
+    </div>
+    <!-- 工時累計 -->
+    <div class="col-sm">
+      <img src="burnDown.png" class="img-fluid" alt="Responsive image">
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <!-- Performance氣泡圖 -->
+    <div class="col-sm">
+      <img src="bubbleChart.png" class="img-fluid" alt="Responsive image">
+    </div>
+    <!-- 個人與團隊工時佔比 -->
+    <div class="col-sm">
+      <img src="DualPiesLegend.png" class="img-fluid" alt="Responsive image">
+    </div>
+  </div>
+</div>
+
+<!-- 個人工作統計 -->
+<div class="container">
+  <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- Issue 列表 -->
+<div class="container">
+  <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+{% endblock %}
