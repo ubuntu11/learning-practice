@@ -6,15 +6,17 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="container">
   <div class="row">
     <!-- 每日回報工時 -->
     <div class="col-sm">
-      <img src="barChart.png" class="img-fluid" alt="Responsive image">
+      <canvas id="myChart" width="600" height="400"></canvas>
+      <!-- <img src="images/barChart.png" class="img-fluid" alt="Responsive image"> -->
     </div>
     <!-- 工時累計 -->
     <div class="col-sm">
-      <img src="burnDown.png" class="img-fluid" alt="Responsive image">
+      <img src="images/burnDown.png" class="img-fluid" alt="Responsive image">
     </div>
   </div>
 </div>
@@ -23,80 +25,149 @@
   <div class="row">
     <!-- Performance氣泡圖 -->
     <div class="col-sm">
-      <img src="bubbleChart.png" class="img-fluid" alt="Responsive image">
+      <img src="images/bubbleChart.png" class="img-fluid" alt="Responsive image">
     </div>
     <!-- 個人與團隊工時佔比 -->
     <div class="col-sm">
-      <img src="DualPiesLegend.png" class="img-fluid" alt="Responsive image">
+      <img src="images/DualPiesLegend.png" class="img-fluid" alt="Responsive image">
     </div>
   </div>
 </div>
 
 <!-- 個人工作統計 -->
 <div class="container">
-  <table class="table">
-  <thead class="thead-dark">
+  <table class="table table-striped">
+  <caption style="border: inherit; background-color: lightgrey; caption-side: top;">
+    <strong>個人工作統計</strong>
+  </caption>
+  <thead class="thead-light">
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">負責人</th>
+      <th scope="col">故事點數</th>
+      <th scope="col">Task數量</th>
+      <th scope="col">Bug數量</th>
+      <th scope="col">投入時數</th>
+      <th scope="col">速度</th>
     </tr>
   </thead>
   <tbody>
+    {% for work in works %}
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <th scope="row">{{ work['owner'] }}</th>
+      <td>{{ work['p_points'] }} / {{ work['a_points'] }}</td>
+      <td>{{ work['p_tasks'] }} / {{ work['a_tasks'] }}</td>
+      <td>{{ work['p_bugs'] }} / {{ work['a_bugs'] }}</td>
+      <td class="text-right">{{ work['hours'] }}</td>
+      <td class="text-right">{{ work['speed'] }}</td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+    {% endfor %}
   </tbody>
 </table>
 </div>
 
 <!-- Issue 列表 -->
 <div class="container">
-  <table class="table">
-  <thead class="thead-dark">
+  <table class="table table-striped">
+  <caption style="border: inherit; background-color: lightgrey; caption-side: top;">
+    <strong>Issue 列表</strong>
+  </caption>
+  <thead class="thead-light">
     <tr>
       <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">類型</th>
+      <th scope="col">投入工時</th>
+      <th scope="col">故事點數</th>
+      <th scope="col">狀態</th>
+      <th scope="col">負責人</th>
+      <th scope="col">故事內容</th>
     </tr>
   </thead>
   <tbody>
+    {% for issue in issues %}
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <th scope="row">{{ issue['id'] }}</th>
+      <td>{{ issue['type'] }}</td>
+      <td class="text-right">{{ issue['hours'] }}</td>
+      <td class="text-right">{{ issue['points'] }}</td>
+      <td>{{ issue['status'] }}</td>
+      <td>{{ issue['owner'] }}</td>
+      <td>{{ issue['story'] }}</td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+    {% endfor %}
   </tbody>
 </table>
 </div>
+
+<script>
+      // Global parameters:
+      // do not resize the chart canvas when its container does (keep at 600x400px)
+      Chart.defaults.global.responsive = false;
+
+      // define the chart data
+      var chartData = {
+        labels : [{% for item in labels %}
+                   "{{item}}",
+                  {% endfor %}],
+        datasets : [{
+            label: '{{ legend }}',
+            fill: true,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for item in values %}
+                      {{item}},
+                    {% endfor %}],
+            spanGaps: false
+        }]
+      }
+
+      // get chart canvas
+      var holder = document.getElementById("myChart");
+      var ctx = document.getElementById("myChart").getContext("2d");
+
+      // create the chart using the chart canvas
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: {
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                       return tooltipItems.yLabel + ' degrees';
+                     }
+            }
+          },
+        }
+      });
+
+      // get the text element below the chart
+      var pointSelected = document.getElementById("pointSelected");
+
+      // create a callback function for updating the selected index on the chart
+      holder.onclick = function(evt){
+        var activePoint = myChart.getElementAtEvent(evt);
+        console.log(activePoint);
+        console.log('x:' + activePoint[0]._view.x);
+        console.log('maxWidth: ' + activePoint[0]._xScale.maxWidth);
+        console.log('y: ' + activePoint[0]._view.y);
+        console.log('index: ' + activePoint[0]._index);
+        pointSelected.innerHTML = 'Point selected... index: ' + activePoint[0]._index;
+      };
+    </script>
+
 {% endblock %}

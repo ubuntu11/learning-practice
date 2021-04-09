@@ -1,0 +1,6 @@
+seq,owner,p_points,p_tasks,p_bugs,a_points,a_tasks,a_bugs,hours,speed
+﻿1,meson_sung,0.0,0.0,0.0,0.0,0.0,0.0,10.0,0.0
+2,clay_hsu,0.0,3.0,0.0,0.0,3.0,0.0,24,0.0
+3,Ken Hu,0.0,2.0,1.0,0.0,2.0,1.0,27.08,0.0
+4,JohnsonLan,0.0,1.0,1.0,0.0,1.0,1.0,14.0,0.0
+5,HsinyuYang,0.0,0.0,0.0,0.0,1.0,0.0,3.0,0.0

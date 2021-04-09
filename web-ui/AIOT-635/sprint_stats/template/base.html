@@ -10,7 +10,16 @@
             <!-- Bootstrap CSS -->
             {{ bootstrap.load_css() }}
         {% endblock %}
+        <script src='Chart.min.js'></script>
+        <!--<script src='https://cdnjs.com/libraries/Chart.js'></script> -->
 
+        <style>
+          canvas {
+            background-color: white;
+            width: 100%;
+            height: auto;
+          }
+        </style>
         <title>Your page title</title>
         {% endblock %}
     </head>
@@ -20,7 +29,7 @@
 
         {% block scripts %}
             <!-- Optional JavaScript -->
-            {{ bootstrap.load_js() }}
+            {{ bootstrap.load_js(s) }}
         {% endblock %}
     </body>
 </html>

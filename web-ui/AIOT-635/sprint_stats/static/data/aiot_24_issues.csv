@@ -1,0 +1,11 @@
+seq,id,type,hours,points,status,owner,story
+﻿1,AIOT-634,Task,12,0,Done,JohnsonLan藍育昌,瞭解中能發電 SCADA 系統規格文件
+2,AIOT-633,Bug,2,0,Done,JohnsonLan藍育昌,maven clean install 在 windows OS 時會有錯誤訊息
+3,AIOT-632,Task,8.58,0,Done,Ken Hu,閱讀中能發電SCADA系統規格文件
+4,AIOT-629,Task,10,0,In Progress,meson_sung,調查GCP帳單在二月後暴增的原因
+5,AIOT-627,Bug,5.5,0,Done,Ken Hu,對使用者傳送訊息，即使成功寄出，郤仍嘗試重送
+6,AIOT-626,Task,8,0,Done,clay_hsu,查詢工作單加入廠商篩選功能。
+7,AIOT-625,Task,7,0,Done,clay_hsu,查詢工作單的條件需要被保留下來。
+8,AIOT-622,Task,9,0,Done,clay_hsu,依據AIOT-592調整，加入測試案例。
+9,AIOT-608,Task,3,0,In Progress,HsinyuYang楊新宇,針對單元測試於nextTick內傳入函數的設計做更正
+10,AIOT-497,Task,13,0,Done,Ken Hu,瞭解IEC 61850中Sampled Value的使用方式與用途
