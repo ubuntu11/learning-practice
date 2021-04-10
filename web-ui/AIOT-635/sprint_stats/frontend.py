@@ -5,9 +5,12 @@ frontend = Blueprint('frontend', __name__)
 
 @frontend.route('/')
 def index():
+    issue_performances = read_csv_file('aiot_24_issue_performance.csv')
     issues = read_csv_file('aiot_24_issues.csv')
     works = read_csv_file('aiot_24_works.csv')
-    legend = 'Monthly Data'
-    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
-    values = [10, 9, 8, 7, 6, 4, 7, 8]
-    return render_template('index.html', issues = issues, works=works, values=values, labels=labels, legend=legend)
+    hours_by_day = read_csv_file('aiot_24_hours_by_day.csv')
+    hours_total = read_csv_file('aiot_24_hours_total.csv')
+
+    legend = '團隊回報工時'
+    return render_template('index.html', issues=issues, works=works, issue_performances=issue_performances,
+                           hours_by_day=hours_by_day[0], hours_total=hours_total[0], legend=legend)
