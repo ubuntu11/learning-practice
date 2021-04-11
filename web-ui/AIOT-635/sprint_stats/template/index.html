@@ -11,12 +11,12 @@
   <div class="row">
     <!-- 每日回報工時 -->
     <div class="col-sm">
-      <canvas id="hoursDailyBarChart" width="600" height="400"></canvas>
+      <canvas id="hoursDailyBarChart"></canvas>
       <!-- <img src="images/barChart.png" class="img-fluid" alt="Responsive image"> -->
     </div>
     <!-- 工時累計 -->
     <div class="col-sm">
-      <canvas id="hoursTotalLineChart" width="600" height="400"></canvas>
+      <canvas id="hoursTotalLineChart"></canvas>
       <!-- <img src="images/burnDown.png" class="img-fluid" alt="Responsive image"> -->
     </div>
   </div>
@@ -26,12 +26,13 @@
   <div class="row">
     <!-- Performance氣泡圖 -->
     <div class="col-sm">
-      <canvas id="issuePerformanceBubbleChart" width="600" height="400"></canvas>
+      <canvas id="issuePerformanceBubbleChart"></canvas>
       <!-- <img src="images/bubbleChart.png" class="img-fluid" alt="Responsive image"> -->
     </div>
     <!-- 個人與團隊工時佔比 -->
     <div class="col-sm">
-      <img src="images/DualPiesLegend.png" class="img-fluid" alt="Responsive image">
+      <canvas id="hoursPieChart"></canvas>
+      <!--<img src="images/DualPiesLegend.png" class="img-fluid" alt="Responsive image">-->
     </div>
   </div>
 </div>
@@ -141,6 +142,7 @@
       var ctx1 = document.getElementById("hoursDailyBarChart").getContext("2d");
       var ctx2 = document.getElementById("hoursTotalLineChart").getContext("2d");
       var ctx3 = document.getElementById("issuePerformanceBubbleChart").getContext("2d");
+      var ctx4 = document.getElementById("hoursPieChart").getContext("2d");
 
       var hours_by_day_labels = [{% for label in hours_by_day.keys() %}
         '{{label}}',
@@ -191,34 +193,32 @@
         }
       });
 
-      const issue_performance_data = {
+      var issuePerformanceBubbleChart = new Chart(ctx3, {
+        type: 'bubble',
+        data: makeChartData([], issue_performance_values)
+      });
+
+      const pieChartData = {
+        labels: [
+        'Red',
+        'Blue',
+        'Yellow'
+        ],
         datasets: [{
-          label: 'First Dataset',
-          fill: true,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: issue_performance_values,
-            spanGaps: false
+        label: 'My First Dataset',
+        data: [300, 50, 100],
+        backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
         }]
       };
 
-      var issuePerformanceBubbleChart = new Chart(ctx3, {
-        type: 'bubble',
-        data: issue_performance_data
+      var hoursPieChart = new Chart(ctx4, {
+        type: 'pie',
+        data: pieChartData,
       });
 
       // get the text element below the chart
