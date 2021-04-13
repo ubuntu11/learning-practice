@@ -25,14 +25,17 @@
 <div class="container">
   <div class="row">
     <!-- Performance氣泡圖 -->
-    <div class="col-sm">
+    <div class="col-sm-12 col-md-6">
       <canvas id="issuePerformanceBubbleChart"></canvas>
       <!-- <img src="images/bubbleChart.png" class="img-fluid" alt="Responsive image"> -->
     </div>
     <!-- 個人與團隊工時佔比 -->
-    <div class="col-sm">
-      <canvas id="hoursPieChart"></canvas>
+    <div class="col-sm-6 col-md-3">
+      <canvas id="hoursPieChart1"></canvas>
       <!--<img src="images/DualPiesLegend.png" class="img-fluid" alt="Responsive image">-->
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <canvas id="hoursPieChart2"></canvas>
     </div>
   </div>
 </div>
@@ -142,7 +145,8 @@
       var ctx1 = document.getElementById("hoursDailyBarChart").getContext("2d");
       var ctx2 = document.getElementById("hoursTotalLineChart").getContext("2d");
       var ctx3 = document.getElementById("issuePerformanceBubbleChart").getContext("2d");
-      var ctx4 = document.getElementById("hoursPieChart").getContext("2d");
+      var ctx4 = document.getElementById("hoursPieChart1").getContext("2d");
+      var ctx5 = document.getElementById("hoursPieChart2").getContext("2d");
 
       var hours_by_day_labels = [{% for label in hours_by_day.keys() %}
         '{{label}}',
@@ -216,7 +220,12 @@
         }]
       };
 
-      var hoursPieChart = new Chart(ctx4, {
+      var hoursPieChart1 = new Chart(ctx4, {
+        type: 'pie',
+        data: pieChartData,
+      });
+
+      var hoursPieChart2 = new Chart(ctx5, {
         type: 'pie',
         data: pieChartData,
       });
