@@ -8,7 +8,7 @@
 {% block content %}
 
 <div class="container">
-  <div class="row">
+  <div class="row" style="margin-top:20px;">
     <!-- 每日回報工時 -->
     <div class="col-sm">
       <canvas id="hoursDailyBarChart"></canvas>
@@ -23,7 +23,7 @@
 </div>
 
 <div class="container">
-  <div class="row">
+  <div class="row" style="margin-top:20px;">
     <!-- Performance氣泡圖 -->
     <div class="col-sm-12 col-md-6">
       <canvas id="issuePerformanceBubbleChart"></canvas>
@@ -41,10 +41,10 @@
 </div>
 
 <!-- 個人工作統計 -->
-<div class="container">
+<div class="container" style="margin-top:20px;">
   <table class="table table-striped">
   <caption style="border: inherit; background-color: lightgrey; caption-side: top;">
-    <strong>個人工作統計</strong>
+    <strong style="margin-left: 20px;">個人工作統計</strong>
   </caption>
   <thead class="thead-light">
     <tr>
@@ -72,10 +72,10 @@
 </div>
 
 <!-- Issue 列表 -->
-<div class="container">
+<div class="container" style="margin-top:20px;">
   <table class="table table-striped">
   <caption style="border: inherit; background-color: lightgrey; caption-side: top;">
-    <strong>Issue 列表</strong>
+    <strong style="margin-left: 20px;">Issue 列表</strong>
   </caption>
   <thead class="thead-light">
     <tr>
@@ -85,7 +85,7 @@
       <th scope="col">故事點數</th>
       <th scope="col">狀態</th>
       <th scope="col">負責人</th>
-      <th scope="col">故事內容</th>
+      <th scope="col" width="35%">故事內容</th>
     </tr>
   </thead>
   <tbody>
@@ -105,12 +105,12 @@
 </div>
 
 <script>
-    function makeChartData(labels, data) {
+    function makeChartData(labels, data, legend) {
       // define the chart data
       var chartData = {
         labels : labels,
         datasets : [{
-            label: '{{ legend }}',
+            label: legend,
             fill: true,
             lineTension: 0.1,
             backgroundColor: "rgba(75,192,192,0.4)",
@@ -134,6 +134,22 @@
       }
 
       return chartData;
+    }
+
+    function makePieChartData(labels, data, legend) {
+      const backgroundColors = ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'
+      ];
+
+      return {
+        labels: labels,
+        datasets: [{
+        label: legend,
+        data: data,
+        backgroundColor: backgroundColors,
+        hoverOffset: 4
+        }]
+      };
     }
 
       // Global parameters:
@@ -167,7 +183,7 @@
 
       var hoursDailyBarChart = new Chart(ctx1, {
         type: 'bar',
-        data: makeChartData(hours_by_day_labels, hours_by_day_values),
+        data: makeChartData(hours_by_day_labels, hours_by_day_values, '每日回報工時'),
         options: {
           tooltips: {
             enabled: true,
@@ -183,7 +199,7 @@
 
       var hoursTotalLineChart = new Chart(ctx2, {
         type: 'line',
-        data: makeChartData(hours_by_day_labels, hours_total_values),
+        data: makeChartData(hours_by_day_labels, hours_total_values, '每日累積工時'),
         options: {
           tooltips: {
             enabled: true,
@@ -199,35 +215,44 @@
 
       var issuePerformanceBubbleChart = new Chart(ctx3, {
         type: 'bubble',
-        data: makeChartData([], issue_performance_values)
+        data: makeChartData([], issue_performance_values, '故事時數分佈')
       });
 
-      const pieChartData = {
-        labels: [
-        'Red',
-        'Blue',
-        'Yellow'
-        ],
-        datasets: [{
-        label: 'My First Dataset',
-        data: [300, 50, 100],
-        backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)'
-        ],
-        hoverOffset: 4
-        }]
-      };
+      const pie_chart_labels = [{% for h in hours_record %}
+        '{{ h['owner'] }}',
+      {% endfor %}
+      ];
+
+      const pie_chart_plan_data = [{% for h in hours_record %}
+        {{ h['plan'] }},
+      {% endfor %}
+      ];
+
+      const pie_chart_actual_data = [{% for h in hours_record %}
+        {{ h['actual'] }},
+      {% endfor %}
+      ];
 
       var hoursPieChart1 = new Chart(ctx4, {
         type: 'pie',
-        data: pieChartData,
+        data: makePieChartData(pie_chart_labels, pie_chart_plan_data),
+        options: {
+          title: {
+              display: true,
+              text: '預估工時佔比'
+          }
+        }
       });
 
       var hoursPieChart2 = new Chart(ctx5, {
         type: 'pie',
-        data: pieChartData,
+        data: makePieChartData(pie_chart_labels, pie_chart_actual_data),
+        options: {
+          title: {
+              display: true,
+              text: '實際工時佔比'
+          }
+        }
       });
 
       // get the text element below the chart
