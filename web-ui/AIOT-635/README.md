@@ -5,10 +5,15 @@
 
 - Install Virtualenv
 `
+pip3 install virtualenv --user
+`
+
+- Create environment
+`
 virtualenv -p python3 venv
 `
 
-- activate virtual env
+- Activate virtual env
 `
 source venv/bin/activate
 `
