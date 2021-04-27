@@ -6,8 +6,8 @@ class Sprint:
         self.id = sprint_dict['id']
         self.state = sprint_dict['state']
         self.name = sprint_dict['name']
-        self.start = datetime.fromisoformat(sprint_dict['startDate'][0:-1])
-        self.end = datetime.fromisoformat(sprint_dict['completeDate'][0:-1])
+        self.start = datetime.fromisoformat(sprint_dict['startDate'][0:-1]) if 'startDate' in sprint_dict else None
+        self.end = datetime.fromisoformat(sprint_dict['completeDate'][0:-1]) if 'completeDate' in sprint_dict else None
         self.goal = sprint_dict['goal']
 
 
@@ -20,9 +20,12 @@ class Issue:
         self.points = float(issue_dict['fields']['customfield_10027']) if 'customfield_10027' in issue_dict['fields'] else 0.0
         self.status = issue_dict['fields']['status']['name']
         self.owner = issue_dict['fields']['assignee']['displayName']
-        self.resolution_at = datetime.fromisoformat(issue_dict['fields']['resolutiondate'][0:-5])
+        if issue_dict['fields']['resolutiondate']:
+            self.resolution_at = datetime.fromisoformat(issue_dict['fields']['resolutiondate'][0:-5])
         if 'worklog' in issue_dict:
             self.work_logs = [WorkLog(work_log_dict) for work_log_dict in issue_dict['worklog']['worklogs']]
+        else:
+            self.work_logs = []
 
 
 class WorkLog:

@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from .frontend import frontend
+from .controller import frontend
 
 
 def create_app(test_config=None):
