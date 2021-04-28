@@ -197,16 +197,16 @@
       var ctx4 = document.getElementById("hoursPieChart1").getContext("2d");
       var ctx5 = document.getElementById("hoursPieChart2").getContext("2d");
 
-      var hours_by_day_labels = [{% for label in hours_by_day.keys() %}
-        '{{label}}',
+      var hours_by_day_labels = [{% for ts in hours_by_day %}
+        '{{ ts[0] }}',
         {% endfor %}];
 
-      var hours_by_day_values = [{% for value in hours_by_day.values() %}
-        {{value}},
+      var hours_by_day_values = [{% for ts in hours_by_day %}
+        {{ ts[1] }},
         {% endfor %}];
 
-      var hours_total_values = [{% for value in hours_total.values() %}
-        {{value}},
+      var hours_total_values = [{% for ts in hours_total %}
+        {{ ts[1] }},
         {% endfor %}];
 
       var issue_performance_values = [{% for p in issue_performances %}

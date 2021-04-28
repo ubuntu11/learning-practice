@@ -22,8 +22,8 @@ class Issue:
         self.owner = issue_dict['fields']['assignee']['displayName']
         if issue_dict['fields']['resolutiondate']:
             self.resolution_at = datetime.fromisoformat(issue_dict['fields']['resolutiondate'][0:-5])
-        if 'worklog' in issue_dict:
-            self.work_logs = [WorkLog(work_log_dict) for work_log_dict in issue_dict['worklog']['worklogs']]
+        if 'worklog' in issue_dict['fields']:
+            self.work_logs = [WorkLog(work_log_dict) for work_log_dict in issue_dict['fields']['worklog']['worklogs']]
         else:
             self.work_logs = []
 
@@ -33,8 +33,8 @@ class WorkLog:
         self.reporter = work_log_dict['author']['displayName']
         self.created_at = datetime.fromisoformat(work_log_dict['created'][0:-5])
         self.updated_at = datetime.fromisoformat(work_log_dict['updated'][0:-5]) if 'updated' in work_log_dict else None
-        self.started_at = datetime.fromisoformat(work_log_dict['started'][0:-5])
-        self.time_spent_seconds = work_log_dict['timeSpentSeconds']
+        self.started_at = datetime.fromisoformat(work_log_dict['started'][0:-5]) if 'started' in work_log_dict else None
+        self.time_spent_seconds = work_log_dict['timeSpentSeconds'] if 'timeSpentSeconds' in work_log_dict else 0.0
 
 
 if __name__ == '__main__':
