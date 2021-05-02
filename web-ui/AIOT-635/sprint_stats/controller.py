@@ -5,15 +5,15 @@ from sprint_stats.service import load_sprint_issues, get_sprint
 frontend = Blueprint('frontend', __name__)
 
 
-@frontend.route('/')
-def index():
-    sprint = get_sprint(120)
+@frontend.route('/sprints/<sprint_id>')
+def index(sprint_id: int):
+    sprint = get_sprint(sprint_id)
     issue_performances = read_csv_file('aiot_5_issue_performance.csv')
-    issues, hours_by_day, hours_total = load_sprint_issues(sprint)
+    issues, hours_by_day, hours_total, personal_performance_list = load_sprint_issues(sprint)
     works = read_csv_file('aiot_5_works.csv')
     hours_record = __add_hours_total(read_csv_file('aiot_5_hours_record.csv'))
 
-    return render_template('index.html', sprint=sprint, issues=issues, works=works, issue_performances=issue_performances,
+    return render_template('index.html', sprint=sprint, issues=issues, personal_performance_list=personal_performance_list, issue_performances=issue_performances,
                            hours_by_day=hours_by_day, hours_total=hours_total, hours_record=hours_record)
 
 

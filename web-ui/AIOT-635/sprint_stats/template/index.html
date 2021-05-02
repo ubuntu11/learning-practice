@@ -53,29 +53,27 @@
       <th scope="col">Task數量</th>
       <th scope="col">Bug數量</th>
       <th scope="col">投入時數</th>
-      <th scope="col">速度</th>
     </tr>
   </thead>
   <tbody>
-    {% for work in works %}
+    {% for p in personal_performance_list %}
     <tr>
-      <th scope="row">{{ work['owner'] }}</th>
-      <td>{{ work['p_points'] }} / {{ work['a_points'] }}</td>
-      <td>{{ work['p_tasks'] }} / {{ work['a_tasks'] }}</td>
-      <td>{{ work['p_bugs'] }} / {{ work['a_bugs'] }}</td>
-      <td class="text-right">{{ work['hours'] }}</td>
-      <td class="text-right">{{ work['speed'] }}</td>
+      <th scope="row">{{ p.owner }}</th>
+      <td class="text-right">{{ p.actual_stories }} / {{ p.stories }}</td>
+      <td class="text-right">{{ p.actual_tasks }} / {{ p.tasks }}</td>
+      <td class="text-right">{{ p.actual_bugs }} / {{ p.bugs }}</td>
+      <td class="text-right">{{ p.actual_hours }} / {{ p.hours }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 </div>
 
-<!-- Done Issue 列表 -->
+<!-- Issue 列表 -->
 <div class="container" style="margin-top:20px;">
   <table class="table table-striped">
   <caption style="border: inherit; background-color: lightgrey; caption-side: top;">
-    <strong style="margin-left: 20px;">Done Issues</strong>
+    <strong style="margin-left: 20px;">Issues</strong>
   </caption>
   <thead class="thead-light">
     <tr>
@@ -89,49 +87,20 @@
   </thead>
   <tbody>
     {% for issue in issues %}
-    {% if issue.status == 'Done' and issue.resolution_at <= sprint.end %}
     <tr>
-      <th scope="row">{{ issue.id }}</th>
+      <th scope="row">{{ issue.id }}
+        {% if issue.is_done() %}
+          <i class="far fa-calendar-check" style="color: green"></i>
+        {% elif sprint.complete %}
+          <i class="far fa-calendar-times" style="color: red"></i>
+        {% endif %}
+      </th>
       <td>{{ issue.type }}</td>
       <td class="text-right">{{ issue.time_spent }}</td>
       <td class="text-right">{{ issue.points }}</td>
       <td>{{ issue.owner }}</td>
       <td>{{ issue.summary }}</td>
     </tr>
-    {% endif %}
-    {% endfor %}
-  </tbody>
-</table>
-</div>
-
-<!-- Not Done Issue 列表 -->
-<div class="container" style="margin-top:20px;">
-  <table class="table table-striped">
-  <caption style="border: inherit; background-color: lightgrey; caption-side: top;">
-    <strong style="margin-left: 20px;">Issues Not Done</strong>
-  </caption>
-  <thead class="thead-light">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">類型</th>
-      <th scope="col">投入工時</th>
-      <th scope="col">故事點數</th>
-      <th scope="col">負責人</th>
-      <th scope="col" width="35%">故事內容</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for issue in issues %}
-    {% if issue.status != 'Done' or issue.resolution_at > sprint.end %}
-    <tr>
-      <th scope="row">{{ issue.id }}</th>
-      <td>{{ issue.type }}</td>
-      <td class="text-right">{{ issue.time_spent }}</td>
-      <td class="text-right">{{ issue.points }}</td>
-      <td>{{ issue.owner }}</td>
-      <td>{{ issue.summary }}</td>
-    </tr>
-    {% endif %}
     {% endfor %}
   </tbody>
 </table>
@@ -251,18 +220,18 @@
         data: makeChartData([], issue_performance_values, '故事時數分佈')
       });
 
-      const pie_chart_labels = [{% for h in hours_record %}
-        '{{ h['owner'] }}',
+      const pie_chart_labels = [{% for p in personal_performance_list %}
+        '{{ p.owner }}',
       {% endfor %}
       ];
 
-      const pie_chart_plan_data = [{% for h in hours_record %}
-        {{ h['plan'] }},
+      const pie_chart_plan_data = [{% for p in personal_performance_list %}
+        {{ p.hours }},
       {% endfor %}
       ];
 
-      const pie_chart_actual_data = [{% for h in hours_record %}
-        {{ h['actual'] }},
+      const pie_chart_actual_data = [{% for p in personal_performance_list %}
+        {{ p.actual_hours }},
       {% endfor %}
       ];
 

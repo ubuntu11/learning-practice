@@ -2,8 +2,8 @@ from operator import attrgetter
 
 import requests
 from flask import current_app
-
-from sprint_stats.model import Issue, Sprint
+from datetime import timedelta
+from sprint_stats.model import Issue, Sprint, PersonalPerformance
 
 
 def __config():
@@ -15,11 +15,11 @@ def __config():
 
 
 def __base_url():
-    return  f'https://{__config()["JIRA_DOMAIN"]}/{__config()["API_PREFIX"]}/'
+    return f'https://{__config()["JIRA_DOMAIN"]}/{__config()["API_PREFIX"]}/'
 
 
 def __request_header():
-    return  {'Authorization': f'Basic {__config()["JIRA_CREDENTIAL_BASE64"]}'}
+    return {'Authorization': f'Basic {__config()["JIRA_CREDENTIAL_BASE64"]}'}
 
 
 def get_sprint(sprint_id: int):
@@ -42,14 +42,21 @@ def load_sprint_issues(sprint: Sprint):
     issue_url = f'{__base_url()}sprint/{sprint.id}/issue'
     response = requests.get(issue_url, headers=__request_header())
     issues_json = response.json()['issues']
-    issue_unsorted = [Issue(issue_dict) for issue_dict in issues_json]
+    issue_unsorted = [Issue(issue_dict, sprint) for issue_dict in issues_json]
 
-    time_sheet_by_date_dict = {}
+    # time_sheet_by_date_dict -> date :  commit_hours
+    time_sheet_by_date_dict = __init_time_sheet_by_date_dict(sprint)
+    # personal_performance_dict -> owner_name : PersonalPerformance instance
+    personal_performance_dict = {}
     for issue in issue_unsorted:
+        pp = __get_personal_performance(issue.owner, personal_performance_dict)
+        pp.add_issue(issue)
         for work_log in issue.work_logs:
             # 排除不在該次衝刺時間內的work log
-            if work_log.started_at < sprint.start or work_log.started_at > sprint.end:
+            if work_log.started_at < sprint.start or work_log.started_at > sprint.finish():
                 continue
+            pp = __get_personal_performance(work_log.reporter, personal_performance_dict)
+            pp.add_work_hours(work_log)
             if str(work_log.started_at.date()) in time_sheet_by_date_dict:
                 time_sheet_by_date_dict[str(work_log.started_at.date())] += work_log.time_spent_seconds
             else:
@@ -62,11 +69,33 @@ def load_sprint_issues(sprint: Sprint):
     hours_total_by_date_list = []
     for idx, date in enumerate(sorted([d for d in time_sheet_by_date_dict.keys()])):
         hours_total = 0.0
-        for i in range(idx+1):
+        for i in range(idx + 1):
             hours_total += hours_by_date_list[i][1]
         hours_total_by_date_list.append((date, hours_total))
 
-    return sorted(issue_unsorted, key=attrgetter('status', 'id')), hours_by_date_list, hours_total_by_date_list
+    personal_performance_list = [pp for pp in personal_performance_dict.values()]
+
+    return sorted(issue_unsorted, key=attrgetter('id')), hours_by_date_list, hours_total_by_date_list\
+        , sorted(personal_performance_list,  key=lambda p: p.owner)
+
+
+def __init_time_sheet_by_date_dict(sprint:Sprint) -> dict:
+    time_sheet_by_date_dict = {}
+    start_date = sprint.start.date()
+    end_date = sprint.finish().date()
+    delta = timedelta(days=1)
+    while start_date <= end_date:
+        time_sheet_by_date_dict[str(start_date)] = 0
+        start_date += delta
+    return time_sheet_by_date_dict
+
+
+def __get_personal_performance(name: str, personal_performance_dict: dict) -> PersonalPerformance:
+    if name not in personal_performance_dict:
+        pp = PersonalPerformance(name, 0, 0, 0, 0)
+        personal_performance_dict[name] = pp
+
+    return personal_performance_dict[name]
 
 
 if __name__ == '__main__':
