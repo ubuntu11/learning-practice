@@ -88,12 +88,13 @@
   <tbody>
     {% for issue in issues %}
     <tr>
-      <th scope="row">{{ issue.id }}
+      <th scope="row">
         {% if issue.is_done() %}
           <i class="far fa-calendar-check" style="color: green"></i>
         {% elif sprint.complete %}
           <i class="far fa-calendar-times" style="color: red"></i>
         {% endif %}
+        {{ issue.id }}
       </th>
       <td>{{ issue.type }}</td>
       <td class="text-right">{{ issue.time_spent }}</td>

@@ -2,6 +2,20 @@ import os
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from .controller import frontend
+from werkzeug.routing import BaseConverter
+
+
+class IntListConverter(BaseConverter):
+    """
+    See https://stackoverflow.com/questions/35437180/capture-a-list-of-integers-with-a-flask-route .
+    """
+    regex = r'\d+(?:,\d+)*,?'
+
+    def to_python(self, value):
+        return [int(x) for x in value.split(',')]
+
+    def to_url(self, value):
+        return ','.join(str(x) for x in value)
 
 
 def create_app(test_config=None):
@@ -23,5 +37,6 @@ def create_app(test_config=None):
     bootstrap = Bootstrap(app)
 
     app.register_blueprint(frontend)
+    app.url_map.converters['sprint_id_list'] = IntListConverter
 
     return app
