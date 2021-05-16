@@ -34,11 +34,13 @@ class Issue:
         self.id = issue_dict['key']
         self.summary = issue_dict['fields']['summary']
         self.type = issue_dict['fields']['issuetype']['name']
-        self.time_estimate = round(issue_dict['fields']['timeestimate'] / 3600, 2) if issue_dict['fields']['timeestimate'] else 0
-        self.time_spent = issue_dict['fields']['timetracking']['timeSpent'] if 'timeSpent' in issue_dict['fields']['timetracking'] else ''
+        self.time_estimate = round(issue_dict['fields']['timeoriginalestimate'] / 3600, 2) if issue_dict['fields']['timeoriginalestimate'] else 0
+        self.time_spent = round(issue_dict['fields']['timetracking']['timeSpentSeconds'] / 3600, 2) if 'timeSpentSeconds' in issue_dict['fields']['timetracking'] else 0
+        self.time_estimate_str = issue_dict['fields']['timetracking']['originalEstimate'] if 'originalEstimate' in issue_dict['fields']['timetracking'] else ''
+        self.time_spent_str = issue_dict['fields']['timetracking']['timeSpent'] if 'timeSpent' in issue_dict['fields']['timetracking'] else ''
         self.points = float(issue_dict['fields']['customfield_10027']) if 'customfield_10027' in issue_dict['fields'] and issue_dict['fields']['customfield_10027'] else 0.0
         self.status = issue_dict['fields']['status']['name']
-        self.owner = issue_dict['fields']['assignee']['displayName']
+        self.owner = issue_dict['fields']['assignee']['displayName'] if issue_dict['fields']['assignee'] else ''
         if issue_dict['fields']['resolutiondate']:
             self.resolution_at = datetime.strptime(issue_dict['fields']['resolutiondate'], DATE_FORMAT_WITH_OFFSET)
         if 'worklog' in issue_dict['fields']:

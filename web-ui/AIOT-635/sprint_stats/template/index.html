@@ -79,6 +79,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">類型</th>
+      <th scope="col">估計工時</th>
       <th scope="col">投入工時</th>
       <th scope="col">故事點數</th>
       <th scope="col">負責人</th>
@@ -97,7 +98,8 @@
         {{ issue.id }}
       </th>
       <td>{{ issue.type }}</td>
-      <td class="text-right">{{ issue.time_spent }}</td>
+      <td class="text-right">{{ issue.time_estimate_str }}</td>
+      <td class="text-right">{{ issue.time_spent_str }}</td>
       <td class="text-right">{{ issue.points }}</td>
       <td>{{ issue.owner }}</td>
       <td>{{ issue.summary }}</td>
@@ -179,8 +181,8 @@
         {{ ts[1] }},
         {% endfor %}];
 
-      var issue_performance_values = [{% for p in issue_performances %}
-          { x : {{ p['estimate'] }} , y : {{ p['actual'] }} , r : {{ p['points'] }} },
+      var issue_performance_values = [{% for p in issues %}
+          { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ p.points }} },
         {% endfor %}
       ];
 
