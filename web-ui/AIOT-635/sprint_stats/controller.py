@@ -13,14 +13,12 @@ def index(sprint_id_list: str):
         return "Please input a list of integers, split with ','"
 
     sprint_id_list = [int(x) for x in sprint_id_list.split(',')]
-    issue_performances = read_csv_file('aiot_5_issue_performance.csv')
     sprints, issues, hours_by_day, hours_total, personal_performance_list = load_sprint_issues(sprint_id_list)
 
     return render_template('index.html',
                            sprint=sprints[0],
                            issues=issues,
                            personal_performance_list=personal_performance_list,
-                           issue_performances=issue_performances,
                            hours_by_day=hours_by_day,
                            hours_total=hours_total)
 
