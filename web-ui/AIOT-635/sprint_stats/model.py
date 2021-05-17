@@ -29,7 +29,7 @@ class VirtualSprint:
 
 
 class Issue:
-    def __init__(self, issue_dict, sprint: Sprint = None):
+    def __init__(self, issue_dict, story_point_col_name: str, sprint: Sprint = None):
         self.sprint = sprint
         self.id = issue_dict['key']
         self.summary = issue_dict['fields']['summary']
@@ -38,7 +38,7 @@ class Issue:
         self.time_spent = round(issue_dict['fields']['timetracking']['timeSpentSeconds'] / 3600, 2) if 'timeSpentSeconds' in issue_dict['fields']['timetracking'] else 0
         self.time_estimate_str = issue_dict['fields']['timetracking']['originalEstimate'] if 'originalEstimate' in issue_dict['fields']['timetracking'] else ''
         self.time_spent_str = issue_dict['fields']['timetracking']['timeSpent'] if 'timeSpent' in issue_dict['fields']['timetracking'] else ''
-        self.points = float(issue_dict['fields']['customfield_10027']) if 'customfield_10027' in issue_dict['fields'] and issue_dict['fields']['customfield_10027'] else 0.0
+        self.points = float(issue_dict['fields'][story_point_col_name]) if story_point_col_name in issue_dict['fields'] and issue_dict['fields'][story_point_col_name] else 0.0
         self.status = issue_dict['fields']['status']['name']
         self.owner = issue_dict['fields']['assignee']['displayName'] if issue_dict['fields']['assignee'] else ''
         if issue_dict['fields']['resolutiondate']:

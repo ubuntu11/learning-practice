@@ -48,7 +48,8 @@ def load_sprint_issues(sprint_id_list: list[int]):
         issue_url = f'{__base_url()[i]}/sprint/{sprint.id}/issue'
         response = requests.get(issue_url, headers=__request_header())
         issues_json = response.json()['issues']
-        issue_unsorted.extend([Issue(issue_dict, sprint) for issue_dict in issues_json])
+        issue_unsorted.extend([Issue(issue_dict, __config()['STORY_POINT_COL_NAME'][i], sprint)
+                               for issue_dict in issues_json])
 
     # time_sheet_by_date_dict -> date :  commit_hours
     time_sheet_by_date_dict = __init_time_sheet_by_date_dict(virtual_sprint)

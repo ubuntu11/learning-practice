@@ -110,7 +110,7 @@
 </div>
 
 <script>
-    function makeDataSet(rValue, gValue, bValue, label, data) {
+    function makeLineChartDataSet(rValue, gValue, bValue, label, data) {
       var dataSet = {
             label: label,
             fill: true,
@@ -137,11 +137,24 @@
         return dataSet;
     }
 
-    function makeChartData(labels, data, legend) {
-      dataSet = makeDataSet(75, 192, 192, legend, data);
+    function makeBubbleChartDataSet(rValue, gValue, bValue, label, data) {
+      var dataSet = {
+            label: label,
+            backgroundColor: `rgba(${rValue}, ${gValue}, ${bValue}, 0.4)`,
+            borderColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
+            borderWidth: 1,
+            hoverBackgroundColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
+            hoverBorderColor: "rgba(220,220,220,1)",
+            hoverBorderWidth: 1,
+            data: data}
+
+      return dataSet;
+    }
+
+    function makeChartData(labels, dataSets) {
       var chartData = {
         labels : labels,
-        datasets : [ dataSet ]
+        datasets : dataSets
       }
 
       return chartData;
@@ -187,14 +200,31 @@
         {{ ts[1] }},
         {% endfor %}];
 
-      var issue_performance_values = [{% for p in issues %}
+      var story_performance_values = [{% for p in issues %}
+          {% if p.type == "Story" %}
           { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ p.points }} },
+          {% endif %}
         {% endfor %}
       ];
 
+      var task_performance_values = [{% for p in issues %}
+          {% if p.type == "Task" %}
+          { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ 1.0  }} },
+          {% endif %}
+        {% endfor %}
+      ];
+
+      var bug_performance_values = [{% for p in issues %}
+          {% if p.type == "Bug" %}
+          { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ 0.5 }} },
+          {% endif %}
+        {% endfor %}
+      ];
+
+      ds = makeLineChartDataSet(75, 192, 192, '每日回報工時', hours_by_day_values);
       var hoursDailyBarChart = new Chart(ctx1, {
         type: 'bar',
-        data: makeChartData(hours_by_day_labels, hours_by_day_values, '每日回報工時'),
+        data: makeChartData(hours_by_day_labels, [ ds ]),
         options: {
           tooltips: {
             enabled: true,
@@ -210,7 +240,7 @@
 
       var hoursTotalLineChart = new Chart(ctx2, {
         type: 'line',
-        data: makeChartData(hours_by_day_labels, hours_total_values, '每日累積工時'),
+        data: makeChartData(hours_by_day_labels, [makeLineChartDataSet(75, 192, 192, '每日累積工時', hours_total_values)]),
         options: {
           tooltips: {
             enabled: true,
@@ -224,9 +254,12 @@
         }
       });
 
+      var storyDataSet = makeBubbleChartDataSet(96, 188, 49, 'Story', story_performance_values);
+      var taskDataSet = makeBubbleChartDataSet(69, 172, 235, 'Task', task_performance_values);
+      var bugDataSet = makeBubbleChartDataSet(231, 72, 51, 'Bug', bug_performance_values);
       var issuePerformanceBubbleChart = new Chart(ctx3, {
         type: 'bubble',
-        data: makeChartData([], issue_performance_values, '故事時數分佈')
+        data: makeChartData([], [storyDataSet, taskDataSet, bugDataSet])
       });
 
       const pie_chart_labels = [{% for p in personal_performance_list %}
