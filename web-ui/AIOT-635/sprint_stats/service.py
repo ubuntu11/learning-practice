@@ -2,7 +2,7 @@ from operator import attrgetter
 
 import requests
 from flask import current_app
-from datetime import timedelta
+import datetime
 from sprint_stats.model import Issue, Sprint, PersonalPerformance, VirtualSprint
 
 
@@ -38,17 +38,17 @@ def get_sprint(sprint_url: str, sprint_id: int):
 def load_sprint_issues(sprint_id_list: list[int]):
     """
     取得某個衝刺內的所有Issue.
-    :param sprints: 要進行統計分析的衝刺(as a list)
+    :param sprint_id_list: 要進行統計分析的衝刺(as a list)
     :return: a list of Issue instances
     """
     sprints = [get_sprint(f'{__base_url()[i]}/sprint/{s_id}', s_id) for i, s_id in enumerate(sprint_id_list)]
     virtual_sprint = VirtualSprint(sprints)
     issue_unsorted = []
-    for i, sprint in enumerate(virtual_sprint.sprints):
-        issue_url = f'{__base_url()[i]}/sprint/{sprint.id}/issue'
+    for i, s in enumerate(virtual_sprint.sprints):
+        issue_url = f'{__base_url()[i]}/sprint/{s.id}/issue'
         response = requests.get(issue_url, headers=__request_header())
         issues_json = response.json()['issues']
-        issue_unsorted.extend([Issue(issue_dict, __config()['STORY_POINT_COL_NAME'][i], sprint)
+        issue_unsorted.extend([Issue(issue_dict, __config()['STORY_POINT_COL_NAME'][i], s)
                                for issue_dict in issues_json])
 
     # time_sheet_by_date_dict -> date :  commit_hours
@@ -70,11 +70,15 @@ def load_sprint_issues(sprint_id_list: list[int]):
                 time_sheet_by_date_dict[str(work_log.started_at.date())] = work_log.time_spent_seconds
 
     hours_by_date_list = []
-    for date in sorted([d for d in time_sheet_by_date_dict.keys()]):
-        hours_by_date_list.append((date, round(time_sheet_by_date_dict[date] / 3600, 2)))
+    for d in sorted([d for d in time_sheet_by_date_dict.keys()]):
+        hours_by_date_list.append((d, round(time_sheet_by_date_dict[d] / 3600, 2)))
 
     hours_total_by_date_list = []
+    today = datetime.date.today()
     for idx, date in enumerate(sorted([d for d in time_sheet_by_date_dict.keys()])):
+        if datetime.date.fromisoformat(date) > today:
+            continue
+
         hours_total = 0.0
         for i in range(idx + 1):
             hours_total += hours_by_date_list[i][1]
@@ -90,7 +94,7 @@ def __init_time_sheet_by_date_dict(sprint:VirtualSprint) -> dict:
     time_sheet_by_date_dict = {}
     start_date = sprint.start.date()
     end_date = sprint.end.date()
-    delta = timedelta(days=1)
+    delta = datetime.timedelta(days=1)
     while start_date <= end_date:
         time_sheet_by_date_dict[str(start_date)] = 0
         start_date += delta
