@@ -38,3 +38,9 @@ flask run
 - View Page
 Open your browser and visit http://localhost:5000
 
+## Build
+
+Build docker image:
+```
+docker build --build-arg config_file=config_rd2.py -t aiothwacom/sprint-analyzer:rd2 .
+```

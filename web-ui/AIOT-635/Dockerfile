@@ -1,12 +1,13 @@
 FROM python:3.9-alpine
 
+ARG config_file=config.py
 ENV FLASK_ENV development
 ENV FLASK_APP sprint_stats
 
 RUN mkdir /app
 RUN mkdir /app/instance
 COPY sprint_stats /app/sprint_stats
-COPY instance/config.py /app/instance/config.py
+COPY instance/$config_file /app/instance/config.py
 WORKDIR /app
  
 RUN pip install --upgrade pip
