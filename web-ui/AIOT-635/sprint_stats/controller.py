@@ -6,6 +6,10 @@ import re
 frontend = Blueprint('frontend', __name__)
 
 
+@frontend.route('/')
+def home():
+  return 'Welcome'
+
 @frontend.route('/sprints/<sprint_id_list>')
 def index(sprint_id_list: str):
     # Make sure it is a list that only contains integers.
