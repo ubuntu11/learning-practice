@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '--build-arg', 'JIRA_CREDENTIAL_BASE64=${_JIRA_CREDENTIAL_BASE64}', '-t', 'aiothwacom/sprint-analyzer:${_DOCKER_IMAGE_TAG}', '.' ]
+
+- name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args: ['-c', 'docker login --username=${_DOCKER_USERNAME} --password=${_DOCKER_PASSWORD}']
+
+images: [
+  'aiothwacom/sprint-analyzer:${_DOCKER_IMAGE_TAG}'
+  ]

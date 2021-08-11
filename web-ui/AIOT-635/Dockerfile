@@ -1,8 +1,10 @@
 FROM python:3.9-alpine
 
 ARG config_file=config.py
+ARG JIRA_CREDENTIAL_BASE64
 ENV FLASK_ENV development
 ENV FLASK_APP sprint_stats
+ENV JIRA_CREDENTIAL_BASE64 ${JIRA_CREDENTIAL_BASE64}
 
 RUN mkdir /app
 RUN mkdir /app/instance

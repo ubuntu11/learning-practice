@@ -4,6 +4,7 @@ import requests
 from flask import current_app
 import datetime
 from sprint_stats.model import Issue, Sprint, PersonalPerformance, VirtualSprint
+import os
 
 
 def __config():
@@ -14,12 +15,15 @@ def __config():
     return current_app.config
 
 
-def __base_url() -> list[str]:
-    return [f'https://{d}/' + __config()["API_PREFIX"] for d in __config()["JIRA_DOMAIN"]]
+def __base_url(team_id: str) -> list[str]:
+    return [f'https://{d}/' + __config()["API_PREFIX"] for d in __config()["JIRA_DOMAIN"][team_id]]
 
 
 def __request_header():
-    return {'Authorization': f'Basic {__config()["JIRA_CREDENTIAL_BASE64"]}'}
+    """
+    :return: base64 string of username:password
+    """
+    return {'Authorization': f'Basic {os.environ["JIRA_CREDENTIAL_BASE64"]}'}
 
 
 def get_sprint(sprint_url: str, sprint_id: int):
@@ -35,17 +39,18 @@ def get_sprint(sprint_url: str, sprint_id: int):
     return Sprint(response.json())
 
 
-def load_sprint_issues(sprint_id_list: list[int]):
+def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
     """
     取得某個衝刺內的所有Issue.
+    :param team_id: 研發團隊代號, ex: RD2
     :param sprint_id_list: 要進行統計分析的衝刺(as a list)
     :return: a list of Issue instances
     """
-    sprints = [get_sprint(f'{__base_url()[i]}/sprint/{s_id}', s_id) for i, s_id in enumerate(sprint_id_list)]
+    sprints = [get_sprint(f'{__base_url(team_id)[i]}/sprint/{s_id}', s_id) for i, s_id in enumerate(sprint_id_list)]
     virtual_sprint = VirtualSprint(sprints)
     issue_unsorted = []
     for i, s in enumerate(virtual_sprint.sprints):
-        issue_url = f'{__base_url()[i]}/sprint/{s.id}/issue'
+        issue_url = f'{__base_url(team_id)[i]}/sprint/{s.id}/issue'
         response = requests.get(issue_url, headers=__request_header())
         issues_json = response.json()['issues']
         issue_unsorted.extend([Issue(issue_dict, __config()['STORY_POINT_COL_NAME'][i], s)

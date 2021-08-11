@@ -30,6 +30,7 @@ pip install -r requirements.txt
 `
 export FLASK_APP=sprint_stats
 export FLASK_ENV=development
+export JIRA_CREDENTIAL_BASE64=a2VuLmh1QGh3YWNvbS5jb206UlFoYzZJUnJ3MHNRVVRpTG9xdnY3QkZD
 `
 - Start Flask
 `
