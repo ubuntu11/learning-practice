@@ -47,6 +47,10 @@ class Issue:
             self.work_logs = [WorkLog(work_log_dict) for work_log_dict in issue_dict['fields']['worklog']['worklogs']]
         else:
             self.work_logs = []
+        self.sub_task_list = []
+        self.subtask_id_list = []
+        for subtask in issue_dict['fields']['subtasks']:
+            self.subtask_id_list.append(subtask['key'])
 
     def is_done(self):
         if self.sprint is None or self.status != 'Done':
@@ -88,7 +92,7 @@ class PersonalPerformance:
     def __add_issue_count(self, issue: Issue):
         if issue.type == 'Story':
             self.stories += 1
-        elif issue.type == 'Task':
+        elif issue.type == 'Task' or issue.type == 'Sub-task':
             self.tasks += 1
         else:
             self.bugs += 1

@@ -74,6 +74,15 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
             else:
                 time_sheet_by_date_dict[str(work_log.started_at.date())] = work_log.time_spent_seconds
 
+    # issue_unsorted 裡,Story與其下的subtask是分開存放的,且各有各的預估工時,要把subtasks的工時加到Story上
+    issue_dict = { issue.id : issue for issue in issue_unsorted }
+    for issue in issue_unsorted:
+        if len(issue.subtask_id_list) > 0:
+          for subtask_id in issue.subtask_id_list:
+            issue.sub_task_list.append(issue_dict[subtask_id])
+            issue.time_estimate+=issue_dict[subtask_id].time_estimate
+            issue.time_spent+=issue_dict[subtask_id].time_spent
+
     hours_by_date_list = []
     for d in sorted([d for d in time_sheet_by_date_dict.keys()]):
         hours_by_date_list.append((d, round(time_sheet_by_date_dict[d] / 3600, 2)))

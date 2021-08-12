@@ -83,7 +83,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for issue in issues %}
+    {% for issue in issues if not issue.type == 'Sub-task' %}
     <tr>
       <th scope="row">
         {% if issue.is_done() %}
@@ -94,12 +94,21 @@
         {{ issue.id }}
       </th>
       <td>{{ issue.type }}</td>
-      <td class="text-right">{{ issue.time_estimate_str }}</td>
-      <td class="text-right">{{ issue.time_spent_str }}</td>
+      <td class="text-right">{{ issue.time_estimate }}h</td>
+      <td class="text-right">{{ issue.time_spent }}h</td>
       <td class="text-right">{{ issue.points }}</td>
       <td>{{ issue.owner }}</td>
       <td>{{ issue.summary }}</td>
     </tr>
+        {% for sub_task in issue.sub_task_list %}
+            <tr>
+              <td class="text-right" colspan=3>{{ sub_task.time_estimate }}h</td>
+              <td class="text-right">{{ sub_task.time_spent }}h</td>
+              <td class="text-right"></td>
+              <td>{{ sub_task.owner }}</td>
+              <td>{{ sub_task.summary }}</td>
+            </tr>
+        {% endfor %}
     {% endfor %}
   </tbody>
 </table>
