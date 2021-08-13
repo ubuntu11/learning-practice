@@ -49,12 +49,23 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
     sprints = [get_sprint(f'{__base_url(team_id)[i]}/sprint/{s_id}', s_id) for i, s_id in enumerate(sprint_id_list)]
     virtual_sprint = VirtualSprint(sprints)
     issue_unsorted = []
+    issues_json_list = []
+    story_point_col_name_dict = {}
     for i, s in enumerate(virtual_sprint.sprints):
         issue_url = f'{__base_url(team_id)[i]}/sprint/{s.id}/issue'
         response = requests.get(issue_url, headers=__request_header())
         issues_json = response.json()['issues']
-        issue_unsorted.extend([Issue(issue_dict, __config()['STORY_POINT_COL_NAME'][i], s)
-                               for issue_dict in issues_json])
+        issues_json_list.extend(issues_json)
+        story_point_col_name_dict[s.id] = __config()['STORY_POINT_COL_NAME'][i]
+
+    issue_json_dict = {issue_json['key']:issue_json for issue_json in issues_json_list}
+    for key in issue_json_dict:
+        sprint_id = issue_json_dict[key]['fields']['sprint']['id']
+        sub_task_list = [Issue(issue_json_dict[sub_task['key']], story_point_col_name_dict[sprint_id], virtual_sprint.sprint_dict[sprint_id]) for sub_task in issue_json_dict[key]['fields']['subtasks']]
+        issue_unsorted.append(Issue(issue_json_dict[key],
+                                    story_point_col_name_dict[sprint_id],
+                                    virtual_sprint.sprint_dict[sprint_id],
+                                    sub_task_list))
 
     # time_sheet_by_date_dict -> date :  commit_hours
     time_sheet_by_date_dict = __init_time_sheet_by_date_dict(virtual_sprint)
@@ -73,15 +84,6 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
                 time_sheet_by_date_dict[str(work_log.started_at.date())] += work_log.time_spent_seconds
             else:
                 time_sheet_by_date_dict[str(work_log.started_at.date())] = work_log.time_spent_seconds
-
-    # issue_unsorted 裡,Story與其下的subtask是分開存放的,且各有各的預估工時,要把subtasks的工時加到Story上
-    issue_dict = { issue.id : issue for issue in issue_unsorted }
-    for issue in issue_unsorted:
-        if len(issue.subtask_id_list) > 0:
-          for subtask_id in issue.subtask_id_list:
-            issue.sub_task_list.append(issue_dict[subtask_id])
-            issue.time_estimate+=issue_dict[subtask_id].time_estimate
-            issue.time_spent+=issue_dict[subtask_id].time_spent
 
     hours_by_date_list = []
     for d in sorted([d for d in time_sheet_by_date_dict.keys()]):

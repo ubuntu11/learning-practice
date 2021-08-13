@@ -1,7 +1,15 @@
 from datetime import datetime
+from enum import Enum
 
 DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 DATE_FORMAT_WITH_OFFSET = '%Y-%m-%dT%H:%M:%S.%f%z'
+
+
+class IssueType(Enum):
+    STORY = 'Story'
+    TASK = 'Task'
+    SUB_TASK = 'Subtask'
+    BUG = 'Bug'
 
 
 class Sprint:
@@ -24,16 +32,23 @@ class Sprint:
 class VirtualSprint:
     def __init__(self, sprints):
         self.sprints = sprints
+        self.sprint_dict = {sprint.id:sprint for sprint in sprints}
         self.start = sorted([s.start for s in self.sprints])[0]
         self.end = sorted([s.finish() for s in self.sprints], reverse=True)[0]
 
 
 class Issue:
-    def __init__(self, issue_dict, story_point_col_name: str, sprint: Sprint = None):
+    def __init__(self, issue_dict, story_point_col_name: str, sprint: Sprint = None, sub_tasks = None):
+        """
+        time_estimate, time_spent should be summed up by subtasks
+        compute time_estimate_str, time_spent_str from time_estimate, time_spent
+        keep subtasks inside parent Issue, do not let them exist independently
+        """
         self.sprint = sprint
+        self.sub_tasks = sub_tasks
         self.id = issue_dict['key']
         self.summary = issue_dict['fields']['summary']
-        self.type = issue_dict['fields']['issuetype']['name']
+        self.type = IssueType[issue_dict['fields']['issuetype']['name'].upper().replace('-','_')]
         self.time_estimate = round(issue_dict['fields']['timeoriginalestimate'] / 3600, 2) if issue_dict['fields']['timeoriginalestimate'] else 0
         self.time_spent = round(issue_dict['fields']['timetracking']['timeSpentSeconds'] / 3600, 2) if 'timeSpentSeconds' in issue_dict['fields']['timetracking'] else 0
         self.time_estimate_str = issue_dict['fields']['timetracking']['originalEstimate'] if 'originalEstimate' in issue_dict['fields']['timetracking'] else ''
@@ -47,10 +62,6 @@ class Issue:
             self.work_logs = [WorkLog(work_log_dict) for work_log_dict in issue_dict['fields']['worklog']['worklogs']]
         else:
             self.work_logs = []
-        self.sub_task_list = []
-        self.subtask_id_list = []
-        for subtask in issue_dict['fields']['subtasks']:
-            self.subtask_id_list.append(subtask['key'])
 
     def is_done(self):
         if self.sprint is None or self.status != 'Done':
@@ -58,6 +69,30 @@ class Issue:
         if self.resolution_at < self.sprint.start or self.resolution_at > self.sprint.finish():
             return False
         return True
+
+    def is_story(self):
+        return IssueType.STORY == self.type
+
+    def is_task(self):
+        return IssueType.TASK == self.type
+
+    def is_sub_task(self):
+        return IssueType.SUB_TASK == self.type
+
+    def is_bug(self):
+        return IssueType.BUG == self.type
+
+    def get_total_time_estimate(self):
+        total_time_estimate = self.time_estimate
+        for sub_task in self.sub_tasks:
+            total_time_estimate += sub_task.time_estimate
+        return total_time_estimate
+
+    def get_total_time_spent(self):
+        total_time_spent = self.time_spent
+        for sub_task in self.sub_tasks:
+            total_time_spent += sub_task.time_spent
+        return total_time_spent
 
 
 class WorkLog:
@@ -90,9 +125,9 @@ class PersonalPerformance:
         self.hours += issue.time_estimate
 
     def __add_issue_count(self, issue: Issue):
-        if issue.type == 'Story':
+        if issue.type == IssueType.STORY:
             self.stories += 1
-        elif issue.type == 'Task' or issue.type == 'Sub-task':
+        elif issue.type == IssueType.TASK or issue.type == IssueType.SUB_TASK:
             self.tasks += 1
         else:
             self.bugs += 1

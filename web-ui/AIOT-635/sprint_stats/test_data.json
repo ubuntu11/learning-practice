@@ -1,0 +1,2925 @@
+{
+    "expand": "schema,names",
+    "startAt": 0,
+    "maxResults": 50,
+    "total": 7,
+    "issues": [
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13192",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13192",
+            "key": "SOM-47",
+            "fields": {
+                "statuscategorychangedate": "2021-07-08T09:07:45.648+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10001",
+                    "id": "10001",
+                    "description": "A user story. Created by JIRA Software - do not edit or delete.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/issuetypes/story.svg",
+                    "name": "Story",
+                    "subtask": false,
+                    "hierarchyLevel": 0
+                },
+                "timespent": 158400,
+                "sprint": {
+                    "id": 128,
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/128",
+                    "state": "active",
+                    "name": "SOM Sprint 3",
+                    "startDate": "2021-08-11T05:56:20.806Z",
+                    "endDate": "2021-08-24T16:30:00.000Z",
+                    "originBoardId": 8,
+                    "goal": "建立設備描述檔及計算設備劣化程度"
+                },
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10006",
+                    "id": "10006",
+                    "key": "SOM",
+                    "name": "SmartQ O&M",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10006&avatarId=10553",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10006&avatarId=10553",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10006&avatarId=10553",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10006&avatarId=10553"
+                    }
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/version/10016",
+                        "id": "10016",
+                        "description": "1. 設備類型管理 2. 設備劣化分析",
+                        "name": "1.0",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2021-08-25"
+                    }
+                ],
+                "aggregatetimespent": 158400,
+                "resolution": null,
+                "customfield_10037": null,
+                "customfield_10027": 2.0,
+                "resolutiondate": null,
+                "workratio": 209,
+                "lastViewed": "2021-08-09T23:13:22.895+0800",
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-47/watchers",
+                    "watchCount": 1,
+                    "isWatching": false
+                },
+                "created": "2021-06-29T19:13:21.931+0800",
+                "epic": {
+                    "id": 13134,
+                    "key": "SOM-8",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/epic/13134",
+                    "name": "設備劣化情況分析",
+                    "summary": "身為設備主管，我希望系統主動計算設備的健康分數，好讓我可以即時知道設備的劣化情況。",
+                    "color": {
+                        "key": "color_1"
+                    },
+                    "done": false
+                },
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "timeestimate": 61200,
+                "aggregatetimeoriginalestimate": 75600,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                    "accountId": "5b96198cb8c62b2c1fd95c13",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                    },
+                    "displayName": "clay_hsu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-12T09:15:31.323+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/3",
+                    "description": "This issue is being actively worked on at the moment by the assignee.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/statuses/inprogress.png",
+                    "name": "In Progress",
+                    "id": "3",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/4",
+                        "id": 4,
+                        "key": "indeterminate",
+                        "colorName": "yellow",
+                        "name": "In Progress"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 75600,
+                "description": "*Details* \n設備管理員可為設備建立初始值、極限值，並且依據此數據計算設備劣化百分比，好作為是否需要進行維護的判斷依據。\n\n*Breakdown*\n\n# 建立各種設備指標層結構的UI（用假設值建立選擇清單供使用者挑選）\n# 為設備輸入Xi、Xmax、Xmin的UI\n# 計算至各指標的狀態指標值\n\n*Acceptance Criteria*\n\n# 一個設備應有多個透過感測器取得的監測資料\n# 監測資料可被計算為相對劣化理論中的狀態指標值（愈大愈優或愈小愈優）",
+                "customfield_10010": [
+                    {
+                        "id": 128,
+                        "name": "SOM Sprint 3",
+                        "state": "active",
+                        "boardId": 8,
+                        "goal": "建立設備描述檔及計算設備劣化程度",
+                        "startDate": "2021-08-11T05:56:20.806Z",
+                        "endDate": "2021-08-24T16:30:00.000Z"
+                    },
+                    {
+                        "id": 124,
+                        "name": "SOM Sprint 1",
+                        "state": "closed",
+                        "boardId": 8,
+                        "goal": "透過SmartQ O&M的協助，完成地端設備數據上傳至Google IoT Core的概念性功能驗證",
+                        "startDate": "2021-06-30T05:33:46.706Z",
+                        "endDate": "2021-07-14T04:30:00.000Z",
+                        "completeDate": "2021-07-13T09:30:07.737Z"
+                    },
+                    {
+                        "id": 126,
+                        "name": "SOM Sprint 2",
+                        "state": "closed",
+                        "boardId": 8,
+                        "goal": "地端設備數據上報並儲存在雲端、依據設備狀態計算出維護建議。",
+                        "startDate": "2021-07-26T07:12:11.106Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T08:18:58.353Z"
+                    }
+                ],
+                "customfield_10011": "1|i008su:h",
+                "customfield_10012": null,
+                "customfield_10013": null,
+                "timetracking": {
+                    "originalEstimate": "2d 5h",
+                    "remainingEstimate": "2d 1h",
+                    "timeSpent": "1w 4h",
+                    "originalEstimateSeconds": 75600,
+                    "remainingEstimateSeconds": 61200,
+                    "timeSpentSeconds": 158400
+                },
+                "security": null,
+                "customfield_10008": "SOM-8",
+                "aggregatetimeestimate": 61200,
+                "attachment": [],
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "flagged": false,
+                "summary": "身為設備管理員，我希望系統能計算出設備目前的健康狀況，以做為是否需要進行維護的判斷依據。",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                    "accountId": "5b96198cb8c62b2c1fd95c13",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                    },
+                    "displayName": "clay_hsu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                    "accountId": "5b96198cb8c62b2c1fd95c13",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                    },
+                    "displayName": "clay_hsu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "customfield_10043": null,
+                "aggregateprogress": {
+                    "progress": 158400,
+                    "total": 219600,
+                    "percent": 72
+                },
+                "customfield_10000": "{branch={count=1, dataType=branch}, json={\"cachedValue\":{\"errors\":[],\"summary\":{\"branch\":{\"overall\":{\"count\":1,\"lastUpdated\":\"2021-08-05T17:33:58.000+0800\",\"dataType\":\"branch\"},\"byInstanceType\":{\"bitbucket\":{\"count\":1,\"name\":\"Bitbucket Cloud\"}}}}},\"isStale\":true}}",
+                "customfield_10044": null,
+                "customfield_10045": null,
+                "customfield_10001": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "closedSprints": [
+                    {
+                        "id": 124,
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/124",
+                        "state": "closed",
+                        "name": "SOM Sprint 1",
+                        "startDate": "2021-06-30T05:33:46.706Z",
+                        "endDate": "2021-07-14T04:30:00.000Z",
+                        "completeDate": "2021-07-13T09:30:07.737Z",
+                        "originBoardId": 8,
+                        "goal": "透過SmartQ O&M的協助，完成地端設備數據上傳至Google IoT Core的概念性功能驗證"
+                    },
+                    {
+                        "id": 126,
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/126",
+                        "state": "closed",
+                        "name": "SOM Sprint 2",
+                        "startDate": "2021-07-26T07:12:11.106Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T08:18:58.353Z",
+                        "originBoardId": 8,
+                        "goal": "地端設備數據上報並儲存在雲端、依據設備狀態計算出維護建議。"
+                    }
+                ],
+                "progress": {
+                    "progress": 158400,
+                    "total": 219600,
+                    "percent": 72
+                },
+                "comment": {
+                    "comments": [
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/comment/10850",
+                            "id": "10850",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "body": "設備資訊應使用實際參數，論文中的設備資訊過於不切實際，使用者無法從設備資訊去了解實際現場狀況。\n\n論文中提到的計算方式對於一般使用者來說是完全無感的，因此需要透過簡單的流程與說明，讓使用者可以簡單明瞭的知道整個運算流程。",
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "created": "2021-07-12T18:35:16.156+0800",
+                            "updated": "2021-07-12T18:35:16.156+0800",
+                            "jsdPublic": true
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/comment/10851",
+                            "id": "10851",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "body": "如何接續下去，並且讓產出可以在SmartQ中發生，假設使用者已在SmartQ中建立好設備，並且設備資訊也會儲存在SmartQ中，此時預測性維護會以何種形式發生，並且讓使用者可以知道目前這些設備的健康程度是如何。",
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "created": "2021-07-13T16:30:56.360+0800",
+                            "updated": "2021-07-13T16:30:56.360+0800",
+                            "jsdPublic": true
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/comment/10852",
+                            "id": "10852",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "body": "下列項目尚未完成\n\n* 計算權重時，目前只使用了層級分析法，尚未與熵值賦權法結合\n* 設備初始值、極限值、目前實際值尚未可以提供使用者輸入。",
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "created": "2021-07-14T09:24:55.458+0800",
+                            "updated": "2021-07-14T09:24:55.458+0800",
+                            "jsdPublic": true
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/comment/10858",
+                            "id": "10858",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "body": "此次衝刺未完成此PBI，在環境建置上消耗了太多時間，emm-data的model、reoisutiry與test經驗欠缺，導致花了許多時間摸索。\n\n規劃此PBI進入衝刺缺乏前期計畫，使結果未如預期的完成。",
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "created": "2021-08-09T15:57:35.278+0800",
+                            "updated": "2021-08-09T15:57:35.278+0800",
+                            "jsdPublic": true
+                        }
+                    ],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/comment",
+                    "maxResults": 4,
+                    "total": 4,
+                    "startAt": 0
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-47/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 11,
+                    "worklogs": [
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17058",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "中午請假2H\n\n了解Numpy，實際用python 實作AHP演算法",
+                            "created": "2021-07-09T09:31:43.368+0800",
+                            "updated": "2021-07-09T09:31:43.368+0800",
+                            "started": "2021-07-08T05:30:00.000+0800",
+                            "timeSpent": "4h",
+                            "timeSpentSeconds": 14400,
+                            "id": "17058",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17071",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "使用python實作AHP、熵值賦權法、模糊綜合評價法",
+                            "created": "2021-07-12T09:20:23.519+0800",
+                            "updated": "2021-07-12T09:20:23.519+0800",
+                            "started": "2021-07-09T03:19:00.000+0800",
+                            "timeSpent": "6h",
+                            "timeSpentSeconds": 21600,
+                            "id": "17071",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17077",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "模糊綜合評價法流程調整，預演Demo",
+                            "created": "2021-07-13T09:01:46.548+0800",
+                            "updated": "2021-07-13T09:01:46.548+0800",
+                            "started": "2021-07-12T03:00:00.000+0800",
+                            "timeSpent": "6h",
+                            "timeSpentSeconds": 21600,
+                            "id": "17077",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17096",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "SmartQ O&M 環境建置，準備開始製作UI",
+                            "created": "2021-08-03T09:59:52.721+0800",
+                            "updated": "2021-08-03T09:59:52.721+0800",
+                            "started": "2021-07-27T06:58:00.000+0800",
+                            "timeSpent": "3h",
+                            "timeSpentSeconds": 10800,
+                            "id": "17096",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17105",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "k8s 環境建置",
+                            "created": "2021-08-05T09:17:29.877+0800",
+                            "updated": "2021-08-10T13:43:01.388+0800",
+                            "started": "2021-08-03T09:13:00.000+0800",
+                            "timeSpent": "3h",
+                            "timeSpentSeconds": 10800,
+                            "id": "17105",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17106",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "k8s 環境建置",
+                            "created": "2021-08-05T09:17:54.100+0800",
+                            "updated": "2021-08-05T09:17:54.100+0800",
+                            "started": "2021-08-04T06:17:00.000+0800",
+                            "timeSpent": "3h",
+                            "timeSpentSeconds": 10800,
+                            "id": "17106",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17112",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "新增設備、編輯設備、檢視設備加入UI極限值與初始值設定UI",
+                            "created": "2021-08-06T09:20:53.201+0800",
+                            "updated": "2021-08-06T09:20:53.201+0800",
+                            "started": "2021-08-05T07:19:00.000+0800",
+                            "timeSpent": "3h",
+                            "timeSpentSeconds": 10800,
+                            "id": "17112",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17119",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "前端UI建置",
+                            "created": "2021-08-09T09:11:43.341+0800",
+                            "updated": "2021-08-09T09:11:43.341+0800",
+                            "started": "2021-08-06T04:11:00.000+0800",
+                            "timeSpent": "5h",
+                            "timeSpentSeconds": 18000,
+                            "id": "17119",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17122",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "emm-data model新增Profile、Indicator\n\nemm-data repository新增Profile、Indicator\n\n加入Unit Test",
+                            "created": "2021-08-10T09:19:38.185+0800",
+                            "updated": "2021-08-10T09:19:38.185+0800",
+                            "started": "2021-08-09T03:15:00.000+0800",
+                            "timeSpent": "6h",
+                            "timeSpentSeconds": 21600,
+                            "id": "17122",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17127",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "加入Unit Test",
+                            "created": "2021-08-11T09:13:43.429+0800",
+                            "updated": "2021-08-11T09:13:43.429+0800",
+                            "started": "2021-08-10T08:13:00.000+0800",
+                            "timeSpent": "1h",
+                            "timeSpentSeconds": 3600,
+                            "id": "17127",
+                            "issueId": "13192"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13192/worklog/17130",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5b96198cb8c62b2c1fd95c13",
+                                "accountId": "5b96198cb8c62b2c1fd95c13",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5b96198cb8c62b2c1fd95c13/db754766-dee3-4309-9af4-1903e58b51b3/32"
+                                },
+                                "displayName": "clay_hsu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "重新整理DB欄位, 加入Unit Test CRUD",
+                            "created": "2021-08-12T09:15:31.206+0800",
+                            "updated": "2021-08-12T09:15:31.206+0800",
+                            "started": "2021-08-11T05:14:00.000+0800",
+                            "timeSpent": "4h",
+                            "timeSpentSeconds": 14400,
+                            "id": "17130",
+                            "issueId": "13192"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13213",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13213",
+            "key": "SOM-57",
+            "fields": {
+                "statuscategorychangedate": "2021-08-05T16:45:17.298+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10001",
+                    "id": "10001",
+                    "description": "A user story. Created by JIRA Software - do not edit or delete.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/issuetypes/story.svg",
+                    "name": "Story",
+                    "subtask": false,
+                    "hierarchyLevel": 0
+                },
+                "timespent": null,
+                "sprint": {
+                    "id": 128,
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/128",
+                    "state": "active",
+                    "name": "SOM Sprint 3",
+                    "startDate": "2021-08-11T05:56:20.806Z",
+                    "endDate": "2021-08-24T16:30:00.000Z",
+                    "originBoardId": 8,
+                    "goal": "建立設備描述檔及計算設備劣化程度"
+                },
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10006",
+                    "id": "10006",
+                    "key": "SOM",
+                    "name": "SmartQ O&M",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10006&avatarId=10553",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10006&avatarId=10553",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10006&avatarId=10553",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10006&avatarId=10553"
+                    }
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/version/10016",
+                        "id": "10016",
+                        "description": "1. 設備類型管理 2. 設備劣化分析",
+                        "name": "1.0",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2021-08-25"
+                    }
+                ],
+                "aggregatetimespent": 10800,
+                "resolution": null,
+                "customfield_10037": null,
+                "customfield_10027": 5.0,
+                "resolutiondate": null,
+                "workratio": 0,
+                "lastViewed": "2021-08-11T15:11:08.026+0800",
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-57/watchers",
+                    "watchCount": 1,
+                    "isWatching": false
+                },
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "created": "2021-08-05T16:45:17.006+0800",
+                "epic": {
+                    "id": 13187,
+                    "key": "SOM-44",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/epic/13187",
+                    "name": "數位孿生-塑模",
+                    "summary": "身為設備管理員，我希望有數位孿生的功能，好讓我可以數位化實體設備",
+                    "color": {
+                        "key": "color_9"
+                    },
+                    "done": false
+                },
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "timeestimate": 7200,
+                "aggregatetimeoriginalestimate": 136800,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                    },
+                    "displayName": "JohnsonLan藍育昌",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-11T15:22:57.884+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10000",
+                    "description": "",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                    "name": "To Do",
+                    "id": "10000",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/2",
+                        "id": 2,
+                        "key": "new",
+                        "colorName": "blue-gray",
+                        "name": "To Do"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 7200,
+                "description": "*Details*\n不同的設備種類會有各自的屬性，使用者可以針對不同種類的設備建立專屬描述檔，好讓後續可以將其套用至設備。\n*Breakdown*\n\n* UI Wireframe 設計 & 確認\n** 屬性名稱 / 屬性類型\n* 新增 profile 功能讓使用者進行 profile CRUD\n* 編輯 profile 時可以讓使用者自定義屬性\n\n*Acceptance Criteria*\n\n* 可以對全系統的 profile 做 CRUD",
+                "customfield_10010": [
+                    {
+                        "id": 128,
+                        "name": "SOM Sprint 3",
+                        "state": "active",
+                        "boardId": 8,
+                        "goal": "建立設備描述檔及計算設備劣化程度",
+                        "startDate": "2021-08-11T05:56:20.806Z",
+                        "endDate": "2021-08-24T16:30:00.000Z"
+                    }
+                ],
+                "customfield_10011": "1|i008su:i",
+                "customfield_10012": null,
+                "customfield_10013": null,
+                "timetracking": {
+                    "originalEstimate": "2h",
+                    "remainingEstimate": "2h",
+                    "originalEstimateSeconds": 7200,
+                    "remainingEstimateSeconds": 7200
+                },
+                "security": null,
+                "customfield_10008": "SOM-44",
+                "attachment": [],
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "aggregatetimeestimate": 126000,
+                "flagged": false,
+                "summary": "身為設備管理員，我希望能建立及管理設備描述檔，以方便我可以套用至設備",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a56c4467f94e020214d445d",
+                    "accountId": "5a56c4467f94e020214d445d",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/32"
+                    },
+                    "displayName": "Shawn You",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [
+                    {
+                        "id": "13216",
+                        "key": "SOM-59",
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13216",
+                        "fields": {
+                            "summary": "建立「新增」及「查詢」設備描述檔頁面",
+                            "status": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10000",
+                                "description": "",
+                                "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                                "name": "To Do",
+                                "id": "10000",
+                                "statusCategory": {
+                                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/2",
+                                    "id": 2,
+                                    "key": "new",
+                                    "colorName": "blue-gray",
+                                    "name": "To Do"
+                                }
+                            },
+                            "priority": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                                "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                                "name": "Medium",
+                                "id": "3"
+                            },
+                            "issuetype": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10003",
+                                "id": "10003",
+                                "description": "The sub-task of the issue",
+                                "iconUrl": "https://innodiv-hwacom.atlassian.net/secure/viewavatar?size=medium&avatarId=10316&avatarType=issuetype",
+                                "name": "Sub-task",
+                                "subtask": true,
+                                "avatarId": 10316,
+                                "hierarchyLevel": -1
+                            }
+                        }
+                    },
+                    {
+                        "id": "13221",
+                        "key": "SOM-64",
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13221",
+                        "fields": {
+                            "summary": "建立設備描述檔後端的 CRUD",
+                            "status": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/3",
+                                "description": "This issue is being actively worked on at the moment by the assignee.",
+                                "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/statuses/inprogress.png",
+                                "name": "In Progress",
+                                "id": "3",
+                                "statusCategory": {
+                                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/4",
+                                    "id": 4,
+                                    "key": "indeterminate",
+                                    "colorName": "yellow",
+                                    "name": "In Progress"
+                                }
+                            },
+                            "priority": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                                "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                                "name": "Medium",
+                                "id": "3"
+                            },
+                            "issuetype": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10003",
+                                "id": "10003",
+                                "description": "The sub-task of the issue",
+                                "iconUrl": "https://innodiv-hwacom.atlassian.net/secure/viewavatar?size=medium&avatarId=10316&avatarType=issuetype",
+                                "name": "Sub-task",
+                                "subtask": true,
+                                "avatarId": 10316,
+                                "hierarchyLevel": -1
+                            }
+                        }
+                    }
+                ],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a56c4467f94e020214d445d",
+                    "accountId": "5a56c4467f94e020214d445d",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/32"
+                    },
+                    "displayName": "Shawn You",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "customfield_10043": null,
+                "aggregateprogress": {
+                    "progress": 10800,
+                    "total": 136800,
+                    "percent": 7
+                },
+                "customfield_10044": null,
+                "customfield_10000": "{}",
+                "customfield_10001": null,
+                "customfield_10045": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "progress": {
+                    "progress": 0,
+                    "total": 7200,
+                    "percent": 0
+                },
+                "comment": {
+                    "comments": [],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13213/comment",
+                    "maxResults": 0,
+                    "total": 0,
+                    "startAt": 0
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-57/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 0,
+                    "worklogs": []
+                }
+            }
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13216",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13216",
+            "key": "SOM-59",
+            "fields": {
+                "statuscategorychangedate": "2021-08-11T11:39:28.776+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10003",
+                    "id": "10003",
+                    "description": "The sub-task of the issue",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/secure/viewavatar?size=medium&avatarId=10316&avatarType=issuetype",
+                    "name": "Sub-task",
+                    "subtask": true,
+                    "avatarId": 10316,
+                    "hierarchyLevel": -1
+                },
+                "parent": {
+                    "id": "13213",
+                    "key": "SOM-57",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13213",
+                    "fields": {
+                        "summary": "身為設備管理員，我希望能建立及管理設備描述檔，以方便我可以套用至設備",
+                        "status": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10000",
+                            "description": "",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                            "name": "To Do",
+                            "id": "10000",
+                            "statusCategory": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10001",
+                            "id": "10001",
+                            "description": "A user story. Created by JIRA Software - do not edit or delete.",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/issuetypes/story.svg",
+                            "name": "Story",
+                            "subtask": false,
+                            "hierarchyLevel": 0
+                        }
+                    }
+                },
+                "timespent": 10800,
+                "sprint": {
+                    "id": 128,
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/128",
+                    "state": "active",
+                    "name": "SOM Sprint 3",
+                    "startDate": "2021-08-11T05:56:20.806Z",
+                    "endDate": "2021-08-24T16:30:00.000Z",
+                    "originBoardId": 8,
+                    "goal": "建立設備描述檔及計算設備劣化程度"
+                },
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10006",
+                    "id": "10006",
+                    "key": "SOM",
+                    "name": "SmartQ O&M",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10006&avatarId=10553",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10006&avatarId=10553",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10006&avatarId=10553",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10006&avatarId=10553"
+                    }
+                },
+                "fixVersions": [],
+                "aggregatetimespent": 10800,
+                "resolution": null,
+                "customfield_10037": null,
+                "resolutiondate": null,
+                "workratio": 16,
+                "lastViewed": null,
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-59/watchers",
+                    "watchCount": 1,
+                    "isWatching": false
+                },
+                "created": "2021-08-11T11:39:28.444+0800",
+                "epic": null,
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "aggregatetimeoriginalestimate": 64800,
+                "timeestimate": 54000,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a72c01c4ab43429358cb81b",
+                    "accountId": "5a72c01c4ab43429358cb81b",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/32"
+                    },
+                    "displayName": "HsinyuYang楊新宇",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-12T10:21:20.996+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10000",
+                    "description": "",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                    "name": "To Do",
+                    "id": "10000",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/2",
+                        "id": 2,
+                        "key": "new",
+                        "colorName": "blue-gray",
+                        "name": "To Do"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 64800,
+                "description": "*Details*\n\nAs title\n\n*Breakdown*\n\n* Wireframe UI設計\n* 新增設備描述檔頁面\n* 查詢設備描述檔頁面\n* 檢視設備描述檔頁面\n* 編輯設備描述檔頁面\n* 刪除設備描述檔\n\n*Acceptance Criteria*\n\n* 經過同仁Review，並完成UI開發\n* 通過Unit test\n\n*產出*\n\nSmartQ O&M提供新增及查詢設備描述檔的功能",
+                "customfield_10010": [
+                    {
+                        "id": 128,
+                        "name": "SOM Sprint 3",
+                        "state": "active",
+                        "boardId": 8,
+                        "goal": "建立設備描述檔及計算設備劣化程度",
+                        "startDate": "2021-08-11T05:56:20.806Z",
+                        "endDate": "2021-08-24T16:30:00.000Z"
+                    }
+                ],
+                "customfield_10011": "1|i00912:",
+                "customfield_10012": null,
+                "customfield_10013": null,
+                "timetracking": {
+                    "originalEstimate": "2d 2h",
+                    "remainingEstimate": "1d 7h",
+                    "timeSpent": "3h",
+                    "originalEstimateSeconds": 64800,
+                    "remainingEstimateSeconds": 54000,
+                    "timeSpentSeconds": 10800
+                },
+                "security": null,
+                "customfield_10008": null,
+                "attachment": [],
+                "aggregatetimeestimate": 54000,
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "flagged": false,
+                "summary": "建立「新增」及「查詢」設備描述檔頁面",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a72c01c4ab43429358cb81b",
+                    "accountId": "5a72c01c4ab43429358cb81b",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/32"
+                    },
+                    "displayName": "HsinyuYang楊新宇",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a72c01c4ab43429358cb81b",
+                    "accountId": "5a72c01c4ab43429358cb81b",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/32"
+                    },
+                    "displayName": "HsinyuYang楊新宇",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "customfield_10043": null,
+                "customfield_10044": null,
+                "customfield_10000": "{}",
+                "aggregateprogress": {
+                    "progress": 10800,
+                    "total": 64800,
+                    "percent": 16
+                },
+                "customfield_10045": null,
+                "customfield_10001": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "progress": {
+                    "progress": 10800,
+                    "total": 64800,
+                    "percent": 16
+                },
+                "comment": {
+                    "comments": [
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13216/comment/10859",
+                            "id": "10859",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a72c01c4ab43429358cb81b",
+                                "accountId": "5a72c01c4ab43429358cb81b",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/32"
+                                },
+                                "displayName": "HsinyuYang楊新宇",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "body": "若是藉由新增設備頁面，來增加設備屬性是否可行?",
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a72c01c4ab43429358cb81b",
+                                "accountId": "5a72c01c4ab43429358cb81b",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/32"
+                                },
+                                "displayName": "HsinyuYang楊新宇",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "created": "2021-08-12T10:21:20.996+0800",
+                            "updated": "2021-08-12T10:21:20.996+0800",
+                            "jsdPublic": true
+                        }
+                    ],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13216/comment",
+                    "maxResults": 1,
+                    "total": 1,
+                    "startAt": 0
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-59/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 1,
+                    "worklogs": [
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13216/worklog/17128",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a72c01c4ab43429358cb81b",
+                                "accountId": "5a72c01c4ab43429358cb81b",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/32"
+                                },
+                                "displayName": "HsinyuYang楊新宇",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a72c01c4ab43429358cb81b",
+                                "accountId": "5a72c01c4ab43429358cb81b",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a72c01c4ab43429358cb81b/5826ef26-c1c6-4b9b-a532-544cc06645b4/32"
+                                },
+                                "displayName": "HsinyuYang楊新宇",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "* Wireframe UI設計\n* 測試前端開發環境",
+                            "created": "2021-08-12T08:42:15.824+0800",
+                            "updated": "2021-08-12T08:42:15.824+0800",
+                            "started": "2021-08-12T05:41:31.018+0800",
+                            "timeSpent": "3h",
+                            "timeSpentSeconds": 10800,
+                            "id": "17128",
+                            "issueId": "13216"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13221",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13221",
+            "key": "SOM-64",
+            "fields": {
+                "statuscategorychangedate": "2021-08-12T14:03:00.914+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10003",
+                    "id": "10003",
+                    "description": "The sub-task of the issue",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/secure/viewavatar?size=medium&avatarId=10316&avatarType=issuetype",
+                    "name": "Sub-task",
+                    "subtask": true,
+                    "avatarId": 10316,
+                    "hierarchyLevel": -1
+                },
+                "parent": {
+                    "id": "13213",
+                    "key": "SOM-57",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13213",
+                    "fields": {
+                        "summary": "身為設備管理員，我希望能建立及管理設備描述檔，以方便我可以套用至設備",
+                        "status": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10000",
+                            "description": "",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                            "name": "To Do",
+                            "id": "10000",
+                            "statusCategory": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10001",
+                            "id": "10001",
+                            "description": "A user story. Created by JIRA Software - do not edit or delete.",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/issuetypes/story.svg",
+                            "name": "Story",
+                            "subtask": false,
+                            "hierarchyLevel": 0
+                        }
+                    }
+                },
+                "timespent": null,
+                "sprint": {
+                    "id": 128,
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/128",
+                    "state": "active",
+                    "name": "SOM Sprint 3",
+                    "startDate": "2021-08-11T05:56:20.806Z",
+                    "endDate": "2021-08-24T16:30:00.000Z",
+                    "originBoardId": 8,
+                    "goal": "建立設備描述檔及計算設備劣化程度"
+                },
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10006",
+                    "id": "10006",
+                    "key": "SOM",
+                    "name": "SmartQ O&M",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10006&avatarId=10553",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10006&avatarId=10553",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10006&avatarId=10553",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10006&avatarId=10553"
+                    }
+                },
+                "fixVersions": [],
+                "aggregatetimespent": null,
+                "resolution": null,
+                "customfield_10037": null,
+                "resolutiondate": null,
+                "workratio": 0,
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-64/watchers",
+                    "watchCount": 1,
+                    "isWatching": false
+                },
+                "lastViewed": "2021-08-11T15:09:28.985+0800",
+                "created": "2021-08-11T11:46:51.762+0800",
+                "epic": null,
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "timeestimate": 64800,
+                "aggregatetimeoriginalestimate": 64800,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                    },
+                    "displayName": "JohnsonLan藍育昌",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-12T14:03:00.913+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/3",
+                    "description": "This issue is being actively worked on at the moment by the assignee.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/statuses/inprogress.png",
+                    "name": "In Progress",
+                    "id": "3",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/4",
+                        "id": 4,
+                        "key": "indeterminate",
+                        "colorName": "yellow",
+                        "name": "In Progress"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 64800,
+                "description": "*Details*\n\n*Breakdown*\n\n* 設備描述檔資料庫設計\n* 新增設備描述檔 API\n* 刪除設備描述檔 API\n* 修改設備描述檔 API\n* 查詢設備描述檔 API\n\n*Acceptance Criteria*\n\n* 設備描述檔 repository test\n* 設備描述檔 API test",
+                "customfield_10010": [
+                    {
+                        "id": 128,
+                        "name": "SOM Sprint 3",
+                        "state": "active",
+                        "boardId": 8,
+                        "goal": "建立設備描述檔及計算設備劣化程度",
+                        "startDate": "2021-08-11T05:56:20.806Z",
+                        "endDate": "2021-08-24T16:30:00.000Z"
+                    }
+                ],
+                "customfield_10011": "1|i00926:",
+                "customfield_10012": null,
+                "customfield_10013": null,
+                "timetracking": {
+                    "originalEstimate": "2d 2h",
+                    "remainingEstimate": "2d 2h",
+                    "originalEstimateSeconds": 64800,
+                    "remainingEstimateSeconds": 64800
+                },
+                "security": null,
+                "customfield_10008": null,
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "aggregatetimeestimate": 64800,
+                "attachment": [],
+                "flagged": false,
+                "summary": "建立設備描述檔後端的 CRUD",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                    },
+                    "displayName": "JohnsonLan藍育昌",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "customfield_10043": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                    },
+                    "displayName": "JohnsonLan藍育昌",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "customfield_10000": "{branch={count=1, dataType=branch}, json={\"cachedValue\":{\"errors\":[],\"summary\":{\"branch\":{\"overall\":{\"count\":1,\"lastUpdated\":\"2021-08-12T17:22:04.000+0800\",\"dataType\":\"branch\"},\"byInstanceType\":{\"bitbucket\":{\"count\":1,\"name\":\"Bitbucket Cloud\"}}}}},\"isStale\":true}}",
+                "customfield_10044": null,
+                "aggregateprogress": {
+                    "progress": 0,
+                    "total": 64800,
+                    "percent": 0
+                },
+                "customfield_10001": null,
+                "customfield_10045": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "progress": {
+                    "progress": 0,
+                    "total": 64800,
+                    "percent": 0
+                },
+                "comment": {
+                    "comments": [],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13221/comment",
+                    "maxResults": 0,
+                    "total": 0,
+                    "startAt": 0
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-64/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 0,
+                    "worklogs": []
+                }
+            }
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13212",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13212",
+            "key": "SOM-56",
+            "fields": {
+                "statuscategorychangedate": "2021-08-03T08:38:40.124+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10001",
+                    "id": "10001",
+                    "description": "A user story. Created by JIRA Software - do not edit or delete.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/issuetypes/story.svg",
+                    "name": "Story",
+                    "subtask": false,
+                    "hierarchyLevel": 0
+                },
+                "timespent": 72000,
+                "sprint": {
+                    "id": 128,
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/128",
+                    "state": "active",
+                    "name": "SOM Sprint 3",
+                    "startDate": "2021-08-11T05:56:20.806Z",
+                    "endDate": "2021-08-24T16:30:00.000Z",
+                    "originBoardId": 8,
+                    "goal": "建立設備描述檔及計算設備劣化程度"
+                },
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10006",
+                    "id": "10006",
+                    "key": "SOM",
+                    "name": "SmartQ O&M",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10006&avatarId=10553",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10006&avatarId=10553",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10006&avatarId=10553",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10006&avatarId=10553"
+                    }
+                },
+                "fixVersions": [],
+                "aggregatetimespent": 72000,
+                "resolution": null,
+                "customfield_10037": null,
+                "customfield_10027": 3.0,
+                "resolutiondate": null,
+                "workratio": 76,
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-56/watchers",
+                    "watchCount": 1,
+                    "isWatching": false
+                },
+                "lastViewed": "2021-07-31T16:03:18.883+0800",
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "created": "2021-07-30T10:42:33.194+0800",
+                "epic": {
+                    "id": 13132,
+                    "key": "SOM-6",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/epic/13132",
+                    "name": "設備上雲-整合Google IOT Core",
+                    "summary": "身為設備管理員，我希望使用物聯網的技術，好讓地端設備上雲 ",
+                    "color": {
+                        "key": "color_13"
+                    },
+                    "done": false
+                },
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "aggregatetimeoriginalestimate": 93600,
+                "timeestimate": 28800,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                    },
+                    "displayName": "JohnsonLan藍育昌",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-11T13:55:57.037+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/3",
+                    "description": "This issue is being actively worked on at the moment by the assignee.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/statuses/inprogress.png",
+                    "name": "In Progress",
+                    "id": "3",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/4",
+                        "id": 4,
+                        "key": "indeterminate",
+                        "colorName": "yellow",
+                        "name": "In Progress"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 93600,
+                "description": "*Details *\n建立設備完成後，顯示設備上雲資訊。\n*Breakdown *\n\n# 建立雲端連線資訊頁面\n# 檢視設備加入查看雲端連線資訊的功能\n\n \n*Acceptance Criteria *\n\n# 設備建立後跳出雲端連線資訊頁面\n# 檢視及設備時也能查看雲端連線資訊",
+                "customfield_10010": [
+                    {
+                        "id": 128,
+                        "name": "SOM Sprint 3",
+                        "state": "active",
+                        "boardId": 8,
+                        "goal": "建立設備描述檔及計算設備劣化程度",
+                        "startDate": "2021-08-11T05:56:20.806Z",
+                        "endDate": "2021-08-24T16:30:00.000Z"
+                    },
+                    {
+                        "id": 126,
+                        "name": "SOM Sprint 2",
+                        "state": "closed",
+                        "boardId": 8,
+                        "goal": "地端設備數據上報並儲存在雲端、依據設備狀態計算出維護建議。",
+                        "startDate": "2021-07-26T07:12:11.106Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T08:18:58.353Z"
+                    }
+                ],
+                "customfield_10011": "1|i008su:i9",
+                "customfield_10012": null,
+                "customfield_10013": null,
+                "timetracking": {
+                    "originalEstimate": "3d 2h",
+                    "remainingEstimate": "1d",
+                    "timeSpent": "2d 4h",
+                    "originalEstimateSeconds": 93600,
+                    "remainingEstimateSeconds": 28800,
+                    "timeSpentSeconds": 72000
+                },
+                "security": null,
+                "customfield_10008": "SOM-6",
+                "attachment": [],
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "aggregatetimeestimate": 28800,
+                "flagged": false,
+                "summary": "身為設備管理員，我希望可以查看到設備上雲的連線資訊，以便我可以完成地端設備上雲的設定。",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                    },
+                    "displayName": "JohnsonLan藍育昌",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                    },
+                    "displayName": "JohnsonLan藍育昌",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "customfield_10043": null,
+                "customfield_10044": null,
+                "customfield_10000": "{pullrequest={dataType=pullrequest, state=OPEN, stateCount=1}, json={\"cachedValue\":{\"errors\":[],\"summary\":{\"pullrequest\":{\"overall\":{\"count\":1,\"lastUpdated\":\"2021-08-12T17:13:33.540+0800\",\"stateCount\":1,\"state\":\"OPEN\",\"dataType\":\"pullrequest\",\"open\":true},\"byInstanceType\":{\"bitbucket\":{\"count\":1,\"name\":\"Bitbucket Cloud\"}}}}},\"isStale\":true}}",
+                "aggregateprogress": {
+                    "progress": 72000,
+                    "total": 100800,
+                    "percent": 71
+                },
+                "customfield_10001": null,
+                "customfield_10045": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "closedSprints": [
+                    {
+                        "id": 126,
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/126",
+                        "state": "closed",
+                        "name": "SOM Sprint 2",
+                        "startDate": "2021-07-26T07:12:11.106Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T08:18:58.353Z",
+                        "originBoardId": 8,
+                        "goal": "地端設備數據上報並儲存在雲端、依據設備狀態計算出維護建議。"
+                    }
+                ],
+                "progress": {
+                    "progress": 72000,
+                    "total": 100800,
+                    "percent": 71
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-56/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "comment": {
+                    "comments": [],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13212/comment",
+                    "maxResults": 0,
+                    "total": 0,
+                    "startAt": 0
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 5,
+                    "worklogs": [
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13212/worklog/17098",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "# when create equipment and must have create google IoT core device function ",
+                            "created": "2021-08-04T08:13:36.336+0800",
+                            "updated": "2021-08-04T08:13:36.336+0800",
+                            "started": "2021-08-02T04:12:00.000+0800",
+                            "timeSpent": "4h",
+                            "timeSpentSeconds": 14400,
+                            "id": "17098",
+                            "issueId": "13212"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13212/worklog/17113",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "deploy to kubernetes environment used docker desktop",
+                            "created": "2021-08-07T06:09:48.476+0800",
+                            "updated": "2021-08-07T06:09:48.476+0800",
+                            "started": "2021-08-03T02:06:00.000+0800",
+                            "timeSpent": "4h",
+                            "timeSpentSeconds": 14400,
+                            "id": "17113",
+                            "issueId": "13212"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13212/worklog/17114",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "create delete device feature",
+                            "created": "2021-08-07T06:10:51.445+0800",
+                            "updated": "2021-08-07T06:10:51.445+0800",
+                            "started": "2021-08-04T02:09:00.000+0800",
+                            "timeSpent": "4h",
+                            "timeSpentSeconds": 14400,
+                            "id": "17114",
+                            "issueId": "13212"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13212/worklog/17115",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "新增 JWT token feature",
+                            "created": "2021-08-09T08:12:21.873+0800",
+                            "updated": "2021-08-09T08:12:21.873+0800",
+                            "started": "2021-08-06T04:11:00.000+0800",
+                            "timeSpent": "4h",
+                            "timeSpentSeconds": 14400,
+                            "id": "17115",
+                            "issueId": "13212"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13212/worklog/17116",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3Ab92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "accountId": "557058:b92de470-d40f-40d6-90e6-9318ecd542c5",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:b92de470-d40f-40d6-90e6-9318ecd542c5/5e414a40-81ec-42bf-af88-f135fd63eefa/32"
+                                },
+                                "displayName": "JohnsonLan藍育昌",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "新增 JWT Token for 前端",
+                            "created": "2021-08-09T08:13:17.958+0800",
+                            "updated": "2021-08-09T08:13:17.958+0800",
+                            "started": "2021-08-08T04:12:00.000+0800",
+                            "timeSpent": "4h",
+                            "timeSpentSeconds": 14400,
+                            "id": "17116",
+                            "issueId": "13212"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13204",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13204",
+            "key": "SOM-52",
+            "fields": {
+                "statuscategorychangedate": "2021-07-26T15:14:49.703+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10002",
+                    "id": "10002",
+                    "description": "A task that needs to be done.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/secure/viewavatar?size=medium&avatarId=10318&avatarType=issuetype",
+                    "name": "Task",
+                    "subtask": false,
+                    "avatarId": 10318,
+                    "hierarchyLevel": 0
+                },
+                "timespent": 64800,
+                "sprint": {
+                    "id": 128,
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/128",
+                    "state": "active",
+                    "name": "SOM Sprint 3",
+                    "startDate": "2021-08-11T05:56:20.806Z",
+                    "endDate": "2021-08-24T16:30:00.000Z",
+                    "originBoardId": 8,
+                    "goal": "建立設備描述檔及計算設備劣化程度"
+                },
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10006",
+                    "id": "10006",
+                    "key": "SOM",
+                    "name": "SmartQ O&M",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10006&avatarId=10553",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10006&avatarId=10553",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10006&avatarId=10553",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10006&avatarId=10553"
+                    }
+                },
+                "fixVersions": [],
+                "aggregatetimespent": 64800,
+                "resolution": null,
+                "customfield_10037": null,
+                "resolutiondate": null,
+                "workratio": 75,
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "lastViewed": "2021-08-09T23:12:56.220+0800",
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-52/watchers",
+                    "watchCount": 1,
+                    "isWatching": false
+                },
+                "created": "2021-07-26T08:21:25.619+0800",
+                "epic": {
+                    "id": 13153,
+                    "key": "SOM-27",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/epic/13153",
+                    "name": "上架Google Cloud Marketplace",
+                    "summary": "身為PO，我希望SmartQ O&M成為Ｇoogle Cloud Market上可被訂閱的應用軟體，以利產品的推廣",
+                    "color": {
+                        "key": "color_3"
+                    },
+                    "done": false
+                },
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "timeestimate": 21600,
+                "aggregatetimeoriginalestimate": 86400,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                    "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                    },
+                    "displayName": "meson_sung",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-11T13:47:04.010+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/3",
+                    "description": "This issue is being actively worked on at the moment by the assignee.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/statuses/inprogress.png",
+                    "name": "In Progress",
+                    "id": "3",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/4",
+                        "id": 4,
+                        "key": "indeterminate",
+                        "colorName": "yellow",
+                        "name": "In Progress"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 86400,
+                "description": "*Details* \n由於團對於上架至GCP Martketplace完全不了解，本task將先排除上架資格的申請程式，直接進入整合GCP Marketplace的範疇進行理解。\n*Breakdown* \n\n# Study GCP相關Marketplace的文件\n# 撰寫技術分享文件\n\n\n*Acceptance Criteria* \n\n# 在協作平台上留下整合GCP Marketplace的技術分享文件",
+                "customfield_10010": [
+                    {
+                        "id": 128,
+                        "name": "SOM Sprint 3",
+                        "state": "active",
+                        "boardId": 8,
+                        "goal": "建立設備描述檔及計算設備劣化程度",
+                        "startDate": "2021-08-11T05:56:20.806Z",
+                        "endDate": "2021-08-24T16:30:00.000Z"
+                    },
+                    {
+                        "id": 126,
+                        "name": "SOM Sprint 2",
+                        "state": "closed",
+                        "boardId": 8,
+                        "goal": "地端設備數據上報並儲存在雲端、依據設備狀態計算出維護建議。",
+                        "startDate": "2021-07-26T07:12:11.106Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T08:18:58.353Z"
+                    }
+                ],
+                "customfield_10011": "1|i008su:ii",
+                "customfield_10012": null,
+                "customfield_10013": null,
+                "timetracking": {
+                    "originalEstimate": "3d",
+                    "remainingEstimate": "6h",
+                    "timeSpent": "2d 2h",
+                    "originalEstimateSeconds": 86400,
+                    "remainingEstimateSeconds": 21600,
+                    "timeSpentSeconds": 64800
+                },
+                "security": null,
+                "customfield_10008": "SOM-27",
+                "attachment": [],
+                "aggregatetimeestimate": 21600,
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "flagged": false,
+                "summary": "探索SmartQ O&M如何整合至GCP Martketplace的流程及做法",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                    "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                    },
+                    "displayName": "meson_sung",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "customfield_10043": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                    "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                    },
+                    "displayName": "meson_sung",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "aggregateprogress": {
+                    "progress": 64800,
+                    "total": 86400,
+                    "percent": 75
+                },
+                "customfield_10044": null,
+                "customfield_10000": "{}",
+                "customfield_10045": null,
+                "customfield_10001": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "closedSprints": [
+                    {
+                        "id": 126,
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/126",
+                        "state": "closed",
+                        "name": "SOM Sprint 2",
+                        "startDate": "2021-07-26T07:12:11.106Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T08:18:58.353Z",
+                        "originBoardId": 8,
+                        "goal": "地端設備數據上報並儲存在雲端、依據設備狀態計算出維護建議。"
+                    }
+                ],
+                "progress": {
+                    "progress": 64800,
+                    "total": 86400,
+                    "percent": 75
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-52/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "comment": {
+                    "comments": [],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13204/comment",
+                    "maxResults": 0,
+                    "total": 0,
+                    "startAt": 0
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 7,
+                    "worklogs": [
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13204/worklog/17087",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": " 查找有關上架至google cloud marketplace的資訊",
+                            "created": "2021-07-29T16:56:25.162+0800",
+                            "updated": "2021-07-29T16:56:25.162+0800",
+                            "started": "2021-07-27T14:55:00.000+0800",
+                            "timeSpent": "2h",
+                            "timeSpentSeconds": 7200,
+                            "id": "17087",
+                            "issueId": "13204"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13204/worklog/17088",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": " 閱讀上架Google Cloud Marketplace的資訊",
+                            "created": "2021-07-29T16:57:33.088+0800",
+                            "updated": "2021-07-29T16:57:33.088+0800",
+                            "started": "2021-07-28T14:56:00.000+0800",
+                            "timeSpent": "2h",
+                            "timeSpentSeconds": 7200,
+                            "id": "17088",
+                            "issueId": "13204"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13204/worklog/17089",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": " 整理上架至Google Cloud Marketplace的內容",
+                            "created": "2021-07-29T16:58:55.145+0800",
+                            "updated": "2021-07-29T16:58:55.145+0800",
+                            "started": "2021-07-29T13:57:00.000+0800",
+                            "timeSpent": "3h",
+                            "timeSpentSeconds": 10800,
+                            "id": "17089",
+                            "issueId": "13204"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13204/worklog/17093",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "Study how to package software to Google Cloud Marketplace",
+                            "created": "2021-08-02T07:54:04.887+0800",
+                            "updated": "2021-08-02T07:54:39.589+0800",
+                            "started": "2021-07-30T05:53:00.000+0800",
+                            "timeSpent": "2h",
+                            "timeSpentSeconds": 7200,
+                            "id": "17093",
+                            "issueId": "13204"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13204/worklog/17102",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "Study helm chart how to manage k8s applications",
+                            "created": "2021-08-05T08:48:04.001+0800",
+                            "updated": "2021-08-05T08:48:04.001+0800",
+                            "started": "2021-08-02T06:47:00.000+0800",
+                            "timeSpent": "2h",
+                            "timeSpentSeconds": 7200,
+                            "id": "17102",
+                            "issueId": "13204"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13204/worklog/17123",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "撰寫分享文件",
+                            "created": "2021-08-10T09:46:17.717+0800",
+                            "updated": "2021-08-10T09:46:17.717+0800",
+                            "started": "2021-08-06T09:43:00.000+0800",
+                            "timeSpent": "3h",
+                            "timeSpentSeconds": 10800,
+                            "id": "17123",
+                            "issueId": "13204"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13204/worklog/17124",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=557058%3A48ab6359-fb32-4379-8023-1da64215084c",
+                                "accountId": "557058:48ab6359-fb32-4379-8023-1da64215084c",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:48ab6359-fb32-4379-8023-1da64215084c/659d53ca-cb66-4df8-a974-d689a850cf91/32"
+                                },
+                                "displayName": "meson_sung",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": " 撰寫分享文件",
+                            "created": "2021-08-10T09:47:07.935+0800",
+                            "updated": "2021-08-10T09:47:07.935+0800",
+                            "started": "2021-08-09T05:46:00.000+0800",
+                            "timeSpent": "4h",
+                            "timeSpentSeconds": 14400,
+                            "id": "17124",
+                            "issueId": "13204"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13218",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13218",
+            "key": "SOM-61",
+            "fields": {
+                "statuscategorychangedate": "2021-08-11T11:40:40.566+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10001",
+                    "id": "10001",
+                    "description": "A user story. Created by JIRA Software - do not edit or delete.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/issuetypes/story.svg",
+                    "name": "Story",
+                    "subtask": false,
+                    "hierarchyLevel": 0
+                },
+                "timespent": null,
+                "sprint": {
+                    "id": 128,
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/128",
+                    "state": "active",
+                    "name": "SOM Sprint 3",
+                    "startDate": "2021-08-11T05:56:20.806Z",
+                    "endDate": "2021-08-24T16:30:00.000Z",
+                    "originBoardId": 8,
+                    "goal": "建立設備描述檔及計算設備劣化程度"
+                },
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10006",
+                    "id": "10006",
+                    "key": "SOM",
+                    "name": "SmartQ O&M",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10006&avatarId=10553",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10006&avatarId=10553",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10006&avatarId=10553",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10006&avatarId=10553"
+                    }
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/version/10016",
+                        "id": "10016",
+                        "description": "1. 設備類型管理 2. 設備劣化分析",
+                        "name": "1.0",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2021-08-25"
+                    }
+                ],
+                "aggregatetimespent": null,
+                "resolution": null,
+                "customfield_10037": null,
+                "customfield_10027": 3.0,
+                "resolutiondate": null,
+                "workratio": 0,
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-61/watchers",
+                    "watchCount": 1,
+                    "isWatching": true
+                },
+                "lastViewed": "2021-08-11T11:50:06.324+0800",
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "created": "2021-08-11T11:40:39.763+0800",
+                "epic": {
+                    "id": 13217,
+                    "key": "SOM-60",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/epic/13217",
+                    "name": "利用設備數據",
+                    "summary": "身為設備管理員，我希望利用上傳到雲端的設備數據，以更有效率地做好設備管理工作",
+                    "color": {
+                        "key": "color_11"
+                    },
+                    "done": false
+                },
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "timeestimate": 64800,
+                "aggregatetimeoriginalestimate": 64800,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                    "accountId": "5a97bc81d35d6433dd716a6e",
+                    "emailAddress": "ken.hu@hwacom.com",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                    },
+                    "displayName": "Ken Hu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-11T12:04:10.066+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10000",
+                    "description": "",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                    "name": "To Do",
+                    "id": "10000",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/2",
+                        "id": 2,
+                        "key": "new",
+                        "colorName": "blue-gray",
+                        "name": "To Do"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 64800,
+                "description": "*Details*\n\n[https://innodiv-hwacom.atlassian.net/browse/SOM-53|https://innodiv-hwacom.atlassian.net/browse/SOM-53|smart-link] 是假定把資料存入Cloud Bigtable，考慮到成本與現階段暫無大數據需求，決定改用其他的資料儲存方式\n\n*Breakdown*\n\n# 複習InfluxDB的資料類型、Schema定義方式等基礎知識\n# 修改Cloud Function，將收到的資料存入InfluxDB\n# 提供預設的retension policy以及資料備存方案\n\n*Acceptance Criteria*\n\n# 進入InfluxDB，可以查詢到存入的地端設備資訊\n# 存入的資料會依retension policy做必要的保存\n# 即將被移除的資料會自動備存到其它Storage服務中",
+                "customfield_10010": [
+                    {
+                        "id": 128,
+                        "name": "SOM Sprint 3",
+                        "state": "active",
+                        "boardId": 8,
+                        "goal": "建立設備描述檔及計算設備劣化程度",
+                        "startDate": "2021-08-11T05:56:20.806Z",
+                        "endDate": "2021-08-24T16:30:00.000Z"
+                    }
+                ],
+                "customfield_10011": "1|i008su:ir",
+                "customfield_10012": null,
+                "customfield_10013": null,
+                "timetracking": {
+                    "originalEstimate": "2d 2h",
+                    "remainingEstimate": "2d 2h",
+                    "originalEstimateSeconds": 64800,
+                    "remainingEstimateSeconds": 64800
+                },
+                "security": null,
+                "customfield_10008": "SOM-60",
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "aggregatetimeestimate": 64800,
+                "attachment": [],
+                "flagged": false,
+                "summary": "身為設備管理員，我希望系統妥善儲存上傳到雲端的設備數據，好讓這些數據產生最大的價值",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                    "accountId": "5a97bc81d35d6433dd716a6e",
+                    "emailAddress": "ken.hu@hwacom.com",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                    },
+                    "displayName": "Ken Hu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "customfield_10043": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                    "accountId": "5a97bc81d35d6433dd716a6e",
+                    "emailAddress": "ken.hu@hwacom.com",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                    },
+                    "displayName": "Ken Hu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "customfield_10044": null,
+                "customfield_10000": "{}",
+                "aggregateprogress": {
+                    "progress": 0,
+                    "total": 64800,
+                    "percent": 0
+                },
+                "customfield_10001": null,
+                "customfield_10045": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "progress": {
+                    "progress": 0,
+                    "total": 64800,
+                    "percent": 0
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SOM-61/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "comment": {
+                    "comments": [],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13218/comment",
+                    "maxResults": 0,
+                    "total": 0,
+                    "startAt": 0
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 0,
+                    "worklogs": []
+                }
+            }
+        }
+    ]
+}
