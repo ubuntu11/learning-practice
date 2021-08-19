@@ -277,6 +277,9 @@
         type: 'pie',
         data: makePieChartData(pie_chart_labels, pie_chart_plan_data),
         options: {
+          legend: {
+            display: false
+          },
           title: {
               display: true,
               text: '預估工時佔比'
@@ -288,6 +291,9 @@
         type: 'pie',
         data: makePieChartData(pie_chart_labels, pie_chart_actual_data),
         options: {
+          legend: {
+            display: false
+          },
           title: {
               display: true,
               text: '實際工時佔比'
