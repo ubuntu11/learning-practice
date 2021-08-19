@@ -45,3 +45,13 @@ Build docker image:
 ```
 docker build --build-arg config_file=config_rd2.py -t aiothwacom/sprint-analyzer:rd2 .
 ```
+
+## Reference
+
+### Jira Board Number
+
+|Team|Board Name|Board id|
+|---|---|---|
+|RD2|SOM board|8|
+|RD2|SRP board|7|
+|RD5|TCIS1 baord|5|
