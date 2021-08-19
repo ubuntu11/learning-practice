@@ -1,0 +1,672 @@
+{
+    "expand": "schema,names",
+    "startAt": 0,
+    "maxResults": 50,
+    "total": 2,
+    "issues": [
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13207",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13207",
+            "key": "SRP-29",
+            "fields": {
+                "statuscategorychangedate": "2021-08-10T13:56:48.941+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10002",
+                    "id": "10002",
+                    "description": "A task that needs to be done.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/secure/viewavatar?size=medium&avatarId=10318&avatarType=issuetype",
+                    "name": "Task",
+                    "subtask": false,
+                    "avatarId": 10318,
+                    "hierarchyLevel": 0
+                },
+                "parent": {
+                    "id": "13206",
+                    "key": "SRP-28",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13206",
+                    "fields": {
+                        "summary": "台電綜合研究所太陽光電發電系統暨智慧監控平台",
+                        "status": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10000",
+                            "description": "",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                            "name": "To Do",
+                            "id": "10000",
+                            "statusCategory": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "A big user story that needs to be broken down. Created by JIRA Software - do not edit or delete.",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false,
+                            "hierarchyLevel": 1
+                        }
+                    }
+                },
+                "timespent": 12600,
+                "sprint": null,
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10005",
+                    "id": "10005",
+                    "key": "SRP",
+                    "name": "SmartQ Related Projects",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10005&avatarId=10495",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10005&avatarId=10495",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10005&avatarId=10495",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10005&avatarId=10495"
+                    }
+                },
+                "fixVersions": [],
+                "aggregatetimespent": 12600,
+                "resolution": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/resolution/10000",
+                    "id": "10000",
+                    "description": "Work has been completed on this issue.",
+                    "name": "Done"
+                },
+                "customfield_10037": null,
+                "resolutiondate": "2021-08-10T13:56:48.926+0800",
+                "workratio": 116,
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SRP-29/watchers",
+                    "watchCount": 1,
+                    "isWatching": true
+                },
+                "lastViewed": "2021-08-10T13:55:41.709+0800",
+                "created": "2021-07-26T08:48:49.734+0800",
+                "epic": {
+                    "id": 13206,
+                    "key": "SRP-28",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/epic/13206",
+                    "name": "綜研所監控平台",
+                    "summary": "台電綜合研究所太陽光電發電系統暨智慧監控平台",
+                    "color": {
+                        "key": "color_4"
+                    },
+                    "done": false
+                },
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "timeestimate": 0,
+                "aggregatetimeoriginalestimate": 10800,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                    "accountId": "5a97bc81d35d6433dd716a6e",
+                    "emailAddress": "ken.hu@hwacom.com",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                    },
+                    "displayName": "Ken Hu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-10T13:56:48.941+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10001",
+                    "description": "",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                    "name": "Done",
+                    "id": "10001",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/3",
+                        "id": 3,
+                        "key": "done",
+                        "colorName": "green",
+                        "name": "Done"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 10800,
+                "description": "*Details*\n\n這部份的費用雖不算在研二的開發成本上，但需要預估出來，提供業務做為報價參考。\n\n*Breakdown*\n\n# -根據招標規範中有關雲端平台的需求，整理出規畫文件-\n# -根據GCP的Pricing Model，計算出可能費用參考數字。-\n\n*Acceptance Criteria*\n\n# 產出一份文件及一份試算表，提供給業務\n# 視需要對業務做說明或進行討論",
+                "customfield_10010": [
+                    {
+                        "id": 127,
+                        "name": "SRP Sprint 2",
+                        "state": "closed",
+                        "boardId": 7,
+                        "goal": "完成雲端平台架構規劃，相關專案以軟體中心流程提出報價",
+                        "startDate": "2021-07-27T02:45:07.715Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T06:34:38.805Z"
+                    }
+                ],
+                "customfield_10011": "1|i0090e:",
+                "customfield_10012": null,
+                "customfield_10013": "3_*:*_1_*:*_1141839403_*|*_10000_*:*_1_*:*_172639829_*|*_10001_*:*_1_*:*_0",
+                "timetracking": {
+                    "originalEstimate": "3h",
+                    "remainingEstimate": "0m",
+                    "timeSpent": "3h 30m",
+                    "originalEstimateSeconds": 10800,
+                    "remainingEstimateSeconds": 0,
+                    "timeSpentSeconds": 12600
+                },
+                "security": null,
+                "customfield_10008": "SRP-28",
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "attachment": [],
+                "aggregatetimeestimate": 0,
+                "flagged": false,
+                "summary": "雲端平台架構規畫與價格估算",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                    "accountId": "5a97bc81d35d6433dd716a6e",
+                    "emailAddress": "ken.hu@hwacom.com",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                    },
+                    "displayName": "Ken Hu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                    "accountId": "5a97bc81d35d6433dd716a6e",
+                    "emailAddress": "ken.hu@hwacom.com",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                    },
+                    "displayName": "Ken Hu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "customfield_10043": null,
+                "customfield_10044": null,
+                "aggregateprogress": {
+                    "progress": 12600,
+                    "total": 12600,
+                    "percent": 100
+                },
+                "customfield_10000": "{}",
+                "customfield_10045": null,
+                "customfield_10001": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "closedSprints": [
+                    {
+                        "id": 127,
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/127",
+                        "state": "closed",
+                        "name": "SRP Sprint 2",
+                        "startDate": "2021-07-27T02:45:07.715Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T06:34:38.805Z",
+                        "originBoardId": 7,
+                        "goal": "完成雲端平台架構規劃，相關專案以軟體中心流程提出報價"
+                    }
+                ],
+                "progress": {
+                    "progress": 12600,
+                    "total": 12600,
+                    "percent": 100
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SRP-29/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "comment": {
+                    "comments": [],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13207/comment",
+                    "maxResults": 0,
+                    "total": 0,
+                    "startAt": 0
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 2,
+                    "worklogs": [
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13207/worklog/17083",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                                "accountId": "5a97bc81d35d6433dd716a6e",
+                                "emailAddress": "ken.hu@hwacom.com",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                                },
+                                "displayName": "Ken Hu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                                "accountId": "5a97bc81d35d6433dd716a6e",
+                                "emailAddress": "ken.hu@hwacom.com",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                                },
+                                "displayName": "Ken Hu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "根據招標規範中與雲端平台有關的部份，做一些假設，查詢網上定價，寫出一份規畫文件與成本試算表。",
+                            "created": "2021-07-28T08:46:04.218+0800",
+                            "updated": "2021-07-28T08:46:04.218+0800",
+                            "started": "2021-07-27T14:00:00.000+0800",
+                            "timeSpent": "3h",
+                            "timeSpentSeconds": 10800,
+                            "id": "17083",
+                            "issueId": "13207"
+                        },
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13207/worklog/17125",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                                "accountId": "5a97bc81d35d6433dd716a6e",
+                                "emailAddress": "ken.hu@hwacom.com",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                                },
+                                "displayName": "Ken Hu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                                "accountId": "5a97bc81d35d6433dd716a6e",
+                                "emailAddress": "ken.hu@hwacom.com",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                                },
+                                "displayName": "Ken Hu",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "宏庭提出報價後\n\n今天Bruce、Samuel、我與宏庭SaSa及阿豐討論其額與內容",
+                            "created": "2021-08-10T13:56:45.342+0800",
+                            "updated": "2021-08-10T13:56:45.342+0800",
+                            "started": "2021-08-10T00:00:00.000+0800",
+                            "timeSpent": "30m",
+                            "timeSpentSeconds": 1800,
+                            "id": "17125",
+                            "issueId": "13207"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "13208",
+            "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/issue/13208",
+            "key": "SRP-30",
+            "fields": {
+                "statuscategorychangedate": "2021-08-10T14:34:34.583+0800",
+                "issuetype": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10002",
+                    "id": "10002",
+                    "description": "A task that needs to be done.",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/secure/viewavatar?size=medium&avatarId=10318&avatarType=issuetype",
+                    "name": "Task",
+                    "subtask": false,
+                    "avatarId": 10318,
+                    "hierarchyLevel": 0
+                },
+                "parent": {
+                    "id": "13206",
+                    "key": "SRP-28",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13206",
+                    "fields": {
+                        "summary": "台電綜合研究所太陽光電發電系統暨智慧監控平台",
+                        "status": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10000",
+                            "description": "",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                            "name": "To Do",
+                            "id": "10000",
+                            "statusCategory": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "A big user story that needs to be broken down. Created by JIRA Software - do not edit or delete.",
+                            "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false,
+                            "hierarchyLevel": 1
+                        }
+                    }
+                },
+                "timespent": 3600,
+                "sprint": null,
+                "project": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/project/10005",
+                    "id": "10005",
+                    "key": "SRP",
+                    "name": "SmartQ Related Projects",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?pid=10005&avatarId=10495",
+                        "24x24": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=small&s=small&pid=10005&avatarId=10495",
+                        "16x16": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10005&avatarId=10495",
+                        "32x32": "https://innodiv-hwacom.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10005&avatarId=10495"
+                    }
+                },
+                "fixVersions": [],
+                "aggregatetimespent": 3600,
+                "resolution": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/resolution/10000",
+                    "id": "10000",
+                    "description": "Work has been completed on this issue.",
+                    "name": "Done"
+                },
+                "customfield_10037": null,
+                "resolutiondate": "2021-08-10T14:34:34.576+0800",
+                "workratio": 33,
+                "watches": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SRP-30/watchers",
+                    "watchCount": 1,
+                    "isWatching": true
+                },
+                "lastViewed": "2021-07-26T08:50:57.829+0800",
+                "issuerestriction": {
+                    "issuerestrictions": {},
+                    "shouldDisplay": false
+                },
+                "created": "2021-07-26T08:50:51.908+0800",
+                "epic": {
+                    "id": 13206,
+                    "key": "SRP-28",
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/epic/13206",
+                    "name": "綜研所監控平台",
+                    "summary": "台電綜合研究所太陽光電發電系統暨智慧監控平台",
+                    "color": {
+                        "key": "color_4"
+                    },
+                    "done": false
+                },
+                "priority": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "labels": [],
+                "timeestimate": 0,
+                "aggregatetimeoriginalestimate": 10800,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a56c4467f94e020214d445d",
+                    "accountId": "5a56c4467f94e020214d445d",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/32"
+                    },
+                    "displayName": "Shawn You",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "updated": "2021-08-10T14:34:34.582+0800",
+                "status": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/status/10001",
+                    "description": "",
+                    "iconUrl": "https://innodiv-hwacom.atlassian.net/",
+                    "name": "Done",
+                    "id": "10001",
+                    "statusCategory": {
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/statuscategory/3",
+                        "id": 3,
+                        "key": "done",
+                        "colorName": "green",
+                        "name": "Done"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": 10800,
+                "description": "*Details*\n\n07-22、07-23已請Jerry協助review初步報價，參考其建議後做出修正並向Bruce、Samuel等人做說明。07-23會議上（元宏、Jerry、Joyce、Ken）元宏指示要按流程正式走一遍\n\n*Breakdown*\n\n*Acceptance Criteria*",
+                "customfield_10010": [
+                    {
+                        "id": 127,
+                        "name": "SRP Sprint 2",
+                        "state": "closed",
+                        "boardId": 7,
+                        "goal": "完成雲端平台架構規劃，相關專案以軟體中心流程提出報價",
+                        "startDate": "2021-07-27T02:45:07.715Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T06:34:38.805Z"
+                    }
+                ],
+                "customfield_10011": "1|i0090m:",
+                "customfield_10012": null,
+                "customfield_10013": "3_*:*_1_*:*_970153486_*|*_10000_*:*_1_*:*_346469211_*|*_10001_*:*_1_*:*_0",
+                "timetracking": {
+                    "originalEstimate": "3h",
+                    "remainingEstimate": "0m",
+                    "timeSpent": "1h",
+                    "originalEstimateSeconds": 10800,
+                    "remainingEstimateSeconds": 0,
+                    "timeSpentSeconds": 3600
+                },
+                "security": null,
+                "customfield_10008": "SRP-28",
+                "attachment": [],
+                "customfield_10009": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "aggregatetimeestimate": 0,
+                "flagged": false,
+                "summary": "循軟體中心流程提出正式報價",
+                "creator": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                    "accountId": "5a97bc81d35d6433dd716a6e",
+                    "emailAddress": "ken.hu@hwacom.com",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                    },
+                    "displayName": "Ken Hu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "customfield_10040": [],
+                "customfield_10041": null,
+                "customfield_10042": null,
+                "customfield_10043": null,
+                "reporter": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a97bc81d35d6433dd716a6e",
+                    "accountId": "5a97bc81d35d6433dd716a6e",
+                    "emailAddress": "ken.hu@hwacom.com",
+                    "avatarUrls": {
+                        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/48",
+                        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/24",
+                        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/16",
+                        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a97bc81d35d6433dd716a6e/05645d41-d578-4543-a136-401028ed36ad/32"
+                    },
+                    "displayName": "Ken Hu",
+                    "active": true,
+                    "timeZone": "Asia/Taipei",
+                    "accountType": "atlassian"
+                },
+                "customfield_10000": "{}",
+                "customfield_10044": null,
+                "aggregateprogress": {
+                    "progress": 3600,
+                    "total": 3600,
+                    "percent": 100
+                },
+                "customfield_10001": null,
+                "customfield_10045": null,
+                "customfield_10004": null,
+                "customfield_10038": null,
+                "customfield_10039": null,
+                "environment": null,
+                "duedate": null,
+                "closedSprints": [
+                    {
+                        "id": 127,
+                        "self": "https://innodiv-hwacom.atlassian.net/rest/agile/1.0/sprint/127",
+                        "state": "closed",
+                        "name": "SRP Sprint 2",
+                        "startDate": "2021-07-27T02:45:07.715Z",
+                        "endDate": "2021-08-11T04:30:00.000Z",
+                        "completeDate": "2021-08-10T06:34:38.805Z",
+                        "originBoardId": 7,
+                        "goal": "完成雲端平台架構規劃，相關專案以軟體中心流程提出報價"
+                    }
+                ],
+                "progress": {
+                    "progress": 3600,
+                    "total": 3600,
+                    "percent": 100
+                },
+                "votes": {
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/SRP-30/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "comment": {
+                    "comments": [],
+                    "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13208/comment",
+                    "maxResults": 0,
+                    "total": 0,
+                    "startAt": 0
+                },
+                "worklog": {
+                    "startAt": 0,
+                    "maxResults": 20,
+                    "total": 1,
+                    "worklogs": [
+                        {
+                            "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/issue/13208/worklog/17091",
+                            "author": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a56c4467f94e020214d445d",
+                                "accountId": "5a56c4467f94e020214d445d",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/32"
+                                },
+                                "displayName": "Shawn You",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "updateAuthor": {
+                                "self": "https://innodiv-hwacom.atlassian.net/rest/api/2/user?accountId=5a56c4467f94e020214d445d",
+                                "accountId": "5a56c4467f94e020214d445d",
+                                "avatarUrls": {
+                                    "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/48",
+                                    "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/24",
+                                    "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/16",
+                                    "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5a56c4467f94e020214d445d/127067c0-dbe3-4776-b3ea-acc5194468db/32"
+                                },
+                                "displayName": "Shawn You",
+                                "active": true,
+                                "timeZone": "Asia/Taipei",
+                                "accountType": "atlassian"
+                            },
+                            "comment": "* 詢問事業發展部軟體中心報價流程\n* 修改事業發展部對報價中的風險建議\n* \b寄出綜研所太陽光電系統案報價估算表給事業發展部",
+                            "created": "2021-07-30T09:07:58.021+0800",
+                            "updated": "2021-08-09T10:43:43.026+0800",
+                            "started": "2021-07-29T08:05:00.000+0800",
+                            "timeSpent": "1h",
+                            "timeSpentSeconds": 3600,
+                            "id": "17091",
+                            "issueId": "13208"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

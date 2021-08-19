@@ -50,21 +50,30 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
     virtual_sprint = VirtualSprint(sprints)
     issue_unsorted = []
     issues_json_list = []
-    story_point_col_name_dict = {}
+    story_point_col_name_dict = __config()['STORY_POINT_COL_NAME']
     for i, s in enumerate(virtual_sprint.sprints):
         issue_url = f'{__base_url(team_id)[i]}/sprint/{s.id}/issue'
         response = requests.get(issue_url, headers=__request_header())
         issues_json = response.json()['issues']
-        issues_json_list.extend(issues_json)
-        story_point_col_name_dict[s.id] = __config()['STORY_POINT_COL_NAME'][i]
+        for issue_json in issues_json:
+            if issue_json['fields']['sprint'] is not None:
+                issue_json['fields']['sprint']['id'] = s.id
+            else:
+                issue_json['fields']['sprint'] = {'id': s.id}
+        # 由於PBI可能因為在前一個衝刺沒完成而搬到下一個衝刺，造成由Issue取得的sprint id與指定的sprint id不同,所以擴展透過API取得的
+        # Issue json資料，把指定的sprint id放進去
 
-    issue_json_dict = {issue_json['key']:issue_json for issue_json in issues_json_list}
+        issues_json_list.extend(issues_json)
+
+    issue_json_dict = {issue_json['key']: issue_json for issue_json in issues_json_list}
     for key in issue_json_dict:
         sprint_id = issue_json_dict[key]['fields']['sprint']['id']
-        sub_task_list = [Issue(issue_json_dict[sub_task['key']], story_point_col_name_dict[sprint_id], virtual_sprint.sprint_dict[sprint_id]) for sub_task in issue_json_dict[key]['fields']['subtasks']]
+        current_sprint = virtual_sprint.sprint_dict[sprint_id]
+        project_id = issue_json_dict[key]['fields']['project']['id']
+        sub_task_list = [Issue(issue_json_dict[sub_task['key']], story_point_col_name_dict[project_id], current_sprint) for sub_task in issue_json_dict[key]['fields']['subtasks']]
         issue_unsorted.append(Issue(issue_json_dict[key],
-                                    story_point_col_name_dict[sprint_id],
-                                    virtual_sprint.sprint_dict[sprint_id],
+                                    story_point_col_name_dict[project_id],
+                                    current_sprint,
                                     sub_task_list))
 
     # time_sheet_by_date_dict -> date :  commit_hours
@@ -72,6 +81,7 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
     # personal_performance_dict -> owner_name : PersonalPerformance instance
     personal_performance_dict = {}
     for issue in issue_unsorted:
+        print(issue.sprint.start)
         pp = __get_personal_performance(issue.owner, personal_performance_dict)
         pp.add_issue(issue)
         for work_log in issue.work_logs:

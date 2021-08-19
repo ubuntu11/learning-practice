@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 
 DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
@@ -27,6 +27,13 @@ class Sprint:
             return self.end
         else:
             return self.complete
+
+    @staticmethod
+    def empty_sprint():
+        sprint = Sprint({'id': 0, 'state': '', 'name': '', 'goal': ''})
+        sprint.start = datetime(1970, 1, 1, tzinfo=timezone.utc)
+        sprint.end = datetime(3000, 12, 31, tzinfo=timezone.utc)
+        return sprint
 
 
 class VirtualSprint:
@@ -64,9 +71,9 @@ class Issue:
             self.work_logs = []
 
     def is_done(self):
-        if self.sprint is None or self.status != 'Done':
+        if self.sprint is None or self.status != 'Done' :
             return False
-        if self.resolution_at < self.sprint.start or self.resolution_at > self.sprint.finish():
+        if self.resolution_at > self.sprint.finish():
             return False
         return True
 
