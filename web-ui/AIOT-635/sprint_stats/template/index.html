@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+{% block title %}衝刺過程統計{% endblock %}
+
+{% block navbar %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row" style="margin-top:20px;">
+    <!-- 每日回報工時 -->
+    <div class="col-sm">
+      <canvas id="hoursDailyBarChart"></canvas>
+    </div>
+    <!-- 工時累計 -->
+    <div class="col-sm">
+      <canvas id="hoursTotalLineChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row" style="margin-top:20px;">
+    <!-- Performance氣泡圖 -->
+    <div class="col-sm-12 col-md-6">
+      <canvas id="issuePerformanceBubbleChart"></canvas>
+    </div>
+    <!-- 個人與團隊工時佔比 -->
+    <div class="col-sm-6 col-md-3">
+      <canvas id="hoursPieChart1"></canvas>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <canvas id="hoursPieChart2"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- 個人工作統計 -->
+<div class="container" style="margin-top:20px;">
+  <table class="table table-striped">
+  <caption style="border: inherit; background-color: lightgrey; caption-side: top;">
+    <strong style="margin-left: 20px;">個人工作統計</strong>
+  </caption>
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">負責人</th>
+      <th scope="col">故事點數</th>
+      <th scope="col">Task數量</th>
+      <th scope="col">Bug數量</th>
+      <th scope="col">投入時數</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in personal_performance_list %}
+    <tr>
+      <th scope="row">{{ p.owner }}</th>
+      <td class="text-right">{{ p.actual_stories }} / {{ p.stories }}</td>
+      <td class="text-right">{{ p.actual_tasks }} / {{ p.tasks }}</td>
+      <td class="text-right">{{ p.actual_bugs }} / {{ p.bugs }}</td>
+      <td class="text-right">{{ p.actual_hours }} / {{ p.hours }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<!-- Issue 列表 -->
+<div class="container" style="margin-top:20px;">
+  <table class="table table-striped">
+  <caption style="border: inherit; background-color: lightgrey; caption-side: top;">
+    <strong style="margin-left: 20px;">Issues</strong>
+  </caption>
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">類型</th>
+      <th scope="col">估計工時</th>
+      <th scope="col">投入工時</th>
+      <th scope="col">故事點數</th>
+      <th scope="col">負責人</th>
+      <th scope="col" width="35%">故事內容</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for issue in issues if not issue.is_sub_task() %}
+    <tr>
+      <th scope="row">
+        {% if issue.is_done() %}
+          <i class="far fa-calendar-check" style="color: green"></i>
+        {% elif sprint.complete %}
+          <i class="far fa-calendar-times" style="color: red"></i>
+        {% endif %}
+        {{ issue.id }}
+      </th>
+      <td>{{ issue.type.value }}</td>
+      <td class="text-right">{{ issue.time_estimate }}h</td>
+      <td class="text-right">{{ issue.time_spent }}h</td>
+      <td class="text-right">{{ issue.points }}</td>
+      <td>{{ issue.owner }}</td>
+      <td>{{ issue.summary }}</td>
+    </tr>
+        {% for sub_task in issue.sub_tasks %}
+            <tr>
+              <td class="text-right" colspan=3>{{ sub_task.time_estimate }}h</td>
+              <td class="text-right">{{ sub_task.time_spent }}h</td>
+              <td class="text-right"></td>
+              <td>{{ sub_task.owner }}</td>
+              <td>{{ sub_task.summary }}</td>
+            </tr>
+        {% endfor %}
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<script>
+    function makeLineChartDataSet(rValue, gValue, bValue, label, data) {
+      var dataSet = {
+            label: label,
+            fill: true,
+            lineTension: 0.1,
+            backgroundColor: `rgba(${rValue}, ${gValue}, ${bValue}, 0.4)`,
+            borderColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : data,
+            spanGaps: false
+        }
+
+        return dataSet;
+    }
+
+    function makeBubbleChartDataSet(rValue, gValue, bValue, label, data) {
+      var dataSet = {
+            label: label,
+            backgroundColor: `rgba(${rValue}, ${gValue}, ${bValue}, 0.4)`,
+            borderColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
+            borderWidth: 1,
+            hoverBackgroundColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
+            hoverBorderColor: "rgba(220,220,220,1)",
+            hoverBorderWidth: 1,
+            data: data}
+
+      return dataSet;
+    }
+
+    function makeChartData(labels, dataSets) {
+      var chartData = {
+        labels : labels,
+        datasets : dataSets
+      }
+
+      return chartData;
+    }
+
+    function makePieChartData(labels, data, legend) {
+      const backgroundColors = ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'
+      ];
+
+      return {
+        labels: labels,
+        datasets: [{
+        label: legend,
+        data: data,
+        backgroundColor: backgroundColors,
+        hoverOffset: 4
+        }]
+      };
+    }
+
+      // Global parameters:
+      // do not resize the chart canvas when its container does (keep at 600x400px)
+      Chart.defaults.global.responsive = false;
+
+      // get chart canvas
+      var holder1 = document.getElementById("hoursDailyBarChart");
+      var ctx1 = document.getElementById("hoursDailyBarChart").getContext("2d");
+      var ctx2 = document.getElementById("hoursTotalLineChart").getContext("2d");
+      var ctx3 = document.getElementById("issuePerformanceBubbleChart").getContext("2d");
+      var ctx4 = document.getElementById("hoursPieChart1").getContext("2d");
+      var ctx5 = document.getElementById("hoursPieChart2").getContext("2d");
+
+      var hours_by_day_labels = [{% for ts in hours_by_day %}
+        '{{ ts[0] }}',
+        {% endfor %}];
+
+      var hours_by_day_values = [{% for ts in hours_by_day %}
+        {{ ts[1] }},
+        {% endfor %}];
+
+      var hours_total_values = [{% for ts in hours_total %}
+        {{ ts[1] }},
+        {% endfor %}];
+
+      var story_performance_values = [{% for p in issues %}
+          {% if p.is_story() %}
+          { x : {{ p.get_total_time_estimate() }} , y : {{ p.get_total_time_spent() }} , r : {{ p.points }} },
+          {% endif %}
+        {% endfor %}
+      ];
+
+      var task_performance_values = [{% for p in issues %}
+          {% if p.type == "Task" %}
+          { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ 1.0  }} },
+          {% endif %}
+        {% endfor %}
+      ];
+
+      var bug_performance_values = [{% for p in issues %}
+          {% if p.type == "Bug" %}
+          { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ 0.5 }} },
+          {% endif %}
+        {% endfor %}
+      ];
+
+      ds = makeLineChartDataSet(75, 192, 192, '每日回報工時', hours_by_day_values);
+      var hoursDailyBarChart = new Chart(ctx1, {
+        type: 'bar',
+        data: makeChartData(hours_by_day_labels, [ ds ]),
+        options: {
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                       return tooltipItems.yLabel + ' hours';
+                     }
+            }
+          },
+        }
+      });
+
+      var hoursTotalLineChart = new Chart(ctx2, {
+        type: 'line',
+        data: makeChartData(hours_by_day_labels, [makeLineChartDataSet(75, 192, 192, '每日累積工時', hours_total_values)]),
+        options: {
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                       return tooltipItems.yLabel + ' hours';
+                     }
+            }
+          },
+        }
+      });
+
+      var storyDataSet = makeBubbleChartDataSet(96, 188, 49, 'Story', story_performance_values);
+      var taskDataSet = makeBubbleChartDataSet(69, 172, 235, 'Task', task_performance_values);
+      var bugDataSet = makeBubbleChartDataSet(231, 72, 51, 'Bug', bug_performance_values);
+      var issuePerformanceBubbleChart = new Chart(ctx3, {
+        type: 'bubble',
+        data: makeChartData([], [storyDataSet, taskDataSet, bugDataSet])
+      });
+
+      const pie_chart_labels = [{% for p in personal_performance_list %}
+        '{{ p.owner }}',
+      {% endfor %}
+      ];
+
+      const pie_chart_plan_data = [{% for p in personal_performance_list %}
+        {{ p.hours }},
+      {% endfor %}
+      ];
+
+      const pie_chart_actual_data = [{% for p in personal_performance_list %}
+        {{ p.actual_hours }},
+      {% endfor %}
+      ];
+
+      var hoursPieChart1 = new Chart(ctx4, {
+        type: 'pie',
+        data: makePieChartData(pie_chart_labels, pie_chart_plan_data),
+        options: {
+          legend: {
+            display: false
+          },
+          title: {
+              display: true,
+              text: '預估工時佔比'
+          }
+        }
+      });
+
+      var hoursPieChart2 = new Chart(ctx5, {
+        type: 'pie',
+        data: makePieChartData(pie_chart_labels, pie_chart_actual_data),
+        options: {
+          legend: {
+            display: false
+          },
+          title: {
+              display: true,
+              text: '實際工時佔比'
+          }
+        }
+      });
+
+      // get the text element below the chart
+      var pointSelected = document.getElementById("pointSelected");
+
+      // create a callback function for updating the selected index on the chart
+      holder1.onclick = function(evt){
+        var activePoint = hoursDailyBarChart.getElementAtEvent(evt);
+        console.log(activePoint);
+        console.log('x:' + activePoint[0]._view.x);
+        console.log('maxWidth: ' + activePoint[0]._xScale.maxWidth);
+        console.log('y: ' + activePoint[0]._view.y);
+        console.log('index: ' + activePoint[0]._index);
+        pointSelected.innerHTML = 'Point selected... index: ' + activePoint[0]._index;
+      };
+    </script>
+
+{% endblock %}
