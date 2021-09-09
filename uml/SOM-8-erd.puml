@@ -1,0 +1,63 @@
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "Gateway" as e01 {
+  id : number <<generated>>
+  --
+  name : String
+  certificate : String
+  privateKey : String
+}
+
+entity "Equipment" as e02 {
+  id : number <<generated>>
+  --
+  name : String
+}
+
+entity "EquipmentProfile" as e03 {
+  id : number <<generated>>
+  --
+  name : String
+}
+
+entity "EquipAttributeValue" as e04 {
+  id : number <<generated>>
+  --
+  refNo : Integer
+  value : String
+}
+
+entity "EquipmentAttribute" as e05 {
+  id : number <<generated>>
+  --
+  name : String
+  type : AttributeType
+  refNo : Integer
+  seqNo : Integer
+  unit : String
+  isIoTData : boolean
+  isStatusIndicator : boolean
+}
+
+entity "EquipmentIndicator"  as e06 {
+  id : number <<generated>>
+  --
+  attrRefNo : Integer
+  initValue : Float
+  valueLimit : Float
+
+}
+
+e01 ||..|{ e02
+e02 ||..o| e03
+e02 ||.r.o{ e04
+e02 ||.l.o{ e06
+e03 ||.r.|{ e05
+
+@enduml

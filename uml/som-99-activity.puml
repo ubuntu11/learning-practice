@@ -1,0 +1,37 @@
+@startuml
+skinparam style strictuml
+start
+
+if (multiprocessor?) then (yes)
+  fork
+    :Task1;
+  fork again
+    :Task2;
+  end fork
+else (no)
+    :Task1;
+    :Task2;
+endif
+stop
+@enduml
+
+
+@startuml
+skinparam style strictuml
+start
+if (先建立設備?) then (yes)
+    repeat
+      :建立設備;
+    repeat while (更多設備?)
+else (no)
+  :建立SmartQ Gateway;
+  :建立公私鑰對與證書;
+  :建立IoT Core Gateway;
+  repeat
+  if (設備尚未建為IoT Core Device?) then (yes)
+      :建立IoT Core Device;
+  endif
+  repeat while (更多設備?)
+endif
+stop
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam backgroundColor transparent
+
+package "雲端" {
+  node "台電" {
+  DNP3 - [電力交易平台]
+  }
+
+  node "GCP" {
+  component [SmartQ O&M] #Gold
+  HTTP - [SmartQ O&M]
+  MQTT - [Cloud IoT Core]
+  }
+}
+
+package "地端" {
+  node "Gateway" {
+    [Node-Red]
+    component [SmartQ Gateway] #Gold
+    [InfluxDB]
+    [Grafana]
+  }
+  104 - [SCADA]
+  MODBUS - [受監控設備]
+}
+
+[SmartQ Gateway] -up-> HTTP : send
+[SmartQ Gateway] -up-> DNP3 : send
+[SmartQ Gateway] -up-> MQTT : send
+[SCADA] -right-> MODBUS : read
+[Node-Red] -down-> 104 : read
+[Node-Red] .down.> MODBUS : read
+[Node-Red] -right-> [InfluxDB] : write
+
+@enduml

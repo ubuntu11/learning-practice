@@ -1,0 +1,40 @@
+@startuml
+abstract AbstractGoogleJsonClient
+class GenericJson
+class CloudIot.Builder
+class PublicKeyCredential
+class DeviceCredential
+class Device
+class GatewayConfig
+
+/' relationships '/
+AbstractGoogleJsonClient <|-- CloudIot
+GenericJson <|-r- PublicKeyCredential
+GenericJson <|-l- DeviceCredential
+GenericJson <|-- Device
+GenericJson <|-- GatewayConfig
+
+/' class method '/
+DeviceCredential : setPublicKey(PublicKeyCredential publicKey)
+@enduml
+
+@startuml
+interface CloudDeviceService
+class FakeCloudDeviceServiceImpl
+class GoogleCloudDeviceService {
+  +void : create(DeviceType deviceType, String deviceId)
+  -void : createDeviceWithRs256(DeviceType deviceType, String deviceId)
+  -Device : makeDeviceInstance(String deviceId)
+  -Device : makeGatewayInstance(String gatewayId)
+}
+class ShutdownManager
+enum DeviceType {
+  Gateway
+  DEVICE
+}
+
+/' relationships '/
+CloudDeviceService <|-r- FakeCloudDeviceServiceImpl
+CloudDeviceService <|-- GoogleCloudDeviceService
+
+@enduml
