@@ -1,0 +1,22 @@
+@startuml
+Frontend -> Controller: Request
+Controller -> Controller: Bean Validation
+Controller --> Frontend: Http 4XX
+
+Controller -> Service: Input Data
+Service -> Service: Business Logic Check
+Service -> Controller: Exception
+Controller --> Frontend: Http 4XX
+Service -> Service: Execute Logics
+Service -> Repository: DB Operation
+Repository -> Database: Data
+Controller -> Frontend: Http 20X
+@enduml
+
+@startuml
+class EquipmentApplication
+class ResourceConfig
+class JerseyConfig
+
+ResourceConfig <|-- JerseyConfig
+@enduml
