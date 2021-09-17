@@ -10,6 +10,7 @@ entity "Gateway" as e01 {
   id : number <<generated>>
   --
   name : String
+  parentID : Long
   certificate : String
   privateKey : String
 }
@@ -18,6 +19,7 @@ entity "Equipment" as e02 {
   id : number <<generated>>
   --
   name : String
+  parentID : Long
 }
 
 entity "EquipmentProfile" as e03 {
@@ -48,7 +50,7 @@ entity "EquipmentAttribute" as e05 {
 entity "EquipmentIndicator"  as e06 {
   id : number <<generated>>
   --
-  attrRefNo : Integer
+  refNo : Integer
   initValue : Float
   valueLimit : Float
 

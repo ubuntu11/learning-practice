@@ -1,0 +1,69 @@
+@startuml
+enum SiteType {
+  BESS
+  AFC
+  SOLAR
+  GENERAL
+}
+class Site {
+  String name
+  SiteType type
+}
+class Gateway {
+  String name
+}
+class Equipment {
+  String name
+}
+
+' relation
+Site *-d- Gateway
+Site *-d- Equipment
+Gateway *-l- Equipment
+@enduml
+
+@startuml
+class TreeRoot {
+  Long companyId
+}
+class TreeNode {
+  Long nodeId
+  Long parentNodeId
+  TreeNodeElement element
+  List<TreeNodeItem> children
+}
+enum ObjectType {
+  SITE
+  GATEWAY
+  EQUIPMENT
+}
+enum SiteType {
+  BESS
+  AFC
+  SOLAR
+  GENERL
+}
+interface TreeNodeItem {
+  Long getNodeId()
+  Long getParentNodeId()
+  Strin getName()
+  ObjectType getObjectType()
+}
+class Site {
+  String name
+  SiteType type
+}
+class Gateway {
+  String name
+}
+class Equipment {
+  String name
+}
+
+' relation
+TreeRoot "1" *-- "many" TreeNode : contains
+TreeNode "1" *-- "1" TreeNodeItem : contains
+TreeNodeItem <.l. Site
+TreeNodeItem <.r. Gateway
+TreeNodeItem <.u. Equipment
+@enduml
