@@ -17,8 +17,6 @@ class Equipment {
 }
 
 ' relation
-Site *-d- Gateway
-Site *-d- Equipment
 Gateway *-l- Equipment
 @enduml
 
