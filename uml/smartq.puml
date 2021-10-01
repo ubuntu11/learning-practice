@@ -15,6 +15,7 @@ package "雲端" {
   component [SmartQ O&M] #Gold
   HTTP - [SmartQ O&M]
   MQTT - [Cloud IoT Core]
+  [Cloud Pub/Sub]
   }
 }
 
@@ -29,9 +30,11 @@ package "地端" {
   MODBUS - [受監控設備]
 }
 
+[Cloud IoT Core] -u-> [Cloud Pub/Sub] : publish
+[SmartQ O&M] -u-> [Cloud Pub/Sub] : subscribe
 [SmartQ Gateway] -up-> HTTP : send
 [SmartQ Gateway] -up-> DNP3 : send
-[SmartQ Gateway] -up-> MQTT : send
+[Node-Red] -up-> MQTT : send
 [SCADA] -right-> MODBUS : read
 [Node-Red] -down-> 104 : read
 [Node-Red] .down.> MODBUS : read
