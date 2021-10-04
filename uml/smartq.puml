@@ -36,7 +36,7 @@ package "地端" {
 [SmartQ Gateway] -up-> DNP3 : send
 [Node-Red] -up-> MQTT : send
 [SCADA] -right-> MODBUS : read
-[Node-Red] -down-> 104 : read
+[SmartQ Gateway] -down-> 104 : read
 [Node-Red] .down.> MODBUS : read
 [Node-Red] -right-> [InfluxDB] : write
 
