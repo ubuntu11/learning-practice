@@ -1,4 +1,4 @@
-FROM aiothwacom/python
+FROM aiothwacom/python:debian
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
