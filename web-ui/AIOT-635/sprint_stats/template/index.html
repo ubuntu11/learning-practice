@@ -12,12 +12,10 @@
     <!-- 每日回報工時 -->
     <div class="col-sm">
       <canvas id="hoursDailyBarChart"></canvas>
-      <!-- <img src="images/barChart.png" class="img-fluid" alt="Responsive image"> -->
     </div>
     <!-- 工時累計 -->
     <div class="col-sm">
       <canvas id="hoursTotalLineChart"></canvas>
-      <!-- <img src="images/burnDown.png" class="img-fluid" alt="Responsive image"> -->
     </div>
   </div>
 </div>
@@ -27,12 +25,10 @@
     <!-- Performance氣泡圖 -->
     <div class="col-sm-12 col-md-6">
       <canvas id="issuePerformanceBubbleChart"></canvas>
-      <!-- <img src="images/bubbleChart.png" class="img-fluid" alt="Responsive image"> -->
     </div>
     <!-- 個人與團隊工時佔比 -->
     <div class="col-sm-6 col-md-3">
       <canvas id="hoursPieChart1"></canvas>
-      <!--<img src="images/DualPiesLegend.png" class="img-fluid" alt="Responsive image">-->
     </div>
     <div class="col-sm-6 col-md-3">
       <canvas id="hoursPieChart2"></canvas>
@@ -87,7 +83,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for issue in issues %}
+    {% for issue in issues if not issue.is_sub_task() %}
     <tr>
       <th scope="row">
         {% if issue.is_done() %}
@@ -97,13 +93,22 @@
         {% endif %}
         {{ issue.id }}
       </th>
-      <td>{{ issue.type }}</td>
-      <td class="text-right">{{ issue.time_estimate_str }}</td>
-      <td class="text-right">{{ issue.time_spent_str }}</td>
+      <td>{{ issue.type.value }}</td>
+      <td class="text-right">{{ issue.time_estimate }}h</td>
+      <td class="text-right">{{ issue.time_spent }}h</td>
       <td class="text-right">{{ issue.points }}</td>
       <td>{{ issue.owner }}</td>
       <td>{{ issue.summary }}</td>
     </tr>
+        {% for sub_task in issue.sub_tasks %}
+            <tr>
+              <td class="text-right" colspan=3>{{ sub_task.time_estimate }}h</td>
+              <td class="text-right">{{ sub_task.time_spent }}h</td>
+              <td class="text-right"></td>
+              <td>{{ sub_task.owner }}</td>
+              <td>{{ sub_task.summary }}</td>
+            </tr>
+        {% endfor %}
     {% endfor %}
   </tbody>
 </table>
@@ -201,8 +206,8 @@
         {% endfor %}];
 
       var story_performance_values = [{% for p in issues %}
-          {% if p.type == "Story" %}
-          { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ p.points }} },
+          {% if p.is_story() %}
+          { x : {{ p.get_total_time_estimate() }} , y : {{ p.get_total_time_spent() }} , r : {{ p.points }} },
           {% endif %}
         {% endfor %}
       ];
@@ -281,6 +286,9 @@
         type: 'pie',
         data: makePieChartData(pie_chart_labels, pie_chart_plan_data),
         options: {
+          legend: {
+            display: false
+          },
           title: {
               display: true,
               text: '預估工時佔比'
@@ -292,6 +300,9 @@
         type: 'pie',
         data: makePieChartData(pie_chart_labels, pie_chart_actual_data),
         options: {
+          legend: {
+            display: false
+          },
           title: {
               display: true,
               text: '實際工時佔比'
