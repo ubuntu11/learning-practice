@@ -1,3 +1,5 @@
 .ideea/
 __pycache__/
 venv/
+.idea/
+instance/

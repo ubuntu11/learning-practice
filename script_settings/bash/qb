@@ -1,0 +1,43 @@
+#
+# bash script to help building SmartQ source code
+#
+#!/bin/bash
+
+usage(){
+  echo "Usage: $0 [-a] [-s] [-u] module1 module2 ..."
+  echo "       -a : build all modules"
+  echo "       -s : enable sonarqube check"
+  echo "       -u : enable unit test"
+  exit
+}
+
+BUILD_ARGS="-Dspotbugs.skip=true -Dmaven.test.skip=true"
+MODULES=""
+
+while getopts ahsu opt
+do
+   case $opt in    #Check option letter
+   a) BUILD_ARGS="$BUILD_ARGS -P all" ;;
+   s) BUILD_ARGS=$(echo $BUILD_ARGS | sed "s/-Dspotbugs.skip=true//g") ;;
+   u) BUILD_ARGS=$(echo $BUILD_ARGS | sed "s/-Dmaven.test.skip=true//g") ;;
+   h) usage;;
+   esac
+done
+
+while (($#))
+do
+  if [[ ! $1 =~ ^\-.* ]]
+  then
+    MODULES="$1,$MODULES"
+  fi
+  shift
+done
+
+MODULES=$(echo $MODULES | sed 's/,*$//g')
+
+if [ -z ${MODULES} ]
+then
+  mvn $BUILD_ARGS -Ddocker.image.tag=$(date +"%s") clean package docker:build
+else
+  mvn $BUILD_ARGS -Ddocker.image.tag=$(date +"%s") -pl $MODULES clean package docker:build
+fi
