@@ -28,3 +28,5 @@ hs_err_pid*
 # Jupyter
 .ipynb_checkpoints/
 
+# Arduino libraries
+Arduino/libraries/
