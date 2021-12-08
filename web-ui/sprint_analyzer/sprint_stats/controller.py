@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, current_app
-from sprint_stats.main import read_csv_file
-from sprint_stats.service import load_sprint_issues, get_sprint
+from flask import Blueprint, render_template
+from sprint_stats.service import load_sprint_issues
 import re
 
 frontend = Blueprint('frontend', __name__)

@@ -33,10 +33,12 @@ def get_sprint(sprint_url: str, sprint_id: int):
     :param sprint_id: 衝刺id, ex: 104
     :return: an instance of Sprint class
     """
-    # sprint_url = f'{__base_url()}sprint/{sprint_id}'
-    print('URL', sprint_url)
-    response = requests.get(sprint_url, headers=__request_header())
-    return Sprint(response.json())
+    try:
+        response = requests.get(sprint_url, headers=__request_header())
+        requests.raise_for_status()
+        return Sprint(response.json())
+    except requests.exceptions.HTTPError as err:
+        raise SystemExit(err)
 
 
 def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
