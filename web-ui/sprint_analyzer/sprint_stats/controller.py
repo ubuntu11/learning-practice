@@ -16,15 +16,17 @@ def index(team_id: int, sprint_id_list: str):
     if not re.match(r'^\d+(?:,\d+)*,?$', sprint_id_list):
         return "Please input a list of integers, split with ','"
     sprint_id_list = [int(x) for x in sprint_id_list.split(',')]
-    sprints, issues, hours_by_day, hours_total, personal_performance_list = \
-        load_sprint_issues(f'RD{team_id}', sprint_id_list)
-
-    return render_template('index.html',
-                           sprint=sprints[0],
-                           issues=issues,
-                           personal_performance_list=personal_performance_list,
-                           hours_by_day=hours_by_day,
-                           hours_total=hours_total)
+    try:
+        sprints, issues, hours_by_day, hours_total, personal_performance_list = \
+            load_sprint_issues(f'RD{team_id}', sprint_id_list)
+        return render_template('index.html',
+                               sprint=sprints[0],
+                               issues=issues,
+                               personal_performance_list=personal_performance_list,
+                               hours_by_day=hours_by_day,
+                               hours_total=hours_total)
+    except RuntimeError as err:
+        return render_template('error.html', error=err)
 
 
 def __add_hours_total(hours_record: dict):

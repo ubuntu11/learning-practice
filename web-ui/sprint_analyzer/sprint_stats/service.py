@@ -35,10 +35,10 @@ def get_sprint(sprint_url: str, sprint_id: int):
     """
     try:
         response = requests.get(sprint_url, headers=__request_header())
-        requests.raise_for_status()
+        response.raise_for_status()
         return Sprint(response.json())
     except requests.exceptions.HTTPError as err:
-        raise SystemExit(err)
+        raise RuntimeError(err)
 
 
 def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
@@ -49,6 +49,7 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
     :return: a list of Issue instances
     """
     sprints = [get_sprint(f'{__base_url(team_id)[i]}/sprint/{s_id}', s_id) for i, s_id in enumerate(sprint_id_list)]
+
     virtual_sprint = VirtualSprint(sprints)
     issue_unsorted = []
     issues_json_list = []
