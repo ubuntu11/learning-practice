@@ -34,7 +34,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    bootstrap = Bootstrap(app)
+    Bootstrap(app)
 
     app.register_blueprint(frontend)
     app.url_map.converters['sprint_id_list'] = IntListConverter

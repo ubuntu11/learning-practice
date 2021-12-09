@@ -33,10 +33,12 @@ def get_sprint(sprint_url: str, sprint_id: int):
     :param sprint_id: 衝刺id, ex: 104
     :return: an instance of Sprint class
     """
-    # sprint_url = f'{__base_url()}sprint/{sprint_id}'
-    print('URL', sprint_url)
-    response = requests.get(sprint_url, headers=__request_header())
-    return Sprint(response.json())
+    try:
+        response = requests.get(sprint_url, headers=__request_header())
+        response.raise_for_status()
+        return Sprint(response.json())
+    except requests.exceptions.HTTPError as err:
+        raise RuntimeError(err)
 
 
 def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
@@ -47,6 +49,7 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
     :return: a list of Issue instances
     """
     sprints = [get_sprint(f'{__base_url(team_id)[i]}/sprint/{s_id}', s_id) for i, s_id in enumerate(sprint_id_list)]
+
     virtual_sprint = VirtualSprint(sprints)
     issue_unsorted = []
     issues_json_list = []
