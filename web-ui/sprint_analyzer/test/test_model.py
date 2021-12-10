@@ -4,28 +4,9 @@ from sprint_stats.model import Issue, IssueType
 import os
 
 
-@pytest.fixture
-def som_sprint_128():
+def som_sprint_issues(sprint_id):
     here = os.path.dirname(os.path.abspath(__file__))
-    f = open(os.path.join(here, 'test_data_sprint_128.json'), 'r')
-    data = json.load(f)
-    f.close()
-    return data
-
-
-@pytest.fixture
-def som_sprint_127():
-    here = os.path.dirname(os.path.abspath(__file__))
-    f = open(os.path.join(here, 'test_data_sprint_127.json'), 'r')
-    data = json.load(f)
-    f.close()
-    return data
-
-
-@pytest.fixture
-def som_sprint_126():
-    here = os.path.dirname(os.path.abspath(__file__))
-    f = open(os.path.join(here, 'test_data_sprint_126.json'), 'r')
+    f = open(os.path.join(here, F'test_data_sprint_{sprint_id}.json'), 'r')
     data = json.load(f)
     f.close()
     return data
@@ -34,50 +15,43 @@ def som_sprint_126():
 def test_issue_type_enum():
     assert IssueType.STORY == IssueType['Story'.upper()]
     assert IssueType.TASK == IssueType['Task'.upper()]
-    assert IssueType.SUB_TASK == IssueType['Sub-task'.upper().replace('-','_')]
+    assert IssueType.SUB_TASK == IssueType['Sub-task'.upper().replace('-', '_')]
     assert IssueType.BUG == IssueType['Bug'.upper()]
 
 
-def test_sprint_128(som_sprint_128):
-    assert len(som_sprint_128['issues']) == 7
+@pytest.mark.parametrize('sprint_id, issue_count, issue_id, issue_summary, issue_type, time_estimate, '
+                         'time_spent, points, custom_field_name',
+                         [(128, 7, 'SOM-57', '身為設備管理員，我希望能建立及管理設備描述檔，以方便我可以套用至設備',
+                           IssueType.STORY, 2, 0, 5, 'customfield_10027'),
+                          (126, 8, 'SOM-50', 'GKE部署的container出現與Hikari CP有關的警告訊息',
+                           IssueType.BUG, 2, 1.5, 0, 'customfield_10027'),
+                          (127, 2, 'SRP-30', '循軟體中心流程提出正式報價', IssueType.TASK, 3, 1, 0,
+                           'customfield_10027'),
+                          (135, 13, 'SOM-176', 'O&M 告警功能需求分析', IssueType.TASK, 36, 36, 0,
+                           'customfield_10027')
+                           ])
+def test_sprints(sprint_id, issue_count, issue_id, issue_summary, issue_type, time_estimate,
+                    time_spent, points, custom_field_name):
+    issue_data = som_sprint_issues(sprint_id)
+    assert len(issue_data['issues']) == issue_count
 
-    issue_dict = {issue['key'] : issue for issue in som_sprint_128['issues']}
-    issue = Issue(issue_dict['SOM-57'], 'customfield_10027')
+    issue_dict = {issue['key']: issue for issue in issue_data['issues']}
+    issue = Issue(issue_dict[issue_id], custom_field_name)
 
-    assert issue.id == 'SOM-57'
-    assert issue.summary == '身為設備管理員，我希望能建立及管理設備描述檔，以方便我可以套用至設備'
-    assert issue.type == IssueType.STORY
-    assert issue.is_story()
-    assert issue.time_estimate == 2.0
-    assert issue.time_spent == 0.0
-    assert issue.points == 5
-
-
-def test_sprint_126(som_sprint_126):
-    assert len(som_sprint_126['issues']) == 8
-
-    issue_dict = {issue['key'] : issue for issue in som_sprint_126['issues']}
-    issue = Issue(issue_dict['SOM-50'], 'customfield_10027')
-
-    assert issue.id == 'SOM-50'
-    assert issue.summary == 'GKE部署的container出現與Hikari CP有關的警告訊息'
-    assert issue.type == IssueType.BUG
-    assert issue.is_bug()
-    assert issue.time_estimate == 2.0
-    assert issue.time_spent == 1.5
-    assert issue.points == 0
+    assert issue.id == issue_id
+    assert issue.summary == issue_summary
+    assert issue.type == issue_type
+    assert issue.time_estimate == time_estimate
+    assert issue.time_spent == time_spent
+    assert issue.points == points
 
 
-def test_sprint_127(som_sprint_127):
-    assert len(som_sprint_127['issues']) == 2
-
-    issue_dict = {issue['key'] : issue for issue in som_sprint_127['issues']}
-    issue = Issue(issue_dict['SRP-30'], 'customfield_10027')
-
-    assert issue.id == 'SRP-30'
-    assert issue.summary == '循軟體中心流程提出正式報價'
-    assert issue.type == IssueType.TASK
-    assert issue.is_task()
-    assert issue.time_estimate == 3.0
-    assert issue.time_spent == 1.0
-    assert issue.points == 0
+def test_sprint_135():
+    issue_data = som_sprint_issues(135)
+    issues = [Issue(issue, 'customfield_10027') for issue in issue_data['issues']]
+    tasks = [issue for issue in issues if issue.is_task() or issue.is_sub_task()]
+    stories = [issue for issue in issues if issue.is_story()]
+    bugs = [issue for issue in issues if issue.is_bug()]
+    assert len(stories) == 2
+    assert len(tasks) == 11
+    assert len(bugs) == 0

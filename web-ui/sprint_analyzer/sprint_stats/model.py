@@ -142,9 +142,9 @@ class PersonalPerformance:
     def __add_issue_done(self, issue: Issue):
         if not issue.is_done():
             return
-        if issue.type == 'Story':
+        if issue.type == IssueType.STORY:
             self.actual_stories += 1
-        elif issue.type == 'Task':
+        elif issue.type == IssueType.TASK or issue.type == IssueType.SUB_TASK:
             self.actual_tasks += 1
         else:
             self.actual_bugs += 1

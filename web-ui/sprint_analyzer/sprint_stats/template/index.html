@@ -45,20 +45,20 @@
   <thead class="thead-light">
     <tr>
       <th scope="col">負責人</th>
-      <th scope="col">故事點數</th>
-      <th scope="col">Task數量</th>
-      <th scope="col">Bug數量</th>
-      <th scope="col">投入時數</th>
+      <th scope="col">Story數量(實際／預計)</th>
+      <th scope="col">Task數量(實際／預計)</th>
+      <th scope="col">Bug數量(實際／預計)</th>
+      <th scope="col">投入時數(實際／預計)</th>
     </tr>
   </thead>
   <tbody>
     {% for p in personal_performance_list %}
     <tr>
       <th scope="row">{{ p.owner }}</th>
-      <td class="text-right">{{ p.actual_stories }} / {{ p.stories }}</td>
-      <td class="text-right">{{ p.actual_tasks }} / {{ p.tasks }}</td>
-      <td class="text-right">{{ p.actual_bugs }} / {{ p.bugs }}</td>
-      <td class="text-right">{{ p.actual_hours }} / {{ p.hours }}</td>
+      <td class="text-left">{{ p.actual_stories }} / {{ p.stories }}</td>
+      <td class="text-left">{{ p.actual_tasks }} / {{ p.tasks }}</td>
+      <td class="text-left">{{ p.actual_bugs }} / {{ p.bugs }}</td>
+      <td class="text-left">{{ p.actual_hours }} / {{ p.hours }}</td>
     </tr>
     {% endfor %}
   </tbody>
@@ -102,7 +102,15 @@
     </tr>
         {% for sub_task in issue.sub_tasks %}
             <tr>
-              <td class="text-right" colspan=3>{{ sub_task.time_estimate }}h</td>
+              <td class="text-right" colspan=2>
+                {% if sub_task.is_done() %}
+                <i class="far fa-calendar-check" style="color: green"></i>
+                {% elif sprint.complete %}
+                <i class="far fa-calendar-times" style="color: red"></i>
+                {% endif %}
+                {{ sub_task.id }}
+              </td>
+              <td class="text-right">{{ sub_task.time_estimate }}h</td>
               <td class="text-right">{{ sub_task.time_spent }}h</td>
               <td class="text-right"></td>
               <td>{{ sub_task.owner }}</td>
