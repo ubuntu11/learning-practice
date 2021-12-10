@@ -51,7 +51,7 @@ Open your browser and visit http://localhost:5000
 Build docker image:
 
 ```
-docker build --build-arg config_file=config_rd2.py -t aiothwacom/sprint-analyzer:rd2 .
+docker build --build-arg config_file=config.py.sample --build-arg JIRA_CREDENTIAL_BASE64=${CREDENTIAL} -t aiothwacom/sprint-analyzer:$(date +"%s") .
 ```
 
 ## Reference

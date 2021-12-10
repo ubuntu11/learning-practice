@@ -9,9 +9,9 @@ ENV JIRA_CREDENTIAL_BASE64 ${JIRA_CREDENTIAL_BASE64}
 RUN mkdir /app
 RUN mkdir /app/instance
 COPY sprint_stats /app/sprint_stats
-COPY instance/$config_file /app/instance/config.py
+COPY $config_file /app/instance/config.py
 WORKDIR /app
- 
+
 RUN pip install --upgrade pip
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
