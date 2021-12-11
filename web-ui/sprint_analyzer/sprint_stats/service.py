@@ -84,7 +84,6 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
     # personal_performance_dict -> owner_name : PersonalPerformance instance
     personal_performance_dict = {}
     for issue in issue_unsorted:
-        print(issue.sprint.start)
         pp = __get_personal_performance(issue.owner, personal_performance_dict)
         pp.add_issue(issue)
         for work_log in issue.work_logs:

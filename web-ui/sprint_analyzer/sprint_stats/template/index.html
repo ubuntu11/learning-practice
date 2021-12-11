@@ -83,9 +83,14 @@
     </tr>
   </thead>
   <tbody>
-    {% for issue in issues if not issue.is_sub_task() %}
+    {# 定義一個macro，用來顯示每一筆Issue，可能是Story,Task,Bug或Subtask #}
+    {% macro issue_line_data(issue) -%}
     <tr>
-      <th scope="row">
+      {% if issue.is_sub_task() %}
+      <th scope="row" class="text-center">
+      {% else %}
+      <th scope="row" class="text-left">
+      {% endif %}
         {% if issue.is_done() %}
           <i class="far fa-calendar-check" style="color: green"></i>
         {% elif sprint.complete %}
@@ -100,22 +105,14 @@
       <td>{{ issue.owner }}</td>
       <td>{{ issue.summary }}</td>
     </tr>
+    {%- endmacro %}
+
+    {# 對非subtask做for-loop #}
+    {% for issue in issues if not issue.is_sub_task() %}
+    {{ issue_line_data(issue) }}
+        {# 對subtasks做for-loop #}
         {% for sub_task in issue.sub_tasks %}
-            <tr>
-              <td class="text-right" colspan=2>
-                {% if sub_task.is_done() %}
-                <i class="far fa-calendar-check" style="color: green"></i>
-                {% elif sprint.complete %}
-                <i class="far fa-calendar-times" style="color: red"></i>
-                {% endif %}
-                {{ sub_task.id }}
-              </td>
-              <td class="text-right">{{ sub_task.time_estimate }}h</td>
-              <td class="text-right">{{ sub_task.time_spent }}h</td>
-              <td class="text-right"></td>
-              <td>{{ sub_task.owner }}</td>
-              <td>{{ sub_task.summary }}</td>
-            </tr>
+          {{ issue_line_data(sub_task) }}
         {% endfor %}
     {% endfor %}
   </tbody>
@@ -123,7 +120,26 @@
 </div>
 
 <script>
-    function makeLineChartDataSet(rValue, gValue, bValue, label, data) {
+    /**
+     * 產生繪製圖型所需要的Dataset(資料集),例如:
+     * {
+          label: ["China"],
+          backgroundColor: "rgba(255,221,50,0.2)",
+          borderColor: "rgba(255,221,50,1)",
+          data: [{
+            x: 21269017,
+            y: 5.245,
+            r: 15
+          }]
+        }
+     *
+     * @param {number} rValue RGB中的紅色值
+     * @param {number} gValue RGB中的綠色值
+     * @param {number} bValue RGB中的藍色值
+     * @param {string} label  資料集標籤
+     * @param {array} data    資料集所包含的資料
+     */
+    function makeChartDataSet(rValue, gValue, bValue, label, data) {
       var dataSet = {
             label: label,
             fill: true,
@@ -150,20 +166,30 @@
         return dataSet;
     }
 
-    function makeBubbleChartDataSet(rValue, gValue, bValue, label, data) {
-      var dataSet = {
-            label: label,
-            backgroundColor: `rgba(${rValue}, ${gValue}, ${bValue}, 0.4)`,
-            borderColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
-            borderWidth: 1,
-            hoverBackgroundColor: `rgba(${rValue}, ${gValue}, ${bValue}, 1)`,
-            hoverBorderColor: "rgba(220,220,220,1)",
-            hoverBorderWidth: 1,
-            data: data}
-
-      return dataSet;
-    }
-
+    /**
+     * 產生繪製圖型所需要的Dataset(資料集)集合,意即多個Dataset的組合,例如:
+     * {
+        labels: "Africa",
+        datasets: [
+          {
+            label: ["China"],
+            backgroundColor: "rgba(255,221,50,0.2)",
+            borderColor: "rgba(255,221,50,1)",
+            data: [{
+              x: 21269017,
+              y: 5.245,
+              r: 15
+            }]
+          },
+          {
+          ...
+          }
+        ]
+       }
+     *
+     * @param {string} labels Dataset集合的標籤,有點怪,雖然名稱是複數型,但範例都只是用一個字串
+     * @param {array} gValue 組成這個Dataset集合的多個資料集
+     */
     function makeChartData(labels, dataSets) {
       var chartData = {
         labels : labels,
@@ -213,28 +239,31 @@
         {{ ts[1] }},
         {% endfor %}];
 
-      var story_performance_values = [{% for p in issues %}
-          {% if p.is_story() %}
-          { x : {{ p.get_total_time_estimate() }} , y : {{ p.get_total_time_spent() }} , r : {{ p.points }} },
-          {% endif %}
+      var story_performance_values = [{% for p in issues if p.is_story() %}
+          { x : {{ p.get_total_time_estimate() }} ,
+            y : {{ p.get_total_time_spent() }} ,
+            r : {{ p.points }}
+          },
         {% endfor %}
       ];
 
-      var task_performance_values = [{% for p in issues %}
-          {% if p.type == "Task" %}
-          { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ 1.0  }} },
-          {% endif %}
+      var task_performance_values = [{% for p in issues if p.is_task() %}
+          { x : {{ p.time_estimate }} ,
+            y : {{ p.time_spent }} ,
+            r : {{ 2.0  }}
+          },
         {% endfor %}
       ];
 
-      var bug_performance_values = [{% for p in issues %}
-          {% if p.type == "Bug" %}
-          { x : {{ p.time_estimate }} , y : {{ p.time_spent }} , r : {{ 0.5 }} },
-          {% endif %}
+      var bug_performance_values = [{% for p in issues if p.is_bug() %}
+          { x : {{ p.time_estimate }} ,
+            y : {{ p.time_spent }} ,
+            r : {{ 1.0 }}
+          },
         {% endfor %}
       ];
 
-      ds = makeLineChartDataSet(75, 192, 192, '每日回報工時', hours_by_day_values);
+      ds = makeChartDataSet(75, 192, 192, '每日回報工時', hours_by_day_values);
       var hoursDailyBarChart = new Chart(ctx1, {
         type: 'bar',
         data: makeChartData(hours_by_day_labels, [ ds ]),
@@ -253,7 +282,7 @@
 
       var hoursTotalLineChart = new Chart(ctx2, {
         type: 'line',
-        data: makeChartData(hours_by_day_labels, [makeLineChartDataSet(75, 192, 192, '每日累積工時', hours_total_values)]),
+        data: makeChartData(hours_by_day_labels, [makeChartDataSet(75, 192, 192, '每日累積工時', hours_total_values)]),
         options: {
           tooltips: {
             enabled: true,
@@ -267,9 +296,9 @@
         }
       });
 
-      var storyDataSet = makeBubbleChartDataSet(96, 188, 49, 'Story', story_performance_values);
-      var taskDataSet = makeBubbleChartDataSet(69, 172, 235, 'Task', task_performance_values);
-      var bugDataSet = makeBubbleChartDataSet(231, 72, 51, 'Bug', bug_performance_values);
+      var storyDataSet = makeChartDataSet(96, 188, 49, 'Story', story_performance_values);
+      var taskDataSet = makeChartDataSet(69, 172, 235, 'Task', task_performance_values);
+      var bugDataSet = makeChartDataSet(231, 72, 51, 'Bug', bug_performance_values);
       var issuePerformanceBubbleChart = new Chart(ctx3, {
         type: 'bubble',
         data: makeChartData([], [storyDataSet, taskDataSet, bugDataSet])
