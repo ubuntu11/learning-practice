@@ -17,7 +17,7 @@ const char *SUIT[SUIT_NUMBER] = { "Spades", "Heart", "Diamond", "Club" };
 const char *FACE[CARD_NUMER] = { "Ace", "Deuce", "Three", "Four", "Five", "Six",
 		"Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
 // 書上會用unsigned int來強調它不帶負數
-int deal_order[SUIT_NUMBER][CARD_NUMER] = { -1 };
+int deal_order[SUIT_NUMBER][CARD_NUMER] = {-1};
 
 /**
  * 初始化發牌陣列.
@@ -32,7 +32,7 @@ void shuffle();
  */
 void deal();
 
-int main() {
+int main_7_24() {
 	// 書上根本不用init array,直接宣告 int deal_order[SUIT_NUMBER][CARD_NUMER] = {0}或{-1}即可
 	//init_deal_order();
 	shuffle();
