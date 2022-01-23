@@ -117,4 +117,5 @@
 			<resource resourceType="PROJECT" workspacePath="/c_how_to_program"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

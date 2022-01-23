@@ -28,6 +28,7 @@ void main_12_8() {
 
 	unsigned int option = 0;
 	unsigned int value;
+
 	// 如何持續等待使用者輸入指令,直到他明確要退出程式？ while(true) ?
 	// read user command
 	while(option != 3) {
@@ -41,8 +42,8 @@ void main_12_8() {
 			printStack(&sPtr);
 			break;
 		case 2:
-			unsigned int poppedValue = pop(&sPtr);
-			printf("get popped value: %u\n", poppedValue);
+			value = pop(&sPtr);
+			printf("get popped value: %u\n", value);
 			printStack(&sPtr);
 			break;
 		case 3:
@@ -70,6 +71,7 @@ void push(myNodePtr *sPtr, unsigned int value) {
 unsigned int pop(myNodePtr *sPtr) {
 	if (*sPtr == NULL) {
 		puts("Error: stack is empty!");
+		return 0;
 	}
 
 	myNodePtr tmpNodePtr = *sPtr;
