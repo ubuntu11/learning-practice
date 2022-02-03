@@ -1,1 +1,4 @@
 /build/
+vmd-filestore/
+static_model.*
+server
