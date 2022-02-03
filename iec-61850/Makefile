@@ -13,9 +13,10 @@ all:	$(SERVER_BINARY_NAME)
 
 include $(LIBIEC_HOME)/make/common_targets.mk
 
-LDLIBS += -lm -lmodbus
-
-CFLAGS=-std=c99 `pkg-config --cflags libmodbus`
+#LDLIBS += -lm -lmodbus
+#CFLAGS=-std=c99 `pkg-config --cflags libmodbus`
+CFLAGS=-std=c99
+LDLIBS += -lm
 CP = cp
 
 model:	$(PROJECT_ICD_FILE)

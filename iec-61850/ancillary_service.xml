@@ -87,7 +87,7 @@ Date: 2021-04-23
           -->
           <LN0 inst="" lnClass="LLN0" lnType="LN0">
             <!-- 請視需要uncomment底下的資料集、ReportControl、GSEControl等區塊 -->
-            <DataSet name="AIGRO">
+            <DataSet name="DIDRE">
               <FCDA ldInst="Device1" prefix="DRE" lnClass="GGIO" lnInst="01" doName="Ind1" daName="stVal" fc="ST" />
               <FCDA ldInst="Device1" prefix="DRE" lnClass="GGIO" lnInst="02" doName="Ind1" daName="stVal" fc="ST" />
             </DataSet>
