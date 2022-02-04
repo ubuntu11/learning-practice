@@ -2,3 +2,5 @@
 vmd-filestore/
 static_model.*
 server
+client
+.project

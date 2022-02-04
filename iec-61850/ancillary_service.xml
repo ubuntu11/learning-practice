@@ -1,49 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright© 2020. HwaCom Systems Inc. All Rights Reserved.
-No part of this software or any of its contents may be reproduced, copied,
-modified or adapted, without the prior written consent of HwaCom Systems Inc.,
-unless otherwise indicated for stand-alone materials.
-
-Company: HwaCom Systems Inc.
-Department: 軟體中心研發二部
-Author: Ken Hu
-Date: 2021-04-23
+Copyright© 2020. HwaCom Systems Inc. All Rights Reserved. No part of this software or any of its contents may be
+reproduced, copied, modified or adapted, without the prior written consent of HwaCom Systems Inc., unless otherwise
+indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: 軟體中心研發二部 Author: Ken Hu Date: 2021-04-23
 -->
-
-<!--
-輔助服務與交易平台資料交換模型.
--->
-<SCL xmlns="http://www.iec.ch/61850/2003/SCL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.iec.ch/61850/2003/SCL SCL.xsd" version="2007" revision="A">
-  <Header id="" nameStructure="IEDName" />
+<!-- 輔助服務與交易平台資料交換模型. -->
+<SCL
+  xmlns="http://www.iec.ch/61850/2003/SCL"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.iec.ch/61850/2003/SCL SCL.xsd"
+  version="2007"
+  revision="A">
+  <Header id="" nameStructure="IEDName"/>
   <!-- 參考61850-6 9.4 Communication system description -->
   <!-- 定義邏輯節點間如何透過子網路(SubNetwork)與存取點(AccessPoint)進行通訊 -->
   <Communication>
-    <SubNetwork name="SubNetwork01" type="8-MMS">
-      <!-- ConnectedAP代表連接到這個子網路的IED存取點(Access Point) -->
-      <!-- 請視需要uncomment ConnectedAP區段 -->
-      <!--
-      <ConnectedAP iedName="${IED名稱}" apName="${AccessPoint名稱}">
-        <Address>
-          <P type="IP">10.0.0.11</P>
-          <P type="IP-SUBNET">255.255.255.0</P>
-          <P type="IP-GATEWAY">10.0.0.101</P>
-          <P type="OSI-TSEL">00000001</P>
-          <P type="OSI-PSEL">01</P>
-          <P type="OSI-SSEL">01</P>
-        </Address>
-        <GSE ldInst="${邏輯裝置的識別名稱(inst: Identification)}" cbName="${通用變電站事件(GSE)控制區塊（CB: Control Block）名稱}">
-          <Address>
-            <P type="MAC-Address">01-0C-CD-01-00-02</P>
-            <P type="APPID">3001</P>
-            <P type="VLAN-PRIORITY">4</P>
-          </Address>
-          <MinTime unit="s">4</MinTime>
-          <MaxTime unit="s">1000</MaxTime>
-        </GSE>
-      </ConnectedAP>
-      -->
-    </SubNetwork>
+    <SubNetwork name="SubNetwork01" type="8-MMS"/>
   </Communication>
   <!-- 對未完成全站配置的icd檔而言,IED名稱應為TEMPLATE -->
   <IED name="TEMPLATE">
@@ -51,277 +23,181 @@ Date: 2021-04-23
     <!-- 服務類型毋須依固定順序出現,未標出的服務類型代表IED不具備該能力 -->
     <!-- 請視需要uncomment個別服務類型 -->
     <!-- 參考61850-6 Ed.2 P62 -->
-    <Services>
-      <!--
-      <ClientServices goose="true" sv="true" />
-      <DynAssociation />
-      <GetDirectory />
-      <GetDataObjectDefinition />
-      <GetDataSetValue />
-      <DataSetDirectory />
-      <ConfDataSet max="4" maxAttributes="50" />
-      <ReadWrite />
-      <ConfReportControl max="12" />
-      <GetCBValues />
-      <ConfLogControl max="1" />
-      <ReportSettings cbName="Conf" datSet="Conf" rptID="Dyn" optFields="Conf" bufTime="Dyn" intgPd="Dyn" />
-      <GSESettings cbName="Conf" datSet="Conf" appID="Conf" />
-      <GOOSE max="2" />
-      <SMVSettings cbName="Conf" datSet="Conf" optFields="Fix" smpRate="Conf" svID="Conf">
-        <SmpRate>80</SmpRate>
-        <SmpRate>240</SmpRate>
-      </SMVSettings>
-      <FileHandling />
-      <ConfLNs fixLnInst="true" />
-      -->
-    </Services>
+    <Services/>
     <AccessPoint name="AccessPoint1">
       <Server>
-        <Authentication none="true" />
+        <Authentication none="true"/>
         <!-- 若不指定邏輯裝置名稱,預設為 IED名稱加上邏輯裝置識別名稱(inst) -->
         <LDevice inst="Device1" ldName="ASG08477">
           <!-- 每個邏輯裝置都需要一個LN0邏輯節點 -->
-          <!--
-            一種常見(代表並不一定要如此)的做法是把所有資料集、ReportControl、GSEControl都放在LN0邏輯節點內,而其它邏輯節點只用來
-            保存DO.
-          -->
+          <!-- 一種常見(代表並不一定要如此)的做法是把所有資料集、ReportControl、GSEControl都放在LN0邏輯節點內,而其它邏輯節點只用來 保存DO. -->
           <LN0 inst="" lnClass="LLN0" lnType="LN0">
             <!-- 請視需要uncomment底下的資料集、ReportControl、GSEControl等區塊 -->
             <DataSet name="DIDRE">
-              <FCDA ldInst="Device1" prefix="DRE" lnClass="GGIO" lnInst="01" doName="Ind1" daName="stVal" fc="ST" />
-              <FCDA ldInst="Device1" prefix="DRE" lnClass="GGIO" lnInst="02" doName="Ind1" daName="stVal" fc="ST" />
+              <FCDA ldInst="Device1" prefix="DRE" lnClass="GGIO" lnInst="01" doName="Ind1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="Device1" prefix="DRE" lnClass="GGIO" lnInst="02" doName="Ind1" daName="stVal" fc="ST"/>
             </DataSet>
             <DataSet name="AIGRO">
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="IntIn1" daName="stVal" fc="ST" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="IntIn2" daName="stVal" fc="ST" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="IntIn3" daName="stVal" fc="ST" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="01" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="01" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="01" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="02" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="02" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="02" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="03" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="03" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="03" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="04" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="04" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="04" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="05" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="05" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="05" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="06" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="06" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="06" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="07" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="07" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="07" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="08" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="08" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="08" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="09" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="09" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="09" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="10" doName="TotW" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="10" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="10" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMTR" doName="SupWh" daName="actVal" fc="ST" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMTR" doName="DmdWh" daName="actVal" fc="ST" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="AnIn1" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="AnIn2" daName="mag.i" fc="MX" />
-              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="AnIn3" daName="mag.i" fc="MX" />
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="IntIn1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="IntIn2" daName="stVal" fc="ST"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="IntIn3" daName="stVal" fc="ST"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="01" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="01" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="01" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="02" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="02" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="02" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="03" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="03" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="03" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="04" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="04" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="04" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="05" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="05" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="05" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="06" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="06" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="06" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="07" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="07" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="07" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="08" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="08" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="08" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="09" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="09" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="09" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMXU" lnInst="10" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="10" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" lnInst="10" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMTR" doName="SupWh" daName="actVal" fc="ST"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="MMTR" doName="DmdWh" daName="actVal" fc="ST"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="AnIn3" daName="mag.i" fc="MX"/>
             </DataSet>
-            <!--
-            <DataSet name="Measurands">
-              <FCDA ldInst="C1" prefix="" lnClass="MMXN" lnInst="1" doName="Amp" fc="MX" />
-              <FCDA ldInst="C1" prefix="" lnClass="MMXN" lnInst="1" doName="Volt" fc="MX" />
-            </DataSet>
-            <DataSet name="smv">
-              <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="1" doName="Vol" daName="instMag" fc="MX" />
-            </DataSet>
-            <ReportControl name="PosReport" rptID="E1Q1Switches" datSet="Positions" confRev="1">
-              <TrgOps dchg="true" qchg="true" />
-              <OptFields />
-              <RptEnabled max="5">
-                <ClientLN iedName="A1KA1" ldInst="none" lnInst="1" lnClass="IHMI" />
-              </RptEnabled>
+            <ReportControl
+              name="brcb01"
+              datSet="DIDRE"
+              rptID="ASG08477/LLN0$BR$brcb01"
+              confRev="1"
+              buffered="true"
+              bufTime="50"
+              intgPd="0"
+              indexed="true">
+              <TrgOps dchg="true" qchg="true" dupd="true" period="false" gi="true"/>
+              <OptFields
+                seqNum="true"
+                timeStamp="true"
+                dataSet="true"
+                reasonCode="true"
+                dataRef="true"
+                entryID="true"
+                configRef="true"
+                bufOvfl="true"/>
             </ReportControl>
-            <ReportControl name="MeaReport" rptID="E1Q1Measurands" datSet="Measurands" confRev="1" intgPd="2000">
-              <TrgOps qchg="true" period="true" />
-              <OptFields reasonCode="true" />
-              <RptEnabled max="5">
-                <ClientLN iedName="A1KA1" ldInst="none" lnInst="1" lnClass="IHMI" />
-              </RptEnabled>
+            <ReportControl
+              name="urcb01"
+              datSet="AIGRO"
+              rptID="ASG00001/LLN0$RP$urcb01"
+              confRev="1"
+              buffered="false"
+              bufTime="0"
+              intgPd="60000"
+              indexed="true">
+              <TrgOps dchg="false" qchg="false" dupd="false" period="true" gi="true"/>
+              <OptFields
+                seqNum="true"
+                timeStamp="true"
+                dataSet="true"
+                reasonCode="true"
+                dataRef="true"
+                entryID="true"
+                configRef="true"
+                bufOvfl="true"/>
             </ReportControl>
-            <LogControl name="Log" datSet="Positions" logName="C1">
-              <TrgOps dchg="true" qchg="true" />
-            </LogControl>
-            <Log />
-            <GSEControl name="ItlPositions" datSet="Positions" appID="Itl">
-              <IEDName>E1Q2SB1</IEDName>
-            </GSEControl>
-            <SampledValueControl name="Volt" datSet="smv" smvID="11" smpRate="4800" nofASDU="5">
-              <IEDName>D1Q1SB4</IEDName>
-              <SmvOpts refreshTime="true" sampleSynchronized="true" sampleRate="true" />
-            </SampledValueControl>
-            -->
           </LN0>
           <!-- 實體裝置資訊,參考 61850-7-4 5.3.2 LN: Physical device information -->
           <!-- 以下內容只是說這個IED不扮演Proxy的角色 -->
-          <!--
-          <LN inst="1" lnClass="LPHD" lnType="LPHDa">
-            <DOI name="Proxy">
-              <DAI name="stVal" valKind="Set">
-                <Val>false</Val>
-              </DAI>
-            </DOI>
-          </LN>
-          -->
+          <!-- <LN inst="1" lnClass="LPHD" lnType="LPHDa"> <DOI name="Proxy"> <DAI name="stVal" valKind="Set"> <Val>false</Val>
+          </DAI> </DOI> </LN> -->
           <!-- 以下是各個領域專屬(domain specific)邏輯節點 -->
           <!-- 請視需要uncomment後使用 -->
-          <LN inst="01" prefix="DRE" lnClass="GGIO" lnType="DI_GGIO" />
-          <LN inst="02" prefix="DRE" lnClass="GGIO" lnType="DI_GGIO" />
-          <LN inst=""   prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO" />
-          <LN inst=""   prefix="GRO" lnClass="MMTR" lnType="AI_GRP_MMTR" />
-          <LN inst="01" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="01" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="02" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="02" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="03" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="03" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="04" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="04" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="05" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="05" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="06" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="06" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="07" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="07" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="08" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="08" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="09" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="09" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-          <LN inst="10" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S" />
-          <LN inst="10" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S" />
-
-          <!--
-          <LN inst="1" lnClass="MMXN" lnType="MMXNa">
-            <DOI name="Vol">
-              <SDI name="sVC">
-                <DAI name="scaleFactor" valKind="Set">
-                  <Val>200</Val>
-                </DAI>
-                <DAI name="offset" valKind="Set">
-                  <Val>10</Val>
-                </DAI>
-              </SDI>
-            </DOI>
-          </LN>
-          <LN inst="1" lnClass="TVTR" lnType="TVTRa" />
-          -->
+          <LN inst="01" prefix="DRE" lnClass="GGIO" lnType="DI_GGIO"/>
+          <LN inst="02" prefix="DRE" lnClass="GGIO" lnType="DI_GGIO"/>
+          <LN inst="" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO"/>
+          <LN inst="" prefix="GRO" lnClass="MMTR" lnType="AI_GRP_MMTR"/>
+          <LN inst="01" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="01" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="02" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="02" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="03" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="03" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="04" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="04" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="05" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="05" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="06" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="06" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="07" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="07" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="08" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="08" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="09" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="09" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
+          <LN inst="10" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
+          <LN inst="10" prefix="GRO" lnClass="GGIO" lnType="AI_GRP_GGIO_S"/>
         </LDevice>
       </Server>
     </AccessPoint>
   </IED>
-
   <!-- 資料類型定義: 在此處定義邏輯節點類型、DO類型、DA類型 -->
   <DataTypeTemplates>
     <LNodeType id="LN0" lnClass="LLN0">
-      <DO name="Mod" type="myMod" />
-      <DO name="Beh" type="myBeh" />
-      <DO name="Health" type="myHealth" />
-      <DO name="NamPlt" type="myLN0LPL" />
+      <DO name="Mod" type="myMod"/>
+      <DO name="Beh" type="myBeh"/>
+      <DO name="Health" type="myHealth"/>
+      <DO name="NamPlt" type="myLN0LPL"/>
     </LNodeType>
-    <!--
-    <LNodeType id="LPHDa" lnClass="LPHD">
-      <DO name="PhyNam" type="myDPL" />
-      <DO name="PhyHealth" type="myINS" />
-      <DO name="Proxy" type="mySPS" />
-    </LNodeType>
-    -->
-    <!-- 請視需要uncomment後使用 -->
     <LNodeType id="DI_GGIO" lnClass="GGIO">
-      <DO name="Ind1" type="mySPS" />
+      <DO name="Ind1" type="mySPS"/>
     </LNodeType>
     <LNodeType id="AI_GRP_GGIO" lnClass="GGIO">
-      <DO name="IntIn1" type="myINS" />
-      <DO name="IntIn2" type="myINS" />
-      <DO name="IntIn3" type="myINS" />
+      <DO name="IntIn1" type="myINS"/>
+      <DO name="IntIn2" type="myINS"/>
+      <DO name="IntIn3" type="myINS"/>
+      <DO name="AnIn1" type="myMV"/>
+      <DO name="AnIn2" type="myMV"/>
+      <DO name="AnIn3" type="myMV"/>
     </LNodeType>
     <LNodeType id="AI_GRP_MMTR" lnClass="MMTR">
-      <DO name="SupWh" type="myBCR" />
-      <DO name="DmdWh" type="myBCR" />
+      <DO name="SupWh" type="myBCR"/>
+      <DO name="DmdWh" type="myBCR"/>
     </LNodeType>
     <LNodeType id="AI_GRP_MMXU_S" lnClass="MMXU">
-      <DO name="TotW" type="myMV" />
+      <DO name="TotW" type="myMV"/>
     </LNodeType>
     <LNodeType id="AI_GRP_GGIO_S" lnClass="MMXU">
-      <DO name="AnIn1" type="myINS" />
-      <DO name="AnIn2" type="myINS" />
+      <DO name="AnIn1" type="myMV"/>
+      <DO name="AnIn2" type="myMV"/>
     </LNodeType>
-    <!--
-    <LNodeType id="CILOa" lnClass="CILO">
-      <DO name="Mod" type="myMod" />
-      <DO name="Beh" type="myBeh" />
-      <DO name="Health" type="myHealth" />
-      <DO name="NamPlt" type="myLPL" />
-      <DO name="EnaOpn" type="mySPS" />
-      <DO name="EnaCls" type="mySPS" />
-    </LNodeType>
-    <LNodeType id="TVTRa" lnClass="TVTR">
-      <DO name="Mod" type="myMod" />
-      <DO name="Beh" type="myBeh" />
-      <DO name="Health" type="myHealth" />
-      <DO name="NamPlt" type="myLPL" />
-      <DO name="Vol" type="mySAV" />
-      <DO name="FuFail" type="mySPS" />
-    </LNodeType>
-    <LNodeType id="TCTRa" lnClass="TCTR">
-      <DO name="Mod" type="myMod" />
-      <DO name="Beh" type="myBeh" />
-      <DO name="Health" type="myHealth" />
-      <DO name="NamPlt" type="myLPL" />
-      <DO name="Amp" type="mySAV" />
-    </LNodeType>
-    <LNodeType id="RSYNa" lnClass="RSYN">
-      <DO name="Mod" type="myMod" />
-      <DO name="Beh" type="myBeh" />
-      <DO name="Health" type="myHealth" />
-      <DO name="NamPlt" type="myLPL" />
-      <DO name="Rel" type="mySPS" />
-    </LNodeType>
-    <LNodeType id="IHMIa" lnClass="IHMI">
-      <DO name="Mod" type="myMod" />
-      <DO name="Beh" type="myBeh" />
-      <DO name="Health" type="myHealth" />
-      <DO name="NamPlt" type="myLPL" />
-    </LNodeType>
-    <LNodeType id="PDIFa" lnClass="PDIF">
-      <DO name="Mod" type="myMod" />
-      <DO name="Beh" type="myBeh" />
-      <DO name="Health" type="myHealth" />
-      <DO name="NamPlt" type="myLPL" />
-      <DO name="Str" type="myACD" />
-      <DO name="Op" type="myACT" />
-      <DO name="TmASt" type="myCSD" />
-    </LNodeType>
-    -->
     <DOType id="myMod" cdc="INC">
-      <DA name="stVal" fc="ST" dchg="true" bType="Enum" type="Mod" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
-      <DA name="ctlModel" fc="CF" bType="Enum" type="ctlModel" />
-      <DA name="Oper" fc="CO" bType="Struct" type="myModOper" />
+      <DA name="stVal" fc="ST" dchg="true" bType="Enum" type="Mod"/>
+      <DA name="q" fc="ST" qchg="true" bType="Quality"/>
+      <DA name="t" fc="ST" bType="Timestamp"/>
+      <DA name="ctlModel" fc="CF" bType="Enum" type="ctlModel"/>
+      <DA name="Oper" fc="CO" bType="Struct" type="myModOper"/>
     </DOType>
     <DOType id="myBeh" cdc="INS">
-      <DA name="stVal" fc="ST" dchg="true" bType="Enum" type="Beh" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
+      <DA name="stVal" fc="ST" dchg="true" bType="Enum" type="Beh"/>
+      <DA name="q" fc="ST" qchg="true" bType="Quality"/>
+      <DA name="t" fc="ST" bType="Timestamp"/>
     </DOType>
     <DOType id="myHealth" cdc="INS">
-      <DA name="stVal" fc="ST" dchg="true" bType="Enum" type="Health" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
+      <DA name="stVal" fc="ST" dchg="true" bType="Enum" type="Health"/>
+      <DA name="q" fc="ST" qchg="true" bType="Quality"/>
+      <DA name="t" fc="ST" bType="Timestamp"/>
     </DOType>
     <DOType id="myLN0LPL" cdc="LPL">
       <DA name="vendor" fc="DC" bType="VisString255">
@@ -330,7 +206,7 @@ Date: 2021-04-23
       <DA name="swRev" fc="DC" bType="VisString255">
         <Val>my SW revision ID</Val>
       </DA>
-      <DA name="d" fc="DC" bType="VisString255" />
+      <DA name="d" fc="DC" bType="VisString255"/>
       <DA name="configRev" fc="DC" bType="VisString255">
         <Val>Rev 3.45</Val>
       </DA>
@@ -347,140 +223,41 @@ Date: 2021-04-23
       </DA>
     </DOType>
     <DOType id="myINS" cdc="INS">
-      <DA name="stVal" fc="ST" dchg="true" bType="INT32" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
+      <DA name="stVal" fc="ST" dchg="true" bType="INT32"/>
+      <DA name="q" fc="ST" qchg="true" bType="Quality"/>
+      <DA name="t" fc="ST" bType="Timestamp"/>
     </DOType>
     <DOType id="mySPS" cdc="SPS">
-      <DA name="stVal" fc="ST" dchg="true" bType="BOOLEAN" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
+      <DA name="stVal" fc="ST" dchg="true" bType="BOOLEAN"/>
+      <DA name="q" fc="ST" qchg="true" bType="Quality"/>
+      <DA name="t" fc="ST" bType="Timestamp"/>
     </DOType>
     <DOType id="myBCR" cdc="BCR">
-      <DA name="actVal" fc="ST" dchg="true" bType="INT64" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
+      <DA name="actVal" fc="ST" dchg="true" bType="INT64"/>
+      <DA name="q" fc="ST" qchg="true" bType="Quality"/>
+      <DA name="t" fc="ST" bType="Timestamp"/>
     </DOType>
-    <!--
-    <DOType id="myLPL" cdc="LPL">
-      <DA name="vendor" fc="DC" bType="VisString255">
-        <Val>myVendorName</Val>
-      </DA>
-      <DA name="swRev" fc="DC" bType="VisString255" />
-      <DA name="d" fc="DC" bType="VisString255" />
-    </DOType>
-    <DOType id="myPos" cdc="DPC">
-      <DA name="stVal" fc="ST" dchg="true" bType="Dbpos" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
-      <DA name="ctlModel" fc="CF" bType="Enum" type="ctlModel" />
-      <DA name="Oper" fc="CO" bType="Struct" type="myOper" />
-      <DA name="SBOw" fc="CO" bType="Struct" type="myOper" />
-      <DA name="Cancel" fc="CO" bType="Struct" type="myCancel" />
-    </DOType>
-  -->
     <DOType id="myMV" cdc="MV">
-      <DA name="mag" fc="MX" dchg="true" bType="Struct" type="myAnalogValue" />
-      <DA name="q" fc="MX" qchg="true" bType="Quality" />
-      <DA name="t" fc="MX" bType="Timestamp" />
-      <!--<DA name="sVC" fc="CF" dchg="true" bType="Struct" type="ScaledValueConfig" />-->
+      <DA name="mag" fc="MX" dchg="true" bType="Struct" type="myAnalogValue"/>
+      <DA name="q" fc="MX" qchg="true" bType="Quality"/>
+      <DA name="t" fc="MX" bType="Timestamp"/>
     </DOType>
-    <!--
-    <DOType id="myCMV" cdc="CMV">
-      <DA name="cVal" fc="MX" dchg="true" bType="Struct" type="myVector" />
-      <DA name="q" fc="MX" qchg="true" bType="Quality" />
-      <DA name="t" fc="MX" bType="Timestamp" />
-    </DOType>
-    <DOType id="mySEQ" cdc="SEQ">
-      <SDO name="c1" type="myCMV" />
-      <SDO name="c2" type="myCMV" />
-      <SDO name="c3" type="myCMV" />
-      <DA name="seqT" fc="MX" bType="Enum" type="seqT" />
-    </DOType>
-    <DOType id="myACD" cdc="ACD">
-      <DA name="general" fc="ST" dchg="true" bType="BOOLEAN" />
-      <DA name="dirGeneral" fc="ST" dchg="true" bType="Enum" type="ACDdir" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
-    </DOType>
-    <DOType id="myACT" cdc="ACT">
-      <DA name="general" fc="ST" dchg="true" bType="BOOLEAN" />
-      <DA name="q" fc="ST" qchg="true" bType="Quality" />
-      <DA name="t" fc="ST" bType="Timestamp" />
-    </DOType>
-    <DOType id="myCSD" cdc="CSD">
-      <DA name="xUnit" fc="DC" bType="Enum" type="SIUnit" />
-      <DA name="xD" fc="DC" bType="VisString255" />
-      <DA name="yUnit" fc="DC" bType="Enum" type="SIUnit" />
-      <DA name="yD" fc="DC" bType="VisString255" />
-      <DA name="numPts" fc="DC" bType="INT16U" />
-      <DA name="curvPts" fc="DC" count="numPts" bType="Struct" type="xyPoint" />
-      <DA name="d" fc="DC" bType="VisString255" />
-    </DOType>
-    <DOType id="mySAV" cdc="SAV">
-      <DA name="instMag" fc="MX" bType="Struct" type="myAnalogValue" />
-      <DA name="q" fc="MX" qchg="true" bType="Quality" />
-    </DOType>
-    -->
     <DAType id="myAnalogValue">
-      <BDA name="i" bType="INT32" />
+      <BDA name="i" bType="INT32"/>
     </DAType>
-    <!--
-    <DAType id="ScaledValueConfig">
-      <BDA name="scaleFactor" bType="FLOAT32" />
-      <BDA name="offset" bType="FLOAT32" />
-    </DAType>
-    <DAType id="myVector">
-      <BDA name="mag" bType="Struct" type="myAnalogValue" />
-      <BDA name="ang" bType="Struct" type="myAnalogValue" />
-    </DAType>
-    <DAType id="xyPoint">
-      <BDA name="xVal" bType="FLOAT32" />
-      <BDA name="yVal" bType="FLOAT32" />
-    </DAType>
-    -->
     <DAType id="originator">
-      <BDA name="orCat" bType="Enum" type="orCategory" />
-      <BDA name="orIdent" bType="Octet64" />
+      <BDA name="orCat" bType="Enum" type="orCategory"/>
+      <BDA name="orIdent" bType="Octet64"/>
     </DAType>
     <DAType id="myModOper">
-      <BDA name="ctlVal" bType="Enum" type="Mod" />
-      <BDA name="origin" bType="Struct" type="originator" />
-      <BDA name="ctlNum" bType="INT8U" />
-      <BDA name="T" bType="Timestamp" />
-      <BDA name="Test" bType="BOOLEAN" />
-      <BDA name="Check" bType="Check" />
+      <BDA name="ctlVal" bType="Enum" type="Mod"/>
+      <BDA name="origin" bType="Struct" type="originator"/>
+      <BDA name="ctlNum" bType="INT8U"/>
+      <BDA name="T" bType="Timestamp"/>
+      <BDA name="Test" bType="BOOLEAN"/>
+      <BDA name="Check" bType="Check"/>
       <ProtNs type="8-MMS">IEC 61850-8-1:2003</ProtNs>
     </DAType>
-    <!--
-    <DAType id="myOper">
-      <BDA name="ctlVal" bType="BOOLEAN" />
-      <BDA name="origin" bType="Struct" type="originator" />
-      <BDA name="ctlNum" bType="INT8U" />
-      <BDA name="T" bType="Timestamp" />
-      <BDA name="Test" bType="BOOLEAN" />
-      <BDA name="Check" bType="Check" />
-      <ProtNs type="8-MMS">IEC 61850-8-1:2003</ProtNs>
-    </DAType>
-    <DAType id="myCancel">
-      <BDA name="ctlVal" bType="BOOLEAN" />
-      <BDA name="origin" bType="Struct" type="originator" />
-      <BDA name="ctlNum" bType="INT8U" />
-      <BDA name="T" bType="Timestamp" />
-      <BDA name="Test" bType="BOOLEAN" />
-      <ProtNs type="8-MMS">IEC 61850-8-1:2003</ProtNs>
-    </DAType>
-    <EnumType id="ACDdir">
-      <EnumVal ord="0">unknown</EnumVal>
-      <EnumVal ord="1">forward</EnumVal>
-      <EnumVal ord="2">backward</EnumVal>
-      <EnumVal ord="3">both</EnumVal>
-    </EnumType>
-    <EnumType id="seqT">
-      <EnumVal ord="0">pos-neg-zero</EnumVal>
-      <EnumVal ord="1">dir-quad-zero</EnumVal>
-    </EnumType>
-    -->
     <EnumType id="ctlModel">
       <EnumVal ord="0">status-only</EnumVal>
       <EnumVal ord="1">direct-with-normal-security</EnumVal>
@@ -488,12 +265,6 @@ Date: 2021-04-23
       <EnumVal ord="3">direct-with-enhanced-security</EnumVal>
       <EnumVal ord="4">sbo-with-enhanced-security</EnumVal>
     </EnumType>
-    <!--
-    <EnumType id="sboClass">
-      <EnumVal ord="0">operate-once</EnumVal>
-      <EnumVal ord="1">operate-many</EnumVal>
-    </EnumType>
-    -->
     <EnumType id="orCategory">
       <EnumVal ord="0">not-supported</EnumVal>
       <EnumVal ord="1">bay-control</EnumVal>
@@ -524,95 +295,5 @@ Date: 2021-04-23
       <EnumVal ord="2">Warning</EnumVal>
       <EnumVal ord="3">Alarm</EnumVal>
     </EnumType>
-    <!--
-    <EnumType id="multiplier">
-      <EnumVal ord="-24">y</EnumVal>
-      <EnumVal ord="-21">z</EnumVal>
-      <EnumVal ord="-18">a</EnumVal>
-      <EnumVal ord="-15">f</EnumVal>
-      <EnumVal ord="-12">p</EnumVal>
-      <EnumVal ord="-9">n</EnumVal>
-      <EnumVal ord="-6">μ</EnumVal>
-      <EnumVal ord="-3">m</EnumVal>
-      <EnumVal ord="-2">c</EnumVal>
-      <EnumVal ord="-1">d</EnumVal>
-      <EnumVal ord="0" />
-      <EnumVal ord="1">da</EnumVal>
-      <EnumVal ord="2">h</EnumVal>
-      <EnumVal ord="3">k</EnumVal>
-      <EnumVal ord="6">M</EnumVal>
-      <EnumVal ord="9">G</EnumVal>
-      <EnumVal ord="12">T</EnumVal>
-      <EnumVal ord="15">P</EnumVal>
-      <EnumVal ord="18">E</EnumVal>
-      <EnumVal ord="21">Z</EnumVal>
-      <EnumVal ord="24">Y</EnumVal>
-    </EnumType>
-    <EnumType id="SIUnit">
-      <EnumVal ord="1" />
-      <EnumVal ord="2">m</EnumVal>
-      <EnumVal ord="3">kg</EnumVal>
-      <EnumVal ord="4">s</EnumVal>
-      <EnumVal ord="5">A</EnumVal>
-      <EnumVal ord="6">K</EnumVal>
-      <EnumVal ord="7">mol</EnumVal>
-      <EnumVal ord="8">cd</EnumVal>
-      <EnumVal ord="9">deg</EnumVal>
-      <EnumVal ord="10">rad</EnumVal>
-      <EnumVal ord="11">sr</EnumVal>
-      <EnumVal ord="21">Gy</EnumVal>
-      <EnumVal ord="22">q</EnumVal>
-      <EnumVal ord="23">°C</EnumVal>
-      <EnumVal ord="24">Sv</EnumVal>
-      <EnumVal ord="25">F</EnumVal>
-      <EnumVal ord="26">C</EnumVal>
-      <EnumVal ord="27">S</EnumVal>
-      <EnumVal ord="28">H</EnumVal>
-      <EnumVal ord="29">V</EnumVal>
-      <EnumVal ord="30">ohm</EnumVal>
-      <EnumVal ord="31">J</EnumVal>
-      <EnumVal ord="32">N</EnumVal>
-      <EnumVal ord="33">Hz</EnumVal>
-      <EnumVal ord="34">lx</EnumVal>
-      <EnumVal ord="35">Lm</EnumVal>
-      <EnumVal ord="36">Wb</EnumVal>
-      <EnumVal ord="37">T</EnumVal>
-      <EnumVal ord="38">W</EnumVal>
-      <EnumVal ord="39">Pa</EnumVal>
-      <EnumVal ord="41">m²</EnumVal>
-      <EnumVal ord="42">m³</EnumVal>
-      <EnumVal ord="43">m/s</EnumVal>
-      <EnumVal ord="44">m/s²</EnumVal>
-      <EnumVal ord="45">m³/s</EnumVal>
-      <EnumVal ord="46">m/m³</EnumVal>
-      <EnumVal ord="47">M</EnumVal>
-      <EnumVal ord="48">kg/m³</EnumVal>
-      <EnumVal ord="49">m²/s</EnumVal>
-      <EnumVal ord="50">W/m K</EnumVal>
-      <EnumVal ord="51">J/K</EnumVal>
-      <EnumVal ord="52">ppm</EnumVal>
-      <EnumVal ord="53">1/s</EnumVal>
-      <EnumVal ord="54">rad/s</EnumVal>
-      <EnumVal ord="61">VA</EnumVal>
-      <EnumVal ord="62">Watts</EnumVal>
-      <EnumVal ord="63">VAr</EnumVal>
-      <EnumVal ord="64">phi</EnumVal>
-      <EnumVal ord="65">cos(phi)</EnumVal>
-      <EnumVal ord="66">Vs</EnumVal>
-      <EnumVal ord="67">V²</EnumVal>
-      <EnumVal ord="68">As</EnumVal>
-      <EnumVal ord="69">A²</EnumVal>
-      <EnumVal ord="70">A²t</EnumVal>
-      <EnumVal ord="71">VAh</EnumVal>
-      <EnumVal ord="72">Wh</EnumVal>
-      <EnumVal ord="73">VArh</EnumVal>
-      <EnumVal ord="74">V/Hz</EnumVal>
-      <EnumVal ord="75">Hz/s</EnumVal>
-      <EnumVal ord="76">char</EnumVal>
-      <EnumVal ord="77">char/s</EnumVal>
-      <EnumVal ord="78">kgm²</EnumVal>
-      <EnumVal ord="79">dB</EnumVal>
-    </EnumType>
-    -->
   </DataTypeTemplates>
 </SCL>
