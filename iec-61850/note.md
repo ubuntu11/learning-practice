@@ -9,3 +9,8 @@ status information，前者出現在輔助服務傳輸格式說明中的AI，後
 mkdir -p /usr/local/lib
 cp hal/inc/hal_time.h  hal/inc/hal_thread.h hal/inc/hal_filesystem.h hal/inc/tls_config.h hal/inc/lib_memory.h src/common/inc/libiec61850_common_api.h src/common/inc/linked_list.h src/iec61850/inc/iec61850_client.h src/iec61850/inc/iec61850_common.h src/iec61850/inc/iec61850_server.h src/iec61850/inc/iec61850_model.h src/iec61850/inc/iec61850_cdc.h src/iec61850/inc/iec61850_dynamic_model.h src/iec61850/inc/iec61850_config_file_parser.h src/mms/inc/mms_value.h src/mms/inc/mms_common.h src/mms/inc/mms_types.h src/mms/inc/mms_type_spec.h src/mms/inc/mms_client_connection.h src/mms/inc/iso_connection_parameters.h src/goose/goose_subscriber.h src/goose/goose_receiver.h src/goose/goose_publisher.h src/sampled_values/sv_subscriber.h src/sampled_values/sv_publisher.h src/logging/logging_api.h /usr/local/include
 cp ./build/libiec61850.a /usr/local/lib
+- 執行'./bess_server -p 8080'，出現：
+  > ./bess_server: error while loading shared libraries: libmodbus.so.5: cannot open shared object file: No such file or directory
+'
+sudo ldconfig
+sudo ldconfig -v | grep libmodbus

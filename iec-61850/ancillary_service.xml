@@ -23,7 +23,18 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
     <!-- 服務類型毋須依固定順序出現,未標出的服務類型代表IED不具備該能力 -->
     <!-- 請視需要uncomment個別服務類型 -->
     <!-- 參考61850-6 Ed.2 P62 -->
-    <Services/>
+    <Services>
+      <DynAssociation/>
+      <GetDirectory/>
+      <GetDataObjectDefinition/>
+      <GetDataSetValue/>
+      <DataSetDirectory/>
+      <ReadWrite/>
+      <GetCBValues/>
+      <ConfLNs fixPrefix="true" fixLnInst="true"/>
+      <FileHandling/>
+      <TimerActivatedControl/>
+    </Services>  
     <AccessPoint name="AccessPoint1">
       <Server>
         <Authentication none="true"/>
@@ -78,7 +89,7 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
               <FCDA ldInst="Device1" prefix="GRO" lnClass="GGIO" doName="AnIn3" daName="mag.i" fc="MX"/>
             </DataSet>
             <ReportControl
-              name="brcb01"
+              name="DI_RPT"
               datSet="DIDRE"
               rptID="ASG08477/LLN0$BR$brcb01"
               confRev="1"
@@ -98,9 +109,9 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
                 bufOvfl="true"/>
             </ReportControl>
             <ReportControl
-              name="urcb01"
+              name="AI_RPT_GRP"
               datSet="AIGRO"
-              rptID="ASG00001/LLN0$RP$urcb01"
+              rptID="ASG08477/LLN0$RP$urcb01"
               confRev="1"
               buffered="false"
               bufTime="0"
