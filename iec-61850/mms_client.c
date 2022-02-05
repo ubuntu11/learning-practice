@@ -105,26 +105,19 @@ int main(int argc, char **argv) {
 	const char *dataSetName = ClientReportControlBlock_getDataSetReference(rcb);
 	LinkedList dataSetDirectory = IedConnection_getDataSetDirectory(con, &error, dataSetName, NULL);
 
-	/* prepare the parameters of the RCB */
-	ClientReportControlBlock_setResv(rcb, true);
-	ClientReportControlBlock_setTrgOps(rcb, TRG_OPT_INTEGRITY | TRG_OPT_GI);
-	ClientReportControlBlock_setDataSetReference(rcb, "simpleIOGenericIO/LLN0$Events"); /* NOTE the "$" instead of "." ! */
-	ClientReportControlBlock_setRptEna(rcb, true);
-	ClientReportControlBlock_setGI(rcb, true);
-
 	/* Configure the report receiver */
 	IedConnection_installReportHandler(con, REPORT_NAME, ClientReportControlBlock_getRptId(rcb), reportCallbackFunction,
 			(void*) dataSetDirectory);
 
-	/* Write RCB parameters and enable report */
-	IedConnection_setRCBValues(con, &error, rcb, RCB_ELEMENT_RPT_ENA | RCB_ELEMENT_TRG_OPS | RCB_ELEMENT_INTG_PD, true);
+	ClientReportControlBlock_setRptEna(rcb, true);
+	IedConnection_setRCBValues(con, &error, rcb, RCB_ELEMENT_RPT_ENA, true);
 
 	if (error != IED_ERROR_OK) {
 		printf("setRCBValues service error!\n");
 		goto exit_error;
 	}
 
-	Thread_sleep(3000);
+	Thread_sleep(1000);
 
 	while (running) {
 		Thread_sleep(10);
