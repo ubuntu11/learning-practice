@@ -12,7 +12,8 @@
 #include <time.h>
 #include "hal_thread.h"
 
-#define REPORT_NAME  "TEMPLATEDevice1/LLN0.RP.AI_RPT_GRP01"
+//AI類型報價代碼Report, report name is "urcb01", but generated data model name this report as "urcb0101"
+#define REPORT_NAME  "HwacomAFCG8477/LLN0.RP.urcb0101"
 
 static int running = 0;
 

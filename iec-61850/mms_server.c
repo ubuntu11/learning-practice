@@ -66,20 +66,20 @@ struct GroupInputStruc {
 };
 typedef struct GroupInputStruc GroupInput;
 
-DataAttribute *groupRealPowerTsHighDaNames[10] = {IEDMODEL_Device1_GROGGIO01_AnIn1_mag_i, IEDMODEL_Device1_GROGGIO02_AnIn1_mag_i, IEDMODEL_Device1_GROGGIO03_AnIn1_mag_i,
-		IEDMODEL_Device1_GROGGIO04_AnIn1_mag_i, IEDMODEL_Device1_GROGGIO05_AnIn1_mag_i, IEDMODEL_Device1_GROGGIO06_AnIn1_mag_i,
-		IEDMODEL_Device1_GROGGIO07_AnIn1_mag_i, IEDMODEL_Device1_GROGGIO08_AnIn1_mag_i, IEDMODEL_Device1_GROGGIO09_AnIn1_mag_i,
-		IEDMODEL_Device1_GROGGIO10_AnIn1_mag_i};
+DataAttribute *groupRealPowerTsHighDaNames[10] = {IEDMODEL_G8477_GROGGIO01_AnIn1_mag_i, IEDMODEL_G8477_GROGGIO02_AnIn1_mag_i, IEDMODEL_G8477_GROGGIO03_AnIn1_mag_i,
+		IEDMODEL_G8477_GROGGIO04_AnIn1_mag_i, IEDMODEL_G8477_GROGGIO05_AnIn1_mag_i, IEDMODEL_G8477_GROGGIO06_AnIn1_mag_i,
+		IEDMODEL_G8477_GROGGIO07_AnIn1_mag_i, IEDMODEL_G8477_GROGGIO08_AnIn1_mag_i, IEDMODEL_G8477_GROGGIO09_AnIn1_mag_i,
+		IEDMODEL_G8477_GROGGIO10_AnIn1_mag_i};
 
-DataAttribute *groupRealPowerTsLowDaNames[10] = {IEDMODEL_Device1_GROGGIO01_AnIn2_mag_i, IEDMODEL_Device1_GROGGIO02_AnIn2_mag_i, IEDMODEL_Device1_GROGGIO03_AnIn2_mag_i,
-		IEDMODEL_Device1_GROGGIO04_AnIn2_mag_i, IEDMODEL_Device1_GROGGIO05_AnIn2_mag_i, IEDMODEL_Device1_GROGGIO06_AnIn2_mag_i,
-		IEDMODEL_Device1_GROGGIO07_AnIn2_mag_i, IEDMODEL_Device1_GROGGIO08_AnIn2_mag_i, IEDMODEL_Device1_GROGGIO09_AnIn2_mag_i,
-		IEDMODEL_Device1_GROGGIO10_AnIn2_mag_i};
+DataAttribute *groupRealPowerTsLowDaNames[10] = {IEDMODEL_G8477_GROGGIO01_AnIn2_mag_i, IEDMODEL_G8477_GROGGIO02_AnIn2_mag_i, IEDMODEL_G8477_GROGGIO03_AnIn2_mag_i,
+		IEDMODEL_G8477_GROGGIO04_AnIn2_mag_i, IEDMODEL_G8477_GROGGIO05_AnIn2_mag_i, IEDMODEL_G8477_GROGGIO06_AnIn2_mag_i,
+		IEDMODEL_G8477_GROGGIO07_AnIn2_mag_i, IEDMODEL_G8477_GROGGIO08_AnIn2_mag_i, IEDMODEL_G8477_GROGGIO09_AnIn2_mag_i,
+		IEDMODEL_G8477_GROGGIO10_AnIn2_mag_i};
 
-DataAttribute *groupRealPowerDaNames[10] = {IEDMODEL_Device1_GROMMXU01_TotW_mag_i, IEDMODEL_Device1_GROMMXU02_TotW_mag_i, IEDMODEL_Device1_GROMMXU03_TotW_mag_i,
-		IEDMODEL_Device1_GROMMXU04_TotW_mag_i, IEDMODEL_Device1_GROMMXU05_TotW_mag_i, IEDMODEL_Device1_GROMMXU06_TotW_mag_i,
-		IEDMODEL_Device1_GROMMXU07_TotW_mag_i, IEDMODEL_Device1_GROMMXU08_TotW_mag_i, IEDMODEL_Device1_GROMMXU09_TotW_mag_i,
-		IEDMODEL_Device1_GROMMXU10_TotW_mag_i};
+DataAttribute *groupRealPowerDaNames[10] = {IEDMODEL_G8477_GROMMXU01_TotW_mag_i, IEDMODEL_G8477_GROMMXU02_TotW_mag_i, IEDMODEL_G8477_GROMMXU03_TotW_mag_i,
+		IEDMODEL_G8477_GROMMXU04_TotW_mag_i, IEDMODEL_G8477_GROMMXU05_TotW_mag_i, IEDMODEL_G8477_GROMMXU06_TotW_mag_i,
+		IEDMODEL_G8477_GROMMXU07_TotW_mag_i, IEDMODEL_G8477_GROMMXU08_TotW_mag_i, IEDMODEL_G8477_GROMMXU09_TotW_mag_i,
+		IEDMODEL_G8477_GROMMXU10_TotW_mag_i};
 
 // function prototypes
 void simulate(GroupInput *groupInput);
@@ -205,26 +205,26 @@ void updateIedModel(IedServer iedServer, GroupInput *groupInput) {
 	Timestamp_setTimeInMilliseconds(&iecTimestamp, groupInput->timestamp);
 	Timestamp_setLeapSecondKnown(&iecTimestamp, true);
 
-	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_Device1_DREGGIO01_Ind1_stVal, groupInput->serviceStart);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_DREGGIO01_Ind1_t,  &iecTimestamp);
-	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_Device1_DREGGIO02_Ind1_stVal, groupInput->serviceStop);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_DREGGIO02_Ind1_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_IntIn1_stVal, groupInput->providerId);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_IntIn1_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_IntIn2_stVal, groupInput->quotationId);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_IntIn2_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_IntIn3_stVal, groupInput->serviceCode);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_IntIn3_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_Device1_GROMMXU01_TotW_mag_i, groupInput->supplyWatt);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_GROMMXU01_TotW_t, &iecTimestamp);
+	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_G8477_DREGGIO01_Ind1_stVal, groupInput->serviceStart);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_DREGGIO01_Ind1_t,  &iecTimestamp);
+	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_G8477_DREGGIO02_Ind1_stVal, groupInput->serviceStop);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_DREGGIO02_Ind1_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn1_stVal, groupInput->providerId);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn1_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn2_stVal, groupInput->quotationId);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn2_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn3_stVal, groupInput->serviceCode);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn3_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROMMXU01_TotW_mag_i, groupInput->supplyWatt);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROMMXU01_TotW_t, &iecTimestamp);
 	// see 'How to store a 64 bit integer in two 32 bit integers and convert back again' in stackoverflow
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_AnIn1_mag_i, (uint32_t)(groupInput->timestamp >> 32));
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_AnIn1_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_AnIn2_mag_i, (uint32_t)(groupInput->timestamp));
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_AnIn2_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_AnIn3_mag_i, groupInput->executionRate);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_Device1_GROGGIO_AnIn3_t, &iecTimestamp);
-    char *daName = "IEDMODEL_Device1_GROGGIO01_AnIn1_mag_i";
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn1_mag_i, (uint32_t)(groupInput->timestamp >> 32));
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn1_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn2_mag_i, (uint32_t)(groupInput->timestamp));
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn2_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn3_mag_i, groupInput->executionRate);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn3_t, &iecTimestamp);
+    char *daName = "IEDMODEL_G8477_GROGGIO01_AnIn1_mag_i";
 	for(int i=0; i<10; i++) {
 		IedServer_updateInt32AttributeValue(iedServer, groupRealPowerTsHighDaNames[i], (uint32_t)(groupInput->realPower[i].timestamp >> 32));
 		IedServer_updateInt32AttributeValue(iedServer, groupRealPowerTsLowDaNames[i], (uint32_t)(groupInput->realPower[i].timestamp));

@@ -12,5 +12,9 @@ cp ./build/libiec61850.a /usr/local/lib
 - 執行'./bess_server -p 8080'，出現：
   > ./bess_server: error while loading shared libraries: libmodbus.so.5: cannot open shared object file: No such file or directory
 '
-sudo ldconfig
-sudo ldconfig -v | grep libmodbus
+  用以下指令解決：
+  ```
+  sudo ldconfig
+  sudo ldconfig -v | grep libmodbus
+  ```
+- 問題：Report control block裡的report name，report id，是固定不可變的嗎？ 後來是照交易平台通訊規範所列的name與id來設
