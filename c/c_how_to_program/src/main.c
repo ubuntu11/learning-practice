@@ -8,5 +8,5 @@
 
 int main()
 {
-	main_12_19();
+	main_ex_5_36();
 }
