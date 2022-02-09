@@ -4,3 +4,5 @@ static_model.*
 server
 client
 .project
+.cproject
+.settings/

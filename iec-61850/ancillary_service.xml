@@ -42,11 +42,12 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
           <!-- 每個邏輯裝置都需要一個LN0邏輯節點 -->
           <!-- 一種常見(代表並不一定要如此)的做法是把所有資料集、ReportControl、GSEControl都放在LN0邏輯節點內,而其它邏輯節點只用來 保存DO. -->
           <LN0 inst="" lnClass="LLN0" lnType="LN0">
-            <!-- 請視需要uncomment底下的資料集、ReportControl、GSEControl等區塊 -->
+            <!-- DI DataSet -->
             <DataSet name="DIDRE">
               <FCDA ldInst="G8477" prefix="DRE" lnClass="GGIO" lnInst="01" doName="Ind1" daName="stVal" fc="ST"/>
               <FCDA ldInst="G8477" prefix="DRE" lnClass="GGIO" lnInst="02" doName="Ind1" daName="stVal" fc="ST"/>
             </DataSet>
+            <!-- AI報價代碼 DataSet -->
             <DataSet name="AIGRO">
               <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="IntIn1" daName="stVal" fc="ST"/>
               <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="IntIn2" daName="stVal" fc="ST"/>
@@ -87,6 +88,8 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
               <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="AnIn2" daName="mag.i" fc="MX"/>
               <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="AnIn3" daName="mag.i" fc="MX"/>
             </DataSet>
+
+            <!-- DI Report -->
             <ReportControl
               name="brcb01"
               datSet="DIDRE"
@@ -107,6 +110,7 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
                 configRef="true"
                 bufOvfl="true"/>
             </ReportControl>
+            <!-- AI報價代碼 Report-->
             <ReportControl
               name="urcb01"
               datSet="AIGRO"
@@ -161,14 +165,14 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
         </LDevice>
         <LDevice inst="R8623" ldName="ASR08623">
           <LN0 inst="" lnClass="LLN0" lnType="LN0">
-            <!-- AI 類型交易資源(Resource)階層項目點位 -->
+            <!-- AI交易資源(Resource)階層項目 DataSet -->
             <DataSet name="ITEM">
               <FCDA ldInst="R8623" prefix="" lnClass="GGIO" lnInst="01" doName="IntIn1" daName="stVal" fc="ST"/>
               <FCDA ldInst="R8623" prefix="" lnClass="GGIO" lnInst="02" doName="IntIn1" daName="stVal" fc="ST"/>
               <FCDA ldInst="R8623" prefix="" lnClass="GGIO" lnInst="03" doName="IntIn1" daName="stVal" fc="ST"/>
               <FCDA ldInst="R8623" prefix="" lnClass="GGIO" lnInst="04" doName="IntIn1" daName="stVal" fc="ST"/>
             </DataSet>
-            <!-- AI 類型 AFC & dReg 電力數據資料欄位 -->
+            <!-- AI交易資源量測項目(電力數據資料) DataSet (AFC & dReg ) -->
             <DataSet name="AIDRE">
               <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
               <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
@@ -311,6 +315,7 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
               <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="10" doName="AnIn1" daName="mag.i" fc="MX"/>
               <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="10" doName="AnIn2" daName="mag.i" fc="MX"/>
             </DataSet>
+            <!-- AI交易資源階層項目 Report -->
             <ReportControl
               name="urcb01"
               datSet="ITEM"
@@ -331,6 +336,7 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
                 configRef="true"
                 bufOvfl="true"/>
             </ReportControl>
+            <!-- AI交易資源量測項目(電力數據資料) Report -->
             <ReportControl
               name="urcb02"
               datSet="AIDRE"
