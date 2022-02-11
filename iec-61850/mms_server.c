@@ -381,10 +381,13 @@ int main(int argc, char** argv) {
 	signal(SIGINT, sigint_handler);
 
 	while (running) {
-		uint64_t timestamp = Hal_getTimeInMs();
+		// 輔助服務傳輸格式說明中，對時間精度的要求只到秒
+		//uint64_t timestamp = Hal_getTimeInMs();
+		uint32_t timestamp = time(NULL);
 		Timestamp iecTimestamp;
 		Timestamp_clearFlags(&iecTimestamp);
-		Timestamp_setTimeInMilliseconds(&iecTimestamp, timestamp);
+		//Timestamp_setTimeInMilliseconds(&iecTimestamp, timestamp);
+		Timestamp_setTimeInSeconds(&iecTimestamp, timestamp);
 		Timestamp_setLeapSecondKnown(&iecTimestamp, true);
 
 		GroupInput *groupInput = malloc(sizeof(GroupInput));
@@ -414,12 +417,15 @@ void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 	groupInput->serviceCode = 0;
 	groupInput->supplyWatt = 12000;
 	groupInput->demandWatt = 10000;
-	groupInput->timestamp = Hal_getTimeInMs();
+	// 輔助服務傳輸格式說明中，對時間精度的要求只到秒
+	// groupInput->timestamp = Hal_getTimeInMs();
+	groupInput->timestamp = time(NULL);
 	groupInput->executionRate = 8888;
 	for(int i=0; i<10; i++) {
 		GroupRealPower *groupRealPower = malloc(sizeof(GroupRealPower));
-		groupRealPower->totalWatt = 10000 - 1000 * sin(2 * PI * (40 * i) / 360);
-		groupRealPower->timestamp = groupInput->timestamp - (10 - i) * 1000;
+		// 假設所有交易資源總輸出功率以360秒（6分鐘）週期在60KW至100KW之間變動
+		groupRealPower->totalWatt = 8000 + 2000 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
+		groupRealPower->timestamp = groupInput->timestamp - (10 - i);
 		groupInput->realPower[i] = *groupRealPower;
 	}
 
@@ -429,22 +435,22 @@ void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 	resourceInput->serviceCode = groupInput->serviceCode;
 	for(int i=0; i<10; i++) {
 		ResourcePowerInfo *resourcePowerInfo = malloc(sizeof(ResourcePowerInfo));
-		resourcePowerInfo->phvA = 2300;
-		resourcePowerInfo->phvB = 2300;
-		resourcePowerInfo->phvC = 2300;
-		resourcePowerInfo->currA = 10000;
-		resourcePowerInfo->currB = 10000;
-		resourcePowerInfo->currC = 10000;
+		// 假設電壓以360秒（6分鐘）週期在23KV至22.6KV之間變動
+		resourcePowerInfo->phvA = 2280 + 20 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
+		resourcePowerInfo->phvB = resourcePowerInfo->phvA;
+		resourcePowerInfo->phvC = resourcePowerInfo->phvA;
+		// 假設電流以360秒（6分鐘）週期在440A至360A之間變動
+		resourcePowerInfo->currA = 12280 + 40 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);;
+		resourcePowerInfo->currB = resourcePowerInfo->currA;
+		resourcePowerInfo->currC = resourcePowerInfo->currA;
 		resourcePowerInfo->freq = 6000;
-		resourcePowerInfo->totW = 50000;
-		resourcePowerInfo->totVAr = 10000;
+		// 只有一個交易資源，故等於報價代碼的TotW
+		resourcePowerInfo->totW = groupInput->realPower[i].totalWatt;
+		resourcePowerInfo->totVAr = 2000;
 		resourcePowerInfo->totPF = 88;
-		// 儲能系統瞬時剩餘電量 SOC,單位為0.01%
 		resourcePowerInfo->soc = 77;
-		// 儲能系統狀態, 0:無異常,1:異常
 		resourcePowerInfo->essState = 0;
-		// 提供該秒資料之時間點(Unix Timestamp-H),UTC時間,時間最小單位為秒
-		resourcePowerInfo->timestamp = groupInput->timestamp;
+		resourcePowerInfo->timestamp = groupInput->realPower[i].timestamp;
 		resourceInput->powerInfo[i] = *resourcePowerInfo;
 	}
 }
