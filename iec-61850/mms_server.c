@@ -420,6 +420,8 @@ void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 	// 輔助服務傳輸格式說明中，對時間精度的要求只到秒
 	// groupInput->timestamp = Hal_getTimeInMs();
 	groupInput->timestamp = time(NULL);
+  // 取報價代碼內第1個交易資源(Resource) ID之第5秒頻率及所有交易資源之第6秒加總實功率作為執行率計算依據
+  // 根據反應曲線撰寫執行率計算公式
 	groupInput->executionRate = 8888;
 	for(int i=0; i<10; i++) {
 		GroupRealPower *groupRealPower = malloc(sizeof(GroupRealPower));
@@ -443,7 +445,8 @@ void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 		resourcePowerInfo->currA = 12280 + 40 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);;
 		resourcePowerInfo->currB = resourcePowerInfo->currA;
 		resourcePowerInfo->currC = resourcePowerInfo->currA;
-		resourcePowerInfo->freq = 6000;
+    // 假設頻率以360秒（6分鐘）週期在60.25至59.75Hz之間變動
+		resourcePowerInfo->freq = 6000 + 25 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
 		// 只有一個交易資源，故等於報價代碼的TotW
 		resourcePowerInfo->totW = groupInput->realPower[i].totalWatt;
 		resourcePowerInfo->totVAr = 2000;
