@@ -11,9 +11,12 @@
 #include <signal.h>
 #include <time.h>
 #include "hal_thread.h"
+#include <sqlite3.h>
 
-//AI類型報價代碼Report, report name is "urcb01", but generated data model name this report as "urcb0101"
-#define REPORT_NAME  "HwacomAFCG8477/LLN0.RP.urcb0101"
+// AI報價代碼Report, report name is "urcb01", but generated data model name this report as "urcb0101"
+#define AI_GROUP_REPORT_NAME  "HwacomAFCG8477/LLN0.RP.urcb0101"
+// AI交易資源量測項目(電力數據資料)
+#define AI_RESOURCE_REPORT_NAME "HwacomAFCR8623/LLN0.RP.urcb0201"
 
 static int running = 0;
 
@@ -96,7 +99,7 @@ int main(int argc, char **argv) {
 	ClientReportControlBlock rcb = NULL;
 
 	/* Read RCB values */
-	rcb = IedConnection_getRCBValues(con, &error, REPORT_NAME, NULL);
+	rcb = IedConnection_getRCBValues(con, &error, AI_RESOURCE_REPORT_NAME, NULL);
 
 	if (error != IED_ERROR_OK) {
 		printf("getRCBValues service error!\n");
@@ -107,7 +110,7 @@ int main(int argc, char **argv) {
 	LinkedList dataSetDirectory = IedConnection_getDataSetDirectory(con, &error, dataSetName, NULL);
 
 	/* Configure the report receiver */
-	IedConnection_installReportHandler(con, REPORT_NAME, ClientReportControlBlock_getRptId(rcb), reportCallbackFunction,
+	IedConnection_installReportHandler(con, AI_RESOURCE_REPORT_NAME, ClientReportControlBlock_getRptId(rcb), reportCallbackFunction,
 			(void*) dataSetDirectory);
 
 	ClientReportControlBlock_setRptEna(rcb, true);
