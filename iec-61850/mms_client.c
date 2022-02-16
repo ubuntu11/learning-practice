@@ -32,10 +32,12 @@ void reportCallbackFunction(void *parameter, ClientReport report) {
   LinkedList dataSetDirectory = (LinkedList) parameter;
   MmsValue *dataSetValues = ClientReport_getDataSetValues(report);
 
+  // ex: HwacomAFCR8623/LLN0.RP.urcb0201
   printf("received report for RCB: %s\n", ClientReport_getRcbReference(report));
 
   if (dataSetDirectory) {
     int i;
+    // LinkedList_size(dataSetDirectory) = how many FCDA in a dataset
     for (i = 0; i < LinkedList_size(dataSetDirectory); i++) {
       ReasonForInclusion reason = ClientReport_getReasonForInclusion(report, i);
       if (reason != IEC61850_REASON_NOT_INCLUDED) {
@@ -54,6 +56,7 @@ void reportCallbackFunction(void *parameter, ClientReport report) {
 
         LinkedList entry = LinkedList_get(dataSetDirectory, i);
 
+        // ex: HwacomAFCR8623/DREMMXU01.PhV.phsA.cVal.mag.i[MX]
         char *entryName = (char *) entry->data;
 
         if (ClientReport_hasTimestamp(report)) {
