@@ -439,19 +439,22 @@ void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 		ResourcePowerInfo *resourcePowerInfo = malloc(sizeof(ResourcePowerInfo));
 		// 假設電壓以360秒（6分鐘）週期在23KV至22.6KV之間變動
 		resourcePowerInfo->phvA = 2280 + 20 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
-		resourcePowerInfo->phvB = resourcePowerInfo->phvA;
-		resourcePowerInfo->phvC = resourcePowerInfo->phvA;
+		resourcePowerInfo->phvB = 2280 + 20 * sin(PI * ((groupInput->timestamp - (11 - i)) % 360) / 180);
+		resourcePowerInfo->phvC = 2280 + 20 * sin(PI * ((groupInput->timestamp - (12 - i)) % 360) / 180);
 		// 假設電流以360秒（6分鐘）週期在440A至360A之間變動
-		resourcePowerInfo->currA = 12280 + 40 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);;
-		resourcePowerInfo->currB = resourcePowerInfo->currA;
-		resourcePowerInfo->currC = resourcePowerInfo->currA;
-    // 假設頻率以360秒（6分鐘）週期在60.25至59.75Hz之間變動
+		resourcePowerInfo->currA = 40000 + 4000 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
+		resourcePowerInfo->currB = 40000 + 4000 * sin(PI * ((groupInput->timestamp - (11 - i)) % 360) / 180);
+		resourcePowerInfo->currC = 40000 + 4000 * sin(PI * ((groupInput->timestamp - (12 - i)) % 360) / 180);
+        // 假設頻率以360秒（6分鐘）週期在60.25至59.75Hz之間變動
 		resourcePowerInfo->freq = 6000 + 25 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
 		// 只有一個交易資源，故等於報價代碼的TotW
 		resourcePowerInfo->totW = groupInput->realPower[i].totalWatt;
-		resourcePowerInfo->totVAr = 2000;
-		resourcePowerInfo->totPF = 88;
-		resourcePowerInfo->soc = 77;
+		// 假設總虛功率以360秒（6分鐘）週期在20至60KVar之間變動
+		resourcePowerInfo->totVAr = 4000 + 2000 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
+		// 假設總功率因數以360秒（6分鐘）週期在75至95%之間變動
+		resourcePowerInfo->totPF = 8500 + 1000 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
+		// 假設剩餘電量SOC以360秒（6分鐘）週期在40至80%之間變動
+		resourcePowerInfo->soc = 6000 + 2000 * sin(PI * ((groupInput->timestamp - (10 - i)) % 360) / 180);
 		resourcePowerInfo->essState = 0;
 		resourcePowerInfo->timestamp = groupInput->realPower[i].timestamp;
 		resourceInput->powerInfo[i] = *resourcePowerInfo;

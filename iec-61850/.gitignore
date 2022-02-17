@@ -6,3 +6,4 @@ client
 .project
 .cproject
 .settings/
+*.db

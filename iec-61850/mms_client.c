@@ -138,6 +138,8 @@ void reportCallbackFunction(void *parameter, ClientReport report) {
 		return;
 	}
 
+	sqlite3_exec(db, "PRAGMA journal_mode=WAL;", 0, 0, &errMsg);
+
 	uint64_t ts;
     for (i = 0; i < 10; i++) {
         ts = ((uint64_t) time1[i]) << 32 | time2[i];
