@@ -19,7 +19,7 @@ include $(LIBIEC_HOME)/make/common_targets.mk
 #LDLIBS += -lm -lmodbus
 #CFLAGS=-std=c99 `pkg-config --cflags libmodbus`
 CFLAGS=-std=c99
-LDLIBS += -lm
+LDLIBS += -lm -lsqlite3
 CP = cp
 
 model:	$(PROJECT_ICD_FILE)

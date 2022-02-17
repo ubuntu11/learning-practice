@@ -28,9 +28,34 @@ char IEC61850_REASON_NAMES[][20] = {"NOT_INCLUDED", "DATA_CHANGE", "QUALITY_CHAN
                                     "INTEGRITY",
                                     "GI", "UNKNOWN"};
 
+
+
+int getAiResourceDataArrayIdx(char *doName) {
+	char *idxSlash = strchr(doName, '/');
+	char lD2DA[50];
+	strcpy(lD2DA, idxSlash + 8);
+	int i = (int) strtol(lD2DA, NULL, 10);
+	return i;
+}
+
 void reportCallbackFunction(void *parameter, ClientReport report) {
   LinkedList dataSetDirectory = (LinkedList) parameter;
   MmsValue *dataSetValues = ClientReport_getDataSetValues(report);
+
+  unsigned int phvA[10];
+  unsigned int phvB[10];
+  unsigned int phvC[10];
+  unsigned int currA[10];
+  unsigned int currB[10];
+  unsigned int currC[10];
+  unsigned int freq[10];
+  unsigned int totW[10];
+  unsigned int totVAr[10];
+  unsigned int totPF[10];
+  unsigned int soc[10];
+  bool essState[10];
+  unsigned long time1[10];
+  unsigned long time2[10];
 
   // ex: HwacomAFCR8623/LLN0.RP.urcb0201
   printf("received report for RCB: %s\n", ClientReport_getRcbReference(report));
@@ -58,18 +83,71 @@ void reportCallbackFunction(void *parameter, ClientReport report) {
 
         // ex: HwacomAFCR8623/DREMMXU01.PhV.phsA.cVal.mag.i[MX]
         char *entryName = (char *) entry->data;
+        int idx = getAiResourceDataArrayIdx(entryName) - 1;
 
-        if (ClientReport_hasTimestamp(report)) {
-          printf("%li  %s (included for reason %s): %s\n", ClientReport_getTimestamp(report),
-                 entryName,
-                 IEC61850_REASON_NAMES[reason], valBuffer);
-        } else {
-          printf("%s (included for reason %s): %s\n", entryName, IEC61850_REASON_NAMES[reason],
-                 valBuffer);
+        if (strstr(entryName, "PhV.phsA")) {
+        	phvA[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "PhV.phsB")) {
+        	phvB[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "PhV.phsC")) {
+        	phvC[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "A.phsA")) {
+        	currA[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "A.phsB")) {
+        	currB[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "A.phsC")) {
+        	currC[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "Hz")) {
+        	freq[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "TotW")) {
+        	totW[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "TotVAr")) {
+        	totVAr[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "TotPF")) {
+        	totPF[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "InBatV")) {
+        	soc[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "BatSt")) {
+        	essState[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "AnIn1")) {
+        	time1[idx] = atoi(valBuffer);
+        } else if(strstr(entryName, "AnIn2")) {
+        	time2[idx] = atoi(valBuffer);
         }
 
+//        if (ClientReport_hasTimestamp(report)) {
+//          printf("%li  %s (included for reason %s): %s\n", ClientReport_getTimestamp(report),
+//                 entryName,
+//                 IEC61850_REASON_NAMES[reason], valBuffer);
+//        } else {
+//          printf("%s (included for reason %s): %s\n", entryName, IEC61850_REASON_NAMES[reason],
+//                 valBuffer);
+//        }
+
       }
+    } //end of for(i = 0; i < LinkedList_size(dataSetDirectory); i++)
+
+    char sqlStatement[500];
+    char *sqlStrFormat = "INSERT INTO resource_measurement VALUES(NULL, 8623, %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)";
+
+    sqlite3 *db;
+    char *errMsg = NULL;
+	/* 開啟 database 檔 */
+	if (sqlite3_open_v2("taipower.db", &db,
+			SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL)) {
+		return;
+	}
+
+	uint64_t ts;
+    for (i = 0; i < 10; i++) {
+        ts = ((uint64_t) time1[i]) << 32 | time2[i];
+    	sprintf(sqlStatement, sqlStrFormat, phvA[i], phvB[i], phvC[i], currA[i], currB[i], currC[i], freq[i], totW[i], totVAr[i], totPF[i], soc[i], essState[i], ts);
+    	// printf("sql statement= %s\n", sqlStatement);
+    	sqlite3_exec(db, sqlStatement, 0, 0, &errMsg);
     }
+
+    /* 關閉 database */
+    sqlite3_close(db);
   }
 }
 
