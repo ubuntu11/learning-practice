@@ -123,203 +123,203 @@ struct ResourceInputStruc {
 typedef struct ResourceInputStruc ResourceInput;
 
 DataAttribute *groupRealPowerTsHighDaNames[10] = {
-		IEDMODEL_G8477_GROGGIO01_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO02_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO03_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO04_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO05_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO06_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO07_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO08_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO09_AnIn1_mag_i,
-		IEDMODEL_G8477_GROGGIO10_AnIn1_mag_i };
+		IEDMODEL_G08477_GROGGIO01_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO02_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO03_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO04_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO05_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO06_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO07_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO08_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO09_AnIn1_mag_i,
+		IEDMODEL_G08477_GROGGIO10_AnIn1_mag_i };
 
 DataAttribute *groupRealPowerTsLowDaNames[10] = {
-		IEDMODEL_G8477_GROGGIO01_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO02_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO03_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO04_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO05_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO06_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO07_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO08_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO09_AnIn2_mag_i,
-		IEDMODEL_G8477_GROGGIO10_AnIn2_mag_i };
+		IEDMODEL_G08477_GROGGIO01_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO02_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO03_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO04_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO05_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO06_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO07_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO08_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO09_AnIn2_mag_i,
+		IEDMODEL_G08477_GROGGIO10_AnIn2_mag_i };
 
 DataAttribute *groupRealPowerDaNames[10] = {
-		IEDMODEL_G8477_GROMMXU01_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU02_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU03_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU04_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU05_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU06_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU07_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU08_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU09_TotW_mag_i,
-		IEDMODEL_G8477_GROMMXU10_TotW_mag_i };
+		IEDMODEL_G08477_GROMMXU01_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU02_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU03_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU04_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU05_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU06_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU07_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU08_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU09_TotW_mag_i,
+		IEDMODEL_G08477_GROMMXU10_TotW_mag_i };
 
 DataAttribute *resourcePowerInfoPhvADaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU02_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU03_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU04_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU05_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU06_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU07_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU08_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU09_PhV_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU10_PhV_phsA_cVal_mag_i };
+		IEDMODEL_R08623_DREMMXU01_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU02_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU03_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU04_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU05_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU06_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU07_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU08_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU09_PhV_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU10_PhV_phsA_cVal_mag_i };
 
 DataAttribute *resourcePowerInfoPhvBDaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU02_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU03_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU04_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU05_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU06_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU07_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU08_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU09_PhV_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU10_PhV_phsB_cVal_mag_i };
+		IEDMODEL_R08623_DREMMXU01_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU02_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU03_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU04_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU05_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU06_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU07_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU08_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU09_PhV_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU10_PhV_phsB_cVal_mag_i };
 
 DataAttribute *resourcePowerInfoPhvCDaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU02_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU03_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU04_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU05_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU06_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU07_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU08_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU09_PhV_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU10_PhV_phsC_cVal_mag_i };
+		IEDMODEL_R08623_DREMMXU01_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU02_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU03_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU04_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU05_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU06_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU07_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU08_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU09_PhV_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU10_PhV_phsC_cVal_mag_i };
 
 DataAttribute *resourcePowerInfoCurrADaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU02_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU03_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU04_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU05_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU06_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU07_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU08_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU09_A_phsA_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU10_A_phsA_cVal_mag_i };
+		IEDMODEL_R08623_DREMMXU01_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU02_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU03_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU04_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU05_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU06_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU07_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU08_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU09_A_phsA_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU10_A_phsA_cVal_mag_i };
 
 DataAttribute *resourcePowerInfoCurrBDaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU02_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU03_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU04_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU05_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU06_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU07_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU08_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU09_A_phsB_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU10_A_phsB_cVal_mag_i };
+		IEDMODEL_R08623_DREMMXU01_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU02_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU03_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU04_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU05_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU06_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU07_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU08_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU09_A_phsB_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU10_A_phsB_cVal_mag_i };
 
 DataAttribute *resourcePowerInfoCurrCDaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU02_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU03_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU04_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU05_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU06_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU07_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU08_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU09_A_phsC_cVal_mag_i,
-		IEDMODEL_R8623_DREMMXU10_A_phsC_cVal_mag_i };
+		IEDMODEL_R08623_DREMMXU01_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU02_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU03_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU04_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU05_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU06_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU07_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU08_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU09_A_phsC_cVal_mag_i,
+		IEDMODEL_R08623_DREMMXU10_A_phsC_cVal_mag_i };
 
 DataAttribute *resourcePowerInfoHzDaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_Hz_mag_i, IEDMODEL_R8623_DREMMXU02_Hz_mag_i,
-		IEDMODEL_R8623_DREMMXU03_Hz_mag_i, IEDMODEL_R8623_DREMMXU04_Hz_mag_i,
-		IEDMODEL_R8623_DREMMXU05_Hz_mag_i, IEDMODEL_R8623_DREMMXU06_Hz_mag_i,
-		IEDMODEL_R8623_DREMMXU07_Hz_mag_i, IEDMODEL_R8623_DREMMXU08_Hz_mag_i,
-		IEDMODEL_R8623_DREMMXU09_Hz_mag_i, IEDMODEL_R8623_DREMMXU10_Hz_mag_i };
+		IEDMODEL_R08623_DREMMXU01_Hz_mag_i, IEDMODEL_R08623_DREMMXU02_Hz_mag_i,
+		IEDMODEL_R08623_DREMMXU03_Hz_mag_i, IEDMODEL_R08623_DREMMXU04_Hz_mag_i,
+		IEDMODEL_R08623_DREMMXU05_Hz_mag_i, IEDMODEL_R08623_DREMMXU06_Hz_mag_i,
+		IEDMODEL_R08623_DREMMXU07_Hz_mag_i, IEDMODEL_R08623_DREMMXU08_Hz_mag_i,
+		IEDMODEL_R08623_DREMMXU09_Hz_mag_i, IEDMODEL_R08623_DREMMXU10_Hz_mag_i };
 
 DataAttribute *resourcePowerInfoTotWDaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU02_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU03_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU04_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU05_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU06_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU07_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU08_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU09_TotW_mag_i,
-		IEDMODEL_R8623_DREMMXU10_TotW_mag_i };
+		IEDMODEL_R08623_DREMMXU01_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU02_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU03_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU04_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU05_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU06_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU07_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU08_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU09_TotW_mag_i,
+		IEDMODEL_R08623_DREMMXU10_TotW_mag_i };
 
 DataAttribute *resourcePowerInfoTotVArDaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU02_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU03_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU04_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU05_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU06_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU07_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU08_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU09_TotVAr_mag_i,
-		IEDMODEL_R8623_DREMMXU10_TotVAr_mag_i };
+		IEDMODEL_R08623_DREMMXU01_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU02_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU03_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU04_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU05_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU06_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU07_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU08_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU09_TotVAr_mag_i,
+		IEDMODEL_R08623_DREMMXU10_TotVAr_mag_i };
 
 DataAttribute *resourcePowerInfoTotPFDaNames[10] = {
-		IEDMODEL_R8623_DREMMXU01_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU02_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU03_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU04_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU05_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU06_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU07_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU08_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU09_TotPF_mag_i,
-		IEDMODEL_R8623_DREMMXU10_TotPF_mag_i };
+		IEDMODEL_R08623_DREMMXU01_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU02_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU03_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU04_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU05_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU06_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU07_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU08_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU09_TotPF_mag_i,
+		IEDMODEL_R08623_DREMMXU10_TotPF_mag_i };
 
 DataAttribute *resourcePowerInfoSocDaNames[10] = {
-		IEDMODEL_R8623_DREZBAT01_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT02_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT03_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT04_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT05_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT06_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT07_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT08_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT09_InBatV_mag_i,
-		IEDMODEL_R8623_DREZBAT10_InBatV_mag_i };
+		IEDMODEL_R08623_DREZBAT01_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT02_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT03_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT04_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT05_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT06_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT07_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT08_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT09_InBatV_mag_i,
+		IEDMODEL_R08623_DREZBAT10_InBatV_mag_i };
 
 DataAttribute *resourcePowerInfoBatStatDaNames[10] = {
-		IEDMODEL_R8623_DREZBAT01_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT02_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT03_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT04_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT05_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT06_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT07_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT08_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT09_BatSt_stVal,
-		IEDMODEL_R8623_DREZBAT10_BatSt_stVal };
+		IEDMODEL_R08623_DREZBAT01_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT02_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT03_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT04_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT05_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT06_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT07_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT08_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT09_BatSt_stVal,
+		IEDMODEL_R08623_DREZBAT10_BatSt_stVal };
 
 DataAttribute *resourcePowerInfoTsHighDaNames[10] = {
-		IEDMODEL_R8623_DREGGIO01_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO02_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO03_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO04_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO05_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO06_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO07_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO08_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO09_AnIn1_mag_i,
-		IEDMODEL_R8623_DREGGIO10_AnIn1_mag_i };
+		IEDMODEL_R08623_DREGGIO01_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO02_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO03_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO04_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO05_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO06_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO07_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO08_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO09_AnIn1_mag_i,
+		IEDMODEL_R08623_DREGGIO10_AnIn1_mag_i };
 
 DataAttribute *resourcePowerInfoTsLowDaNames[10] = {
-		IEDMODEL_R8623_DREGGIO01_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO02_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO03_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO04_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO05_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO06_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO07_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO08_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO09_AnIn2_mag_i,
-		IEDMODEL_R8623_DREGGIO10_AnIn2_mag_i };
+		IEDMODEL_R08623_DREGGIO01_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO02_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO03_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO04_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO05_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO06_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO07_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO08_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO09_AnIn2_mag_i,
+		IEDMODEL_R08623_DREGGIO10_AnIn2_mag_i };
 
 
 // function prototypes
@@ -420,9 +420,10 @@ void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 	// 輔助服務傳輸格式說明中，對時間精度的要求只到秒
 	// groupInput->timestamp = Hal_getTimeInMs();
 	groupInput->timestamp = time(NULL);
-  // 取報價代碼內第1個交易資源(Resource) ID之第5秒頻率及所有交易資源之第6秒加總實功率作為執行率計算依據
-  // 根據反應曲線撰寫執行率計算公式
-	groupInput->executionRate = 8888;
+    // TODO: 取報價代碼內第1個交易資源(Resource) ID之第5秒頻率及所有交易資源之第6秒加總實功率作為執行率計算依據
+    // 根據反應曲線撰寫執行率計算公式
+	// NOW: 假設執行率以360秒（6分鐘）週期在85%至95%之間變動
+	groupInput->executionRate = 9000 + 500 * sin(PI * (groupInput->timestamp % 360) / 180);
 	for(int i=0; i<10; i++) {
 		GroupRealPower *groupRealPower = malloc(sizeof(GroupRealPower));
 		// 假設所有交易資源總輸出功率以360秒（6分鐘）週期在60KW至100KW之間變動
@@ -506,25 +507,25 @@ void updateIedModel(IedServer iedServer, GroupInput *groupInput, ResourceInput *
 	Timestamp_setTimeInMilliseconds(&iecTimestamp, groupInput->timestamp);
 	Timestamp_setLeapSecondKnown(&iecTimestamp, true);
 
-	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_G8477_DREGGIO01_Ind1_stVal, groupInput->serviceStart);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_DREGGIO01_Ind1_t,  &iecTimestamp);
-	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_G8477_DREGGIO02_Ind1_stVal, groupInput->serviceStop);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_DREGGIO02_Ind1_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn1_stVal, groupInput->providerId);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn1_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn2_stVal, groupInput->quotationId);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn2_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn3_stVal, groupInput->serviceCode);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_IntIn3_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROMMXU01_TotW_mag_i, groupInput->supplyWatt);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROMMXU01_TotW_t, &iecTimestamp);
+	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_G08477_DREGGIO01_Ind1_stVal, groupInput->serviceStart);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_DREGGIO01_Ind1_t,  &iecTimestamp);
+	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_G08477_DREGGIO02_Ind1_stVal, groupInput->serviceStop);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_DREGGIO02_Ind1_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_IntIn1_stVal, groupInput->providerId);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_IntIn1_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_IntIn2_stVal, groupInput->quotationId);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_IntIn2_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_IntIn3_stVal, groupInput->serviceCode);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_IntIn3_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G08477_GROMMXU01_TotW_mag_i, groupInput->supplyWatt);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_GROMMXU01_TotW_t, &iecTimestamp);
 	// see 'How to store a 64 bit integer in two 32 bit integers and convert back again' in stackoverflow
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn1_mag_i, (uint32_t)(groupInput->timestamp >> 32));
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn1_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn2_mag_i, (uint32_t)(groupInput->timestamp));
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn2_t, &iecTimestamp);
-	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn3_mag_i, groupInput->executionRate);
-	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G8477_GROGGIO_AnIn3_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_AnIn1_mag_i, (uint32_t)(groupInput->timestamp >> 32));
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_AnIn1_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_AnIn2_mag_i, (uint32_t)(groupInput->timestamp));
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_AnIn2_t, &iecTimestamp);
+	IedServer_updateInt32AttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_AnIn3_mag_i, groupInput->executionRate);
+	IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_G08477_GROGGIO_AnIn3_t, &iecTimestamp);
 	for(int i=0; i<10; i++) {
 		IedServer_updateInt32AttributeValue(iedServer, groupRealPowerTsHighDaNames[i], (uint32_t)(groupInput->realPower[i].timestamp >> 32));
 		IedServer_updateInt32AttributeValue(iedServer, groupRealPowerTsLowDaNames[i], (uint32_t)(groupInput->realPower[i].timestamp));
@@ -532,10 +533,10 @@ void updateIedModel(IedServer iedServer, GroupInput *groupInput, ResourceInput *
 	}
 
 	// AI for 交易資源
-	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_R8623_GGIO01_IntIn1_stVal, resourceInput->providerId);
-	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_R8623_GGIO02_IntIn1_stVal, resourceInput->quotationId);
-	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_R8623_GGIO03_IntIn1_stVal, resourceInput->resourceId);
-	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_R8623_GGIO04_IntIn1_stVal, resourceInput->serviceCode);
+	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_R08623_GGIO01_IntIn1_stVal, resourceInput->providerId);
+	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_R08623_GGIO02_IntIn1_stVal, resourceInput->quotationId);
+	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_R08623_GGIO03_IntIn1_stVal, resourceInput->resourceId);
+	IedServer_updateBooleanAttributeValue(iedServer, IEDMODEL_R08623_GGIO04_IntIn1_stVal, resourceInput->serviceCode);
 
 	// 所有交易資源1-10秒電力數據資料
 	for(int i=0; i<10; i++) {

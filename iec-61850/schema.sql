@@ -29,11 +29,8 @@ CREATE TABLE group_real_power(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   quotation_id INTEGER NOT NULL,
   totalWatt INTEGER NOT NULL,
-  timestamp INTEGER NOT NULL,
-  performance_id INTEGER NOT NULL,
-  FOREIGN KEY (performance_id) references group_performance(id)
+  timestamp INTEGER NOT NULL
 );
-CREATE INDEX [IFK_GrpPowPerformanceId] on "group_real_power" (performance_id);
 
 CREATE TABLE resource_measurement(
   id INTEGER PRIMARY KEY AUTOINCREMENT,

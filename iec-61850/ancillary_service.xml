@@ -38,55 +38,55 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
       <Server>
         <Authentication none="true"/>
         <!-- 若不指定邏輯裝置名稱,預設為 IED名稱加上邏輯裝置識別名稱(inst) -->
-        <LDevice inst="G8477" ldName="ASG08477">
+        <LDevice inst="G08477" ldName="ASG08477">
           <!-- 每個邏輯裝置都需要一個LN0邏輯節點 -->
           <!-- 一種常見(代表並不一定要如此)的做法是把所有資料集、ReportControl、GSEControl都放在LN0邏輯節點內,而其它邏輯節點只用來 保存DO. -->
           <LN0 inst="" lnClass="LLN0" lnType="LN0">
             <!-- DI DataSet -->
             <DataSet name="DIDRE">
-              <FCDA ldInst="G8477" prefix="DRE" lnClass="GGIO" lnInst="01" doName="Ind1" daName="stVal" fc="ST"/>
-              <FCDA ldInst="G8477" prefix="DRE" lnClass="GGIO" lnInst="02" doName="Ind1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="G08477" prefix="DRE" lnClass="GGIO" lnInst="01" doName="Ind1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="G08477" prefix="DRE" lnClass="GGIO" lnInst="02" doName="Ind1" daName="stVal" fc="ST"/>
             </DataSet>
             <!-- AI報價代碼 DataSet -->
             <DataSet name="AIGRO">
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="IntIn1" daName="stVal" fc="ST"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="IntIn2" daName="stVal" fc="ST"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="IntIn3" daName="stVal" fc="ST"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="01" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="01" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="01" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="02" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="02" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="02" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="03" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="03" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="03" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="04" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="04" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="04" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="05" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="05" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="05" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="06" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="06" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="06" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="07" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="07" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="07" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="08" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="08" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="08" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="09" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="09" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="09" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMXU" lnInst="10" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="10" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" lnInst="10" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMTR" doName="SupDO31Wh" daName="actVal" fc="ST"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="MMTR" doName="DmdWh" daName="actVal" fc="ST"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="G8477" prefix="GRO" lnClass="GGIO" doName="AnIn3" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" doName="IntIn1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" doName="IntIn2" daName="stVal" fc="ST"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" doName="IntIn3" daName="stVal" fc="ST"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="01" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="01" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="01" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="02" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="02" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="02" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="03" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="03" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="03" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="04" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="04" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="04" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="05" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="05" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="05" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="06" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="06" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="06" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="07" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="07" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="07" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="08" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="08" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="08" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="09" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="09" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="09" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMXU" lnInst="10" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="10" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" lnInst="10" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMTR" doName="SupDO31Wh" daName="actVal" fc="ST"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="MMTR" doName="DmdWh" daName="actVal" fc="ST"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="G08477" prefix="GRO" lnClass="GGIO" doName="AnIn3" daName="mag.i" fc="MX"/>
             </DataSet>
 
             <!-- DI Report -->
@@ -163,157 +163,157 @@ indicated for stand-alone materials. Company: HwaCom Systems Inc. Department: �
           <LN inst="10" prefix="GRO" lnClass="MMXU" lnType="AI_GRP_MMXU_S"/>
           <LN inst="10" prefix="GRO" lnClass="GGIO" lnType="AI_GRPRES_GGIO_S"/>
         </LDevice>
-        <LDevice inst="R8623" ldName="ASR08623">
+        <LDevice inst="R08623" ldName="ASR08623">
           <LN0 inst="" lnClass="LLN0" lnType="LN0">
             <!-- AI交易資源(Resource)階層項目 DataSet -->
             <DataSet name="ITEM">
-              <FCDA ldInst="R8623" prefix="" lnClass="GGIO" lnInst="01" doName="IntIn1" daName="stVal" fc="ST"/>
-              <FCDA ldInst="R8623" prefix="" lnClass="GGIO" lnInst="02" doName="IntIn1" daName="stVal" fc="ST"/>
-              <FCDA ldInst="R8623" prefix="" lnClass="GGIO" lnInst="03" doName="IntIn1" daName="stVal" fc="ST"/>
-              <FCDA ldInst="R8623" prefix="" lnClass="GGIO" lnInst="04" doName="IntIn1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="R08623" prefix="" lnClass="GGIO" lnInst="01" doName="IntIn1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="R08623" prefix="" lnClass="GGIO" lnInst="02" doName="IntIn1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="R08623" prefix="" lnClass="GGIO" lnInst="03" doName="IntIn1" daName="stVal" fc="ST"/>
+              <FCDA ldInst="R08623" prefix="" lnClass="GGIO" lnInst="04" doName="IntIn1" daName="stVal" fc="ST"/>
             </DataSet>
             <!-- AI交易資源量測項目(電力數據資料) DataSet (AFC & dReg ) -->
             <DataSet name="AIDRE">
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="01" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="01" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="01" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="01" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="02" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="02" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="02" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="02" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="03" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="03" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="03" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="03" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="04" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="04" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="04" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="04" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="05" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="05" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="05" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="05" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="06" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="06" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="06" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="06" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="07" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="07" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="07" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="07" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="08" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="08" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="08" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="08" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="09" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="09" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="09" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="09" doName="AnIn2" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="Hz" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="TotW" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="TotVAr" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="TotPF" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="10" doName="InBatV" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="ZBAT" lnInst="10" doName="BatSt" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="10" doName="AnIn1" daName="mag.i" fc="MX"/>
-              <FCDA ldInst="R8623" prefix="DRE" lnClass="GGIO" lnInst="10" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="01" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="01" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="01" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="01" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="01" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="02" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="02" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="02" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="02" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="02" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="03" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="03" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="03" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="03" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="03" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="04" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="04" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="04" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="04" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="04" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="05" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="05" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="05" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="05" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="05" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="06" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="06" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="06" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="06" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="06" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="07" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="07" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="07" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="07" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="07" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="08" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="08" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="08" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="08" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="08" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="09" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="09" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="09" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="09" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="09" doName="AnIn2" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="PhV.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="PhV.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="PhV.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="A.phsA" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="A.phsB" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="A.phsC" daName="cVal.mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="Hz" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="TotW" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="TotVAr" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="MMXU" lnInst="10" doName="TotPF" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="10" doName="InBatV" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="ZBAT" lnInst="10" doName="BatSt" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="10" doName="AnIn1" daName="mag.i" fc="MX"/>
+              <FCDA ldInst="R08623" prefix="DRE" lnClass="GGIO" lnInst="10" doName="AnIn2" daName="mag.i" fc="MX"/>
             </DataSet>
             <!-- AI交易資源階層項目 Report -->
             <ReportControl
