@@ -19,3 +19,4 @@ cp ./build/libiec61850.a /usr/local/lib
   ```
 - 問題：Report control block裡的report name，report id，是固定不可變的嗎？ 後來是照交易平台通訊規範所列的name與id來設
 - sudo apt-get install libsqlite3-dev
+- sudo apt-get install sqlite3 libsqlite3-dev
