@@ -11,6 +11,7 @@
 #include <signal.h>
 #include "hal_thread.h"
 
+// TODO: 這件事後來沒有完成,待後續有需求時再來實現.
 int main(int argc, char** argv) {
 
     char* hostname;

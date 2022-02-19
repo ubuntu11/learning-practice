@@ -10,6 +10,7 @@ CREATE INDEX IFK_GrpQuotationId on afc_group(quotation_id);
 CREATE TABLE afc_resource (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   quotation_id INTEGER NOT NULL,
+  resource_id INTEGER NOT NULL,
   name VARCHAR(255),
   serviceType INTEGER NOT NULL,
   FOREIGN KEY (quotation_id) references afc_group(quotation_id)

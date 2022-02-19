@@ -409,6 +409,11 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
+/**
+ * 産生模擬資料,包括報價代碼(Group)的AI點位資料以及交易資源(Resource)的量測項目(電力
+ * 數據資料)AI點位資料.由於DI點位及交易資源階層項目AI點位是採用data change與quality
+ * change這樣的trigger option,故不在此函式模擬範圍內.
+ */
 void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 	groupInput->serviceStart = true;
 	groupInput->serviceStop = false;
@@ -420,9 +425,9 @@ void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 	// 輔助服務傳輸格式說明中，對時間精度的要求只到秒
 	// groupInput->timestamp = Hal_getTimeInMs();
 	groupInput->timestamp = time(NULL);
-    // TODO: 取報價代碼內第1個交易資源(Resource) ID之第5秒頻率及所有交易資源之第6秒加總實功率作為執行率計算依據
-    // 根據反應曲線撰寫執行率計算公式
-	// NOW: 假設執行率以360秒（6分鐘）週期在85%至95%之間變動
+    // TODO: 取報價代碼內第1個交易資源(Resource) ID之第5秒頻率及所有交易資源之第6秒
+	//       加總實功率作為執行率計算依據,根據反應曲線撰寫執行率計算公式
+	// NOW:  假設執行率以360秒（6分鐘）週期在85%至95%之間變動
 	groupInput->executionRate = 9000 + 500 * sin(PI * (groupInput->timestamp % 360) / 180);
 	for(int i=0; i<10; i++) {
 		GroupRealPower *groupRealPower = malloc(sizeof(GroupRealPower));
@@ -462,6 +467,9 @@ void simulate(GroupInput *groupInput, ResourceInput *resourceInput) {
 	}
 }
 
+/**
+ * 列印産生出來的模擬資料到標準輸出上,做為監視與除錯之用.
+ */
 void printOut(GroupInput *groupInput, ResourceInput *resourceInput) {
 	printf("%s", "==================================================");
 	// DI
@@ -499,6 +507,9 @@ void printOut(GroupInput *groupInput, ResourceInput *resourceInput) {
 	}
 }
 
+/**
+ * 根據産生出來的模擬資料更新61850物件資料模型.
+ */
 void updateIedModel(IedServer iedServer, GroupInput *groupInput, ResourceInput *resourceInput) {
 	IedServer_lockDataModel(iedServer);
 

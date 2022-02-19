@@ -29,15 +29,21 @@ char IEC61850_REASON_NAMES[][20] = {"NOT_INCLUDED", "DATA_CHANGE", "QUALITY_CHAN
                                     "GI", "UNKNOWN"};
 
 
-
+/**
+ * 由收到的Report資料裡的點位名稱(ex: HwacomAFCR08623/DREMMXU01.PhV.phsA.cVal.mag.i[MX])
+ ,取代相對的陣列索引值,本例中DREMMXU01是1-10秒的第一秒資料,故索引值應取0
+ */
 int getAiResourceDataArrayIdx(char *doName) {
 	char *idxSlash = strchr(doName, '/');
 	char lD2DA[50];
 	strcpy(lD2DA, idxSlash + 8);
 	int i = (int) strtol(lD2DA, NULL, 10);
-	return i;
+	return i--;
 }
 
+/**
+ * 執行傳入的SQL statement,將資料存入資料庫內.
+ */
 void saveToDB(char **sqlStatements, int n) {
 	sqlite3 *db;
 	char *errMsg = NULL;
@@ -92,7 +98,7 @@ void saveAiGrpReportData(ClientReport report, LinkedList dataSetDirectory, MmsVa
 		LinkedList entry = LinkedList_get(dataSetDirectory, i);
 
 		char *entryName = (char*) entry->data;
-		int idx = getAiResourceDataArrayIdx(entryName) - 1;
+		int idx = getAiResourceDataArrayIdx(entryName);
 
 		if (strstr(entryName, "IntIn2")) {
 			quotationId = atoi(valBuffer);
@@ -176,7 +182,7 @@ void saveAiResReportData(ClientReport report, LinkedList dataSetDirectory, MmsVa
 
 		// ex: HwacomAFCR08623/DREMMXU01.PhV.phsA.cVal.mag.i[MX]
 		char *entryName = (char*) entry->data;
-		int idx = getAiResourceDataArrayIdx(entryName) - 1;
+		int idx = getAiResourceDataArrayIdx(entryName);
 
 		if (strstr(entryName, "PhV.phsA")) {
 			phvA[idx] = atoi(valBuffer);
