@@ -30,3 +30,6 @@ hs_err_pid*
 
 # Arduino libraries
 Arduino/libraries/
+
+# Python virtul environment
+venv/
