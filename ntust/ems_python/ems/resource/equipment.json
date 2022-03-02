@@ -1,0 +1,15 @@
+[
+    { "_id" : "6055e92d7445a0a1cb1bb41e", "name" : "高壓側電表", "type" : "acm", "num" : 0, "model" : "ION9000", "group" : [ "c1" ], "remark" : "高壓側電表", "place" : "VCB盤", "interval" : 1, "rw" : 1, "role" : "vcb_acm" },
+    { "_id" : "6055e92d7445a0a1cb1bb41f", "name" : "低壓側電表", "type" : "acm", "num" : 1, "model" : "PM8000", "group" : [ "c1" ], "remark" : "低壓側電表", "place" : "ACB盤", "interval" : 1, "rw" : 1, "role" : "acb_acm" },
+    { "_id" : "6055e92d7445a0a1cb1bb420", "name" : "輔助電源電表", "type" : "acm", "num" : 2, "model" : "SPM-8", "group" : [ "c1" ], "remark" : "輔助電源電表", "place" : "ACB盤", "interval" : 10, "rw" : 1 },
+    { "_id" : "6055e92d7445a0a1cb1bb421", "name" : "PCS", "type" : "pcs", "num" : 0, "model" : "Destin_Power_1200", "connect": ["6055e92d7445a0a1cb1bb423"], "capacity" : 2000, "group" : [ "c1" ], "remark" : "PCS", "place" : "戶外", "interval" : 1, "rw" : 3 },
+    { "_id" : "6055e92d7445a0a1cb1bb423", "name" : "SBMS", "type" : "mbms", "num" : 0, "model" : "P3A", "connect": ["6055e92d7445a0a1cb1bb421"], "capacity" : 1216.7, "group" : [ "c1" ], "rackNum" : 16, "moduleNum" : 12, "cellNum" : 22, "remark" : "電池", "place" : "20呎電池貨櫃", "interval" : 1, "rw" : 3 },
+    { "_id" : "6055e92d7445a0a1cb1bb425", "name" : "門禁", "type" : "access", "num" : 0, "model" : "access", "group" : [ "c1" ], "remark" : "門禁", "place" : "20呎電池貨櫃", "interval" : 1, "rw" : 1 },
+    { "_id" : "6055e92d7445a0a1cb1bb426", "name" : "UPS1", "type" : "ups", "num" : 0, "model" : "ups", "group" : [ "c1" ], "remark" : "UPS1", "place" : "20呎電池貨櫃", "interval" : 1, "rw" : 1 },
+    { "_id" : "6055e92d7445a0a1cb1bb427", "name" : "UPS2", "type" : "ups", "num" : 0, "model" : "ups", "group" : [ "c1" ], "remark" : "UPS2", "place" : "20呎電池貨櫃", "interval" : 1, "rw" : 1 },
+    { "_id" : "6055e92d7445a0a1cb1bb428", "name" : "環境數據", "type" : "env", "num" : 0, "model" : "env", "group" : [ "c1" ], "remark" : "環境數據", "place" : "20呎電池貨櫃", "interval" : 10, "rw" : 1 },
+    { "_id" : "6055e92d7445a0a1cb1bb429", "name" : "RIO1", "type" : "rio", "num" : 0, "model" : "RIO1", "group" : [ "c1" ], "remark" : "RIO1", "place" : "20呎電池貨櫃", "interval" : 1, "rw" : 1 },
+    { "_id" : "6055e92d7445a0a1cb1bb42a", "name" : "RIO2", "type" : "rio", "num" : 1, "model" : "RIO2", "group" : [ "c1" ], "remark" : "RIO2", "place" : "20呎電池貨櫃", "interval" : 1, "rw" : 1 },
+    { "_id" : "6055e92d7445a0a1cb1bb42b", "name" : "RIO3", "type" : "rio", "num" : 1, "model" : "RIO3", "group" : [ "c1" ], "remark" : "RIO3", "place" : "20呎電池貨櫃", "interval" : 1, "rw" : 1 },
+    { "_id" : "6055e92d7445a0a1cb1bb42c", "name" : "空調", "type" : "air", "num" : 1, "model" : "air", "group" : [ "c1" ], "remark" : "空調", "place" : "20呎電池貨櫃", "interval" : 1, "rw" : 2 }
+]
