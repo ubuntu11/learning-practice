@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <title>EMS</title>
+    <link
+      href="/static/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script
+      type="text/javascript"
+      src="/static/jquery-ui/jquery-ui.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/bootstrap/js/bootstrap.min.js"
+    ></script>
+    <script type="text/javascript" src="/static/plotly.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <link href="/static/jquery-ui/jquery-ui.css" rel="stylesheet" />
+
+    <link href="/static/fontawesome/css/all.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/loaders/loaders.min.css" />
+    <script src="/static/loaders/loaders.css.js"></script>
+    <style>
+      body {
+        color: #000;
+        overflow-x: hidden;
+        height: 100%;
+        background-color: #b0bec5;
+        background-repeat: no-repeat;
+      }
+      .card0 {
+        box-shadow: 0px 4px 8px 0px #757575;
+        border-radius: 0px;
+      }
+      .card2 {
+        margin: 0px 40px;
+      }
+      .logo {
+        width: 200px;
+        height: 100px;
+        margin-top: 20px;
+        margin-left: 35px;
+      }
+      .image {
+        width: 360px;
+        height: 280px;
+      }
+      .border-line {
+        border-right: 1px solid #eeeeee;
+      }
+      .line {
+        height: 1px;
+        width: 100%;
+        background-color: #e0e0e0;
+        margin-top: 10px;
+      }
+      .text-sm {
+        font-size: 14px !important;
+      }
+      ::placeholder {
+        color: #bdbdbd;
+        opacity: 1;
+        font-weight: 300;
+      }
+      :-ms-input-placeholder {
+        color: #bdbdbd;
+        font-weight: 300;
+      }
+      ::-ms-input-placeholder {
+        color: #bdbdbd;
+        font-weight: 300;
+      }
+      input,
+      textarea {
+        padding: 10px 12px 10px 12px;
+        border: 1px solid lightgrey;
+        border-radius: 2px;
+        margin-bottom: 5px;
+        margin-top: 2px;
+        width: 100%;
+        box-sizing: border-box;
+        color: #2c3e50;
+        font-size: 14px;
+        letter-spacing: 1px;
+      }
+      input:focus,
+      textarea:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: 1px solid #304ffe;
+        outline-width: 0;
+      }
+      button:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline-width: 0;
+      }
+      a {
+        color: inherit;
+        cursor: pointer;
+      }
+      .btn-blue {
+        background-color: #003366;
+        width: 150px;
+        color: #fff;
+        border-radius: 2px;
+      }
+      .btn-blue:hover {
+        background-color: rgba(255, 125, 3, 0.897);
+        cursor: pointer;
+      }
+      .bg-blue {
+        color: #fff;
+        background-color: #003366;
+      }
+      @media screen and (max-width: 991px) {
+        .logo {
+          margin-left: 0px;
+        }
+        .image {
+          width: 300px;
+          height: 220px;
+        }
+        .border-line {
+          border-right: none;
+        }
+        .card2 {
+          border-top: 1px solid #eeeeee !important;
+          margin: 0px 15px;
+        }
+      }
+      .carousel-item {
+        height: 300px !important;
+      }
+      .carousel-item img {
+        min-height: 300px;
+        max-height: 400px;
+        object-fit: cover;
+      }
+      .carousel-fade .carousel-item {
+        opacity: 0;
+        transition-duration: 0.6s;
+        transition-property: opacity;
+      }
+
+      .carousel-fade .carousel-item.active,
+      .carousel-fade .carousel-item-next.carousel-item-left,
+      .carousel-fade .carousel-item-prev.carousel-item-right {
+        opacity: 1;
+      }
+
+      .carousel-fade .active.carousel-item-left,
+      .carousel-fade .active.carousel-item-right {
+        opacity: 0;
+      }
+
+      .carousel-fade .carousel-item-next,
+      .carousel-fade .carousel-item-prev,
+      .carousel-fade .carousel-item.active,
+      .carousel-fade .active.carousel-item-left,
+      .carousel-fade .active.carousel-item-prev {
+        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
+      }
+      .carousel-indicators > li {
+        text-indent: 0;
+        margin: 0 2px;
+        width: 20px;
+        height: 20px;
+        border: none;
+        border-radius: 100%;
+        font-size: 10px;
+        line-height: 15px;
+        color: #fff;
+        background-color: #999;
+        transition: all 0.25s ease;
+        text-align: center;
+      }
+      .carousel-indicators-numbers li.active,
+      .carousel-indicators-numbers li:hover {
+        margin: 0 2px;
+        width: 20px;
+        height: 20px;
+        background-color: #337ab7;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      $(function () {
+        $(window).on("load", function () {
+          $(".loader").remove()
+        })
+        //------------------------------------------------
+        $(".carousel").carousel()
+        //------------------------------------------------
+      })
+    </script>
+    <div class="p-1">
+      <img
+        class="d-inline"
+        src="/static/images/logo.png"
+        style="width: 200px"
+      />
+    </div>
+    <div
+      class="container px-1 px-md-5 px-lg-1 px-xl-5 py-2"
+      style="max-width: 1300px"
+    >
+      <div class="card card0 border-0">
+        <div class="row d-flex">
+          <div class="col-lg-6">
+            <div class="card1 pt-5">
+              <div
+                class="
+                  row
+                  pl-5
+                  pr-5
+                  justify-content-center
+                  mt-4
+                  mb-5
+                  border-line
+                "
+              >
+                <div
+                  class="carousel slide carousel-fade"
+                  data-ride="carousel"
+                  id="loginCarousel"
+                >
+                  <ol class="carousel-indicators carousel-indicators-numbers">
+                    <li
+                      data-target="#loginCarousel"
+                      data-slide-to="0"
+                      class="active"
+                    >
+                      1
+                    </li>
+                    <li data-target="#loginCarousel" data-slide-to="1">2</li>
+                    <li data-target="#loginCarousel" data-slide-to="2">3</li>
+                  </ol>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <!-- <img
+                        class="d-block w-100"
+                        src="/static/images/loginCarousel/1.png"
+                        alt=""
+                      /> -->
+                    </div>
+                    <a
+                      href="#loginCarousel"
+                      class="carousel-control-prev"
+                      data-slide="prev"
+                    >
+                      <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a
+                      href="#loginCarousel"
+                      class="carousel-control-next"
+                      data-slide="next"
+                    >
+                      <span class="carousel-control-next-icon"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card2 card border-0 px-4 py-5">
+              <form
+                action="{{url_for('login')}}"
+                method="POST"
+                class="login-form"
+              >
+                <div class="row mb-2 px-3">
+                  <h3 class="mb-0 mr-4 mt-2">EMS能源管理系統</h3>
+                </div>
+                <div class="row px-3 mb-4">
+                  <div class="line"></div>
+                </div>
+
+                <div class="row px-3" hidden>
+                  <label class="mb-1">
+                    <h6 class="mb-0 text-sm">公司</h6>
+                  </label>
+                  <input
+                    class="mb-4"
+                    type="text"
+                    id="company"
+                    name="company"
+                    value="AFC"
+                    placeholder="company"
+                  />
+                </div>
+                <div class="row px-3">
+                  <label class="mb-1">
+                    <h6 class="mb-0 text-sm">使用者</h6>
+                  </label>
+                  <input
+                    class="mb-4"
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="user"
+                  />
+                </div>
+                <div class="row px-3">
+                  <label class="mb-1">
+                    <h6 class="mb-0 text-sm">密碼</h6>
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="password"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="row mt-3 mb-3 px-3">
+                  <button type="submit" class="btn btn-blue text-center">
+                    登入
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="bg-blue py-3">
+          <div class="row px-3">
+            <h6 class="ml-4 ml-sm-5 m-0">
+              {% with messages = get_flashed_messages() %}
+              <label class="not-registered">{{messages[0]}}</label>
+              {% endwith %}
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

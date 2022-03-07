@@ -1,0 +1,15 @@
+.fc-scheduleButton-button {
+  /* color: black !important; */
+  background-color: #0275d8 !important;
+}
+.fc-stopScheduleButton-button {
+  /* color: black !important; */
+  background-color: #d9534f !important;
+}
+.fc-event {
+  cursor: pointer;
+}
+.fc-popover-body {
+  height: 20vh;
+  overflow-y: auto;
+}
