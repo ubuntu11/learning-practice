@@ -3,22 +3,15 @@ from flask import Flask,jsonify,render_template,request,redirect,url_for,flash,s
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_compress import Compress
 import pymongo
-import re #like find
 from bson.objectid import ObjectId
-import os
 from config import DevConfig
 import json
 import time
 import datetime
 from dateutil.relativedelta import relativedelta
-import math
-import csv
-import io
 import prepareplot as t
 import current as c
-import pandas as pd 
 import numpy as np
-# from pm_import_test import caculate_pm, avg_pm
 import simplejson
 
 #-------------------------------------------------------------------------------
@@ -36,8 +29,8 @@ login_manger=LoginManager()
 login_manger.session_protection='strong'
 login_manger.init_app(app)
 #-------------------------------------------------------------------------------
-conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017, 127.0.0.1:27018', replicaset='rs0', serverSelectionTimeoutMS=10) 
-conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017/', serverSelectionTimeoutMS=10)
+conn = pymongo.MongoClient('mongodb://user:pwd@ems1:27017,ems2:27017', replicaset='rs0',
+                           serverSelectionTimeoutMS=10)
 #-------------------------------------------------------------------------------
 class User(UserMixin):
   pass

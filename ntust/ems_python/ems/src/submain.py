@@ -1,14 +1,10 @@
 import pymongo
-from bson.objectid import ObjectId
 import datetime
-import time
 from apscheduler.schedulers.background import BackgroundScheduler
 import current as c
-import prepareplot as t
 import os
 import time
 from dateutil.relativedelta import relativedelta
-import sys
 import psutil
 import socket
 from itertools import chain
