@@ -98,7 +98,7 @@ def login():
         login_user(curr_user)
         db = conn[company]
         now = datetime.datetime.now()
-        # c.SOE(db,"system","使用者:"+username+' 登入',"system")
+        c.SOE(db,"system","使用者:"+username+' 登入',"system")
         return redirect('/')
   flash('Wrong infornation!!')
   return render_template('login.html') 
@@ -109,7 +109,7 @@ def logout():
   user,db = check_user()
   if(db!=None):
     now = datetime.datetime.now()
-    # c.SOE(db,"system","使用者:"+user[1]+' 登出',"system")
+    c.SOE(db,"system","使用者:"+user[1]+' 登出',"system")
   user = current_user
   user.authenticated = False
   logout_user()

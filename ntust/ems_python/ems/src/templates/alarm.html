@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <title>EMS</title>
+
+    <link
+      href="/static/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/popper.min.js"></script>
+    <script
+      type="text/javascript"
+      src="/static/jquery-ui/jquery-ui.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/bootstrap/js/bootstrap.min.js"
+    ></script>
+
+    <script type="text/javascript" src="/static/plotly.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/static/js/SLD.js"></script>
+    <script type="text/javascript" src="/static/svg-pan-zoom.js"></script>
+    <script type="text/javascript" src="/static/hammer.js"></script>
+    <link href="/static/jquery-ui/jquery-ui.css" rel="stylesheet" />
+
+    <link href="/static/fontawesome/css/all.css" rel="stylesheet" />
+    <link
+      href="/static/datatable/dataTables.bootstrap4.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/static/datatable/fixedHeader.dataTables.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/static/datatable/responsive.dataTables.min.css"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="/static/datatable/datatables.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/datatable/dataTables.fixedHeader.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/datatable/dataTables.responsive.min.js"
+    ></script>
+
+    <style>
+      .br_red td:last-child {
+        border-right: 10px solid red !important;
+      }
+      .br_green td:last-child {
+        border-right: 10px solid green !important;
+      }
+      .bb_yellow td{
+        border-bottom: 2px solid #f2e200 !important;
+      }
+      .bb_orange td{
+        border-bottom: 2px solid #ff8000 !important;
+      }
+      #myTable > tbody > tr:hover {
+        background-color: rgb(219, 219, 219) !important;
+      }
+      #myTable > tbody tr td:nth-child(5) {
+        text-align: left !important;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      $(function () {
+        let search = 0;
+        let datepicker1 = "";
+        let datepicker2 = "";
+        let condition = {
+          show: {
+            1: true,
+            2: false,
+          },
+          level: {
+            1: true,
+            2: true,
+          },
+          // checktime:"",
+        };
+
+        //---------------------------------------------------
+        let lang = {
+          sProcessing: "處理中...",
+          sLengthMenu: "每頁 _MENU_ 項",
+          sZeroRecords: "沒有匹配結果",
+          sInfo: "當前顯示第 _START_ 至 _END_ 項，共 _TOTAL_ 項。",
+          sInfoEmpty: "當前顯示第 0 至 0 項，共 0 項",
+          sInfoFiltered: "(由 _MAX_ 項結果過濾)",
+          sInfoPostFix: "",
+          sSearch: "搜尋:",
+          sUrl: "",
+          sEmptyTable: "查無資料",
+          sLoadingRecords: "載入中...",
+          sInfoThousands: ",",
+          oPaginate: {
+            sFirst: "首頁",
+            sPrevious: "上頁",
+            sNext: "下頁",
+            sLast: "末頁",
+            sJump: "跳轉",
+          },
+          oAria: {
+            sSortAscending: ": 以升序排列此列",
+            sSortDescending: ": 以降序排列此列",
+          },
+        };
+        let table = null;
+        function init() {
+          //初始化表格
+          table = $("#myTable")
+            .dataTable({
+              destroy: true,
+              language: lang, //提示資訊
+              autoWidth: false, //禁用自動調整列寬
+              // stripeClasses: [], //為奇偶行加上樣式，相容不支援CSS偽類的場合
+              processing: false, //隱藏載入提示,自行處理
+              serverSide: true, //啟用伺服器端分頁
+              searching: false, //禁用原生搜尋
+              orderMulti: false, //啟用多列排序
+              ordering: false, //取消預設排序查詢,否則核取方塊一列會出現小箭頭
+              renderer: "bootstrap", //渲染樣式：Bootstrap和jquery-ui
+              pagingType: "simple_numbers", //分頁樣式：simple,simple_numbers,full,full_numbers
+              // scrollY: "65vh",
+              // scrollX: true,
+              responsive: true,
+              dom:
+                "<'row'<'col-12'tr>>" +
+                "<'row'<'col-12 col-lg-7'i><'col-12 col-lg-5'p><'col-12'l>>",
+              ajax: function (data, callback, settings) {
+                //封裝請求引數
+                console.log(data);
+                let param = {};
+                param.limit = data.length; //頁面顯示記錄條數，在頁面顯示每頁顯示多少項的時候
+                param.start = data.start; //開始的記錄序號
+                param.page = data.start / data.length; //當前頁碼
+                param.condition = JSON.stringify(condition);
+                param.datepicker1 = $("#datepicker1").val();
+                param.datepicker2 = $("#datepicker2").val();
+                param.search = search;
+                //console.log(param);
+                //ajax請求資料
+                $.ajax({
+                  type: "GET",
+                  url: "/alarm_get",
+                  cache: false, //禁用快取
+                  data: param, //傳入組裝的引數
+                  dataType: "json",
+                  success: function (result) {
+                    //console.log(result);
+                    const bealarm_checkbox = GetCheckedValue("alarm_checkbox");
+                    //封裝返回資料
+                    let returnData = {};
+                    returnData.draw = data.draw; //這裡直接自行返回了draw計數器,應該由後臺返回
+                    returnData.recordsTotal = result.total; //返回資料全部記錄
+                    returnData.recordsFiltered = result.total; //後臺不實現過濾功能，每次查詢均視作全部結果
+                    returnData.data = result.data; //返回的資料列表
+
+                    //console.log(returnData);
+                    //呼叫DataTables提供的callback方法，代表資料已封裝完成並傳回DataTables進行渲染
+                    //此時的資料需確保正確無誤，異常判斷應在執行此回撥前自行處理完畢
+                    callback(returnData);
+                    for (i in bealarm_checkbox) {
+                      $("#" + bealarm_checkbox[i]).prop("checked", true);
+                    }
+                    console.log(bealarm_checkbox, "SSS");
+                  },
+                });
+              },
+              //列表表頭欄位
+              columns: [
+                { data: null },
+                { data: "index", title: "項次" },
+                { data: "place", title: "地點" },
+                { data: "equip", title: "設備名稱" },
+                { data: "event", title: "事件" },
+                { data: "time", title: "事件時間" },
+                { data: "levelText", title: "等級" },
+                { data: "value", title: "數值" },
+                { data: "checktime", title: "ACK" },
+                { data: "returntime", title: "復歸時間" },
+              ],
+              aoColumnDefs: [
+                {
+                  render: function (data, type,row,mata) {
+                    return `<div align=center><input type=checkbox id=${data["_id"]} class=alarm_checkbox value=${data["_id"]} ></div>`;
+                  },
+                  aTargets: 0, //第一列
+                },
+                // {
+                //   render: function (data, type) {
+                //     // console.log(data,"S")
+                //     return ``;
+                //   },
+                //   aTargets: 0, //第一列
+                // },
+              ],
+              createdRow: function (row, data, dataIndex) {
+                console.log(data)
+                $(row).attr("data-id", data.id);
+                if (data.show == 1) {
+                  $(row).addClass("br_red");
+                } else if (data.show == 2) {
+                  $(row).addClass("br_green");
+                }
+                if (data.level == 1) {
+                  $(row).addClass("bb_yellow");
+                } else if (data.level == 2) {
+                  $(row).addClass("bb_orange");
+                }
+              },
+            })
+            .api();
+          new $.fn.dataTable.FixedHeader(table);
+          //此處需呼叫api()方法,否則返回的是JQuery物件而不是DataTables的API物件
+        }
+        init();
+        //---------------------------------------------------
+        function tableReset(){
+          // $("#myTable").dataTable().clear().draw();
+          $("#myTable").dataTable().fnClearTable(false);
+          $("#myTable").dataTable().fnDestroy();
+          $("#myTable tbody").empty();
+          $("#select_all").prop("checked", false);
+        }
+        function reset() {
+          $("#alarmAllBtn").removeClass("btn-primary btn-secondary");
+          $("#alarmTodayBtn").removeClass("btn-primary btn-secondary");
+          $("#alarmSearchBtn").removeClass("btn-primary btn-secondary");
+          $(".datepickerBox").addClass("d-none").removeClass("d-flex");
+          tableReset()
+        }
+        //---------------------------------------------------
+        $("#alarmAllBtn").on("click", function () {
+          reset();
+          search = 0;
+          $("#alarmAllBtn").addClass("btn-primary");
+          $("#alarmTodayBtn").addClass("btn-secondary");
+          $("#alarmSearchBtn").addClass("btn-secondary");
+          init();
+        });
+        $("#alarmTodayBtn").on("click", function () {
+          reset();
+          search = 2;
+          $("#alarmAllBtn").addClass("btn-secondary");
+          $("#alarmTodayBtn").addClass("btn-primary");
+          $("#alarmSearchBtn").addClass("btn-secondary");
+          init();
+        });
+        $("#alarmSearchBtn").on("click", function () {
+          reset();
+          search = 1;
+          $("#alarmAllBtn").addClass("btn-secondary");
+          $("#alarmTodayBtn").addClass("btn-secondary");
+          $("#alarmSearchBtn").addClass("btn-primary");
+          $(".datepickerBox").addClass("d-flex").removeClass("d-none");
+          init();
+        });
+        //---------------------------------------------------
+        $(".enable").on("click", function () {
+          $(this).toggleClass("line-through");
+          var key = $(this).attr("data-value");
+          var value = $(this).attr("value");
+          condition[key][value] = $(this).attr("flag") == "false";
+          $(this).attr("flag", $(this).attr("flag") == "false");
+          table.ajax.reload(null, false);
+        });
+        //---------------------------------------------------
+        $("#select_all").on("click", function () {
+          // Get all rows with search applied
+          var rows = table.rows({ search: "applied" }).nodes();
+          // Check/uncheck checkboxes for all rows in the table
+          $('input[type="checkbox"]', rows).prop("checked", this.checked);
+        });
+        //---------------------------------------------------
+        let alarm_check = function (e) {
+          //告警確認
+          $.getJSON(
+            "/alarm_check",
+            {
+              event_id: e,
+            },
+            function (data) {}
+          );
+          return false;
+        };
+        $("#checkBtn").on("click", function () {
+          const r = confirm("確認告警紀錄?");
+          if (r == true) {
+            alarm_check(GetCheckedValue("alarm_checkbox").toString());
+            $("#select_all").prop("checked", false);
+            $(".alarm_checkbox").prop("checked", false);
+            table.ajax.reload(null, false);
+          } else {
+            alert("取消!");
+          }
+        });
+        //---------------------------------------------------
+        let alarm_save = function (e) {
+          //告警歸檔
+          $.getJSON(
+            "/alarm_save",
+            {
+              event_id: e,
+            },
+            function (data) {}
+          );
+          return false;
+        };
+        $("#saveBtn").on("click", function () {
+          const r = confirm("告警紀錄轉存為歷史紀錄?");
+          if (r == true) {
+            alarm_save(GetCheckedValue("alarm_checkbox").toString());
+            $("#select_all").prop("checked", false);
+            $(".alarm_checkbox").prop("checked", false);
+            table.ajax.reload(null, false);
+          } else {
+            alert("取消!");
+          }
+        });
+        //---------------------------------------------------
+        let alarm_delete = function (e) {
+          //告警刪除
+          $.getJSON(
+            "/alarm_delete",
+            {
+              event_id: e,
+            },
+            function (data) {}
+          );
+          return false;
+        };
+        $("#deleteBtn").on("click", function () {
+          const r = confirm("刪除告警紀錄?");
+          if (r == true) {
+            alarm_delete(GetCheckedValue("alarm_checkbox").toString());
+            $("#select_all").prop("checked", false);
+            $(".alarm_checkbox").prop("checked", false);
+            table.ajax.reload(null, false);
+          } else {
+            alert("取消!");
+          }
+        });
+        //---------------------------------------------------
+        setInterval(function () {
+          table.ajax.reload(null, false);
+        }, 1000);
+        //---------------------------------------------------
+        c_chooseday("datepicker1");
+        c_chooseday("datepicker2");
+        $(".calendar").on("click", calendarsetdate);
+        $(".calendarleft").on("click", calendardateleft);
+        $(".calendarright").on("click", calendardateright);
+        $(".calendarleft2").on("click", calendardateleft2);
+        $(".calendarright2").on("click", calendardateright2);
+        //---------------------------------------------------
+        protection_get()
+        alarm_get_show1_level1_checktimeNull()
+        alarm_get_show1_level2_checktimeNull()
+        setInterval(() => {
+          protection_get()
+          alarm_get_show1_level1_checktimeNull()
+          alarm_get_show1_level2_checktimeNull()
+        }, 2000);
+        //---------------------------------------------------
+      });
+    </script>
+    {% extends 'navbar.html' %} {% block content %}
+    <div class="container-fluid p-0">
+      <div
+        class="row mt-2 mx-3"
+        style="border: 3px double black; background-color: rgb(241, 239, 239)"
+      >
+        <div class="col-12 px-3 mt-2 mb-1 noWhite d-flex">
+          <div>
+            <button type="button" id="alarmAllBtn" class="btn btn-primary">
+              總覽
+            </button>
+            <button type="button" id="alarmTodayBtn" class="btn btn-secondary">
+              今日
+            </button>
+            <button type="button" id="alarmSearchBtn" class="btn btn-secondary">
+              區間查詢
+            </button>
+          </div>
+          <div class="ml-auto">
+            <button type="button" id="checkBtn" class="btn btn-success">
+              確認
+            </button>
+            <button type="button" id="saveBtn" class="btn btn-warning">
+              歸檔
+            </button>
+            {% if level|int >1 %}
+            <button type="button" id="deleteBtn" class="btn btn-danger">
+              刪除
+            </button>
+            {% endif %}
+            <!-- <button type="button" id="csvBtn" class="btn btn-info">
+              匯出資料
+            </button> -->
+          </div>
+        </div>
+        <div class="datepickerBox col-12 d-none align-items-center">
+          起始:&nbsp
+          <i
+            class="far fa-calendar-alt calendar"
+            data-value="#datepicker1"
+            style="font-size: 2em; vertical-align: sub"
+          ></i>
+          <input
+            type="text"
+            readonly
+            id="datepicker1"
+            class="datepicker"
+            placeholder="Start_date"
+            name="datepicker1"
+          />
+          <i
+            class="far fa-caret-square-left calendarleft2"
+            data-value="#datepicker1"
+            style="font-size: 2em; cursor: pointer; vertical-align: sub"
+          ></i>
+          <i
+            class="fas fa-caret-square-left calendarleft"
+            data-value="#datepicker1"
+            style="font-size: 2em; cursor: pointer; vertical-align: sub"
+          ></i>
+          <i
+            class="fas fa-caret-square-right calendarright"
+            data-value="#datepicker1"
+            style="font-size: 2em; cursor: pointer; vertical-align: sub"
+          ></i>
+          <i
+            class="far fa-caret-square-right calendarright2"
+            data-value="#datepicker1"
+            style="font-size: 2em; cursor: pointer; vertical-align: sub"
+          ></i>
+        </div>
+        <div class="datepickerBox col-12 d-none align-items-center">
+          結束:&nbsp
+          <i
+            class="far fa-calendar-alt calendar"
+            data-value="#datepicker2"
+            style="font-size: 2em; vertical-align: sub"
+          ></i>
+          <input
+            type="text"
+            readonly
+            id="datepicker2"
+            class="datepicker"
+            placeholder="End_date"
+            name="datepicker2"
+          />
+          <i
+            class="far fa-caret-square-left calendarleft2"
+            data-value="#datepicker2"
+            style="font-size: 2em; cursor: pointer; vertical-align: sub"
+          ></i>
+          <i
+            class="fas fa-caret-square-left calendarleft"
+            data-value="#datepicker2"
+            style="font-size: 2em; cursor: pointer; vertical-align: sub"
+          ></i>
+          <i
+            class="fas fa-caret-square-right calendarright"
+            data-value="#datepicker2"
+            style="font-size: 2em; cursor: pointer; vertical-align: sub"
+          ></i>
+          <i
+            class="far fa-caret-square-right calendarright2"
+            data-value="#datepicker2"
+            style="font-size: 2em; cursor: pointer; vertical-align: sub"
+          ></i>
+          &nbsp
+          <!-- <button type="button" id="search" class="btn btn-danger">查詢</button> -->
+        </div>
+        <div class="col-12 px-3 noWhite d-flex">
+          <div class="p-2">
+            <label class="enable m-0" data-value="level" value="1" flag="true"
+              ><i class="fas fa-square" style="color: #f2e200"></i
+              >&nbsp;警告(Level1)</label
+            >
+            <label class="enable m-0" data-value="level" value="2" flag="true"
+              ><i class="fas fa-square" style="color: #ff8000"></i
+              >&nbsp;故障(Level2)</label
+            >
+            <!--<label class=enable data-value="level" value="3" flag=true><i class="fas fa-square" style="color:rgb(252, 92, 0)"></i>&nbsp;Level3</label>-->
+            <div id="checkbox_tool" style="display: none">
+              <i
+                style="font-size: 1em; cursor: pointer; zoom: 1.2"
+                class="far fa-save"
+                id="alarm_save_checkbox"
+              ></i>
+              <i
+                style="font-size: 1em; cursor: pointer; zoom: 1.2"
+                class="far fa-trash-alt"
+                id="alarm_delete_checkbox"
+              ></i>
+            </div>
+          </div>
+          <div class="ml-auto">
+            <label class="enable m-0" data-value="show" value="1" flag="true"
+              ><i class="fas fa-square" style="color: red"></i
+              >&nbsp;即時告警</label
+            >
+            <label
+              class="enable line-through m-0"
+              data-value="show"
+              value="2"
+              flag="false"
+              ><i class="fas fa-square" style="color: green"></i
+              >&nbsp;歷史告警</label
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="row mx-3"
+        style="border: 3px double black; background-color: rgb(241, 239, 239)"
+      >
+        <div class="col-12 py-1 px-3">
+          <table
+            id="myTable"
+            class="table table01 table-striped table-bordered"
+            style="width: 100%"
+          >
+            <thead>
+              <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    name="select_all"
+                    value="1"
+                    id="select_all"
+                  />
+                </th>
+                <th>項次</th>
+                <th>位置</th>
+                <th>設備名稱</th>
+                <th>事件</th>
+                <th>事件時間</th>
+                <th>等級</th>
+                <th>數值</th>
+                <th>ACK</th>
+                <th>復歸時間</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

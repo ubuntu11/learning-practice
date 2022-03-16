@@ -22,3 +22,4 @@ tzdata
 tzlocal
 Werkzeug
 xlrd==1.2.0
+urllib3

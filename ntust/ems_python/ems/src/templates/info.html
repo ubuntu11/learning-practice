@@ -1,0 +1,2671 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <meta id="load" data-equiptype="{{equipType}}" />
+    <title>EMS</title>
+    <link
+      href="/static/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/popper.min.js"></script>
+    <script
+      type="text/javascript"
+      src="/static/jquery-ui/jquery-ui.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/bootstrap/js/bootstrap.min.js"
+    ></script>
+
+    <script type="text/javascript" src="/static/plotly.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <!-- <script type="text/javascript" src="/static/js/SLD.js"></script> -->
+    <script type="text/javascript" src="/static/svg-pan-zoom.js"></script>
+    <script type="text/javascript" src="/static/hammer.js"></script>
+    <link href="/static/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="/static/fontawesome/css/all.css" rel="stylesheet" />
+    <link href="/static/bootstrap/css/animate.min.css" rel="stylesheet" />
+    <link href="/static/loaders/loaders.min.css" rel="stylesheet" />
+    <style>
+      .selectDiv {
+        cursor: pointer;
+      }
+      .selectDiv:hover {
+        background-color: #b6cadf;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      $(function () {
+        //---------------------------------------------------
+        const { equiptype } = $("#load").data();
+        let equipType = "mbms";
+        if (equiptype !== "None") {
+          //超連結有指定equipType
+          equipType = equiptype;
+          $(".typeButton").css({ "background-color": "rgba(206,206,206,0)" });
+          $(`.typeButton[data-value=${equipType}]`).css({
+            "background-color": "#cecece",
+          });
+        }
+        let trueEquipType = null;
+        let current_ID = null;
+        let equipData = null; //設備資料
+        tagType = undefined;
+        plotType = undefined;
+        y_title = undefined;
+        //---------------------------------------------------
+        // 選擇設備類型
+        $(".typeButton").on("click", function () {
+          equipType = $(this).attr("data-value");
+          $(".typeButton").css({ "background-color": "rgba(206,206,206,0)" });
+          $(this).css({ "background-color": "#cecece" });
+          get_info_equipList();
+          // window.open(`/info?equipType=${equipType}`,"_self") 與上面二擇一
+        });
+        //---------------------------------------------------
+        // 取得單一同種類設備資
+        let get_info_equipList = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/get_info_equipList",
+            {
+              equipType: equipType,
+            },
+            function (data) {
+              // console.log(data);
+              equipData = data.data;
+              // console.log(equipType, equipData[0]["type"])
+              if (equipType === data.equipType) {
+                $(".equipListBox").empty();
+                $(".equipListBox").removeClass("d-block");
+                $(`.${equipType}Type .equipListBox`).addClass("d-block");
+                $(".displayBox").removeClass("d-flex");
+                // if (equipData[0]["type"]==='ups')
+                //   $(`.${equipData[0]["type"]}Box`).addClass("d-flex");
+                // else
+                $(`.${equipType}Box`).addClass("d-flex");
+                equipData.forEach((equip, index) => {
+                  $(`.${equipType}Type .equipListBox`).append(
+                    $("<div/>")
+                      .addClass(
+                        `p-1 mb-1 ${equipType} ${equipType}${index} selectDiv`
+                      )
+                      .attr("id", equip.ID)
+                      .attr("index", index)
+                      .attr("data-truetype", equip.type)
+                      .css({ border: "1px solid rgb(197, 196, 196)" })
+                      .html(
+                        $("<div/>")
+                          .addClass("mt-1 pl-2 d-flex")
+                          .append(
+                            '<i class="fas fa-lightbulb commStatus" style="zoom: 150%"></i>',
+                            `<h5 class="text-left ml-1 mr-auto">${equip.name}</h5>`
+                          )
+                      )
+                  );
+                });
+                current_ID = null;
+                if (equipData.length > 0) {
+                  current_ID = equipData[0]["ID"];
+                  trueEquipType = equipData[0]["type"];
+                  $(`.${equipType}Type .equipListBox .${equipType}0`).css({
+                    "background-color": "#b6cadf",
+                  });
+                  resetBoxContent();
+                  get_data();
+                }
+              }
+              updateStatus("/equipment_status_list", $('.selectDiv'), 'id', $(".commStatus"), 'color');
+            }
+          );
+          return false;
+        };
+        get_info_equipList();
+        //---------------------------------------------------
+        // Create rack or module select
+        function create_select(select, num, name){
+          let count=1;
+          while($(select).find("option").length<num){
+              var option = document.createElement("option");
+              option.text = name+count;
+              select.add(option);
+              count++;
+          }
+          while($(select).find("option").length>num){
+            select.remove($(select).find("option").length-1);
+          }
+        }
+        //---------------------------------------------------
+        // 重置BoxContent
+        function resetBoxContent() {
+          const index = $(`#${current_ID}`).attr("Index") * 1;
+          const { model, tags } = equipData[index];
+          switch (trueEquipType) {
+            case "mbms":
+              $(".BoxContent").removeClass("d-block");
+              $(`.mbmsBoxContent.${model}`).addClass("d-block");
+              $(".clone").remove();
+              $(".textIndex").remove();
+              console.log($(".arrayTrClone"));
+              const { rackNum } = equipData[index];
+              const { moduleNum } = equipData[index];
+              const { cellNum } = equipData[index];
+              createArrayTr(`.mbmsBox .${model} .arrayTr`, rackNum);
+              createArrayTr(`.mbmsBox .${model} .module_arrayTr`, moduleNum);
+              createArrayTr(`.mbmsBox .${model} .cell_arrayTr`, cellNum);
+              //---------------------------------------------------
+              $.each($(".Rack_select"), function(index, select) {
+                create_select(select, rackNum, "Rack")
+              })
+              $.each($(".Module_select"), function(index, select) {
+                create_select(select, moduleNum, "Module")
+              })
+              //---------------------------------------------------
+              break;
+            case "pcs":
+              $(".BoxContent").removeClass("d-block");
+              $(`.pcsBoxContent.${model}`).addClass("d-block");
+              break;
+            case "acm":
+              $(".BoxContent").removeClass("d-block");
+              $(`.acmBoxContent.${model}`).addClass("d-block");
+              break;
+            case "ups":
+              $(".displayBox").removeClass("d-flex");
+              $(`.upsBox`).addClass("d-flex");
+              $(".BoxContent").removeClass("d-block");
+              $(`.upsBoxContent.${model}`).addClass("d-block");
+              break;
+            case "env":
+              $(".displayBox").removeClass("d-flex");
+              $(`.containterBox`).addClass("d-flex");
+              resetContainterBoxContent(tags);
+              break;
+            case "rio":
+              $(".displayBox").removeClass("d-flex");
+              $(`.containterBox`).addClass("d-flex");
+              resetContainterBoxContent(tags);
+              break;
+          }
+        }
+        //---------------------------------------------------
+        // 重置ContainterBoxContent，作用為繪製containter所需顯示設備的表格
+        function resetContainterBoxContent(tags) {
+          $(".BoxContent").removeClass("d-block");
+          $(`.containterBoxContent`).addClass("d-block");
+          $("#containterTable").empty();
+          for (let i in tags) {
+            if (i % 10 === 0) {
+              $("#containterTable").append($("<tr/>"), $("<tr/>"));
+            }
+            $("#containterTable tr:nth-last-child(2)").append(
+              $("<th/>").text(
+                `${tags[i].name}${
+                  tags[i].unit !== undefined ? "(" + tags[i].unit + ")" : ""
+                }`
+              )
+            );
+            $("#containterTable tr:nth-last-child(1)").append(
+              $("<td/>")
+                .addClass(`${trueEquipType}_point set ${tags[i].tag}`)
+                .attr("data-value", tags[i].tag)
+            );
+          }
+          // 補齊表格
+          if (tags.length > 10) {
+            for (let i = 0; i < 10 - (tags.length % 10); i++) {
+              $("#containterTable tr:nth-last-child(2)").append(
+                $("<th/>").text("")
+              );
+              $("#containterTable tr:nth-last-child(1)").append(
+                $("<td/>").text("")
+              );
+            }
+          }
+        }
+        //---------------------------------------------------
+        // 判斷設備類別並取得資料
+        function get_data() {
+          const index = $(`#${current_ID}`).attr("Index") * 1;
+          const { model, tags } = equipData[index];
+          switch (trueEquipType) {
+            case "mbms":
+              get_mbms_data();
+              break;
+            case "pcs":
+              get_pcs_data();
+              break;
+            case "acm":
+              get_acm_data();
+              break;
+            case "ups":
+              get_ups_data();
+              break;
+            case "env":
+              get_env_data();
+              break;
+            case "rio":
+              get_rio_data();
+              break;
+          }
+        }
+        //---------------------------------------------------
+        // 取得mbms資料
+        let get_mbms_data = function (e) {
+          $.getJSON($SCRIPT_ROOT + "/get_mbms_data", {
+            ID: current_ID,
+          })
+            .done(function (data) {
+              const currentData = data.data;
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { model, tags } = equipData[index];
+              // console.log(model, tags);
+
+              tags.forEach((tag) => {
+                // console.log(tag.tag,tag.tagType);
+                // console.log(tag.tagType, $(".Rack_select").prop('selectedIndex'), currentData[tag.tag])
+                let setValue_val = currentData[tag.tag]
+                if (setValue_val !== undefined){
+                  if (tag.tagType==="numberArray2"||tag.tagType==="bitsArray2"||tag.tagType==="hexArray2")
+                    setValue_val = setValue_val[$(".module.Rack_select").prop('selectedIndex')]
+                  else if(tag.tagType==="numberArray3")
+                    setValue_val = setValue_val[$(".cell.Rack_select").prop('selectedIndex')][$(".cell.Module_select").prop('selectedIndex')]
+                }
+                setValue(
+                  `.mbmsBox .${model} .mbms_point.${tag.tag}`,
+                  setValue_val,
+                  tag
+                );
+              });
+            })
+            .fail(function () {
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { error } = equipData[index];
+              $(".mbmsBox .mbms_point.set").text(error);
+            });
+        };
+        // 取得PCS資料
+        let get_pcs_data = function (e) {
+          $.getJSON($SCRIPT_ROOT + "/get_pcs_data", {
+            ID: current_ID,
+          })
+            .done(function (data) {
+              const currentData = data.data;
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { model, tags } = equipData[index];
+              tags.forEach((tag) => {
+                // console.log(tag.tag,tag.tagType);
+                setValue(
+                  `.pcsBox .${model} .pcs_point.${tag.tag}`,
+                  currentData[tag.tag],
+                  tag
+                );
+              });
+            })
+            .fail(function () {
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { error } = equipData[index];
+              $(".pcsBox .pcs_point.set").text(error);
+            });
+        };
+        // 取得ACM資料
+        let get_acm_data = function (e) {
+          // console.log(current_ID)
+          $.getJSON($SCRIPT_ROOT + "/get_acm_data", {
+            ID: current_ID,
+          })
+            .done(function (data) {
+              // console.log(data.data)
+              const currentData = data.data;
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { model, tags } = equipData[index];
+              tags.forEach((tag) => {
+                setValue(
+                  `.acmBox .${model} .acm_point.${tag.tag}`,
+                  currentData[tag.tag],
+                  tag
+                );
+              });
+            })
+            .fail(function () {
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { error } = equipData[index];
+              $(".acmBox .acm_point.set").text(error);
+            });
+        };
+        // 取得UPS資料
+        let get_ups_data = function (e) {
+          $.getJSON($SCRIPT_ROOT + "/get_ups_data", {
+            ID: current_ID,
+          })
+            .done(function (data) {
+              const currentData = data.data;
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { model, tags } = equipData[index];
+              // console.log(equipData[index])
+              tags.forEach((tag) => {
+                setValue(
+                  `.upsBox .ups_point.${tag.tag}`,
+                  currentData[tag.tag],
+                  tag
+                );
+              });
+            })
+            .fail(function () {
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { error } = equipData[index];
+              $(".containterBox .ups_point.set").text(error);
+            });
+        };
+        // 取得env資料
+        let get_env_data = function (e) {
+          $.getJSON($SCRIPT_ROOT + "/get_env_data", {
+            ID: current_ID,
+          })
+            .done(function (data) {
+              const currentData = data.data;
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { model, tags } = equipData[index];
+              tags.forEach((tag) => {
+                setValue(
+                  `.containterBox  .env_point.${tag.tag}`,
+                  currentData[tag.tag],
+                  tag
+                );
+              });
+            })
+            .fail(function () {
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { error } = equipData[index];
+              $(".containterBox .env_point.set").text(error);
+            });
+        };
+        // 取得rio資料
+        let get_rio_data = function (e) {
+          $.getJSON($SCRIPT_ROOT + "/get_rio_data", {
+            ID: current_ID,
+          })
+            .done(function (data) {
+              const currentData = data.data;
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { model, tags } = equipData[index];
+              tags.forEach((tag) => {
+                setValue(
+                  `.containterBox .rio_point.${tag.tag}`,
+                  currentData[tag.tag],
+                  tag
+                );
+              });
+            })
+            .fail(function () {
+              const index = $(`#${current_ID}`).attr("Index") * 1;
+              const { error } = equipData[index];
+              $(".containterBox .rio_point.set").text(error);
+            });
+        };
+        //---------------------------------------------------
+        // 點擊設備數據資料功能設定
+        function clickPoint() {
+          history_ID = current_ID;
+          const index = $(`#${history_ID}`).attr("Index") * 1;
+          const tag = equipData[index].tags.find((tag) => tag.tag === datatype);
+          tagType = tag.tagType;
+          plotType = tag.plotType;
+          if ((tagType === "number"||tagType === "numberArray"||tagType === "numberArray2"||tagType === "numberArray3") && plotType !== null) {
+            y_title = tag.y_title;
+            interval = equipData[index].interval;
+            historyModalset();
+            history_name = `${equipData[index].name} ${$(
+              "#datepicker1"
+            ).val()}~${$("#datepicker2").val()}`;
+          } else if (tagType === "bits") {
+            const { model } = equipData[index];
+            bitsModalset(tag.bits, tag.name, model);
+          } else if (tagType === "bitsArray"||tagType === "bitsArray2") {
+            const { model } = equipData[index];
+            bitsArrayModalset(tag.bits, tag.name, model);
+          }
+        }
+        //---------------------------------------------------
+        // 點擊MBMS point跳出曲線或更多資訊
+        $(document).on("dblclick", ".mbms_point", function () {
+          datatype = $(this).attr("data-value");
+          datacollection = "mbms";
+          clickPoint();
+        });
+        // 點擊PCS point跳出曲線或更多資訊
+        $(document).on("dblclick", ".pcs_point", function () {
+          datatype = $(this).attr("data-value");
+          datacollection = "pcs";
+          clickPoint();
+        });
+        // 點擊ACM point跳出曲線或更多資訊
+        $(document).on("dblclick", ".acm_point", function () {
+          datatype = $(this).attr("data-value");
+          datacollection = "acm";
+          clickPoint();
+        });
+        // 點擊UPS point跳出曲線或更多資訊
+        $(document).on("dblclick", ".ups_point", function () {
+          datatype = $(this).attr("data-value");
+          datacollection = "ups";
+          clickPoint();
+        });
+        // 點擊ENV point跳出曲線或更多資訊
+        $(document).on("dblclick", ".env_point", function () {
+          datatype = $(this).attr("data-value");
+          datacollection = "env";
+          clickPoint();
+        });
+        // 點擊RIO point跳出曲線或更多資訊
+        $(document).on("dblclick", ".rio_point", function () {
+          datatype = $(this).attr("data-value");
+          datacollection = "rio";
+          clickPoint();
+        });
+        //---------------------------------------------------
+        // 選擇mbms設備，更換顯示區塊
+        $(document).on("click", ".mbms", function () {
+          current_ID = $(this).attr("id");
+          trueEquipType = "mbms";
+          $(".mbms").css({ "background-color": "white" });
+          $(this).css({ "background-color": "#b6cadf" });
+          resetBoxContent();
+          get_data();
+        });
+        // 選擇PCS設備，更換顯示區塊
+        $(document).on("click", ".pcs", function () {
+          current_ID = $(this).attr("id");
+          trueEquipType = "pcs";
+          $(".pcs").css({ "background-color": "white" });
+          $(this).css({ "background-color": "#b6cadf" });
+          resetBoxContent();
+          get_data();
+        });
+        // 選擇ACM設備，更換顯示區塊
+        $(document).on("click", ".acm", function () {
+          current_ID = $(this).attr("id");
+          trueEquipType = "acm";
+          $(".acm").css({ "background-color": "white" });
+          $(this).css({ "background-color": "#b6cadf" });
+          resetBoxContent();
+          get_data();
+        });
+        // 選擇貨櫃設備，更換顯示區塊
+        $(document).on("click", ".containter", function () {
+          current_ID = $(this).attr("id");
+          trueEquipType = $(this).attr("data-truetype");
+          $(".containter").css({ "background-color": "white" });
+          $(this).css({ "background-color": "#b6cadf" });
+          resetBoxContent();
+          get_data();
+        });
+        //---------------------------------------------------
+        let history_search_first = true; // 歷史查詢狀態 ture:第一次查詢 false:非第一次查詢
+        //---------------------------------------------------
+        // 歷史查詢初始化及查詢
+        function history_search() {
+          // console.log(datatype, tagType)
+          if(tagType!="numberArray2" && ($("#date_range").val()==='1' || plotType!=='bar') && (new Date($("#datepicker2").val() + " 00:00:00")-new Date($("#datepicker1").val() + " 00:00:00"))>86400000*6){
+            alert("時間範圍過大！！！(<=7天)")
+            return
+          }
+          if(tagType!="numberArray2" && ($("#date_range").val()==='2' || plotType!=='bar') && (new Date($("#datepicker2").val() + " 00:00:00")-new Date($("#datepicker1").val() + " 00:00:00"))>86400000*31){
+            alert("時間範圍過大！！！(<=31天)")
+            return
+          }
+          if(tagType!="numberArray2" && ($("#date_range").val()==='3' || plotType!=='bar') && (new Date($("#datepicker2").val() + " 00:00:00")-new Date($("#datepicker1").val() + " 00:00:00"))>86400000*365){
+            alert("時間範圍過大！！！(<=365天)")
+            return
+          }
+          if(tagType=="numberArray2" && (new Date($("#datepicker2").val() + " 00:00:00")-new Date($("#datepicker1").val() + " 00:00:00"))>0){
+            alert("時間範圍過大！！！(只能收尋1天)")
+            return
+          }
+          Plotly.purge("history_plot");
+          $("#history_loading").addClass("d-flex").removeClass("d-none");
+          $("#history_info").empty();
+          if (history_search_first == true) {
+            $("#date_range").empty();
+            if (plotType === "scatter") {
+              $("#date_range").append(
+                $("<option value=0>" + "即時" + "</option>")
+              );
+              $("#date_range").val(0);
+            } else if (plotType === "bar") {
+              $("#date_range").append(
+                $("<option value=1>" + "時" + "</option>"),
+                $("<option value=2>" + "天" + "</option>"),
+                $("<option value=3>" + "月" + "</option>")
+              );
+            }
+            history_search_first = false;
+          }
+          history_data_list();
+        }
+        $(".history_search").on("click", history_search);
+        //---------------------------------------------------
+        // 歷史彈跳視窗初始化
+        function historyModalset() {
+          history_search_first = true;
+          c_chooseday("datepicker1");
+          c_chooseday("datepicker2");
+          history_search();
+          $("#historyModal").modal({});
+        }
+        // $("#historyModal").on("show.bs.modal", function (e) {});
+        // $("#historyModal").on("hide.bs.modal", function (e) {});
+        //---------------------------------------------------
+        // bits彈跳視窗初始化
+        function bitsModalset(bits, name, model) {
+          $("#bitsModalHeader").text(name);
+          $("#bits_box")
+            .attr("class", `modal-body ${trueEquipType}Box`)
+            .html(
+              $("<table/>")
+                .attr("id", "bits_info")
+                .addClass(`table01 ${model}`)
+                .css({ "table-layout": "fixed" })
+            );
+          bits.forEach((bit) => {
+            $("#bits_info").append(
+              $("<tr/>").append(
+                $("<th/>").html(`Bit#${bit.index}`),
+                $("<td/>").html(bit.name),
+                $("<td/>")
+                  .addClass(`${trueEquipType}_point ${datatype} set`)
+                  .attr("data-value", datatype)
+                  .attr("data-bit", bit.index)
+                  .html("")
+              )
+            );
+          });
+          $("#bitsModal").modal({});
+        }
+        //---------------------------------------------------
+        // bitsArray彈跳視窗初始化
+        function bitsArrayModalset(bits, name, model) {
+          $("#bitsModalHeader").text(name);
+
+          console.log(
+            `.${equipType}_point[data-value=${datatype}]`,
+            $(`.${equipType}_point[data-value=${datatype}]`).length
+          );
+          $("#bits_box")
+            .attr("class", `modal-body ${equipType}Box`)
+            .html(
+              $("<div/>")
+                .css({ "overflow-x": "auto" })
+                .append(
+                  $("<table/>")
+                    .attr("id", "bits_info")
+                    .addClass(`table01 ${model} second_headcol`)
+                    .html(
+                      $("<tr/>").append(
+                        $("<th/>").text("Bit"),
+                        $("<th/>").text("Name")
+                      )
+                    )
+                )
+            );
+          let length = $(`.${equipType}_point[data-value=${datatype}]`).length;
+          for (let i = 1; i <= length; i++) {
+            $("#bits_info tr:nth-child(1)").append($("<th/>").text(`#${i}`));
+          }
+
+          bits.forEach((bit) => {
+            $("#bits_info").append(
+              $("<tr/>").append(
+                $("<th/>").html(`Bit#${bit.index}`),
+                $("<td/>").html(bit.name)
+              )
+            );
+            for (let i = 0; i < length; i++) {
+              $(`#bits_info tr:last-child`).append(
+                $("<td/>")
+                  .addClass(`${equipType}_point set ${datatype}`)
+                  .attr("data-value", datatype)
+                  .attr("data-index", i)
+                  .attr("data-bit", bit.index)
+                  .html("")
+              );
+            }
+          });
+          $("#bitsModal").modal({});
+        }
+        //---------------------------------------------------
+        // 更新狀態燈號
+        // function updateStatus() {
+        //   let status_ID = []
+        //   $.each($(".selectDiv"), function(index, selectDiv) {
+        //     status_ID.push({"ID": selectDiv.id})
+        //   })
+        //   $.getJSON(
+        //     $SCRIPT_ROOT + "/equipment_status_list",
+        //     {status_ID: JSON.stringify(status_ID)},
+        //     function (data) {
+        //       console.log(data.statuss)
+        //       $.each($(".commStatus"), function(index, commStatus) {
+        //         if(data.statuss[index]===1)
+        //           $(commStatus).css('color', 'gray')
+        //         else
+        //           $(commStatus).css('color', '#00FF00')
+        //       })
+        //   })
+        // }
+        //---------------------------------------------------
+        $("#downloadexcel_a").on("click", oneline_download);
+        //---------------------------------------------------
+        // 日期按鈕功能
+        $(".calendar").on("click", calendarsetdate);
+        $(".calendarleft").on("click", calendardateleft);
+        $(".calendarright").on("click", calendardateright);
+        $(".calendarleft2").on("click", calendardateleft2);
+        $(".calendarright2").on("click", calendardateright2);
+        //---------------------------------------------------
+        setInterval(function () {
+          get_data();
+        }, 1000);
+        //---------------------------------------------------
+        protection_get();
+        alarm_get_show1_level1_checktimeNull();
+        alarm_get_show1_level2_checktimeNull();
+        updateStatus("/equipment_status_list", $('.selectDiv'), 'id', $(".commStatus"), 'color');
+        setInterval(() => {
+          protection_get();
+          alarm_get_show1_level1_checktimeNull();
+          alarm_get_show1_level2_checktimeNull();
+          updateStatus("/equipment_status_list", $('.selectDiv'), 'id', $(".commStatus"), 'color');
+        }, 2000);
+        //---------------------------------------------------
+      });
+    </script>
+    {% extends 'navbar.html' %} {% block content %}
+    <div class="container-fluid p-0">
+      <div class="row mt-2 mx-2">
+        <div
+          class="col-12 p-3"
+          style="
+            background-color: white;
+            box-shadow: 6px 6px 3px rgba(0, 0, 0, 0.7);
+          "
+        >
+          <div class="row px-3">
+            <div
+              class="col-12 col-md-3 col-lg-3 col-xl-1 p-0"
+              style="min-width: 250px"
+            >
+              <div class="mx-1">
+                <button
+                  class="typeButton"
+                  data-value="mbms"
+                  style="background-color: #cecece; font-weight: bold"
+                >
+                  電池
+                </button>
+                <button
+                  class="typeButton"
+                  data-value="pcs"
+                  style="background-color: #cecece00; font-weight: bold"
+                >
+                  PCS
+                </button>
+                <button
+                  class="typeButton"
+                  data-value="acm"
+                  style="background-color: #cecece00; font-weight: bold"
+                >
+                  電表
+                </button>
+                <button
+                  class="typeButton"
+                  data-value="containter"
+                  style="background-color: #cecece00; font-weight: bold"
+                >
+                  貨櫃
+                </button>
+              </div>
+              <div
+                class="mx-1 p-1"
+                style="height: 76.1vh; overflow-y: auto; border: 1px solid black"
+              >
+                <div class="mbmsType">
+                  <div class="equipListBox d-none"></div>
+                </div>
+                <div class="pcsType">
+                  <div class="equipListBox d-none"></div>
+                </div>
+                <div class="acmType">
+                  <div class="equipListBox d-none"></div>
+                </div>
+                <div class="containterType">
+                  <div class="equipListBox d-none"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col p-0" style="min-width: 250px">
+              <div
+                class="mx-1 p-3"
+                style="height: 79vh; border: 3px double black; overflow-y: auto"
+              >
+                <div class="mbmsBox d-none displayBox">
+                  <div class="d-none w-100 BoxContent mbmsBoxContent P3A">
+                    <!-- system資訊 -->
+                    <div class="mb-2" style="overflow-x: auto">
+                      <div class="d-flex">
+                        <h5 class="pl-2 mr-auto font-weight-bold">
+                          System資訊
+                        </h5>
+                        Time:
+                        <h6
+                          class="mbms_point set border w200 text-center mx-1 bms_time"
+                          data-value="bms_time"
+                        ></h6>
+                      </div>
+                      <div class="p-1">
+                        <table class="table01">
+                          <tr>
+                            <th>H_Beat</th>
+                            <th>Total[EA]</th>
+                            <th>SVC[EA]</th>
+                            <th>Min[EA]</th>
+                            <th>Max_Diff[V]</th>
+                            <th>Ref[V][R#]</th>
+                            <th>FLASH</th>
+                            <th>EEPROM</th>
+                          </tr>
+                          <tr>
+                            <td
+                              class="mbms_point set heartbeat"
+                              data-value="heartbeat"
+                            ></td>
+                            <td
+                              class="mbms_point set count_string_sys"
+                              data-value="count_string_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set count_string_svc"
+                              data-value="count_string_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set count_string_min"
+                              data-value="count_string_min"
+                            ></td>
+                            <td
+                              class="mbms_point set v_diff_limit"
+                              data-value="v_diff_limit"
+                            ></td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set v_ref_sys"
+                                  data-value="v_ref_sys"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set v_ref_rIndex_sys"
+                                  data-value="v_ref_rIndex_sys"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td
+                              class="mbms_point set checksum_flash_sys"
+                              data-value="checksum_flash_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set checksum_eeprom_sys"
+                              data-value="checksum_eeprom_sys"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th>Command</th>
+                            <th>Mode#1</th>
+                            <th>Mode#2</th>
+                            <th>Alarm#1</th>
+                            <th>Alarm#2</th>
+                            <th>SOH[%](Avg)</th>
+                            <!-- <th>SOH[%](Mid)</th> -->
+                            <th>SOH[%](Max)</th>
+                            <th>SOH[%](Min)</th>
+                          </tr>
+                          <tr>
+                            <td
+                              class="mbms_point set status_sys"
+                              data-value="status_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set mode1_sys"
+                              data-value="mode1_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set mode2_sys"
+                              data-value="mode2_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm1_sys"
+                              data-value="alarm1_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm2_sys"
+                              data-value="alarm2_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set soh_sys"
+                              data-value="soh_sys"
+                            ></td>
+                            <!-- <td
+                              class="mbms_point set"
+                              data-value="soh_mid_sys"
+                            ></td> -->
+                            <td
+                              class="mbms_point set soh_max_sys"
+                              data-value="soh_max_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set soh_min_sys"
+                              data-value="soh_min_sys"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th colspan="4">System Config#1</th>
+                            <th colspan="4">System Config#2</th>
+                          </tr>
+                          <tr>
+                            <td colspan="4"
+                              class="mbms_point set config1_sys"
+                              data-value="config1_sys"
+                            ></td>
+                            <td colspan="4"
+                              class="mbms_point set config2_sys"
+                              data-value="config1_sys"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th></th>
+                            <th>Max[R#]</th>
+                            <th>Min[R#]</th>
+                            <th>Max_Diff[R#]</th>
+                            <th></th>
+                            <th>Limit[A]</th>
+                            <th>Limit[kW]</th>
+                            <th>Total[kWh]</th>
+                          </tr>
+                          <tr>
+                            <th>Cell Volt.</th>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set cv_max_sys"
+                                  data-value="cv_max_sys"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set cv_max_rIndex_sys"
+                                  data-value="cv_max_rIndex_sys"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set cv_min_sys"
+                                  data-value="cv_min_sys"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set cv_min_rIndex_sys"
+                                  data-value="cv_min_rIndex_sys"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set cv_diff_sys"
+                                  data-value="cv_diff_sys"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set cv_diff_rIndex_sys"
+                                  data-value="cv_diff_rIndex_sys"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <th>Chg</th>
+                            <td
+                              class="mbms_point set i_chg_limit_svc"
+                              data-value="i_chg_limit_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set p_chg_limit_svc"
+                              data-value="p_chg_limit_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set kwh_chg_sys"
+                              data-value="kwh_chg_sys"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th>Cell Temp.</th>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set ct_max_sys"
+                                  data-value="ct_max_sys"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set ct_max_rIndex_sys"
+                                  data-value="ct_max_rIndex_sys"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set ct_min_sys"
+                                  data-value="ct_min_sys"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set ct_min_rIndex_sys"
+                                  data-value="ct_min_rIndex_sys"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set ct_diff_sys"
+                                  data-value="ct_diff_sys"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set ct_diff_rIndex_sys"
+                                  data-value="ct_diff_rIndex_sys"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <th>Dchg</th>
+                            <td
+                              class="mbms_point set i_dischg_limit_svc"
+                              data-value="i_dischg_limit_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set p_dischg_limit_svc"
+                              data-value="p_dischg_limit_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set kwh_dischg_sys"
+                              data-value="kwh_dischg_sys"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th></th>
+                            <th>I[A]</th>
+                            <th>V[V](Avg)</th>
+                            <!-- <th>V[V](Mid)</th> -->
+                            <th>V[V](Max)</th>
+                            <th>V[V](Min)</th>
+                            <th>SOC[%](Avg)</th>
+                            <!-- <th>SOC[%](Mid)</th> -->
+                            <th>SOC[%](Max)</th>
+                            <th>SOC[%](Min)</th>
+                          </tr>
+                          <tr>
+                            <th>System</th>
+                            <td
+                              class="mbms_point set i_sys"
+                              data-value="i_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set v_sys"
+                              data-value="v_sys"
+                            ></td>
+                            <!-- <td
+                              class="mbms_point set"
+                              data-value="v_mid_sys"
+                            ></td> -->
+                            <td
+                              class="mbms_point set v_max_sys"
+                              data-value="v_max_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set v_min_sys"
+                              data-value="v_min_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set soc_sys"
+                              data-value="soc_sys"
+                            ></td>
+                            <!-- <td
+                              class="mbms_point set soc_mid_sys"
+                              data-value="soc_mid_sys"
+                            ></td> -->
+                            <td
+                              class="mbms_point set soc_max_sys"
+                              data-value="soc_max_sys"
+                            ></td>
+                            <td
+                              class="mbms_point set soc_min_sys"
+                              data-value="soc_min_sys"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th>Service</th>
+                            <td
+                              class="mbms_point set i_svc"
+                              data-value="i_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set v_svc"
+                              data-value="v_svc"
+                            ></td>
+                            <!-- <td
+                              class="mbms_point set"
+                              data-value="v_mid_svc"
+                            ></td> -->
+                            <td
+                              class="mbms_point set v_max_svc"
+                              data-value="v_max_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set v_min_svc"
+                              data-value="v_min_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set soc_svc"
+                              data-value="soc_svc"
+                            ></td>
+                            <!-- <td
+                              class="mbms_point set soc_mid_svc"
+                              data-value="soc_mid_svc"
+                            ></td> -->
+                            <td
+                              class="mbms_point set soc_max_svc"
+                              data-value="soc_max_svc"
+                            ></td>
+                            <td
+                              class="mbms_point set soc_min_svc"
+                              data-value="soc_min_svc"
+                            ></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- Rack資訊 -->
+                    <div class="mb-2" style="overflow-x: auto">
+                      <div class="d-flex">
+                        <h5 class="pl-2 mr-auto font-weight-bold">Rack資訊</h5>
+                      </div>
+                      <div class="p-1">
+                        <table class="table01 headcol rack_table">
+                          <tr>
+                            <th></th>
+                            <th>Alarm#1</th>
+                            <th>Alarm#2</th>
+                            <th>Protection#1</th>
+                            <th>Protection#2</th>
+                            <th>Con_SW</th>
+                            <th>Sen_SW</th>
+                            <th>P+[V](Sensor)</th>
+                            <th>PUV_LV</th>
+                            <th>PUV_Open</th>
+                            <th>PUV_Close</th>
+                            <th>FLASH</th>
+                            <th>EEPROM</th>
+                          </tr>
+                          <tr>
+                            <th>Rack</th>
+                            <td
+                              class="mbms_point set alarm1_rack_sum"
+                              data-value="alarm1_rack_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm2_rack_sum"
+                              data-value="alarm2_rack_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set protection1_rack_sum"
+                              data-value="protection1_rack_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set protection2_rack_sum"
+                              data-value="protection2_rack_sum"
+                            ></td>
+                            <td colspan="8"></td>
+                          </tr>
+                          <tr
+                            class="arrayTr"
+                            class="textIndex"
+                            data-preText="Rack"
+                            data-nextText=""
+                          >
+                            <td
+                              class="mbms_point set alarm1_rack"
+                              data-value="alarm1_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm2_rack"
+                              data-value="alarm2_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set protection1_rack"
+                              data-value="protection1_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set protection2_rack"
+                              data-value="protection2_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set switch_control_status_rack"
+                              data-value="switch_control_status_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set switch_sensor_status_rack"
+                              data-value="switch_sensor_status_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set P_pos_V_sensor_rack"
+                              data-value="P_pos_V_sensor_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set PowerUV_LV_rack"
+                              data-value="PowerUV_LV_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set PowerUV_Open_count_rack"
+                              data-value="PowerUV_Open_count_rack"
+                            ></td>
+                            <td
+                              class="mbms_point set PowerUV_Close_count_rack"
+                              data-value="PowerUV_Close_count_rack"
+                            ></td>
+                            <td class="mbms_point set checksum_flash_rack" data-value="checksum_flash_rack"></td>
+                            <td class="mbms_point set checksum_eeprom_rack" data-value="checksum_eeprom_rack"></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- string資訊 -->
+                    <div class="d-flex">
+                      <h5 class="pl-2 mr-auto font-weight-bold">
+                        String資訊
+                      </h5>
+                    </div>
+                    <div class="mb-2" style="overflow-x: auto">
+                      <div class="p-1">
+                        <table class="table01 headcol">
+                          <tr>
+                            <th></th>
+                            <th>Alarm#1</th>
+                            <th>Alarm#2</th>
+                            <th>Alarm#3</th>
+                            <th>Alarm#4</th>
+                            <th>Protection#1</th>
+                            <th>Protection#2</th>
+                            <th>Protection#3</th>
+                            <th>Protection#4</th>
+                            <th>Con</th>
+                            <th>V[V]</th>
+                            <th>I[A]</th>
+                            <th>SOC[%]</th>
+                            <th>SOH[%]</th>
+                            <th>Limit[A(Chg)]</th>
+                            <th>Limit[A](Dchg)</th>
+                            <th>Limit[kW](Chg)</th>
+                            <th>Limit[kW](Dchg)</th>
+                            <th>Chg[kWh]</th>
+                            <th>Dchg[kWh]</th>
+                            <th>Power_Off[M#]</th>
+                            <th>CommF[M#]</th>
+                            <th>[CV](Max(Diff))</th>
+                            <th>[CV](Max)[M#][C#]</th>
+                            <th>[CV](Min)[M#][C#]</th>
+                            <th>[CT](Avg)</th>
+                            <th>[CT](Max)[M#][C#]</th>
+                            <th>[CT](Min)[M#][C#]</th>
+                            <th>Reg[Sensor]</th>
+                            <th>M_Reg[Scan]</th>
+                            <th>M_Reg[Balancing]</th>
+                            <th>M_Reg[Address]</th>
+                            <th>M_Reg[Voltage]</th>
+                            <th>M_Reg[Temperature]</th>
+                            <th>DIST[Under 20mV]</th>
+                            <th>DIST[Under V-Imb A]</th>
+                            <th>DIST[Under V-Imb P]</th>
+                            <th>DIST[V-Imb P or More]</th>
+                            <th>Bal[Cnt](Max)[M#][C#]</th>
+                          </tr>
+                          <tr>
+                            <th>String</th>
+                            <td
+                              class="mbms_point set alarm1_string_sum"
+                              data-value="alarm1_string_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm2_string_sum"
+                              data-value="alarm2_string_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm3_string_sum"
+                              data-value="alarm3_string_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm4_string_sum"
+                              data-value="alarm4_string_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set protection1_string_sum"
+                              data-value="protection1_string_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set protection2_string_sum"
+                              data-value="protection2_string_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set protection3_string_sum"
+                              data-value="protection3_string_sum"
+                            ></td>
+                            <td
+                              class="mbms_point set protection4_string_sum"
+                              data-value="protection4_string_sum"
+                            ></td>
+                          </tr>
+                          <tr
+                            class="arrayTr fisrt"
+                            data-preText="Rack"
+                            data-nextText=" str1"
+                          >
+                            <td
+                              class="mbms_point set alarm1_string"
+                              data-value="alarm1_string"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm2_string"
+                              data-value="alarm2_string"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm3_string"
+                              data-value="alarm3_string"
+                            ></td>
+                            <td
+                              class="mbms_point set alarm4_string"
+                              data-value="alarm4_string"
+                            ></td>
+                            <td
+                              class="mbms_point set protection1_string"
+                              data-value="protection1_string"
+                            ></td>
+                            <td
+                              class="mbms_point set protection2_string"
+                              data-value="protection2_string"
+                            ></td>
+                            <td
+                              class="mbms_point set protection3_string"
+                              data-value="protection3_string"
+                            ></td>
+                            <td
+                              class="mbms_point set protection4_string"
+                              data-value="protection4_string"
+                            ></td>
+                            <td
+                              class="mbms_point set control_status_string"
+                              data-value="control_status_string"
+                            ></td>
+                            <td
+                              class="mbms_point set v_string"
+                              data-value="v_string"
+                            ></td>
+                            <td
+                              class="mbms_point set i_string"
+                              data-value="i_string"
+                            ></td>
+                            <td
+                              class="mbms_point set soc_string"
+                              data-value="soc_string"
+                            ></td>
+                            <td
+                              class="mbms_point set soh_string"
+                              data-value="soh_string"
+                            ></td>
+                            <td
+                              class="mbms_point set i_chg_limit_string"
+                              data-value="i_chg_limit_string"
+                            ></td>
+                            <td
+                              class="mbms_point set i_dischg_limit_string"
+                              data-value="i_dischg_limit_string"
+                            ></td>
+                            <td
+                              class="mbms_point set p_chg_limit_string"
+                              data-value="p_chg_limit_string"
+                            ></td>
+                            <td
+                              class="mbms_point set p_dischg_limit_string"
+                              data-value="p_dischg_limit_string"
+                            ></td>
+                            <td
+                              class="mbms_point set kwh_chg_string"
+                              data-value="kwh_chg_string"
+                            ></td>
+                            <td
+                              class="mbms_point set kwh_dischg_string"
+                              data-value="kwh_dischg_string"
+                            ></td>
+                            <td
+                              class="mbms_point set module_power_off_string"
+                              data-value="module_power_off_string"
+                            ></td>
+                            <td
+                              class="mbms_point set module_comm_fault_string"
+                              data-value="module_comm_fault_string"
+                            ></td>
+                            <td
+                              class="mbms_point set cv_diff_string"
+                              data-value="cv_diff_string"
+                            ></td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set cv_max_string"
+                                  data-value="cv_max_string"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set cv_max_mIndex_string"
+                                  data-value="cv_max_mIndex_string"
+                                ></h6>
+                                ,
+                                <h6
+                                  class="mbms_point set cv_max_cIndex_string"
+                                  data-value="cv_max_cIndex_string"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set cv_min_string"
+                                  data-value="cv_min_string"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set cv_min_mIndex_string"
+                                  data-value="cv_min_mIndex_string"
+                                ></h6>
+                                ,
+                                <h6
+                                  class="mbms_point set cv_min_cIndex_string"
+                                  data-value="cv_min_cIndex_string"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td
+                              class="mbms_point set ct_string"
+                              data-value="ct_string"
+                            ></td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set ct_max_string"
+                                  data-value="ct_max_string"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set ct_max_mIndex_string"
+                                  data-value="ct_max_mIndex_string"
+                                ></h6>
+                                ,
+                                <h6
+                                  class="mbms_point set ct_max_cIndex_string"
+                                  data-value="ct_max_cIndex_string"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set ct_min_string"
+                                  data-value="ct_min_string"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set ct_min_mIndex_string"
+                                  data-value="ct_min_mIndex_string"
+                                ></h6>
+                                ,
+                                <h6
+                                  class="mbms_point set ct_min_cIndex_string"
+                                  data-value="ct_min_cIndex_string"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                            <td
+                              class="mbms_point set sensor_status_string"
+                              data-value="sensor_status_string"
+                            ></td>
+                            <td
+                              class="mbms_point set module_status_scan_string"
+                              data-value="module_status_scan_string"
+                            ></td>
+                            <td
+                              class="mbms_point set module_status_balance_string"
+                              data-value="module_status_balance_string"
+                            ></td>
+                            <td
+                              class="mbms_point set module_status_address_string"
+                              data-value="module_status_address_string"
+                            ></td>
+                            <td
+                              class="mbms_point set module_status_voltage_string"
+                              data-value="module_status_voltage_string"
+                            ></td>
+                            <td
+                              class="mbms_point set module_status_temp_string"
+                              data-value="module_status_temp_string"
+                            ></td>
+                            <td
+                              class="mbms_point set dist_under_20mV_string"
+                              data-value="dist_under_20mV_string"
+                            ></td>
+                            <td
+                              class="mbms_point set dist_under_VImb_A_string"
+                              data-value="dist_under_VImb_A_string"
+                            ></td>
+                            <td
+                              class="mbms_point set dist_under_VImb_P_string"
+                              data-value="dist_under_VImb_P_string"
+                            ></td>
+                            <td
+                              class="mbms_point set dist_under_VImb_P_More_string"
+                              data-value="dist_under_VImb_P_More_string"
+                            ></td>
+                            <td>
+                              <div class="d-flex justify-content-center">
+                                <h6
+                                  class="mbms_point set cell_balance_count_max_string"
+                                  data-value="cell_balance_count_max_string"
+                                ></h6>
+                                (
+                                <h6
+                                  class="mbms_point set cell_balance_count_max_mIndex_string"
+                                  data-value="cell_balance_count_max_mIndex_string"
+                                ></h6>
+                                ,
+                                <h6
+                                  class="mbms_point set cell_balance_count_max_cIndex_string"
+                                  data-value="cell_balance_count_max_cIndex_string"
+                                ></h6>
+                                )
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!--BMS Module -->
+                    <div class="d-flex">
+                      <h5 class="pl-2 mr-auto font-weight-bold">
+                        Module資訊
+                      </h5>
+                    </div>
+                    <div class="mb-2" style="overflow-x: auto">
+                      <div class="p-1">
+                        <table class="table01 headcol">
+                          <tr>
+                            <th>
+                              <select class="module Rack_select"></select>
+                            </th>
+                            <th>Module[V]</th>
+                            <th>Temp#01[T]</th>
+                            <th>Temp#02[T]</th>
+                            <th>Protection</th>
+                            <th>Balancing</th>
+                            <th>Ext_Sen</th>
+                            <th>Afe_Diag#01</th>
+                            <th>Afe_Diag#02</th>
+                            <th>Afe_Diag#03</th>
+                            <th>Afe_Diag#04</th>
+                          </tr>
+                          <tr
+                            class="module_arrayTr fisrt"
+                            data-preText="Module"
+                            data-nextText=""
+                          >
+                            <td
+                              class="mbms_point set v_module"
+                              data-value="v_module"
+                            ></td>
+                            <td
+                              class="mbms_point set temp1_module"
+                              data-value="temp1_module"
+                            ></td>
+                            <td
+                              class="mbms_point set temp2_module"
+                              data-value="temp2_module"
+                            ></td>
+                            <td
+                              class="mbms_point set protection_module"
+                              data-value="protection_module"
+                            ></td>
+                            <td
+                              class="mbms_point set cell_balance_module"
+                              data-value="cell_balance_module"
+                            ></td>
+                            <td
+                              class="mbms_point set ext_sen_module"
+                              data-value="ext_sen_module"
+                            ></td>
+                            <td
+                              class="mbms_point set Afe_Diag1"
+                              data-value="Afe_Diag1"
+                            ></td>
+                            <td
+                              class="mbms_point set Afe_Diag2"
+                              data-value="Afe_Diag2"
+                            ></td>
+                            <td
+                              class="mbms_point set Afe_Diag3"
+                              data-value="Afe_Diag3"
+                            ></td>
+                            <td
+                              class="mbms_point set Afe_Diag4"
+                              data-value="Afe_Diag4"
+                            ></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- BMS Cell -->
+                    <div class="d-flex">
+                      <h5 class="pl-2 mr-auto font-weight-bold">
+                        Cell資訊
+                      </h5>
+                    </div>
+                    <div class="mb-2" style="overflow-x: auto">
+                      <div class="p-1">
+                        <table class="table01 headcol">
+                          <tr>
+                            <th style="width:15%">
+                              <select class="cell Rack_select"></select>
+                              <select class="cell Module_select"></select>
+                            </th>
+                            <th  style="width:85%">Cell#[V]</th>
+                          </tr>
+                          <tr
+                            class="cell_arrayTr fisrt"
+                            data-preText="Cell"
+                            data-nextText=""
+                          >
+                            <td
+                              class="mbms_point set v_cell"
+                              data-value="v_cell"
+                            ></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pcsBox d-none displayBox">
+                  <div
+                    class="d-none w-100 BoxContent pcsBoxContent Destin_Power_1200"
+                  >
+                    <!-- PCS資訊 -->
+                    <div class="mb-2" style="overflow-x: auto">
+                      <h5 class="pl-2 font-weight-bold">PCS資訊</h5>
+                      <div class="p-1">
+                        <table class="table01">
+                          <tr>
+                            <th>操作權</th>
+                            <th>充放狀態</th>
+                            <th colspan="2">控制狀態</th>
+                            <th>控制模式</th>
+                            <th>實功率(kW)</th>
+                            <th>虛功率(kVAR)</th>
+                            <th>視在功率(kVA)</th>
+                          </tr>
+                          <tr>
+                            <td
+                              class="pcs_point set right"
+                              data-value="right"
+                            ></td>
+                            <td
+                              class="pcs_point set chg_dischg_state"
+                              data-value="chg_dischg_state"
+                            ></td>
+                            <td
+                              colspan="2"
+                              class="pcs_point set control_state1"
+                              data-value="control_state1"
+                            ></td>
+                            <td
+                              class="pcs_point set control_mode"
+                              data-value="control_mode"
+                            ></td>
+                            <td
+                              class="pcs_point set p_sum"
+                              data-value="p_sum"
+                            ></td>
+                            <td
+                              class="pcs_point set q_sum"
+                              data-value="q_sum"
+                            ></td>
+                            <td
+                              class="pcs_point set s_sum"
+                              data-value="s_sum"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th>電池電壓(V)</th>
+                            <th>DC電流(A)</th>
+                            <th>DC電壓(V)</th>
+                            <th>DC功率(kW)</th>
+                            <th>櫃體溫度(°C)</th>
+                            <th>功率因數</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr>
+                            <td
+                              class="pcs_point set v_bat"
+                              data-value="v_bat"
+                            ></td>
+                            <td
+                              class="pcs_point set i_dc"
+                              data-value="i_dc"
+                            ></td>
+                            <td
+                              class="pcs_point set v_dc"
+                              data-value="v_dc"
+                            ></td>
+                            <td
+                              class="pcs_point set p_dc"
+                              data-value="p_dc"
+                            ></td>
+                            <td
+                              class="pcs_point set temp_cabinet"
+                              data-value="temp_cabinet"
+                            ></td>
+                            <td class="pcs_point set pf" data-value="pf"></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <th>交流側</th>
+                            <th>R相電壓(V)</th>
+                            <th>S相電壓(V)</th>
+                            <th>T相電壓(V)</th>
+                            <th>R相電流(A)</th>
+                            <th>S相電流(A)</th>
+                            <th>T相電流(A)</th>
+                            <th>頻率(HZ)</th>
+                          </tr>
+                          <tr>
+                            <th>PCS</th>
+                            <td
+                              class="pcs_point set v1_pcs"
+                              data-value="v1_pcs"
+                            ></td>
+                            <td
+                              class="pcs_point set v2_pcs"
+                              data-value="v2_pcs"
+                            ></td>
+                            <td
+                              class="pcs_point set v3_pcs"
+                              data-value="v3_pcs"
+                            ></td>
+                            <td
+                              class="pcs_point set i1_pcs"
+                              data-value="i1_pcs"
+                            ></td>
+                            <td
+                              class="pcs_point set i2_pcs"
+                              data-value="i2_pcs"
+                            ></td>
+                            <td
+                              class="pcs_point set i3_pcs"
+                              data-value="i3_pcs"
+                            ></td>
+                            <td
+                              class="pcs_point set f_pcs"
+                              data-value="f_pcs"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th>電網</th>
+                            <td
+                              class="pcs_point set v1_grid"
+                              data-value="v1_grid"
+                            ></td>
+                            <td
+                              class="pcs_point set v2_grid"
+                              data-value="v2_grid"
+                            ></td>
+                            <td
+                              class="pcs_point set v3_grid"
+                              data-value="v3_grid"
+                            ></td>
+                            <td
+                              class="pcs_point set i1_grid"
+                              data-value="i1_grid"
+                            ></td>
+                            <td
+                              class="pcs_point set i2_grid"
+                              data-value="i2_grid"
+                            ></td>
+                            <td
+                              class="pcs_point set i3_grid"
+                              data-value="i3_grid"
+                            ></td>
+                            <td
+                              class="pcs_point set f_grid"
+                              data-value="f_grid"
+                            ></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- 錯誤資訊 -->
+                    <div class="mb-2" style="overflow-x: auto">
+                      <h5 class="pl-2 font-weight-bold">錯誤資訊</h5>
+                      <div class="p-1">
+                        <table
+                          class="table01"
+                          style="table-layout: fixed; min-width: 1400px"
+                        >
+                          <tr>
+                            <th>警報1</th>
+                            <th>警報2</th>
+                            <th>警報3</th>
+                            <th>警報4</th>
+                            <th>故障1</th>
+                            <th>故障2</th>
+                            <th>故障3</th>
+                            <th>故障4</th>
+                          </tr>
+                          <tr>
+                            <td
+                              class="pcs_point set warning1"
+                              data-value="warning1"
+                            ></td>
+                            <td
+                              class="pcs_point set warning2"
+                              data-value="warning2"
+                            ></td>
+                            <td
+                              class="pcs_point set warning3"
+                              data-value="warning3"
+                            ></td>
+                            <td
+                              class="pcs_point set warning4"
+                              data-value="warning4"
+                            ></td>
+                            <td
+                              class="pcs_point set fault1"
+                              data-value="fault1"
+                            ></td>
+                            <td
+                              class="pcs_point set fault2"
+                              data-value="fault2"
+                            ></td>
+                            <td
+                              class="pcs_point set fault3"
+                              data-value="fault3"
+                            ></td>
+                            <td
+                              class="pcs_point set fault4"
+                              data-value="fault4"
+                            ></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- 狀態資訊  -->
+                    <div class="mb-2" style="overflow-x: auto">
+                      <h5 class="pl-2 font-weight-bold">狀態資訊</h5>
+                      <div class="p-1">
+                        <table class="table01">
+                          <tr>
+                            <th colspan="2">狀態資訊1</th>
+                            <th colspan="2">狀態資訊2</th>
+                            <th colspan="2">狀態資訊3</th>
+                          </tr>
+                          <tr>
+                            <td>DI#1</td>
+                            <td
+                              class="pcs_point set status1"
+                              data-value="status1"
+                              data-bit="9"
+                            ></td>
+                            <td>CB1(BATT CB)</td>
+                            <td
+                              class="pcs_point set status2"
+                              data-value="status2"
+                              data-bit="2"
+                            ></td>
+                            <td>State of system command</td>
+                            <td
+                              class="pcs_point set status3"
+                              data-value="status3"
+                              data-bit="15"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <td>DI#2</td>
+                            <td
+                              class="pcs_point set status1"
+                              data-value="status1"
+                              data-bit="10"
+                            ></td>
+                            <td>CB1A(Pre Charge)</td>
+                            <td
+                              class="pcs_point set status2"
+                              data-value="status2"
+                              data-bit="3"
+                            ></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td>DI#3</td>
+                            <td
+                              class="pcs_point set status1"
+                              data-value="status1"
+                              data-bit="11"
+                            ></td>
+                            <td>MC4(Point of common coupling)</td>
+                            <td
+                              class="pcs_point set status2"
+                              data-value="status2"
+                              data-bit="5"
+                            ></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td>DI#4</td>
+                            <td
+                              class="pcs_point set status1"
+                              data-value="status1"
+                              data-bit="14"
+                            ></td>
+                            <td>CB3(GRID or LOAD CB - Manual Switch)</td>
+                            <td
+                              class="pcs_point set status2"
+                              data-value="status2"
+                              data-bit="6"
+                            ></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td>DI#5</td>
+                            <td
+                              class="pcs_point set status1"
+                              data-value="status1"
+                              data-bit="15"
+                            ></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- PEBB資訊 -->
+                    <div class="mb-2" style="overflow-x: auto">
+                      <h5 class="pl-2 font-weight-bold">PEBB資訊</h5>
+                      <div class="p-1">
+                        <table class="table01">
+                          <tr>
+                            <th></th>
+                            <th>PEBB #1</th>
+                            <th>PEBB #2</th>
+                            <th>PEBB #3</th>
+                            <th>PEBB #4</th>
+                            <th>PEBB #5</th>
+                            <th>PEBB #6</th>
+                            <th>PEBB #7</th>
+                            <th>PEBB #8</th>
+                          </tr>
+                          <tr>
+                            <th>溫度(°C)</th>
+                            <td
+                              class="pcs_point set temp_PEBB1"
+                              data-value="temp_PEBB1"
+                            ></td>
+                            <td
+                              class="pcs_point set temp_PEBB2"
+                              data-value="temp_PEBB2"
+                            ></td>
+                            <td
+                              class="pcs_point set temp_PEBB3"
+                              data-value="temp_PEBB3"
+                            ></td>
+                            <td
+                              class="pcs_point set temp_PEBB4"
+                              data-value="temp_PEBB4"
+                            ></td>
+                            <td
+                              class="pcs_point set temp_PEBB5"
+                              data-value="temp_PEBB5"
+                            ></td>
+                            <td
+                              class="pcs_point set temp_PEBB6"
+                              data-value="temp_PEBB6"
+                            ></td>
+                            <td
+                              class="pcs_point set temp_PEBB7"
+                              data-value="temp_PEBB7"
+                            ></td>
+                            <td
+                              class="pcs_point set temp_PEBB8"
+                              data-value="temp_PEBB8"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th>Fault</th>
+                            <td
+                              class="pcs_point set PEBB_info1"
+                              data-value="PEBB_info1"
+                            ></td>
+                            <td
+                              class="pcs_point set PEBB_info2"
+                              data-value="PEBB_info2"
+                            ></td>
+                            <td
+                              class="pcs_point set PEBB_info3"
+                              data-value="PEBB_info3"
+                            ></td>
+                            <td
+                              class="pcs_point set PEBB_info4"
+                              data-value="PEBB_info4"
+                            ></td>
+                            <td
+                              class="pcs_point set PEBB_info5"
+                              data-value="PEBB_info5"
+                            ></td>
+                            <td
+                              class="pcs_point set PEBB_info6"
+                              data-value="PEBB_info6"
+                            ></td>
+                            <td
+                              class="pcs_point set PEBB_info7"
+                              data-value="PEBB_info7"
+                            ></td>
+                            <td
+                              class="pcs_point set PEBB_info8"
+                              data-value="PEBB_info8"
+                            ></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ACM Content -->
+                <div class="acmBox d-none displayBox">
+                  <div
+                    class="d-none w-100 BoxContent acmBoxContent SPM-8"
+                  >
+                    <table class="table01">
+                      <tr>
+                        <th></th>
+                        <th>電壓(V)</th>
+                        <th>電流(A)</th>
+                        <th>功率(kW)</th>
+                        <th>虛功(kVAR)</th>
+                        <th>視在功率(kVA)</th>
+                        <th>功因</th>
+                        <th></th>
+                        <th>電壓(V)</th>
+                      </tr>
+                      <tr>
+                        <th>三相</th>
+                        <td class="acm_point set v" data-value="v"></td>
+                        <td class="acm_point set i" data-value="i"></td>
+                        <td class="acm_point set p" data-value="p"></td>
+                        <td class="acm_point set q" data-value="q"></td>
+                        <td class="acm_point set s" data-value="s"></td>
+                        <td class="acm_point set pf" data-value="pf"></td>
+                        <th>三線</th>
+                        <td class="acm_point set vl" data-value="vl"></td>
+                      </tr>
+                      <tr>
+                        <th>A相</th>
+                        <td class="acm_point set v_a" data-value="v_a"></td>
+                        <td class="acm_point set i_a" data-value="i_a"></td>
+                        <td class="acm_point set p_a" data-value="p_a"></td>
+                        <td class="acm_point set q_a" data-value="q_a"></td>
+                        <td class="acm_point set s_a" data-value="s_a"></td>
+                        <td class="acm_point set pf_a" data-value="pf_a"></td>
+                        <th>A-B</th>
+                        <td class="acm_point set vl_ab" data-value="vl_ab"></td>
+                      </tr>
+                      <tr>
+                        <th>B相</th>
+                        <td class="acm_point set v_b" data-value="v_b"></td>
+                        <td class="acm_point set i_b" data-value="i_b"></td>
+                        <td class="acm_point set p_b" data-value="p_b"></td>
+                        <td class="acm_point set q_b" data-value="q_b"></td>
+                        <td class="acm_point set s_b" data-value="s_b"></td>
+                        <td class="acm_point set pf_b" data-value="pf_b"></td>
+                        <th>B-C</th>
+                        <td class="acm_point set vl_bc" data-value="vl_bc"></td>
+                      </tr>
+                      <tr>
+                        <th>C相</th>
+                        <td class="acm_point set v_c" data-value="v_c"></td>
+                        <td class="acm_point set i_c" data-value="i_c"></td>
+                        <td class="acm_point set p_c" data-value="p_c"></td>
+                        <td class="acm_point set q_c" data-value="q_c"></td>
+                        <td class="acm_point set s_c" data-value="s_c"></td>
+                        <td class="acm_point set pf_c" data-value="pf_c"></td>
+                        <th>C-A</th>
+                        <td class="acm_point set vl_ca" data-value="vl_ca"></td>
+                      </tr>
+                    </table>
+                    <table class="table01">
+                      <tr>
+                        <th></th>
+                        <th>實功電能(kWH)</th>
+                        <th>虛功電能(kVARH)</th>
+                        <th>視在電能(kVAH)</th>
+                      </tr>
+                      <tr>
+                        <th>輸入</th>
+                        <td
+                          class="acm_point set imp_kwh"
+                          data-value="imp_kwh"
+                        ></td>
+                        <td
+                          class="acm_point set imp_kvarh"
+                          data-value="imp_kvarh"
+                        ></td>
+                        <td
+                          class="acm_point set imp_kvah"
+                          data-value="imp_kvah"
+                        ></td>
+                      </tr>
+                      <tr>
+                        <th>輸出</th>
+                        <td
+                          class="acm_point set exp_kwh"
+                          data-value="exp_kwh"
+                        ></td>
+                        <td
+                          class="acm_point set exp_kvarh"
+                          data-value="exp_kvarh"
+                        ></td>
+                        <td
+                          class="acm_point set exp_kvah"
+                          data-value="exp_kvah"
+                        ></td>
+                      </tr>
+                      <tr>
+                        <th>總和</th>
+                        <td
+                          class="acm_point set tot_kwh"
+                          data-value="tot_kwh"
+                        ></td>
+                        <td
+                          class="acm_point set tot_kvarh"
+                          data-value="tot_kvarh"
+                        ></td>
+                        <td
+                          class="acm_point set tot_kvah"
+                          data-value="tot_kvah"
+                        ></td>
+                      </tr>
+                      <tr>
+                        <th>淨輸出</th>
+                        <td
+                          class="acm_point set net_kwh"
+                          data-value="net_kwh"
+                        ></td>
+                        <td
+                          class="acm_point set net_kvarh"
+                          data-value="net_kvarh"
+                        ></td>
+                        <td
+                          class="acm_point set net_kvah"
+                          data-value="net_kvah"
+                        ></td>
+                      </tr>
+                    </table>
+                    <table class="table01">
+                      <tr>
+                        <th>頻率(HZ)</th>
+                      </tr>
+                      <tr>
+                        <td class="acm_point set f" data-value="f"></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div
+                    class="d-none w-100 BoxContent acmBoxContent ION9000 PM8000"
+                  >
+                    <table class="table01">
+                      <tr>
+                        <th></th>
+                        <th>電流(A)</th>
+                        <th></th>
+                        <th>電壓(V)</th>
+                      </tr>
+                      <tr>
+                        <th>三相</th>
+                        <td class="acm_point set i" data-value="i"></td>
+                        <th>三線</th>
+                        <td class="acm_point set vl" data-value="vl"></td>
+                      </tr>
+                      <tr>
+                        <th>A相</th>
+                        <td class="acm_point set i_a" data-value="i_a"></td>
+                        <th>A-B</th>
+                        <td class="acm_point set vl_ab" data-value="vl_ab"></td>
+                      </tr>
+                      <tr>
+                        <th>B相</th>
+                        <td class="acm_point set i_b" data-value="i_b"></td>
+                        <th>B-C</th>
+                        <td class="acm_point set vl_bc" data-value="vl_bc"></td>
+                      </tr>
+                      <tr>
+                        <th>C相</th>
+                        <td class="acm_point set i_c" data-value="i_c"></td>
+                        <th>C-A</th>
+                        <td class="acm_point set vl_ca" data-value="vl_ca"></td>
+                      </tr>
+                    </table>
+                    <table class="table01">
+                      <tr>
+                        <th>功率(kW)</th>
+                        <th>虛功(kVAR)</th>
+                        <th>視在功率(kVA)</th>
+                        <th>功因</th>
+                      </tr>
+                      <tr>
+                        <td class="acm_point set p" data-value="p"></td>
+                        <td class="acm_point set q" data-value="q"></td>
+                        <td class="acm_point set s" data-value="s"></td>
+                        <td class="acm_point set pf" data-value="pf"></td>
+                      </tr>
+                    </table>
+                    <table class="table01">
+                      <tr>
+                        <th></th>
+                        <th>實功電能(kWH)</th>
+                        <th>虛功電能(kVARH)</th>
+                        <th>視在電能(kVAH)</th>
+                      </tr>
+                      <tr>
+                        <th>輸入</th>
+                        <td
+                          class="acm_point set exp_kwh"
+                          data-value="exp_kwh"
+                        ></td>
+                        <td
+                          class="acm_point set exp_kvarh"
+                          data-value="exp_kvarh"
+                        ></td>
+                        <td
+                          class="acm_point set exp_kvah"
+                          data-value="exp_kvah"
+                        ></td>
+                      </tr>
+                      <tr>
+                        <th>輸出</th>
+                        <td
+                          class="acm_point set imp_kwh"
+                          data-value="imp_kwh"
+                        ></td>
+                        <td
+                          class="acm_point set imp_kvarh"
+                          data-value="imp_kvarh"
+                        ></td>
+                        <td
+                          class="acm_point set imp_kvah"
+                          data-value="imp_kvah"
+                        ></td>
+                      </tr>
+                      <tr>
+                        <th>總和</th>
+                        <td
+                          class="acm_point set tot_kwh"
+                          data-value="tot_kwh"
+                        ></td>
+                        <td
+                          class="acm_point set tot_kvarh"
+                          data-value="tot_kvarh"
+                        ></td>
+                        <td
+                          class="acm_point set tot_kvah"
+                          data-value="tot_kvah"
+                        ></td>
+                      </tr>
+                      <tr>
+                        <th>淨輸出</th>
+                        <td
+                          class="acm_point set net_kwh"
+                          data-value="net_kwh"
+                        ></td>
+                        <td
+                          class="acm_point set net_kvarh"
+                          data-value="net_kvarh"
+                        ></td>
+                        <td
+                          class="acm_point set net_kvah"
+                          data-value="net_kvah"
+                        ></td>
+                      </tr>
+                    </table>
+                    <table class="table01">
+                      <tr>
+                        <th>頻率(HZ)</th>
+                      </tr>
+                      <tr>
+                        <td class="acm_point set f" data-value="f"></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <!-- UPS Content-->
+                <div class="upsBox d-none displayBox">
+                  <div
+                    class="d-none w-100 BoxContent upsBoxContent ups"
+                  >
+                      <div class="mb-2" style="overflow-x: auto">
+                        <h5 class="pl-2 font-weight-bold">UPS資訊</h5>
+                        <div class="p-1">
+                        <table class="table01">
+                          <tr>
+                            <th>電池狀態</th>
+                            <th>輸出狀態</th>
+                            <th>SOC</th>
+                            <th>電池電壓(V)</th>
+                            <th>電池電流(A)</th>
+                            <th>電池溫度(℃)</th>
+                          </tr>
+                          <tr>
+                            <td class="ups_point set bat_status" data-value="bat_status"></td>
+                            <td class="ups_point set out_status" data-value="out_status"></td>
+                            <td class="ups_point set bat_soc" data-value="bat_soc"></td>
+                            <td class="ups_point set bat_v" data-value="bat_v"></td>
+                            <td class="ups_point set bat_a" data-value="bat_a"></td>
+                            <td class="ups_point set bat_temp" data-value="bat_temp"></td>
+                          </tr>
+                        </table>
+                        <table class="table01">
+                          <tr>
+                            <th></th>
+                            <th>電壓(V)</th>
+                            <th>電流(A)</th>
+                            <th>實功(W)</th>
+                            <th>頻率(Hz)</th>
+                          </tr>
+                          <tr>
+                            <th>輸入</th>
+                            <td
+                              class="ups_point set in_v"
+                              data-value="in_v"
+                            ></td>
+                            <td
+                              class="ups_point set in_a"
+                              data-value="in_a"
+                            ></td>
+                            <td
+                              class="ups_point set in_p"
+                              data-value="in_p"
+                            ></td>
+                            <td
+                              class="ups_point set in_f"
+                              data-value="in_f"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <th>輸出</th>
+                            <td
+                              class="ups_point set out_v"
+                              data-value="out_v"
+                            ></td>
+                            <td
+                              class="ups_point set out_a"
+                              data-value="out_a"
+                            ></td>
+                            <td
+                              class="ups_point set out_p"
+                              data-value="out_p"
+                            ></td>
+                            <td
+                              class="ups_point set out_f"
+                              data-value="out_f"
+                            ></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="mb-2" style="overflow-x: auto">
+                      <h5 class="pl-2 font-weight-bold">錯誤資訊</h5>
+                      <div class="p-1">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="2">警報</th>
+                          <th colspan="2">故障</th>
+                        </tr>
+                        <tr>
+                          <td>Utility Fail</td>
+                          <td
+                            class="ups_point set alarm"
+                            data-value="alarm"
+                            data-bit="0"
+                          ></td>
+                          <td>Fault Status Emergency Stop</td>
+                          <td
+                            class="ups_point set fault"
+                            data-value="fault"
+                            data-bit="0"
+                          ></td>
+                        </tr>
+                        <tr>
+                          <td>UPS Failed</td>
+                          <td
+                            class="ups_point set alarm"
+                            data-value="alarm"
+                            data-bit="1"
+                          ></td>
+                          <td>Fault Status High DC Shutdown</td>
+                          <td
+                            class="ups_point set fault"
+                            data-value="fault"
+                            data-bit="1"
+                          ></td>
+                        </tr>
+                        <tr>
+                          <td>Test in Progress</td>
+                          <td
+                            class="ups_point set alarm"
+                            data-value="alarm"
+                            data-bit="2"
+                          ></td>
+                          <td>Fault Status Bypass Breaker</td>
+                          <td
+                            class="ups_point set fault"
+                            data-value="fault"
+                            data-bit="2"
+                          ></td>
+                        </tr>
+                        <tr>
+                          <td>Shutdown Active</td>
+                          <td
+                            class="ups_point set alarm"
+                            data-value="alarm"
+                            data-bit="3"
+                          ></td>
+                          <td>Fault Status Over Load</td>
+                          <td
+                            class="ups_point set fault"
+                            data-value="fault"
+                            data-bit="3"
+                          ></td>
+                        </tr>
+                        <tr>
+                          <td>Beeper On</td>
+                          <td
+                            class="ups_point set alarm"
+                            data-value="alarm"
+                            data-bit="4"
+                          ></td>
+                          <td>Fault Status Inverter Output Fail</td>
+                          <td
+                            class="ups_point set fault"
+                            data-value="fault"
+                            data-bit="4"
+                          ></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>Fault Status Over Temperature</td>
+                          <td
+                            class="ups_point set fault"
+                            data-value="fault"
+                            data-bit="5"
+                          ></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>Fault Status Short Circuit</td>
+                          <td
+                            class="ups_point set fault"
+                            data-value="fault"
+                            data-bit="6"
+                          ></td>
+                        </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="containterBox d-none displayBox">
+                  <div class="d-none w-100 BoxContent containterBoxContent">
+                    <table id="containterTable" class="table01"></table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 歷史彈跳視窗 -->
+    <div
+      class="modal fade-scale"
+      id="historyModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="historyModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl animated">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="background-color: rgb(247, 247, 247)"
+          >
+            <div class="dateselect noWhite">
+              <div class="datepickerBox d-flex align-items-center">
+                <div class="p-1">
+                  起始:&nbsp
+                  <i
+                    class="far fa-calendar-alt calendar"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; vertical-align: sub"
+                  ></i>
+                  <input
+                    type="text"
+                    readonly
+                    id="datepicker1"
+                    class="datepicker"
+                    placeholder="Start_date"
+                    name="datepicker1"
+                  />
+                  <i
+                    class="far fa-caret-square-left calendarleft2"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="fas fa-caret-square-left calendarleft"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="fas fa-caret-square-right calendarright"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="far fa-caret-square-right calendarright2"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                </div>
+                <div class="p-1">
+                  結束:&nbsp
+                  <i
+                    class="far fa-calendar-alt calendar"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; vertical-align: sub"
+                  ></i>
+                  <input
+                    type="text"
+                    readonly
+                    id="datepicker2"
+                    class="datepicker"
+                    placeholder="End_date"
+                    name="datepicker2"
+                  />
+                  <i
+                    class="far fa-caret-square-left calendarleft2"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="fas fa-caret-square-left calendarleft"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="fas fa-caret-square-right calendarright"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="far fa-caret-square-right calendarright2"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  &nbsp
+                  <!-- <button type="button" id="search" class="btn btn-danger">查詢</button> -->
+                </div>
+                <div class="p-1">
+                  <select id="date_range">
+                    <option>日</option>
+                    <option>月</option>
+                    <option>年</option>
+                  </select>
+                </div>
+                <div class="p-1">
+                  <button class="btn btn-primary history_search">
+                    <i class="fas fa-search" style="font-size: 1.3rem"></i> 查詢
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="ml-auto">
+              <a id="downloadexcel_a">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="downloadexcel"
+                >
+                  CSV
+                </button>
+              </a>
+            </div>
+            <button type="button" class="mx-3" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="history_plot" class="d-flex justify-content-center"></div>
+            <div
+              id="history_loading"
+              class="loader d-flex justify-content-center"
+            >
+              <div class="loader-inner ball-grid-pulse">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <span class="mt-3"> <p>載入中...</p></span>
+            </div>
+            <table id="history_info" class="table01"></table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              data-dismiss="modal"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- bits彈跳視窗 -->
+    <div
+      class="modal fade-scale"
+      id="bitsModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="bitsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg animated">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="background-color: rgb(247, 247, 247)"
+          >
+            <h5 id="bitsModalHeader"></h5>
+            <button type="button" class="mx-3" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div id="bits_box" class="modal-body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              data-dismiss="modal"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>
