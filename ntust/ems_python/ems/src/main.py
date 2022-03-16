@@ -328,7 +328,7 @@ def alarm_get():
           condiction_list.append({'ID':i['ID'],'show':j,'level':k})
     if(condiction_list !=[]):
       print({**time_condiction,**checktime_condiction})
-      total = db.alarm.find({**time_condiction,**checktime_condiction,'$or':condiction_list},{'_id':1}).count()
+      total = len(list(db.alarm.find({**time_condiction,**checktime_condiction,'$or':condiction_list},{'_id':1})))
       for i in db.alarm.aggregate([
         {'$match':{**time_condiction,**checktime_condiction,'$or':condiction_list}},
         {'$sort':{'show':1,"time":-1,"_id":-1}},
