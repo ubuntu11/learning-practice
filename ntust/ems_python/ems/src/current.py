@@ -67,7 +67,7 @@ def current_data(db,collection,ID,project={},errortime=None):
 #----------------------------------------------------------------------------------------
 def SOE(db,ID,event,eventType="other"):
   now = datetime.datetime.now()
-  db.SOE.insert({"ID":ID,"time":now,"event":event,"type":eventType})
+  db.SOE.insert_one({"ID":ID,"time":now,"event":event,"type":eventType})
   return False
 #----------------------------------------------------------------------------------------
 def diff_data(db,collection,ID,datatype,date_range=0):

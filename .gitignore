@@ -33,3 +33,12 @@ Arduino/libraries/
 
 # Python virtul environment
 venv/
+
+# Python cache
+__pycache__/
+
+# MMS virtual manufacture device
+vmd-filestore/
+
+# sqlite db file
+*.db

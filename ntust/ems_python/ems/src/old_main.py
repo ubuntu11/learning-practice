@@ -36,8 +36,10 @@ login_manger=LoginManager()
 login_manger.session_protection='strong'
 login_manger.init_app(app)
 #-------------------------------------------------------------------------------
-# conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017, 127.0.0.1:27018', replicaset='rs0', serverSelectionTimeoutMS=10) 
-conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017', serverSelectionTimeoutMS=10) 
+# conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017, 127.0.0.1:27018', replicaset='rs0', serverSelectionTimeoutMS=10)
+# conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017', serverSelectionTimeoutMS=10)
+conn = pymongo.MongoClient('mongodb://user:pwd@ems1:27017,ems2:27017', replicaset='rs0',
+                           serverSelectionTimeoutMS=10)
 #-------------------------------------------------------------------------------
 class User(UserMixin):
   pass

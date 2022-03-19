@@ -1,23 +1,22 @@
 import pandas as pd
 import pymongo
+from pymongo import errors
 import json
 from bson.objectid import ObjectId
 import datetime
 
-#
-# conn = pymongo.MongoClient(['192.168.1.2:27017','192.168.1.3:27017'],replicaset='rs0',serverSelectionTimeoutMS=10000)
-# conn = pymongo.MongoClient(['192.168.1.3:27017'],replicaset='rs0',serverSelectionTimeoutMS=10000)
-# conn = pymongo.MongoClient('mongodb://root:pc152@127.0.0.1:27017/') 
-conn = pymongo.MongoClient('mongodb://user:pwd@ems1:27017,ems2:27017', replicaset='rs0',
-                           serverSelectionTimeoutMS=10)
+# conn = pymongo.MongoClient('mongodb://user:pwd@ems1:27017,ems2:27017', replicaset='rs0',
+#                           serverSelectionTimeoutMS=10)
+# conn = pymongo.MongoClient('mongodb://root:pc152@127.0.0.1:27017/')
 # conn["admin"].authenticate("root","pc152")
+conn = pymongo.MongoClient('mongodb://127.0.0.1:27017/')
 db = conn['AFC']
 
 
 def create_index():
     col_list = ["sys_control", "site_control", "iec61850", "SPM", "ASPM", "TPC", "alarm", "SOE", "pc_info",
-               "sys_protect_log", "pcs",
-               "pcs_control", "pcs_set", "mbms", "mbms_control", "acm", "ups", "env", "rio", "access", "air_control"]
+                "sys_protect_log", "pcs", "pcs_control", "pcs_set", "mbms", "mbms_control", "acm", "ups", "env", "rio",
+                "access", "air_control"]
     for i in col_list:
         col = db[i]
         col.create_index([("ID", 1), ("time", 1)])
@@ -41,8 +40,8 @@ def insert_equipment():
             if "_id" in i:
                 i["_id"] = ObjectId(i["_id"])
             try:
-                db.equipment.insert(i)
-            except:
+                db.equipment.insert_one(i)
+            except errors.WriteError:
                 pass
 
 
@@ -87,15 +86,12 @@ def insert_status():
 
 
 def number_data(row):
-    try:
-        number = {"unit": row["unit"], "round": int(row["round"]), "plotType": row["plotType"],
-                  "y_title": row["y_title"]}
-    except:
-        print(row)
+    number = {"unit": row["unit"], "round": int(row["round"]), "plotType": row["plotType"],
+              "y_title": row["y_title"]}
     try:
         for i in row["alarm"].split("&&"):
             number["alarm"].append(json.loads(i))
-    except:
+    except AttributeError:
         pass
     return number
 
@@ -104,17 +100,17 @@ def bit_data(row):
     bit = {"index": int(row["bitIndex"]), "name": row["bitName"]}
     try:
         bit["translate"] = json.loads("{" + row["translate"] + "}")
-    except:
+    except KeyError:
         bit["translate"] = {}
     try:
         bit["color"] = json.loads("{" + row["color"] + "}")
-    except:
+    except TypeError:
         bit["color"] = {}
     bit["alarm"] = []
     try:
         for i in row["alarm"].split("&&"):
             bit["alarm"].append(json.loads(i))
-    except:
+    except AttributeError:
         pass
     return bit
 
@@ -122,13 +118,13 @@ def bit_data(row):
 def text_data(row):
     try:
         row["translate"] = json.loads("{" + row["translate"] + "}")
-    except:
+    except KeyError:
         row["translate"] = {}
     text = {"translate": row["translate"], "color": row["color"], "alarm": []}
     try:
         for i in row["alarm"].split("&&"):
             text["alarm"].append(json.loads(i))
-    except:
+    except AttributeError:
         pass
     return text
 
@@ -136,12 +132,12 @@ def text_data(row):
 def generate_tags(df):
     tags = []
     for num, row in df.iterrows():
-        sameIndex = next((index for index, tag in enumerate(tags) if tag['tag'] == row["tag"]), None)
-        if row["EMS"] != None:
-            if sameIndex == None:
+        same_index = next((index for index, tag in enumerate(tags) if tag['tag'] == row["tag"]), None)
+        if row["EMS"] is not None:
+            if same_index is None:
                 oneline = {"tag": row["tag"], "name": row["name"], "tagType": row["tagType"], "error": row["error"]}
-                if row["tagType"] == "number" or row["tagType"] == "numberArray" or row["tagType"] == "numberArray2" or \
-                        row["tagType"] == "numberArray3":
+                if row["tagType"] == "number" or row["tagType"] == "numberArray" or row["tagType"] == "numberArray2" \
+                        or row["tagType"] == "numberArray3":
                     oneline = {**oneline, **number_data(row)}
                 elif row["tagType"] == "bits" or row["tagType"] == "bitsArray" or row["tagType"] == "bitsArray2":
                     oneline = {**oneline, "bits": [bit_data(row)]}
@@ -150,18 +146,18 @@ def generate_tags(df):
                 tags.append(oneline)
             else:
                 if row["tagType"] == "bits" or row["tagType"] == "bitsArray" or row["tagType"] == "bitsArray2":
-                    tags[sameIndex]["bits"].append(bit_data(row))
+                    tags[same_index]["bits"].append(bit_data(row))
                 else:
                     pass
     return tags
 
 
-def insert_model_to_db(ID, equipType, error, tags):
+def insert_model_to_db(doc_id, equip_type, error, tags):
     # print(ID,equipType,error,tags)
     db.model.insert_one(
         {
-            "ID": ID,
-            "type": equipType,
+            "ID": doc_id,
+            "type": equip_type,
             "error": error,
             "tags": tags
         }
