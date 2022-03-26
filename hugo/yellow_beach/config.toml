@@ -1,0 +1,29 @@
+baseURL = ""
+languageCode = "zh-tw"
+title = "Yellow Beach Full of Boobs"
+Paginate = 1000
+googleAnalytics = ""
+theme = "showcase"
+relativeURLs = true
+
+[params]
+  author = "showcase"
+  description = "Minimal, one page, theme for showcasing your work"
+  message = ""
+  hideAutoMenu = false
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  actor = "actors"
+  actress = "actresses"
+
+[[menu.main]]
+  name = "Sex Positions"
+  url = "http://bestsexpositions.com"
+
+[social]
+  facebook = "https://facebook.com"
+  twitter = "https://twitter.com"
+  instagram = "https://instagram.com"
+  linkedin = "https://linkedin.com"
