@@ -1,14 +1,14 @@
 baseURL = ""
 languageCode = "zh-tw"
-title = "Yellow Beach Full of Boobs"
+title = "Yellow Beach Full of Boobs：精神盪漾的海灘"
 Paginate = 1000
 googleAnalytics = ""
 theme = "showcase"
 relativeURLs = true
 
 [params]
-  author = "showcase"
-  description = "Minimal, one page, theme for showcasing your work"
+  author = "kendrivepolo"
+  description = "基於興趣而建立的個人片庫"
   message = ""
   hideAutoMenu = false
 
