@@ -1,0 +1,3 @@
+[submodule "hugo/yellow_beach/themes/nuo"]
+	path = hugo/yellow_beach/themes/nuo
+	url = https://github.com/laozhu/hugo-nuo

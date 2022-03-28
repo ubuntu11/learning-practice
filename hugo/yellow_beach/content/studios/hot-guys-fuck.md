@@ -1,8 +1,8 @@
 ---
 title: "Hot Guys Fuck"
 date: 2022-03-26T15:26:39+08:00
-link: studio/hot-guys-fuck
-image: https://incestime.com/wp-content/uploads/2020/12/2-vert-22.jpg
+link: studios/hot-guys-fuck
+image: https://upload.cc/i1/2022/03/28/yifc54.jpg
 draft: true
 ---
 

@@ -12,12 +12,6 @@ relativeURLs = true
   message = ""
   hideAutoMenu = false
 
-[taxonomies]
-  tag = "tags"
-  category = "categories"
-  actor = "actors"
-  actress = "actresses"
-
 [[menu.main]]
   name = "Sex Positions"
   url = "http://bestsexpositions.com"
