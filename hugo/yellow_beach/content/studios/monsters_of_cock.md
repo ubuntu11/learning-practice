@@ -1,7 +1,7 @@
 ---
 title: "Monsters_of_cock"
 link: studios/monsters_of_cock
-image: https://upload.cc/i1/2022/03/28/yifc54.jpg
+image: https://upload.cc/i1/2022/03/30/BNqDan.jpg
 date: 2022-03-29T16:22:42+08:00
 draft: true
 ---
