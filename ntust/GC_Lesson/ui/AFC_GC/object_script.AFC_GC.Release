@@ -1,0 +1,11 @@
+release/emslink.o
+release/main.o
+release/mainwindow.o
+release/mbmslink.o
+release/meterlink.o
+release/pcslink.o
+release/moc_emslink.o
+release/moc_mainwindow.o
+release/moc_mbmslink.o
+release/moc_meterlink.o
+release/moc_pcslink.o

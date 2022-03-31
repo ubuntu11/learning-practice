@@ -1,0 +1,4428 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <meta id="load" data-equiptype="{{equipType}}" />
+    <title>EMS</title>
+    <link
+      href="/static/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/fullcalendar/lib/main.css" />
+    <link rel="stylesheet" href="/static/css/customFullcalendar.css" />
+    <script src="/static/fullcalendar/lib/main.min.js"></script>
+    <script type="text/javascript" src="/static/popper.min.js"></script>
+    <script src="/static/tooltip.min.js"></script>
+    <script
+      type="text/javascript"
+      src="/static/jquery-ui/jquery-ui.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/bootstrap/js/bootstrap.min.js"
+    ></script>
+    <script type="text/javascript" src="/static/plotly.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/static/js/SLD.js"></script>
+    <script type="text/javascript" src="/static/svg-pan-zoom.js"></script>
+    <script type="text/javascript" src="/static/hammer.js"></script>
+    <link href="/static/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="/static/fontawesome/css/all.css" rel="stylesheet" />
+    <link href="/static/bootstrap/css/animate.min.css" rel="stylesheet" />
+    <link href="/static/loaders/loaders.min.css" rel="stylesheet" />
+    <script
+      type="text/javascript"
+      src="/static/jquery-ui/jquery.datetimepicker.full.min.js"
+    ></script>
+    <link
+      href="/static/jquery-ui/jquery.datetimepicker.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      .selectDiv {
+        cursor: pointer;
+      }
+      .selectDiv:hover {
+        background-color: #b6cadf;
+      }
+      .setvalue {
+        text-align: center;
+        font-size: 1.2rem;
+      }
+      .scalevalue {
+        text-align: center;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      $(function () {
+        // ***目前控制頁面暫時依據現場更新頁面，未來須調整為依造設備更改設定值頁面!!!
+        // ***系統設定 內容大致為 系統模式限制值
+        //---------------------------------------------------
+        const { equiptype } = $("#load").data()
+        let equipType = "site_control"
+        if (equiptype !== "None") {
+          //超連結有指定equipType
+          equipType = equiptype
+          $(".typeButton").css({ "background-color": "rgba(206,206,206,0)" })
+          $(`.typeButton[data-value=${equipType}]`).css({
+            "background-color": "#cecece",
+          })
+        }
+        let trueEquipType = null
+        let current_ID = null
+        let equipData = null //設備資料
+        let pcsCapacityTotal = 0 //存放pcs容量總和
+        tagType = undefined
+        plotType = undefined
+        y_title = undefined
+        //---------------------------------------------------
+        // 選擇設備類型
+        $(".typeButton").on("click", function () {
+          equipType = $(this).attr("data-value")
+          $(".typeButton").css({ "background-color": "rgba(206,206,206,0)" })
+          $(this).css({ "background-color": "#cecece" })
+          get_control_equipList()
+          // window.open(`/control?equipType=${equipType}`,"_self") 與上面二擇一
+        })
+        //---------------------------------------------------
+        // 取得單一同種類設備資
+        let get_control_equipList = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/get_control_equipList",
+            {
+              equipType: equipType,
+            },
+            function (data) {
+              console.log(data)
+              equipData = data.data
+              if (equipType === data.equipType) {
+                if (equipType === "site_control") {
+                  $(".equipListBox").empty()
+                  $(".equipListBox").removeClass("d-block")
+                  $(`.${equipType}Type .modeListBox`).addClass("d-block")
+                  $(".displayBox").removeClass("d-flex")
+                  $(`.${equipType}Box`).addClass("d-flex")
+                  pcsCapacityTotal = getPcsCapacityTotal(data)
+                  console.log("pcs capacity total: ", pcsCapacityTotal)
+                  site_control_mode_data()
+                } else {
+                  $(".equipListBox").empty()
+                  $(`.modeListBox`).removeClass("d-block")
+                  $(".equipListBox").removeClass("d-block")
+                  $(`.${equipType}Type .equipListBox`).addClass("d-block")
+                  $(".displayBox").removeClass("d-flex")
+                  $(`.${equipType}Box`).addClass("d-flex")
+                  equipData.forEach((equip, index) => {
+                    $(`.${equipType}Type .equipListBox`).append(
+                      $("<div/>")
+                        .addClass(
+                          `p-1 mb-1 ${equipType} ${equipType}${index} selectDiv`
+                        )
+                        .attr("id", equip.ID)
+                        .attr("index", index)
+                        .attr("data-truetype", equip.type)
+                        .css({ border: "1px solid rgb(197, 196, 196)" })
+                        .html(
+                          $("<div/>")
+                            .addClass("mt-1 pl-2 d-flex")
+                            .append(
+                              '<i class="fas fa-lightbulb commStatus" style="zoom: 150%"></i>',
+                              `<h5 class="text-left ml-1 mr-auto">${equip.name}</h5>`
+                            )
+                        )
+                    )
+                  })
+                  current_ID = null
+                  if (equipData.length > 0) {
+                    current_ID = equipData[0]["ID"]
+                    trueEquipType = equipData[0]["type"]
+                    $(`.${equipType}Type .equipListBox .${equipType}0`).css({
+                      "background-color": "#b6cadf",
+                    })
+                    resetBoxContent()
+                    get_control_data()
+                  }
+                }
+              }
+              updateStatus(
+                "/equipment_status_list",
+                $(".selectDiv"),
+                "id",
+                $(".commStatus"),
+                "color"
+              )
+            }
+          )
+          return false
+        }
+        get_control_equipList()
+        //---------------------------------------------------
+        // 重置BoxContent
+        function resetBoxContent() {
+          const index = $(`#${current_ID}`).attr("Index") * 1
+          const { model, tags } = equipData[index]
+          switch (trueEquipType) {
+            case "mbms":
+              $(".BoxContent").removeClass("d-block")
+              $(`.mbmsBoxContent.${model}`).addClass("d-block")
+              break
+            case "pcs":
+              $(".BoxContent").removeClass("d-block")
+              $(`.pcsBoxContent.${model}`).addClass("d-block")
+              break
+            case "air":
+              $(".BoxContent").removeClass("d-block")
+              $(`.containterBoxContent.${model}`).addClass("d-block")
+              break
+          }
+        }
+        //---------------------------------------------------
+        // 取得pcs最大容量總和
+        function getPcsCapacityTotal(e) {
+          let total = 0
+          for (let i = 0; i < e.data.length; i++) {
+            total += e.data[i]["capacity"]
+          }
+          return total
+        }
+        //---------------------------------------------------
+        // 判斷設備類別並取得資料
+        function get_control_data() {
+          switch (trueEquipType) {
+            case "mbms":
+              get_mbms_control_data()
+              break
+            case "pcs":
+              get_pcs_control_data()
+              break
+            case "air":
+              get_air_control_data()
+              break
+          }
+        }
+        //---------------------------------------------------
+        // 取得mbms 控制資料
+        let get_mbms_control_data = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/get_mbms_control_data",
+            { ID: current_ID },
+            function (data) {
+              const currentData = data.data
+              let model = equipData[0].model
+              //--由於input checkbox中，label的for必須綁一個input的id，因此必須做一些修正
+              $(".mbmsControl").removeAttr("id")
+              $(`.${model} .mbmsControl`).attr("id", "mbmsControl")
+              $(`.${model} .mbmsReset`).attr("id", "mbmsReset")
+              //--
+              $(`#mbmsControl`).prop("checked", currentData.control === 1)
+              $(`#mbmsReset`).prop("checked", currentData.reset === 1)
+              if (currentData.reset === 1) {
+                $(`#mbmsReset`).disabled = true
+                $(`#mbmsControl`).disabled = true
+                $(".mbms_set")[0].disabled = true
+              } else {
+                console.log($(`.${model} .mbmsReset`), $(`#mbmsReset`))
+                $(`#mbmsReset`).disabled = false
+                $(`#mbmsControl`).disabled = false
+                $(".mbms_set")[0].disabled = false
+              }
+            }
+          )
+          return false
+        }
+        // 取得pcs 控制資料
+        let get_pcs_control_data = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/get_pcs_control_data",
+            { ID: current_ID },
+            function (data) {
+              const currentData = data.data
+              let model = equipData[0].model
+              //--由於input checkbox中，label的for必須綁一個input的id，因此必須做一些修正
+              $(".pcsControl").removeAttr("id")
+              $(`.${model} .pcsControl`).attr("id", "pcsControl")
+              $(`.${model} .pcsReset`).attr("id", "pcsReset")
+              //--
+              $(`.${model} .pcsControl`).prop(
+                "checked",
+                currentData.control === 1
+              )
+              $(`.${model} .pcsReset`).prop("checked", currentData.reset === 1)
+              if (currentData.reset === 1) {
+                $(`.${model} .pcsControl`).disabled = true
+                $(`.${model} .pcsReset`).disabled = true
+                $(".pcs_set")[0].disabled = true
+              } else {
+                $(`.${model} .pcsControl`).disabled = false
+                $(`.${model} .pcsReset`).disabled = false
+                $(".pcs_set")[0].disabled = false
+              }
+            }
+          )
+          return false
+        }
+        // 取得air 控制資料
+        let get_air_control_data = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/get_air_control_data",
+            { ID: current_ID },
+            function (data) {
+              const currentData = data.data
+              $("#airControl").prop("checked", currentData.control === 1)
+            }
+          )
+          return false
+        }
+        //---------------------------------------------------
+        // 選擇mbms設備，更換顯示區塊
+        $(document).on("click", ".mbms", function () {
+          current_ID = $(this).attr("id")
+          trueEquipType = "mbms"
+          $(".mbms").css({ "background-color": "white" })
+          $(this).css({ "background-color": "#b6cadf" })
+          resetBoxContent()
+          get_control_data()
+        })
+        // 選擇PCS設備，更換顯示區塊
+        $(document).on("click", ".pcs", function () {
+          current_ID = $(this).attr("id")
+          trueEquipType = "pcs"
+          $(".pcs").css({ "background-color": "white" })
+          $(this).css({ "background-color": "#b6cadf" })
+          resetBoxContent()
+          get_control_data()
+        })
+        // 選擇貨櫃設備，更換顯示區塊
+        $(document).on("click", ".containter", function () {
+          current_ID = $(this).attr("id")
+          trueEquipType = $(this).attr("data-truetype")
+          $(".containter").css({ "background-color": "white" })
+          $(this).css({ "background-color": "#b6cadf" })
+          resetBoxContent()
+          get_control_data()
+        }) //---------------------------------------------------
+        let mode_data = {}
+        //取得site_control mode資料
+        let site_control_mode_data = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/site_control_mode_data",
+            {},
+            function (data) {
+              mode_data = data.mode_data
+              const mode_translate = {
+                0: "停止模式",
+                1: "1.固定功因模式",
+                2: "2.電壓虛功模式",
+                3: "3.電壓實功模式",
+                4: "4.電壓實虛功模式",
+                5: "5.頻率實功模式",
+                6: "6.實虛功控制模式",
+                7: "7.穩定實功模式",
+                8: "8.平滑化模式",
+                9: "9.功率逆送模式",
+                10: "10.SOC校正模式",
+                11: "AFC模式",
+              }
+              $(".setvalue").val("")
+              $("#current_mode").val("")
+              const { mode, scheduleFlag } = mode_data
+              if (mode != undefined) {
+                // console.log(mode_data["mode"]);
+                $("#current_mode").val(mode_translate[mode])
+                $("#setmode").val(scheduleFlag === 1 ? "schedule" : mode)
+                $("#setmode").trigger("change")
+              } else {
+                $("#current_mode").val("")
+                $("#setmode").val(0)
+              }
+            }
+          )
+          return false
+        }
+        //---------------------------------------------------
+        let check = false
+        //設定 site_control 模式參數
+        let site_control_set_mode = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/site_control_set_mode",
+            {
+              mode_data: JSON.stringify(e),
+            },
+            function (data) {
+              alert(data.status)
+              site_control_mode_data()
+            }
+          )
+          return false
+        }
+        //---------------------------------------------------
+        $("#setmode").on("change", function () {
+          let info = [
+            // "bess_p_max",
+            "soc_max",
+            "soc_min",
+            "System_p_max",
+            "System_p_min",
+            "System_q_max",
+            "System_q_min",
+          ]
+          $(".mode_div").removeClass("d-block")
+          $(".setvalue").css({ color: "black", "background-color": "white" })
+          const mode =
+            $(this).val() === "schedule" ? $(this).val() : $(this).val() * 1
+          switch (mode) {
+            case 0: //停止
+              info = 0
+              break
+            case 1: //
+              $("#constranit").addClass("d-block")
+              $(".mode1_div").addClass("d-block")
+              info = info.concat(["PF_p_ref", "PF_pf_ref"])
+              break
+            case 2: //
+              $("#constranit").addClass("d-block")
+              $(".mode2_div").addClass("d-block")
+              info = info.concat([
+                "Vq_v1_set",
+                "Vq_v2_set",
+                "Vq_v3_set",
+                "Vq_v4_set",
+                "Vq_v5_set",
+                "Vq_v6_set",
+                "Vq_v7_set",
+                "Vq_q1_set",
+                "Vq_q2_set",
+                "Vq_q3_set",
+                "Vq_q4_set",
+                "Vq_q5_set",
+                "Vq_q6_set",
+                "Vq_q7_set",
+                "Vq_q_base",
+                "Vq_v_base",
+              ])
+              break
+            case 3: //
+              $("#constranit").addClass("d-block")
+              $(".mode3_div").addClass("d-block")
+              info = info.concat([
+                "Vp_v1_set",
+                "Vp_v2_set",
+                "Vp_v3_set",
+                "Vp_v4_set",
+                "Vp_v5_set",
+                "Vp_v6_set",
+                "Vp_p1_set",
+                "Vp_p2_set",
+                "Vp_p3_set",
+                "Vp_p4_set",
+                "Vp_p5_set",
+                "Vp_p6_set",
+                "Vp_p_base",
+                "Vp_v_base",
+              ])
+              break
+            case 4: //
+              $("#constranit").addClass("d-block")
+              $(".mode4_div").addClass("d-block")
+              info = info.concat([
+                "Vpq_q_base",
+                "Vpq_v_base",
+                "Vpq_p_base",
+                "Vpq_q_v1_set",
+                "Vpq_q_v2_set",
+                "Vpq_q_v3_set",
+                "Vpq_q_v4_set",
+                "Vpq_q_q1_set",
+                "Vpq_q_q2_set",
+                "Vpq_q_q3_set",
+                "Vpq_q_q4_set",
+                "Vpq_p_v1_set",
+                "Vpq_p_v2_set",
+                "Vpq_p_v3_set",
+                "Vpq_p_v4_set",
+                "Vpq_p_p1_set",
+                "Vpq_p_p2_set",
+                "Vpq_p_p3_set",
+                "Vpq_p_p4_set",
+              ])
+              break
+            case 5: //
+              $("#constranit").addClass("d-block")
+              $(".mode5_div").addClass("d-block")
+              if (mode_data["FP_type"] === 2) {
+                // 0:Dreg0.5,1:Dreg0.25,2:自訂
+                info = info.concat([
+                  "f1_line_set",
+                  "f2_line_set",
+                  "f3_line_set",
+                  "f4_line_set",
+                  "f5_line_set",
+                  "f6_line_set",
+                  "p1_line_set",
+                  "p2_line_set",
+                  "p3_line_set",
+                  "p4_line_set",
+                  "p5_line_set",
+                  "p6_line_set",
+                  "FP_line_p_base",
+                  "FP_type",
+                  "FP_soc_goal_percent",
+                  "FP_main_f_set",
+                  "FP_main_f_set_source",
+                ])
+              } else {
+                info = info.concat(["FP_line_p_base", "FP_type"])
+              }
+              break
+            case 6: //
+              $("#constranit").addClass("d-block")
+              $(".mode6_div").addClass("d-block")
+              info = info.concat(["PQ_p_ref", "PQ_q_ref"])
+              break
+            case 7: //
+              $("#constranit").addClass("d-block")
+              $(".mode7_div").addClass("d-block")
+              info = info.concat([
+                "Stable_p_tr_new",
+                "Stable_p_ramp",
+                "PV_Steady_Capacity",
+              ])
+              break
+            case 8: //
+              $("#constranit").addClass("d-block")
+              $(".mode8_div").addClass("d-block")
+              info = info.concat(["Smooth_p_variance", "PV_Smooth_Capacity"])
+              break
+            case 9: //
+              $("#constranit").addClass("d-block")
+              $(".mode9_div").addClass("d-block")
+              info = info.concat([
+                "Anti_p_limit_new",
+                "Power_Reverse_Watt_Limit",
+                "PV_Reverse_Capacity",
+              ])
+              break
+            case 10: //
+              $(".mode10_div").addClass("d-block")
+              break
+            case 11: //
+              $("#constranit").addClass("d-block")
+              $(".mode11_div").addClass("d-block")
+              info = info.concat([
+                "Vq_v1_set",
+                "Vq_v2_set",
+                "Vq_v3_set",
+                "Vq_v4_set",
+                "Vq_v5_set",
+                "Vq_v6_set",
+                "Vq_v7_set",
+                "Vq_q1_set",
+                "Vq_q2_set",
+                "Vq_q3_set",
+                "Vq_q4_set",
+                "Vq_q5_set",
+                "Vq_q6_set",
+                "Vq_q7_set",
+                "Vq_q_base",
+                "Vq_v_base",
+                "f1_line_set",
+                "f2_line_set",
+                "f3_line_set",
+                "f4_line_set",
+                "f5_line_set",
+                "f6_line_set",
+                "p1_line_set",
+                "p2_line_set",
+                "p3_line_set",
+                "p4_line_set",
+                "p5_line_set",
+                "p6_line_set",
+                "FP_line_p_base",
+                "FP_type",
+                "FP_soc_goal_percent",
+                "FP_main_f_set",
+                "FP_main_f_set_source",
+              ])
+              break
+            case "schedule":
+              $(".schedule_div").addClass("d-block")
+              calendarInit()
+              break
+            default:
+              //
+              info = []
+              break
+          }
+          //reset
+          $(".mode2_div .setvalue").off("change", mode2_plot)
+          $(".mode5_div .setvalue").off("change", mode5_plot)
+          //check
+          for (let i in info) {
+            $("#" + info[i]).val(mode_data[info[i]])
+            $("#" + info[i] + ".setvalue").trigger("change")
+          }
+          //add event
+          if (mode === 2 || mode === 11) {
+            mode2_plot("")
+            $(".mode2_div .setvalue,.schedule_mode2_div .setvalue").on(
+              "change",
+              mode2_plot
+            )
+          }
+          if (mode === 5 || mode === 11) {
+            $("#FP_type").trigger("change")
+            if (mode_data["FP_main_f_set_source"] === 1) {
+              $("#FP_main_f_set_source").prop("checked", true)
+            } else {
+              $("#FP_main_f_set_source").prop("checked", false)
+            }
+          }
+        })
+        //---------------------------------------------------
+        $("#control_set").on("click", function () {
+          if (check == false) {
+            const mode_data = {
+              ID: "site_control",
+              mode: $("#setmode").val(),
+              // bess_p_max: $("#bess_p_max").val(),
+              soc_max: $("#soc_max").val(),
+              soc_min: $("#soc_min").val(),
+              System_p_max: $("#System_p_max").val(),
+              System_p_min: $("#System_p_min").val(),
+              System_q_max: $("#System_q_max").val(),
+              System_q_min: $("#System_q_min").val(),
+              PF_p_ref: $("#PF_p_ref").val(),
+              PF_pf_ref: $("#PF_pf_ref").val(),
+              PQ_p_ref: $("#PQ_p_ref").val(),
+              PQ_q_ref: $("#PQ_q_ref").val(),
+              Stable_p_tr_new: $("#Stable_p_tr_new").val(),
+              Stable_p_ramp: $("#Stable_p_ramp").val(),
+              PV_Steady_Capacity: $("#PV_Steady_Capacity").val(),
+              Smooth_p_variance: $("#Smooth_p_variance").val(),
+              PV_Smooth_Capacity: $("#PV_Smooth_Capacity").val(),
+              Anti_p_limit_new: $("#Anti_p_limit_new").val(),
+              Power_Reverse_Watt_Limit: $("#Power_Reverse_Watt_Limit").val(),
+              PV_Reverse_Capacity: $("#PV_Reverse_Capacity").val(),
+              f1_line_set: $("#f1_line_set").val(),
+              f2_line_set: $("#f2_line_set").val(),
+              f3_line_set: $("#f3_line_set").val(),
+              f4_line_set: $("#f4_line_set").val(),
+              f5_line_set: $("#f5_line_set").val(),
+              f6_line_set: $("#f6_line_set").val(),
+              p1_line_set: $("#p1_line_set").val(),
+              p2_line_set: $("#p2_line_set").val(),
+              p3_line_set: $("#p3_line_set").val(),
+              p4_line_set: $("#p4_line_set").val(),
+              p5_line_set: $("#p5_line_set").val(),
+              p6_line_set: $("#p6_line_set").val(),
+              FP_line_p_base: $("#FP_line_p_base").val(),
+              FP_type: $("#FP_type").val(),
+              FP_soc_goal_percent: $("#FP_soc_goal_percent").val(),
+              FP_main_f_set: $("#FP_main_f_set").val(),
+              FP_main_f_set_source:
+                $("#FP_main_f_set_source").prop("checked") * 1,
+              Vp_v1_set: $("#Vp_v1_set").val(),
+              Vp_v2_set: $("#Vp_v2_set").val(),
+              Vp_v3_set: $("#Vp_v3_set").val(),
+              Vp_v4_set: $("#Vp_v4_set").val(),
+              Vp_v5_set: $("#Vp_v5_set").val(),
+              Vp_v6_set: $("#Vp_v6_set").val(),
+              Vp_p1_set: $("#Vp_p1_set").val(),
+              Vp_p2_set: $("#Vp_p2_set").val(),
+              Vp_p3_set: $("#Vp_p3_set").val(),
+              Vp_p4_set: $("#Vp_p4_set").val(),
+              Vp_p5_set: $("#Vp_p5_set").val(),
+              Vp_p6_set: $("#Vp_p6_set").val(),
+              //'Vp_p_tr':$('#Vp_p_tr').val(),
+              Vp_p_base: $("#Vp_p_base").val(),
+              Vp_v_base: $("#Vp_v_base").val(),
+              Vq_v1_set: $("#Vq_v1_set").val(),
+              Vq_v2_set: $("#Vq_v2_set").val(),
+              Vq_v3_set: $("#Vq_v3_set").val(),
+              Vq_v4_set: $("#Vq_v4_set").val(),
+              Vq_v5_set: $("#Vq_v5_set").val(),
+              Vq_v6_set: $("#Vq_v6_set").val(),
+              Vq_v7_set: $("#Vq_v7_set").val(),
+              Vq_q1_set: $("#Vq_q1_set").val(),
+              Vq_q2_set: $("#Vq_q2_set").val(),
+              Vq_q3_set: $("#Vq_q3_set").val(),
+              Vq_q4_set: $("#Vq_q4_set").val(),
+              Vq_q5_set: $("#Vq_q5_set").val(),
+              Vq_q6_set: $("#Vq_q6_set").val(),
+              Vq_q7_set: $("#Vq_q7_set").val(),
+              Vq_q_base: $("#Vq_q_base").val(),
+              Vq_v_base: $("#Vq_v_base").val(),
+              Vpq_q_base: $("#Vpq_q_base").val(),
+              Vpq_v_base: $("#Vpq_v_base").val(),
+              Vpq_p_base: $("#Vpq_p_base").val(),
+              //"Vpq_p_tr":$('#Vpq_p_tr').val(),
+              Vpq_q_v1_set: $("#Vpq_q_v1_set").val(),
+              Vpq_q_v2_set: $("#Vpq_q_v2_set").val(),
+              Vpq_q_v3_set: $("#Vpq_q_v3_set").val(),
+              Vpq_q_v4_set: $("#Vpq_q_v4_set").val(),
+              Vpq_q_q1_set: $("#Vpq_q_q1_set").val(),
+              Vpq_q_q2_set: $("#Vpq_q_q2_set").val(),
+              Vpq_q_q3_set: $("#Vpq_q_q3_set").val(),
+              Vpq_q_q4_set: $("#Vpq_q_q4_set").val(),
+              Vpq_p_v1_set: $("#Vpq_p_v1_set").val(),
+              Vpq_p_v2_set: $("#Vpq_p_v2_set").val(),
+              Vpq_p_v3_set: $("#Vpq_p_v3_set").val(),
+              Vpq_p_v4_set: $("#Vpq_p_v4_set").val(),
+              Vpq_p_p1_set: $("#Vpq_p_p1_set").val(),
+              Vpq_p_p2_set: $("#Vpq_p_p2_set").val(),
+              Vpq_p_p3_set: $("#Vpq_p_p3_set").val(),
+              Vpq_p_p4_set: $("#Vpq_p_p4_set").val(),
+            }
+            const msg = "請確認是否控制"
+            console.log(mode_data)
+            if (confirm(msg) == true) {
+              site_control_set_mode(mode_data)
+            } else {
+              alert("取消")
+            }
+          } else {
+            alert("請確認數值正確性,設定失敗")
+          }
+        })
+        //----------------------------------------------------------------------------------
+        $(".setvalue").on("change", function () {
+          // console.log($(this).attr("id"));
+          let id = $(this).attr("id")
+          let alert_data = false
+          let value = $(this).val() * 1
+          let q_abs_max = undefined
+          let p_abs_max = undefined
+          switch (id) {
+            // case "bess_p_max":
+            //   alert_data = limit(value, 0, 6553.5, "系統最大輸出功率")
+            //   $(this).val(round(value, 1))
+            //   break
+            case "soc_max":
+            case "schedule_soc_max":
+              alert_data = limit(value, 0, 100, "最高SOC")
+              $(this).val(round(value, 1))
+              break
+            case "soc_min":
+            case "schedule_soc_min":
+              alert_data = limit(value, 0, 100, "最低SOC")
+              $(this).val(round(value, 1))
+              break
+            case "System_p_max":
+              q_abs_max = Math.max(
+                Math.abs($("#System_q_max").val()),
+                Math.abs($("#System_q_min").val())
+              )
+              alert_data = apparentPowerLimit(
+                value,
+                q_abs_max,
+                pcsCapacityTotal,
+                "最高放電實功"
+              )
+              if (alert_data == false) {
+                alert_data = limit(value, 0, 999999, "最高放電實功")
+              }
+              $(this).val(round(value, 1))
+              break
+            case "schedule_System_p_max":
+              q_abs_max = Math.max(
+                Math.abs($("#schedule_System_q_max").val()),
+                Math.abs($("#schedule_System_q_min").val())
+              )
+              alert_data = apparentPowerLimit(
+                value,
+                q_abs_max,
+                pcsCapacityTotal,
+                "最高放電實功"
+              )
+              if (alert_data == false) {
+                alert_data = limit(value, 0, 999999, "最高放電實功")
+              }
+              $(this).val(round(value, 1))
+              break
+            case "System_p_min":
+              q_abs_max = Math.max(
+                Math.abs($("#System_q_max").val()),
+                Math.abs($("#System_q_min").val())
+              )
+              alert_data = apparentPowerLimit(
+                value,
+                q_abs_max,
+                pcsCapacityTotal,
+                "最低放電實功"
+              )
+              if (alert_data == false) {
+                alert_data = limit(value, -999999, 0, "最低放電實功")
+              }
+              $(this).val(round(value, 1))
+              break
+            case "schedule_System_p_min":
+              q_abs_max = Math.max(
+                Math.abs($("#schedule_System_q_max").val()),
+                Math.abs($("#schedule_System_q_min").val())
+              )
+              alert_data = apparentPowerLimit(
+                value,
+                q_abs_max,
+                pcsCapacityTotal,
+                "最低放電實功"
+              )
+              if (alert_data == false) {
+                alert_data = limit(value, -999999, 0, "最低放電實功")
+              }
+              $(this).val(round(value, 1))
+              break
+            case "System_q_max":
+              p_abs_max = Math.max(
+                Math.abs($("#System_p_max").val()),
+                Math.abs($("#System_p_min").val())
+              )
+              alert_data = apparentPowerLimit(
+                value,
+                p_abs_max,
+                pcsCapacityTotal,
+                "最高虛功"
+              )
+              if (alert_data == false) {
+                alert_data = limit(value, 0, 999999, "最高虛功")
+              }
+              $(this).val(round(value, 1))
+              break
+            case "schedule_System_q_max":
+              p_abs_max = Math.max(
+                Math.abs($("#schedule_System_p_max").val()),
+                Math.abs($("#schedule_System_p_min").val())
+              )
+              alert_data = apparentPowerLimit(
+                value,
+                p_abs_max,
+                pcsCapacityTotal,
+                "最高虛功"
+              )
+              if (alert_data == false) {
+                alert_data = limit(value, 0, 999999, "最高虛功")
+              }
+              $(this).val(round(value, 1))
+              break
+            case "System_q_min":
+              p_abs_max = Math.max(
+                Math.abs($("#System_p_max").val()),
+                Math.abs($("#System_p_min").val())
+              )
+              alert_data = apparentPowerLimit(
+                value,
+                p_abs_max,
+                pcsCapacityTotal,
+                "最低虛功"
+              )
+              if (alert_data == false) {
+                alert_data = limit(value, -999999, 0, "最低虛功")
+              }
+              $(this).val(round(value, 1))
+              break
+            case "schedule_System_q_min":
+              p_abs_max = Math.max(
+                Math.abs($("#schedule_System_p_max").val()),
+                Math.abs($("#schedule_System_p_min").val())
+              )
+              alert_data = apparentPowerLimit(
+                value,
+                p_abs_max,
+                pcsCapacityTotal,
+                "最低虛功"
+              )
+              if (alert_data == false) {
+                alert_data = limit(value, -999999, 0, "最低虛功")
+              }
+              $(this).val(round(value, 1))
+              break
+            case "PQ_p_ref":
+              alert_data = limit(
+                value,
+                $("#System_p_min").val(),
+                $("#System_p_max").val(),
+                "實虛功控制-實功"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "PQ_p_ref":
+            case "schedule_PQ_p_ref":
+              alert_data = limit(
+                value,
+                $("#schedule_System_p_min").val(),
+                $("#schedule_System_p_max").val(),
+                "實虛功控制-實功"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "PQ_q_ref":
+              alert_data = limit(
+                value,
+                $("#System_q_min").val(),
+                $("#System_q_max").val(),
+                "實虛功控制-虛功"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "schedule_PQ_q_ref":
+              alert_data = limit(
+                value,
+                $("#schedule_System_q_min").val(),
+                $("#schedule_System_q_max").val(),
+                "實虛功控制-虛功"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "PF_p_ref":
+              alert_data = limit(value, -2000, 2000, "固定功因-實功")
+              $(this).val(round(value, 1))
+              break
+            case "PF_pf_ref":
+              alert_data = limit(value, -1, 1, "固定功因-公因")
+              $(this).val(round(value, 3))
+              break
+            case "Vq_q_base":
+              alert_data = limit(
+                value,
+                0,
+                $("#System_q_max").val(),
+                "電壓虛功-虛功參考值"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "schedule_Vq_q_base":
+              alert_data = limit(
+                value,
+                0,
+                $("#schedule_System_q_max").val(),
+                "電壓虛功-虛功參考值"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "Vq_q_base":
+              alert_data = limit(
+                value,
+                0,
+                $("#System_q_max").val(),
+                "電壓虛功-虛功參考值"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "schedule_Vq_q_base":
+              alert_data = limit(
+                value,
+                0,
+                $("#schedule_System_q_max").val(),
+                "電壓虛功-虛功參考值"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "Vq_v_base":
+            case "schedule_Vq_v_base":
+              alert_data = limit(value, 0, 22.8, "電壓虛功-電壓參考值")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_v1_set":
+            case "schedule_Vq_v1_set":
+              alert_data = limit(value, 0, 120, "電壓虛功-v1")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_v2_set":
+            case "schedule_Vq_v2_set":
+              alert_data = limit(value, 0, 120, "電壓虛功-v2")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_v3_set":
+            case "schedule_Vq_v3_set":
+              alert_data = limit(value, 0, 120, "電壓虛功-v3")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_v4_set":
+            case "schedule_Vq_v4_set":
+              alert_data = limit(value, 0, 120, "電壓虛功-v4")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_v5_set":
+            case "schedule_Vq_v5_set":
+              alert_data = limit(value, 0, 120, "電壓虛功-v5")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_v6_set":
+            case "schedule_Vq_v6_set":
+              alert_data = limit(value, 0, 120, "電壓虛功-v6")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_v7_set":
+            case "schedule_Vq_v7_set":
+              alert_data = limit(value, 0, 120, "電壓虛功-v7")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_q1_set":
+            case "schedule_Vq_q1_set":
+              alert_data = limit(value, -100, 100, "電壓虛功-q1")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_q2_set":
+            case "schedule_Vq_q2_set":
+              alert_data = limit(value, -100, 100, "電壓虛功-q2")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_q3_set":
+            case "schedule_Vq_q3_set":
+              alert_data = limit(value, -100, 100, "電壓虛功-q3")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_q4_set":
+            case "schedule_Vq_q4_set":
+              alert_data = limit(value, -100, 100, "電壓虛功-q4")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_q5_set":
+            case "schedule_Vq_q5_set":
+              alert_data = limit(value, -100, 100, "電壓虛功-q5")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_q6_set":
+            case "schedule_Vq_q6_set":
+              alert_data = limit(value, -100, 100, "電壓虛功-q6")
+              $(this).val(round(value, 2))
+              break
+            case "Vq_q7_set":
+            case "schedule_Vq_q7_set":
+              alert_data = limit(value, -100, 100, "電壓虛功-q7")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_p_base":
+              alert_data = limit(value, 0, 1200, "電壓實功-實功參考值")
+              $(this).val(round(value, 1))
+              break
+            case "Vp_v_base":
+              alert_data = limit(value, 0, 22.8, "電壓實功-電壓參考值")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_v1_set":
+              alert_data = limit(value, 0, 120, "電壓實功-v1")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_v2_set":
+              alert_data = limit(value, 0, 120, "電壓實功-v2")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_v3_set":
+              alert_data = limit(value, 0, 120, "電壓實功-v3")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_v4_set":
+              alert_data = limit(value, 0, 120, "電壓實功-v4")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_v5_set":
+              alert_data = limit(value, 0, 120, "電壓實功-v5")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_v6_set":
+              alert_data = limit(value, 0, 120, "電壓實功-v6")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_p1_set":
+              alert_data = limit(value, -100, 100, "電壓實功-p1")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_p2_set":
+              alert_data = limit(value, -100, 100, "電壓實功-p2")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_p3_set":
+              alert_data = limit(value, -100, 100, "電壓實功-p3")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_p4_set":
+              alert_data = limit(value, -100, 100, "電壓實功-p4")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_p5_set":
+              alert_data = limit(value, -100, 100, "電壓實功-p5")
+              $(this).val(round(value, 2))
+              break
+            case "Vp_p6_set":
+              alert_data = limit(value, -100, 100, "電壓實功-p6")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_v_base":
+              alert_data = limit(value, 0, 22.8, "電壓實虛功-電壓參考值")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_base":
+              alert_data = limit(value, 0, 2000, "電壓實虛功-虛功參考值")
+              $(this).val(round(value, 1))
+              break
+            case "Vpq_p_base":
+              ;(alert_data = limit(value, 0, 2000)), "電壓實虛功-實功參考值"
+              $(this).val(round(value, 1))
+              break
+            case "Vpq_p_v1_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-實功-v1")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_v2_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-實功-v2")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_v3_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-實功-v3")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_v4_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-實功-v4")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_v5_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-實功-v5")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_v6_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-實功-v6")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_p1_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-實功-p1")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_p2_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-實功-p2")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_p3_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-實功-p3")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_p_p4_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-實功-p4")
+              $(this).val(round(value, 2))
+            case "Vpq_p_p5_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-實功-p5")
+              $(this).val(round(value, 2))
+            case "Vpq_p_p6_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-實功-p6")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_v1_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-虛功-v1")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_v2_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-虛功-v2")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_v3_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-虛功-v3")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_v4_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-虛功-v4")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_v5_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-虛功-v5")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_v6_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-虛功-v6")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_v7_set":
+              alert_data = limit(value, 0, 120, "電壓實虛功-虛功-v7")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_q1_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-虛功-q1")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_q2_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-虛功-q2")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_q3_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-虛功-q3")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_q4_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-虛功-q4")
+              $(this).val(round(value, 2))
+            case "Vpq_q_q5_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-虛功-q5")
+              $(this).val(round(value, 2))
+            case "Vpq_q_q6_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-虛功-q6")
+              $(this).val(round(value, 2))
+              break
+            case "Vpq_q_q7_set":
+              alert_data = limit(value, -100, 100, "電壓實虛功-虛功-q7")
+              $(this).val(round(value, 2))
+              break
+            case "f1_line_set":
+            case "schedule_f1_line_set":
+              alert_data = limit(value, 55, 65, "頻率實功-f1")
+              $(this).val(round(value, 3))
+              break
+            case "f2_line_set":
+            case "schedule_f2_line_set":
+              alert_data = limit(value, 55, 65, "頻率實功-f2")
+              $(this).val(round(value, 3))
+              break
+            case "f3_line_set":
+            case "schedule_f3_line_set":
+              alert_data = limit(value, 55, 65, "頻率實功-f3")
+              $(this).val(round(value, 3))
+              break
+            case "f4_line_set":
+            case "schedule_f4_line_set":
+              alert_data = limit(value, 55, 65, "頻率實功-f4")
+              $(this).val(round(value, 3))
+              break
+            case "f5_line_set":
+            case "schedule_f5_line_set":
+              console.log('$("#FP_type").val()', $("#FP_type").val())
+              if (
+                mode_data["FP_type"] === 3 ||
+                currentScheduleEvent["FP_type"] === 3
+              ) {
+                break
+              } //sReg Pass
+              alert_data = limit(value, 55, 65, "頻率實功-f5")
+              $(this).val(round(value, 3))
+              break
+            case "f6_line_set":
+            case "schedule_f6_line_set":
+              if (
+                mode_data["FP_type"] === 3 ||
+                currentScheduleEvent["FP_type"] === 3
+              ) {
+                break
+              } //sReg Pass
+              alert_data = limit(value, 55, 65, "頻率實功-f6")
+              $(this).val(round(value, 3))
+              break
+            case "p1_line_set":
+            case "schedule_p1_line_set":
+              alert_data = limit(value, -100, 100, "頻率實功-p1")
+              $(this).val(round(value, 3))
+              break
+            case "p2_line_set":
+            case "schedule_p2_line_set":
+              alert_data = limit(value, -100, 100, "頻率實功-p2")
+              $(this).val(round(value, 3))
+              break
+            case "p3_line_set":
+            case "schedule_p3_line_set":
+              alert_data = limit(value, -100, 100, "頻率實功-p3")
+              $(this).val(round(value, 3))
+              break
+            case "p4_line_set":
+            case "schedule_p4_line_set":
+              alert_data = limit(value, -100, 100, "頻率實功-p4")
+              $(this).val(round(value, 3))
+              break
+            case "p5_line_set":
+            case "schedule_p5_line_set":
+              if (
+                mode_data["FP_type"] === 3 ||
+                currentScheduleEvent["FP_type"] === 3
+              ) {
+                break
+              } //sReg Pass
+              alert_data = limit(value, -100, 100, "頻率實功-p5")
+              $(this).val(round(value, 3))
+              break
+            case "p6_line_set":
+            case "schedule_p6_line_set":
+              if (
+                mode_data["FP_type"] === 3 ||
+                currentScheduleEvent["FP_type"] === 3
+              ) {
+                break
+              } //sReg Pass
+              alert_data = limit(value, -100, 100, "頻率實功-p6")
+              $(this).val(round(value, 3))
+              break
+            case "FP_line_p_base":
+              alert_data = limit(
+                value,
+                0,
+                $("#System_p_max").val(),
+                "頻率實功-功率參考值"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "schedule_FP_line_p_base":
+              alert_data = limit(
+                value,
+                0,
+                $("#schedule_System_p_max").val(),
+                "頻率實功-功率參考值"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "FP_soc_goal_percent":
+            case "schedule_FP_soc_goal_percent":
+              alert_data = limit(value, 0, 100, "頻率實功-SOC目標值")
+              $(this).val(round(value, 1))
+              break
+            case "FP_main_f_set":
+            case "schedule_FP_main_f_set":
+              if (
+                mode_data["FP_type"] === 3 ||
+                currentScheduleEvent["FP_type"] === 3
+              ) {
+                //sReg
+                alert_data = limit(value, 59.5, 60.0, "頻率實功-頻率基準")
+              } else {
+                alert_data = limit(value, 59.5, 60.5, "頻率實功-頻率基準")
+              }
+              $(this).val(round(value, 2)) // 修正為 2 位數
+              break
+            case "Stable_p_tr_new":
+              alert_data = limit(value, 0, 100000, "穩定實功-實功")
+              $(this).val(round(value, 1))
+              break
+            case "Stable_p_ramp":
+              alert_data = limit(value, 1, 20, "穩定實功-升降載率")
+              $(this).val(round(value, 1))
+              break
+            case "PV_Steady_Capacity":
+              alert_data = limit(
+                value,
+                0,
+                100000,
+                "穩定實功-PV_Steady_Capacity"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "Smooth_p_variance":
+              alert_data = limit(value, 1, 20, "平滑化-功率變動率")
+              $(this).val(round(value, 1))
+              break
+            case "PV_Smooth_Capacity":
+              alert_data = limit(value, 0, 100000, "平滑化-PV_Smooth_Capacity")
+              $(this).val(round(value, 1))
+              break
+            case "Anti_p_limit_new":
+              alert_data = limit(value, 0, 100000, "功率逆送-逆送實功限制")
+              $(this).val(round(value, 1))
+              break
+            case "Power_Reverse_Watt_Limit":
+              alert_data = limit(value, 1, 20, "功率逆送-降載率")
+              $(this).val(round(value, 1))
+              break
+            case "PV_Reverse_Capacity":
+              alert_data = limit(
+                value,
+                0,
+                100000,
+                "功率逆送-PV_Reverse_Capacity"
+              )
+              $(this).val(round(value, 1))
+              break
+            case "min_battery_voltage":
+              alert_data = limit(value, 0, 1500, "min bat volt")
+              $(this).val(round(value, 1))
+              break
+          }
+          if (alert_data != false) {
+            alert(alert_data)
+            $(this).css({ color: "red", "background-color": "rgba(0,0,0,0.2)" })
+            check = true
+          } else {
+            $(this).css({ color: "black", "background-color": "white" })
+            check = false
+          }
+        })
+        //----------------------------------------------------------------------------------
+        const dReg05_table = {
+          f1_line_set: 59.5,
+          p1_line_set: 100.0,
+          f2_line_set: 59.75,
+          p2_line_set: 48.0,
+          f3_line_set: 59.98,
+          p3_line_set: 0.0,
+          f4_line_set: 60.02,
+          p4_line_set: 0.0,
+          f5_line_set: 60.25,
+          p5_line_set: -48.0,
+          f6_line_set: 60.5,
+          p6_line_set: -100.0,
+        }
+        const dReg025_table = {
+          f1_line_set: 59.75,
+          p1_line_set: 100.0,
+          f2_line_set: 59.86,
+          p2_line_set: 52.0,
+          f3_line_set: 59.98,
+          p3_line_set: 0.0,
+          f4_line_set: 60.02,
+          p4_line_set: 0.0,
+          f5_line_set: 60.14,
+          p5_line_set: -52.0,
+          f6_line_set: 60.25,
+          p6_line_set: -100.0,
+        }
+        const sReg_table = {
+          f1_line_set: 59.88,
+          p1_line_set: 100.0,
+          f2_line_set: 59.98,
+          p2_line_set: 0.0,
+          f3_line_set: 60.0,
+          p3_line_set: -9.0,
+          f4_line_set: 60.25,
+          p4_line_set: -100.0,
+          f5_line_set: null,
+          p5_line_set: null,
+          f6_line_set: null,
+          p6_line_set: null,
+        }
+        //---------------------------------------------------------
+        // 加入排程的FP_type選擇
+        $("#FP_type,#schedule_FP_type").on("change", function () {
+          // 0:Dreg0.5,1:Dreg0.25,2:自訂,3:sReg
+          const _id = $(this).attr("id")
+          const prefix = _id === "FP_type" ? "#" : "#schedule_"
+          const FP_type = $(this).val() * 1
+          const f_offset = $(prefix + "FP_main_f_set").val() - 60.0
+          $(".tr_FP_point5_6").show()
+          $(".readonly_setvalue").attr("readonly", true)
+          $(".readonly_setvalue").attr("readonly", true)
+          switch (FP_type) {
+            case 0:
+              // $("FP_main_f_set").attr("readonly", true);
+              for (key in dReg05_table) {
+                if (key[0] == "f") {
+                  //頻率點，須變更
+                  const new_f = round(dReg05_table[key] + f_offset, 2)
+                  $(prefix + key).val(new_f)
+                } else {
+                  //功率點，直接填入
+                  $(prefix + key).val(dReg05_table[key])
+                }
+              }
+              break
+            case 1:
+              // $("FP_main_f_set").attr("readonly", true);
+              for (key in dReg025_table) {
+                if (key[0] == "f") {
+                  //頻率點，須變更
+                  let new_f = round(dReg025_table[key] + f_offset, 2)
+                  $(prefix + key).val(new_f)
+                } else {
+                  //功率點，直接填入
+                  $(prefix + key).val(dReg025_table[key])
+                }
+              }
+              break
+            case 2:
+              // $("FP_main_f_set").attr("readonly", true);
+              $(".readonly_setvalue").attr("readonly", false)
+              $(".readonly_setvalue").attr("readonly", false)
+              break
+            case 3:
+              $(".tr_FP_point5_6").hide()
+              // $("FP_main_f_set").attr("readonly", true);
+              for (key in sReg_table) {
+                if (
+                  key.substring(0, 2) === "f1" ||
+                  key.substring(0, 2) === "f2"
+                ) {
+                  //頻率點，須變更，但是f3 f4不可更改
+                  let old_f = sReg_table[key]
+                  let new_f = round(old_f + f_offset, 2)
+                  $(prefix + key).val(new_f)
+                } else {
+                  //功率點，直接填入
+                  $(prefix + key).val(sReg_table[key])
+                }
+              }
+              break
+          }
+          mode5_plot(_id === "FP_type" ? "" : "schedule_")
+          $(".mode5_div .setvalue,.schedule_mode5_div .setvalue").off(
+            "change",
+            mode5_plot
+          ) // reset
+          $(".mode5_div .setvalue,.schedule_mode5_div .setvalue").on(
+            "change",
+            mode5_plot
+          )
+        })
+        //----頻率基準改變，重新計算頻率：
+        $("#FP_main_f_set,#schedule_FP_main_f_set").on("change", function () {
+          const _id = $(this).attr("id")
+          const prefix = _id === "FP_main_f_set" ? "#" : "#schedule_"
+          const f_offset = $("#FP_main_f_set").val() - 60.0
+          const FP_type = $(prefix + "FP_type").val() * 1
+          switch (FP_type) {
+            case 0: //dReg0.5
+              for (key in dReg05_table) {
+                if (key[0] == "f") {
+                  //頻率點須變更
+                  const new_f = round(dReg05_table[key] + f_offset, 2)
+                  $(prefix + key).val(new_f)
+                }
+              }
+              break
+            case 1: //dReg0.25
+              for (key in dReg025_table) {
+                if (key[0] == "f") {
+                  //頻率點須變更
+                  const new_f = round(dReg025_table[key] + f_offset, 2)
+                  $(prefix + key).val(new_f)
+                }
+              }
+              break
+            case 2: //自訂，跳過
+              break
+            case 3: //sReg
+              for (key in sReg_table) {
+                if (
+                  key.substring(0, 2) === "f1" ||
+                  key.substring(0, 2) === "f2"
+                ) {
+                  //頻率點，須變更，但是f3 f4不可更改
+                  const old_f = sReg_table[key]
+                  const new_f = round(old_f + f_offset, 2)
+                  $(prefix + key).val(new_f)
+                }
+              }
+              break
+            default:
+              break
+          }
+        })
+        //----------------------------------------------------------------------------------
+        // VQ 參數 Plot
+        function mode2_plot(prefix) {
+          if (prefix === undefined && $(this).attr("id") !== undefined) {
+            prefix =
+              $(this).attr("id").indexOf("schedule") === -1 ? "" : "schedule_"
+          }
+          // const _id = id===undefined ?:
+          var red_x = [
+            0,
+            $("#" + prefix + "Vq_v1_set").val(),
+            $("#" + prefix + "Vq_v6_set").val(),
+            $("#" + prefix + "Vq_v5_set").val(),
+            $("#" + prefix + "Vq_v3_set").val(),
+          ] //red_x
+          var red_y = [
+            $("#" + prefix + "Vq_q1_set").val(),
+            $("#" + prefix + "Vq_q1_set").val(),
+            $("#" + prefix + "Vq_q6_set").val(),
+            $("#" + prefix + "Vq_q5_set").val(),
+            $("#" + prefix + "Vq_q3_set").val(),
+          ] //red_y
+          var blue_x = [
+            $("#" + prefix + "Vq_v6_set").val(),
+            $("#" + prefix + "Vq_v2_set").val(),
+            $("#" + prefix + "Vq_v3_set").val(),
+            $("#" + prefix + "Vq_v4_set").val(),
+            120,
+          ] //blue_x
+          var blue_y = [
+            $("#" + prefix + "Vq_q6_set").val(),
+            $("#" + prefix + "Vq_q2_set").val(),
+            $("#" + prefix + "Vq_q3_set").val(),
+            $("#" + prefix + "Vq_q4_set").val(),
+            $("#" + prefix + "Vq_q4_set").val(),
+          ] //blue_y
+          var red_text = ["", "1", "6", "5", ""]
+          var blue_text = ["", "2", "3", "4", ""]
+          plot_twoline_onepoint(
+            prefix + "mode2_plot",
+            [red_x, blue_x, []],
+            [red_y, blue_y, []],
+            [
+              $("#" + prefix + "Vq_v1_set").val() * 0.995,
+              $("#" + prefix + "Vq_v4_set").val() * 1.005,
+            ],
+            [red_text, blue_text],
+            "電壓虛功參數曲線圖",
+            "V(%)",
+            "Q(%)"
+          )
+        }
+        //----------------------------------------------------------------------------------
+        // FP 參數 Plot
+        function mode5_plot(prefix) {
+          //--type1. sReg
+          if ($(this).attr("id") !== undefined) {
+            prefix =
+              $(this).attr("id").indexOf("schedule") === -1 ? "" : "schedule_"
+          }
+          if (parseInt($("#" + prefix + "FP_type").val()) === 3) {
+            red_x = [
+              0,
+              $("#" + prefix + "f1_line_set").val(),
+              $("#" + prefix + "f2_line_set").val(),
+              $("#" + prefix + "f2_line_set").val(),
+              60,
+              $("#" + prefix + "f1_line_set").val(),
+              $("#" + prefix + "f1_line_set").val(),
+            ] //red_x
+            red_y = [
+              $("#" + prefix + "p1_line_set").val(),
+              $("#" + prefix + "p1_line_set").val(),
+              $("#" + prefix + "p1_line_set").val(),
+              $("#" + prefix + "p2_line_set").val(),
+              0,
+              0,
+              100,
+            ] //red_y
+            blue_x = [
+              $("#" + prefix + "f3_line_set").val(),
+              $("#" + prefix + "f3_line_set").val(),
+              $("#" + prefix + "f4_line_set").val(),
+              100,
+            ] //blue_x
+            blue_y = [
+              $("#" + prefix + "p2_line_set").val(),
+              $("#" + prefix + "p3_line_set").val(),
+              $("#" + prefix + "p4_line_set").val(),
+              $("#" + prefix + "p4_line_set").val(),
+            ] //blue_y
+            red_text = ["", "1", "", "2", "", "", ""]
+            blue_text = ["", "3", "4", ""]
+            plot_twoline_onepoint(
+              prefix + "mode5_plot",
+              [red_x, blue_x, []],
+              [red_y, blue_y, []],
+              [
+                $("#" + prefix + "f1_line_set").val() * 0.995,
+                $("#" + prefix + "f4_line_set").val() * 1.005,
+              ],
+              [red_text, blue_text],
+              "頻率實功參數曲線圖",
+              "f(HZ)",
+              "p(%)"
+            )
+          }
+          //--type2. dReg0.5, dReg0.25, 自訂
+          else {
+            red_x = [
+              0,
+              $("#" + prefix + "f1_line_set").val(),
+              $("#" + prefix + "f2_line_set").val(),
+              $("#" + prefix + "f3_line_set").val(),
+              $("#" + prefix + "f4_line_set").val(),
+            ] //red_x
+            red_y = [
+              $("#" + prefix + "p1_line_set").val(),
+              $("#" + prefix + "p1_line_set").val(),
+              $("#" + prefix + "p2_line_set").val(),
+              $("#" + prefix + "p3_line_set").val(),
+              $("#" + prefix + "p4_line_set").val(),
+            ] //red_y
+            blue_x = [
+              $("#" + prefix + "f3_line_set").val(),
+              $("#" + prefix + "f4_line_set").val(),
+              $("#" + prefix + "f5_line_set").val(),
+              $("#" + prefix + "f6_line_set").val(),
+              100,
+            ] //blue_x
+            blue_y = [
+              $("#" + prefix + "p3_line_set").val(),
+              $("#" + prefix + "p4_line_set").val(),
+              $("#" + prefix + "p5_line_set").val(),
+              $("#" + prefix + "p6_line_set").val(),
+              $("#" + prefix + "p6_line_set").val(),
+            ] //blue_y
+            red_text = ["", "1", "2", "3", ""]
+            blue_text = ["", "4", "5", "6", ""]
+            plot_twoline_onepoint(
+              prefix + "mode5_plot",
+              [red_x, blue_x, []],
+              [red_y, blue_y, []],
+              [
+                $("#" + prefix + "f1_line_set").val() * 0.995,
+                $("#" + prefix + "f6_line_set").val() * 1.005,
+              ],
+              [red_text, blue_text],
+              "頻率實功參數曲線圖",
+              "f(HZ)",
+              "p(%)"
+            )
+          }
+        }
+        //----------------------------------------------------------------------------------
+        // 比例設定 彈跳視窗初始化
+        const bess_max = 2000 //***暫時先固定
+        let capacityTotal = 0
+        let capacityList = []
+        function scaleModalset() {
+          capacityTotal = 0
+          capacityList = []
+          $("#scale_table tr:not(:nth-child(1))").empty()
+          console.log(mode_data)
+          equipData.forEach((equip) => {
+            $("#scale_table").append(
+              $("<tr/>").append(
+                $("<td/>").text(equip.ID),
+                $("<td/>").text(equip.name),
+                $("<td/>").text(equip.capacity),
+                $("<td/>").html(
+                  `<input type=text class=scalevalue data-value=${equip.ID}
+                        value=${
+                          mode_data.scale !== undefined
+                            ? round(mode_data.scale[equip.ID] * 1, 2)
+                            : "0.00"
+                        } />`
+                )
+              )
+            )
+            capacityTotal += equip.capacity
+            capacityList.push(equip.capacity)
+          })
+          $("#scaleModalHeader").text(
+            `比例設定(案場最大容量:${capacityTotal}kW)`
+          )
+          $("#scaleModal").modal({})
+        }
+        $("#scale_button").on("click", scaleModalset)
+        //----------------------------------------------------------------------------------
+        // 比例設定 自動調配
+        $("#auto_scale").on("click", function () {
+          // pcs total : capacityTotal
+          // bess total : bess_max
+          // capacityTotal>bess_max 3000 > 2000
+          // pcs1 2000 (2/3)
+          // pcs2 1000 (1/3)
+          // capacityTotal<bess_max 3000 < 6000
+          // pcs1 2000 (1/3)
+          // pcs2 1000 (1/6)
+          if (capacityTotal > bess_max) {
+            equipData.forEach((equip, index) => {
+              $(`.scalevalue[data-value=${equip.ID}]`).val(
+                round((capacityList[index] / capacityTotal) * 100, 2)
+              )
+            })
+          } else {
+            equipData.forEach((equip, index) => {
+              $(`.scalevalue[data-value=${equip.ID}]`).val(
+                round((capacityList[index] / bess_max) * 100, 2)
+              )
+            })
+          }
+        })
+        //----------------------------------------------------------------------------------
+        // 比例設定 儲存
+        // ***比例暫時無保護!!!
+        let scale_set = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/scale_set",
+            {
+              scale_set: JSON.stringify(e.set),
+              ID_name_dict: JSON.stringify(e.ID_name_dict),
+            },
+            function (data) {
+              alert(data.status)
+              if (data.status == "下達指令成功") {
+                mode_data.scale = e.set
+              } else {
+                equipData.forEach((equip, index) => {
+                  $(`.scalevalue[data-value=${equip.ID}]`).val(
+                    mode_data.scale !== undefined
+                      ? round(mode_data.scale[equip.ID] * 1, 2)
+                      : "0.00"
+                  )
+                })
+              }
+            }
+          )
+          return false
+        }
+        //---------------------------------------------------
+        $("#scale_set").on("click", function () {
+          let set = {}
+          let ID_name_dict = {}
+          let scaleTotal = 0
+          let ok = true
+          equipData.forEach((equip) => {
+            const scale = $(`.scalevalue[data-value=${equip.ID}]`).val() * 1
+            if (scale < 0) {
+              alert("比例數值小於零")
+              ok = false
+            }
+            scaleTotal += scale
+            set[equip.ID] = scale
+            ID_name_dict[equip.ID] = equip.name
+          })
+          if (scaleTotal > 100) {
+            alert("比例數值總和大於零")
+          } else if (ok === true) {
+            scale_set({ set: set, ID_name_dict: ID_name_dict })
+          }
+        })
+        //----------------------------------------------------------------------------------
+        let reset_set_timer = function (e) {
+          set_timer = true
+        }
+        var set_timer = true
+        // ess set設定
+        let ess_set = function (e) {
+          if (set_timer) {
+            set_timer = false
+            setTimeout(function () {
+              reset_set_timer()
+            }, 5000)
+            $.getJSON(
+              $SCRIPT_ROOT + "/ess_set",
+              {
+                set_data: JSON.stringify(e),
+                equipType: trueEquipType,
+              },
+              function (data) {
+                alert(data.status)
+                get_control_data()
+              }
+            )
+          } else {
+            alert("再次設定需等5秒之後")
+            get_control_data()
+          }
+          return false
+        }
+        //----------------------------------------------------------------------------------
+        $(".mbms_set").on("click", function () {
+          let model = equipData[0].model
+          const control = $(`.${model} .mbmsControl`).prop("checked") * 1
+          const reset = $(`.${model} .mbmsReset`).prop("checked") * 1
+          if (control === 1 && reset === 1) {
+            alert("請勿同時執行開啟與復歸指令")
+          } else {
+            const set = {
+              ID: current_ID,
+              control: control,
+              reset: reset,
+            }
+            const msg = "請確認是否控制"
+            if (confirm(msg) == true) {
+              ess_set(set)
+            } else {
+              alert("取消")
+            }
+          }
+        })
+        //----------------------------------------------------------------------------------
+        $(".pcs_set").on("click", function () {
+          let model = equipData[0].model
+          const control = $(`.${model} .pcsControl`).prop("checked") * 1
+          const reset = $(`.${model} .pcsReset`).prop("checked") * 1
+          if (control === 1 && reset === 1) {
+            alert("請勿同時執行開啟與復歸指令")
+          } else {
+            const set = {
+              ID: current_ID,
+              control: control,
+              reset: reset,
+            }
+            const msg = "請確認是否控制"
+            if (confirm(msg) == true) {
+              ess_set(set)
+            } else {
+              alert("取消")
+            }
+          }
+        })
+        //----------------------------------------------------------------------------------
+        $(".air_set").on("click", function () {
+          const control = $("#airControl").prop("checked") * 1
+          const set = {
+            ID: current_ID,
+            control: control,
+          }
+          const msg = "請確認是否控制"
+          if (confirm(msg) == true) {
+            ess_set(set)
+          } else {
+            alert("取消")
+          }
+        })
+        //----------------------------------------------------------------------------------
+        let calendar = undefined
+        function calendarInit() {
+          const today = new Date()
+          const firstDay = today.getDay()
+          const calendarEl = document.getElementById("calendar")
+          calendar = new FullCalendar.Calendar(calendarEl, {
+            height: "auto",
+            locale: "TW",
+            initialView: "timeGridWeek",
+            headerToolbar: {
+              start: "today,prev,next scheduleButton,stopScheduleButton",
+              center: "",
+              end: "",
+            },
+            customButtons: {
+              scheduleButton: {
+                text: "排程",
+                click: function (e) {
+                  scheduleModalset(e)
+                },
+              },
+              stopScheduleButton: {
+                text: "提出中止待命",
+                click: function (e) {
+                  const msg =
+                    "請確認是否提出中止待命，該操作指令將於90分鐘後自動切換系統為停止模式，並維持保護邏輯至當天零點結束"
+                  if (confirm(msg) == true) {
+                    insert_stopEvent_in_today_schedule()
+                  } else {
+                    alert("取消")
+                  }
+                },
+              },
+            },
+            views: {
+              timeGridWeek: {
+                slotDuration: "01:00:00",
+                allDaySlot: false,
+                slotLabelFormat: function (e) {
+                  const { hour, minute } = e.date
+                  return `${checkTime(hour)}:${checkTime(minute)}`
+                },
+                eventTimeFormat: {
+                  second: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                },
+                eventMaxStack: 1,
+                eventOrder: "eventOrder,start",
+              },
+            },
+            firstDay: firstDay, // 星期幾為起頭 0:Sunday 1:Monday ....
+            eventSources: [
+              {
+                events: function (e, callback) {
+                  $.getJSON(
+                    $SCRIPT_ROOT + "/get_event_in_schedule",
+                    {
+                      right: "USER",
+                      eventOrder: 1,
+                      starttime: e.startStr.split("+")[0].replace("T", " "),
+                      endtime: e.endStr.split("+")[0].replace("T", " "),
+                    },
+                    function (data) {
+                      console.log(e, callback)
+                      if (callback) callback(data.schedule)
+                    }
+                  )
+                }, //取得排程事件
+              },
+              {
+                events: function (e, callback) {
+                  $.getJSON(
+                    $SCRIPT_ROOT + "/get_event_in_schedule",
+                    {
+                      right:
+                        $("#rightTPC").attr("flag") === "false"
+                          ? "TPC"
+                          : "None",
+                      starttime: e.startStr.split("+")[0].replace("T", " "),
+                      endtime: e.endStr.split("+")[0].replace("T", " "),
+                    },
+                    function (data) {
+                      console.log(e, callback)
+                      if (callback) callback(data.schedule)
+                    }
+                  )
+                }, //取得排程事件
+                color: "yellow", // an option!
+                textColor: "black", // an option!
+              },
+              {
+                events: function (e, callback) {
+                  $.getJSON(
+                    $SCRIPT_ROOT + "/get_event_in_schedule",
+                    {
+                      right: "USER",
+                      eventOrder: 0,
+                      starttime: e.startStr.split("+")[0].replace("T", " "),
+                      endtime: e.endStr.split("+")[0].replace("T", " "),
+                    },
+                    function (data) {
+                      console.log(e, callback)
+                      if (callback) callback(data.schedule)
+                    }
+                  )
+                }, //取得排程事件
+                color: "orange", // an option!
+                textColor: "black", // an option!
+              },
+              {
+                events: function (e, callback) {
+                  $.getJSON(
+                    $SCRIPT_ROOT + "/get_event_in_schedule",
+                    {
+                      right: "EMS",
+                      starttime: e.startStr.split("+")[0].replace("T", " "),
+                      endtime: e.endStr.split("+")[0].replace("T", " "),
+                    },
+                    function (data) {
+                      console.log(e, callback)
+                      if (callback) callback(data.schedule)
+                    }
+                  )
+                }, //取得排程事件
+                color: "red", // an option!
+                textColor: "black", // an option!
+              },
+            ],
+            eventContent: function (e) {
+              const starttime = e.event.startStr.split("T")[1].split("+")[0]
+              const endtime =
+                e.event.endStr !== ""
+                  ? "~" + e.event.endStr.split("T")[1].split("+")[0]
+                  : ""
+              return {
+                html: `${starttime}${endtime}<b style='margin-left:3px'>${e.event.title}</b>`,
+              }
+            }, // display  event
+            eventClick: function (e) {
+              const { eventOrder, mode, _id, right, command_id, stopFlag } =
+                e.event._def.extendedProps
+              const start = e.event.startStr.split("+")[0].replace("T", " ")
+              console.log(e.event.start)
+              if (eventOrder === 0 && right === "USER") {
+                const msg = "請確認是否取消提出中止待命"
+                if (confirm(msg) == true) {
+                  const eventIDList = [_id, command_id]
+                  remove_event_in_schedule(eventIDList)
+                } else {
+                  alert("取消")
+                }
+              } else if (eventOrder === 0 && right === "EMS") {
+                const msg = "請確認是否停止中止待命"
+                if (confirm(msg) == true) {
+                  if (stopFlag !== 1) {
+                    const e = { _id, start }
+                    stop_stopEvent_in_today_schedule(e)
+                  } else {
+                    alert("該中止待命已執行，請勿繼續其設定")
+                  }
+                } else {
+                  alert("取消")
+                }
+              } else if (eventOrder === 1) {
+                $(".fc-popover-close").trigger("click")
+                scheduleModalset(e)
+              }
+            }, // click event to see something
+          })
+          calendar.render()
+          const checkboxContainer = $(
+            `<div class="d-inline-flex p-2">
+                <label for=todayEnable class=m-0>
+                  <input type="checkbox" id=todayEnable class="btn-check"  autocomplete="off">
+                  今日排程權限
+                </label>
+              </div>
+              <div class="d-inline-flex p-2">
+                <label id=rightTPC class="enable m-0 line-through" flag="true">
+                  <i class="fas fa-square" style="color: #f2e200"></i>
+                  &nbsp;台電控制指令
+                </label>
+              </div>`
+          )
+          $(".fc-toolbar-chunk:nth-child(3)").html(checkboxContainer)
+
+          console.log(calendar)
+        }
+        //----------------------------------------------------------------------------------
+        function scheduleModalset(e) {
+          // e的來源為 排程按鈕、已排程事件按鈕 ，e===undefined 為點擊scheduleEvent_search
+          $("#scheduleModal").modal({})
+          if (e !== undefined) {
+            if (e.event !== undefined) {
+              //已排程事件按鈕
+              $("#datepicker1").val(
+                e.event.startStr.split(":00+")[0].replace("T", " ")
+              )
+              $("#datepicker2").val(
+                e.event.endStr.split(":00+")[0].replace("T", " ")
+              )
+            } else {
+              //排程按鈕
+              get_latest_event_in_schedule()
+              $("#datepicker1").val(
+                dateAdd1.toISOString().slice(0, 10) + " 00:00"
+              )
+              $("#datepicker2").val(
+                dateAdd2.toISOString().slice(0, 10) + " 00:00"
+              )
+            }
+          }
+          $("#schedule_setmode").attr("disabled", false)
+          $(".schedule_controlBox").removeClass("no-active")
+          $(".schedule_controlBox")
+            .parent()
+            .css({ "background-color": "white" })
+          $("#scheduleEvent_checkboxSelect").val(0)
+          scheduleEventListInit()
+          get_event_in_schedule(e)
+
+          $(".schedule_controlBox .setvalue").val("")
+        }
+        //---------------------------------------------------
+        function scheduleEventListInit() {
+          $("#scheduleEventList").empty()
+          let date1 = new Date(
+            ($("#datepicker1").val() + ":00").replace(/-/g, "/")
+          )
+          const date2 = new Date(
+            ($("#datepicker2").val() + ":00").replace(/-/g, "/")
+          )
+          const diffHours = Math.abs(date2 - date1) / (1000 * 60 * 60)
+          for (let i = 0; i < diffHours; i++) {
+            const date =
+              checkTime(date1.getMonth() + 1) +
+              "-" +
+              checkTime(date1.getDate()) +
+              " " +
+              checkTime(date1.getHours()) +
+              ":00"
+            const _date =
+              date1.getFullYear() +
+              "-" +
+              checkTime(date1.getMonth() + 1) +
+              "-" +
+              checkTime(date1.getDate()) +
+              " " +
+              checkTime(date1.getHours()) +
+              ":00:00"
+            $("#scheduleEventList").append(
+              $("<div/>")
+                .addClass("d-flex btn-group scheduleEvent")
+                .attr("role", "group")
+                .append(
+                  `<input type="checkbox" id="btncheck${i}" class="btn-check scheduleEvent_checkbox"  data-date='${_date}' value='${_date}'  autocomplete="off">`,
+                  $("<label>")
+                    .addClass("btn btn-outline-secondary")
+                    .attr("for", `btncheck${i}`)
+                    .attr("data-date", _date)
+                    .append(`${date}`, `<span class="ml-1"/>`)
+                )
+            )
+            date1 = DateAdd("h ", 1, date1)
+          }
+        }
+        //---------------------------------------------------
+        let scheduleEventList = []
+        let currentScheduleEvent = {}
+        // 取得排程事件
+        let get_event_in_schedule = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/get_event_in_schedule",
+            {
+              right: "USER",
+              eventOrder: 1,
+              starttime: $("#datepicker1").val() + ":00",
+              endtime: $("#datepicker2").val() + ":00",
+            },
+            function (data) {
+              scheduleEventList = data.schedule
+              // console.log(scheduleEventList)
+              scheduleEventList.forEach((event, index) => {
+                $(`.scheduleEvent>label[data-date='${event.start}']`)
+                  .addClass("btn-outline-primary")
+                  .removeClass("btn-outline-secondary")
+                $(`.scheduleEvent>label[data-date='${event.start}']>span`).text(
+                  `${event.title}`
+                )
+                $(
+                  `.scheduleEvent>label[data-date='${event.start}'],.scheduleEvent>input[data-date='${event.start}']`
+                ).attr("schedule_index", index)
+              })
+              $(".scheduleEvent_insert").removeClass("d-none")
+              $(".scheduleEvent_remove").addClass("d-none")
+              if (e !== undefined) {
+                if (e.event !== undefined) {
+                  $(".scheduleEvent>label").first().trigger("click")
+                }
+              }
+            }
+          )
+          return false
+        }
+        $(".scheduleEvent_search").on("click", function () {
+          $("#schedule_setmode").attr("disabled", false)
+          $(".schedule_controlBox").removeClass("no-active")
+          $(".schedule_controlBox")
+            .parent()
+            .css({ "background-color": "white" })
+          $("#scheduleEvent_checkboxSelect").val(0)
+          scheduleEventListInit()
+          get_event_in_schedule()
+          get_latest_event_in_schedule()
+        })
+        //---------------------------------------------------
+        // 取得最新排程事件
+        let get_latest_event_in_schedule = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/get_latest_event_in_schedule",
+            {
+              right: "USER",
+            },
+            function (data) {
+              currentScheduleEvent = data.event
+              $("#schedule_setmode").val(0)
+              $("#schedule_setmode").trigger("change")
+            }
+          )
+          return false
+        }
+        //---------------------------------------------------
+        $("#schedule_setmode").on("change", function () {
+          let info = [
+            // "schedule_bess_p_max",
+            "schedule_soc_max",
+            "schedule_soc_min",
+            "schedule_System_p_max",
+            "schedule_System_p_min",
+            "schedule_System_q_max",
+            "schedule_System_q_min",
+          ]
+          $(".schedule_mode_div").removeClass("d-block")
+          $(".setvalue").css({ color: "black", "background-color": "white" })
+          const mode = $(this).val() * 1
+          switch (mode) {
+            case 0: //停止
+              info = 0
+              break
+            case 2: //
+              $("#schedule_constranit").addClass("d-block")
+              $(".schedule_mode2_div").addClass("d-block")
+              info = info.concat([
+                "schedule_Vq_v1_set",
+                "schedule_Vq_v2_set",
+                "schedule_Vq_v3_set",
+                "schedule_Vq_v4_set",
+                "schedule_Vq_v5_set",
+                "schedule_Vq_v6_set",
+                "schedule_Vq_v7_set",
+                "schedule_Vq_q1_set",
+                "schedule_Vq_q2_set",
+                "schedule_Vq_q3_set",
+                "schedule_Vq_q4_set",
+                "schedule_Vq_q5_set",
+                "schedule_Vq_q6_set",
+                "schedule_Vq_q7_set",
+                "schedule_Vq_q_base",
+                "schedule_Vq_v_base",
+              ])
+              break
+            case 5: //
+              $("#schedule_constranit").addClass("d-block")
+              $(".schedule_mode5_div").addClass("d-block")
+              if (currentScheduleEvent["schedule_FP_type"] === 2) {
+                // 0:Dreg0.5,1:Dreg0.25,2:自訂
+                info = info.concat([
+                  "schedule_f1_line_set",
+                  "schedule_f2_line_set",
+                  "schedule_f3_line_set",
+                  "schedule_f4_line_set",
+                  "schedule_f5_line_set",
+                  "schedule_f6_line_set",
+                  "schedule_p1_line_set",
+                  "schedule_p2_line_set",
+                  "schedule_p3_line_set",
+                  "schedule_p4_line_set",
+                  "schedule_p5_line_set",
+                  "schedule_p6_line_set",
+                  "schedule_FP_line_p_base",
+                  "schedule_FP_type",
+                  "schedule_FP_soc_goal_percent",
+                  "schedule_FP_main_f_set",
+                ])
+              } else {
+                info = info.concat([
+                  "schedule_FP_line_p_base",
+                  "schedule_FP_type",
+                ])
+              }
+              break
+            case 6: //
+              $("#schedule_constranit").addClass("d-block")
+              $(".schedule_mode6_div").addClass("d-block")
+              info = info.concat(["schedule_PQ_p_ref", "schedule_PQ_q_ref"])
+              break
+            case 11: //
+              $("#schedule_constranit").addClass("d-block")
+              $(".schedule_mode11_div").addClass("d-block")
+              info = info.concat([
+                "schedule_Vq_v1_set",
+                "schedule_Vq_v2_set",
+                "schedule_Vq_v3_set",
+                "schedule_Vq_v4_set",
+                "schedule_Vq_v5_set",
+                "schedule_Vq_v6_set",
+                "schedule_Vq_v7_set",
+                "schedule_Vq_q1_set",
+                "schedule_Vq_q2_set",
+                "schedule_Vq_q3_set",
+                "schedule_Vq_q4_set",
+                "schedule_Vq_q5_set",
+                "schedule_Vq_q6_set",
+                "schedule_Vq_q7_set",
+                "schedule_Vq_q_base",
+                "schedule_Vq_v_base",
+                "schedule_f1_line_set",
+                "schedule_f2_line_set",
+                "schedule_f3_line_set",
+                "schedule_f4_line_set",
+                "schedule_f5_line_set",
+                "schedule_f6_line_set",
+                "schedule_p1_line_set",
+                "schedule_p2_line_set",
+                "schedule_p3_line_set",
+                "schedule_p4_line_set",
+                "schedule_p5_line_set",
+                "schedule_p6_line_set",
+                "schedule_FP_line_p_base",
+                "schedule_FP_type",
+                "schedule_FP_soc_goal_percent",
+                "schedule_FP_main_f_set",
+              ])
+              break
+            default:
+              //
+              info = []
+              break
+          }
+          //reset
+          $(".schedule_mode2_div .setvalue").off("change", mode2_plot)
+          $(".schedule_mode5_div .setvalue").off("change", mode5_plot)
+          //check
+          for (let i in info) {
+            $("#" + info[i]).val(
+              currentScheduleEvent[info[i].replace("schedule_", "")]
+            )
+            $("#" + info[i] + ".setvalue").trigger("change")
+          }
+          //add event
+          if (mode === 2 || mode === 11) {
+            mode2_plot("schedule_")
+            $(".schedule_mode2_div .setvalue").on("change", mode2_plot)
+          }
+          if (mode === 5 || mode === 11) {
+            $("#schedule_FP_type").trigger("change")
+          }
+        })
+        //---------------------------------------------------
+        $(document).on("click", ".scheduleEvent>label", function () {
+          const index = $(this).attr("schedule_index") * 1
+          console.log($(this), $(this)[0].control, index)
+          $("#scheduleEvent_checkboxSelect").val(0)
+          if ($($(this)[0].control).prop("checked") * 1 === 0) {
+            //點擊未勾選區塊
+            if (isNaN(index)) {
+              // 未安排事件時段
+              $("#schedule_setmode").attr("disabled", false)
+              $(".schedule_controlBox").removeClass("no-active")
+              $(".schedule_controlBox")
+                .parent()
+                .css({ "background-color": "white" })
+              $(".scheduleEvent_checkbox[schedule_index]").prop(
+                "checked",
+                false
+              )
+              $(".scheduleEvent_insert").removeClass("d-none")
+              $(".scheduleEvent_remove").addClass("d-none")
+            } else {
+              // 已安排事件時段
+              $("#schedule_setmode").attr("disabled", true)
+              $(".schedule_controlBox").addClass("no-active")
+              $(".schedule_controlBox")
+                .parent()
+                .css({ "background-color": "rgba(0,0,0,0.2)" })
+              $(".scheduleEvent_checkbox:not([schedule_index])").prop(
+                "checked",
+                false
+              )
+              $(".scheduleEvent_insert").addClass("d-none")
+              $(".scheduleEvent_remove").removeClass("d-none")
+              currentScheduleEvent = scheduleEventList[index]
+              // console.log(currentScheduleEvent)
+              $("#schedule_setmode").val(currentScheduleEvent["mode"])
+              $("#schedule_setmode").trigger("change")
+            }
+          } else {
+            //點擊已勾選區塊
+            const eventIDList = getScheduleEvent_checkBox_eventIDList()
+            console.log(eventIDList.length)
+            if (!isNaN(index) && eventIDList.length === 1) {
+              $("#schedule_setmode").attr("disabled", false)
+              $(".schedule_controlBox").removeClass("no-active")
+              $(".schedule_controlBox")
+                .parent()
+                .css({ "background-color": "white" })
+              $(".scheduleEvent_insert").removeClass("d-none")
+              $(".scheduleEvent_remove").addClass("d-none")
+            }
+          }
+        })
+        //---------------------------------------------------
+        let insert_event_in_schedule = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/insert_event_in_schedule",
+            {
+              mode_data: JSON.stringify(e.mode_data),
+              eventTimeList: e.eventTimeList.toString(),
+            },
+            function (data) {
+              console.log(data)
+              $(".scheduleEvent_search").trigger("click")
+              calendar.refetchEvents()
+              alert(data.status)
+            }
+          )
+          return false
+        }
+        $(".scheduleEvent_insert").on("click", function () {
+          const eventTimeList = GetCheckedValue("scheduleEvent_checkbox")
+          if (eventTimeList.length > 0) {
+            if (check == false) {
+              const mode_data = {
+                ID: "schedule",
+                right: "USER",
+                mode: $("#schedule_setmode").val(),
+                soc_max: $("#schedule_soc_max").val(),
+                soc_min: $("#schedule_soc_min").val(),
+                System_p_max: $("#schedule_System_p_max").val(),
+                System_p_min: $("#schedule_System_p_min").val(),
+                System_q_max: $("#schedule_System_q_max").val(),
+                System_q_min: $("#schedule_System_q_min").val(),
+                PQ_p_ref: $("#schedule_PQ_p_ref").val(),
+                PQ_q_ref: $("#schedule_PQ_q_ref").val(),
+                f1_line_set: $("#schedule_f1_line_set").val(),
+                f2_line_set: $("#schedule_f2_line_set").val(),
+                f3_line_set: $("#schedule_f3_line_set").val(),
+                f4_line_set: $("#schedule_f4_line_set").val(),
+                f5_line_set: $("#schedule_f5_line_set").val(),
+                f6_line_set: $("#schedule_f6_line_set").val(),
+                p1_line_set: $("#schedule_p1_line_set").val(),
+                p2_line_set: $("#schedule_p2_line_set").val(),
+                p3_line_set: $("#schedule_p3_line_set").val(),
+                p4_line_set: $("#schedule_p4_line_set").val(),
+                p5_line_set: $("#schedule_p5_line_set").val(),
+                p6_line_set: $("#schedule_p6_line_set").val(),
+                FP_line_p_base: $("#schedule_FP_line_p_base").val(),
+                FP_type: $("#schedule_FP_type").val(),
+                FP_soc_goal_percent: $("#schedule_FP_soc_goal_percent").val(),
+                FP_main_f_set: $("#schedule_FP_main_f_set").val(),
+                Vp_p_base: $("#schedule_Vp_p_base").val(),
+                Vp_v_base: $("#schedule_Vp_v_base").val(),
+                Vq_v1_set: $("#schedule_Vq_v1_set").val(),
+                Vq_v2_set: $("#schedule_Vq_v2_set").val(),
+                Vq_v3_set: $("#schedule_Vq_v3_set").val(),
+                Vq_v4_set: $("#schedule_Vq_v4_set").val(),
+                Vq_v5_set: $("#schedule_Vq_v5_set").val(),
+                Vq_v6_set: $("#schedule_Vq_v6_set").val(),
+                Vq_v7_set: $("#schedule_Vq_v7_set").val(),
+                Vq_q1_set: $("#schedule_Vq_q1_set").val(),
+                Vq_q2_set: $("#schedule_Vq_q2_set").val(),
+                Vq_q3_set: $("#schedule_Vq_q3_set").val(),
+                Vq_q4_set: $("#schedule_Vq_q4_set").val(),
+                Vq_q5_set: $("#schedule_Vq_q5_set").val(),
+                Vq_q6_set: $("#schedule_Vq_q6_set").val(),
+                Vq_q7_set: $("#schedule_Vq_q7_set").val(),
+                Vq_q_base: $("#schedule_Vq_q_base").val(),
+                Vq_v_base: $("#schedule_Vq_v_base").val(),
+              }
+              const msg = "請確認是否加入排程"
+              if (confirm(msg) == true) {
+                insert_event_in_schedule({
+                  mode_data: mode_data,
+                  eventTimeList: eventTimeList.toString(),
+                })
+              } else {
+                alert("取消")
+              }
+            } else {
+              alert("請確認數值正確性,設定失敗")
+            }
+          } else {
+            alert("請選擇可排程時段，加入排程事件")
+          }
+        })
+        //---------------------------------------------------
+        let remove_event_in_schedule = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/remove_event_in_schedule",
+            {
+              eventIDList: e.toString(),
+            },
+            function (data) {
+              console.log(data)
+              $(".scheduleEvent_search").trigger("click")
+              $("#schedule_setmode").attr("disabled", false)
+              $(".schedule_controlBox").removeClass("no-active")
+              $(".schedule_controlBox")
+                .parent()
+                .css({ "background-color": "white" })
+              calendar.refetchEvents()
+              alert(data.status)
+            }
+          )
+          return false
+        }
+        $(".scheduleEvent_remove").on("click", function () {
+          const eventIDList = getScheduleEvent_checkBox_eventIDList()
+          if (eventIDList.length > 0) {
+            const msg = "請確認是否移除排程"
+            if (confirm(msg) == true) {
+              remove_event_in_schedule(eventIDList)
+            } else {
+              alert("取消")
+            }
+          } else {
+            alert("請選擇已排程時段，移除排程事件")
+          }
+        })
+        //---------------------------------------------------
+        function getScheduleEvent_checkBox_eventIDList() {
+          let eventIDList = []
+          Array.apply(null, $(".scheduleEvent_checkbox:checked")).forEach(
+            (el) => {
+              const index = $(el).attr("schedule_index") * 1
+              console.log(el, index, scheduleEventList[index])
+              eventIDList.push(scheduleEventList[index]._id)
+            }
+          )
+          return eventIDList
+        }
+        //---------------------------------------------------
+        $("#scheduleEvent_checkboxSelect").on("change", function () {
+          console.log($(this), $(this).val())
+          switch ($(this).val() * 1) {
+            case 0:
+              break
+            case 1:
+              $(".scheduleEvent>input").prop("checked", false)
+              $("#schedule_setmode").attr("disabled", false)
+              $(".schedule_controlBox").removeClass("no-active")
+              $(".schedule_controlBox")
+                .parent()
+                .css({ "background-color": "white" })
+              $(".scheduleEvent_checkbox:not([schedule_index])").prop(
+                "checked",
+                true
+              )
+              $(".scheduleEvent_insert").removeClass("d-none")
+              $(".scheduleEvent_remove").addClass("d-none")
+              $("#schedule_setmode").val(0)
+              $("#schedule_setmode").trigger("change")
+              break
+            case 2:
+              $(".scheduleEvent>input").prop("checked", false)
+              $("#schedule_setmode").attr("disabled", true)
+              $(".schedule_controlBox").addClass("no-active")
+              $(".schedule_controlBox")
+                .parent()
+                .css({ "background-color": "rgba(0,0,0,0.2)" })
+              scheduleEventList.forEach((event, index) => {
+                $(`.scheduleEvent>input[data-date='${event.start}']`).prop(
+                  "checked",
+                  true
+                )
+              })
+              console.log($(".scheduleEvent>label[schedule_index]"))
+              $(".scheduleEvent_insert").addClass("d-none")
+              $(".scheduleEvent_remove").removeClass("d-none")
+              if ($(".scheduleEvent>label[schedule_index]").length > 0) {
+                currentScheduleEvent = scheduleEventList[0]
+                $("#schedule_setmode").val(currentScheduleEvent["mode"])
+                $("#schedule_setmode").trigger("change")
+              } else {
+                $("#schedule_setmode").val(0)
+                $("#schedule_setmode").trigger("change")
+              }
+              break
+            case 3:
+              $(".scheduleEvent>input").prop("checked", false)
+              break
+          }
+        })
+        //----------------------------------------------------
+        // 提出中止待命排程事件
+        let insert_stopEvent_in_today_schedule = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/insert_stopEvent_in_today_schedule",
+            {},
+            function (data) {
+              console.log(data)
+              $(".scheduleEvent_search").trigger("click")
+              calendar.refetchEvents()
+              alert(data.status)
+            }
+          )
+          return false
+        }
+        //---------------------------------------------------
+        // 更新中止待命排程事件
+        let stop_stopEvent_in_today_schedule = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/stop_stopEvent_in_today_schedule",
+            {
+              eventID: e._id,
+              start: e.start,
+            },
+            function (data) {
+              console.log(data)
+              $(".scheduleEvent_search").trigger("click")
+              calendar.refetchEvents()
+              alert(data.status)
+            }
+          )
+          return false
+        }
+        //---------------------------------------------------
+        $(document).on("click", ".enable", function () {
+          $(this).toggleClass("line-through")
+          $(this).attr("flag", $(this).attr("flag") == "false")
+          calendar.refetchEvents()
+        })
+        //---------------------------------------------------
+        $(document).on("click", "#todayEnable", function () {
+          if ($(this).prop("checked") * 1 === 1) {
+            // $("#datepicker1").data("DateTimePicker").destroy()
+            // $("#datepicker2").data("DateTimePicker").destroy()
+            c_choosehour2("datepicker1", dateAdd1, "-1970/1/1")
+            c_choosehour2("datepicker2", dateAdd2, "-1970/1/1")
+          } else {
+            // $("#datepicker1").datetimepicker("destroy")
+            // $("#datepicker2").datetimepicker("destroy")
+            c_choosehour2("datepicker1", dateAdd1, "-1969/12/31")
+            c_choosehour2("datepicker2", dateAdd2, "-1969/12/31")
+          }
+        })
+        //---------------------------------------------------
+        const dateAdd = new Date()
+        const dateAdd1 = DateAdd("d ", 1, new Date())
+        const dateAdd2 = DateAdd("d ", 2, new Date())
+        c_choosehour2("datepicker1", dateAdd1, "-1969/12/31")
+        c_choosehour2("datepicker2", dateAdd2, "-1969/12/31")
+        $(".calendar").on("click", calendarsetdate)
+        $(".calendarleft").on("click", calendardateleft)
+        $(".calendarright").on("click", calendardateright)
+        $(".calendarleft2").on("click", calendardateleft2)
+        $(".calendarright2").on("click", calendardateright2)
+        $(".calendarhourleft").on("click", calendarhourleft)
+        $(".calendarhourright").on("click", calendarhourright)
+        //---------------------------------------------------
+        protection_get()
+        alarm_get_show1_level1_checktimeNull()
+        alarm_get_show1_level2_checktimeNull()
+        updateStatus(
+          "/equipment_status_list",
+          $(".selectDiv"),
+          "id",
+          $(".commStatus"),
+          "color"
+        )
+        setInterval(() => {
+          if ($(`#${trueEquipType}Reset`).prop("checked") * 1 && !set_timer)
+            get_control_data()
+          protection_get()
+          alarm_get_show1_level1_checktimeNull()
+          alarm_get_show1_level2_checktimeNull()
+          updateStatus(
+            "/equipment_status_list",
+            $(".selectDiv"),
+            "id",
+            $(".commStatus"),
+            "color"
+          )
+          // site_control_mode_data()
+        }, 2000)
+        //---------------------------------------------------
+      })
+    </script>
+    {% extends 'navbar.html' %} {% block content %}
+    <div class="container-fluid p-0">
+      <div class="row mt-2 mx-2">
+        <div
+          class="col-12 p-3"
+          style="
+            background-color: white;
+            box-shadow: 6px 6px 3px rgba(0, 0, 0, 0.7);
+          "
+        >
+          <div class="row px-3">
+            <div
+              class="col-12 col-md-3 col-lg-3 col-xl-1 p-0"
+              style="min-width: 250px"
+            >
+              <div class="mx-1">
+                <button
+                  class="typeButton"
+                  data-value="site_control"
+                  style="background-color: #cecece; font-weight: bold"
+                >
+                  系統模式
+                </button>
+                <button
+                  class="typeButton"
+                  data-value="mbms"
+                  style="background-color: #cecece00; font-weight: bold"
+                >
+                  電池
+                </button>
+                <button
+                  class="typeButton"
+                  data-value="pcs"
+                  style="background-color: #cecece00; font-weight: bold"
+                >
+                  PCS
+                </button>
+                <button
+                  class="typeButton"
+                  data-value="containter"
+                  style="background-color: #cecece00; font-weight: bold"
+                >
+                  貨櫃
+                </button>
+              </div>
+              <div
+                class="mx-1 p-1"
+                style="
+                  height: 76.1vh;
+                  overflow-y: auto;
+                  border: 1px solid black;
+                "
+              >
+                <div class="site_controlType">
+                  <div class="modeListBox d-none">
+                    <h5 class="mt-2">目前模式：</h5>
+                    <input
+                      type="text"
+                      id="current_mode"
+                      class="w-100"
+                      value="0.停止模式"
+                      readonly
+                    />
+                    <h5 class="mt-2">模式選擇：</h5>
+                    <select id="setmode" class="w-100">
+                      {% if level|int >=4 %}
+                      <!--level4: 測試模式-->
+                      <option value="0">停止模式</option>
+                      <!-- <option value="1">1.固定功因模式</option>
+                      <option value="2">2.電壓虛功模式</option>
+                      <option value="3">3.電壓實功模式</option>
+                      <option value="4">4.電壓實虛功模式</option>
+                      <option value="5">5.頻率實功模式</option>
+                      -->
+                      <option value="6">實虛功控制模式</option>
+                      
+                      <!-- <option value="7">7.穩定實功模式</option> -->
+                      <option value="8">平滑化模式</option>
+                      <!-- <option value="9">9.功率逆送模式</option>
+                      <option value="10">10.SOC校正模式</option>
+                      <option value="11">AFC模式</option> -->
+                      <option value="schedule">排程模式</option>
+                      {% else %}
+                      <option value="0">停止模式</option>
+                      <option value="8">平滑化模式</option>
+                      <!-- <option value="11">AFC模式</option> -->
+                      <option value="schedule">排程模式</option>
+                      {% endif %}
+                    </select>
+                    <button id="control_set" class="btn btn-primary w-100 mt-2">
+                      模式設定
+                    </button>
+                    <button
+                      id="scale_button"
+                      class="btn btn-success w-100 mt-2"
+                    >
+                      比例參數
+                    </button>
+                  </div>
+                </div>
+                <div class="mbmsType">
+                  <div class="equipListBox d-none"></div>
+                </div>
+                <div class="pcsType">
+                  <div class="equipListBox d-none"></div>
+                </div>
+                <div class="containterType">
+                  <div class="equipListBox d-none"></div>
+                </div>
+                <div class="systemType">
+                  <div class="equipListBox d-none"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col p-0" style="min-width: 250px">
+              <div
+                class="mx-1 p-3"
+                style="height: 79vh; border: 3px double black; overflow-y: auto"
+              >
+                <div class="site_controlBox d-none displayBox">
+                  <div class="w-100 BoxContent site_controlBoxContent">
+                    <!--constraint-->
+                    <div class="d-none mode_div" id="constranit">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="6">
+                            <label>限制條件</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <!-- <td>系統最大輸出功率(kW)</td> -->
+                          <td>最高SOC(%)</td>
+                          <td>最低SOC(%)</td>
+                          <td>最高放電實功(kW)</td>
+                          <td>最高充電實功(kW)</td>
+                          <td>最高虛功(kVAR)</td>
+                          <td>最低虛功(kVAR)</td>
+                        </tr>
+                        <tr>
+                          <!-- <td>
+                            <input type="text" class="setvalue" id="bess_p_max" />
+                          </td> -->
+                          <td>
+                            <input type="text" class="setvalue" id="soc_max" />
+                          </td>
+                          <td>
+                            <input type="text" class="setvalue" id="soc_min" />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="System_p_max"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="System_p_min"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="System_q_max"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="System_q_min"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--固定功因控制-->
+                    <div class="d-none mode_div mode1_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="2" id="mode1">
+                            <label>固定功因模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>實功(kW)</td>
+                          <td>功因</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="text" class="setvalue" id="PF_p_ref" />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="PF_pf_ref"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--頻率實功-->
+                    <div class="d-none mode_div mode5_div mode11_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="8" id="mode5">
+                            <select id="FP_type">
+                              <option value="0">dReg0.5</option>
+                              <option value="1">dReg0.25</option>
+                              <!-- <option value="2">自訂</option> -->
+                              <option value="3">sReg</option>
+                            </select>
+                            <label>頻率實功模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>功率參考值(kW)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="FP_line_p_base"
+                            />
+                          </td>
+                          <td>SoC目標值(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="FP_soc_goal_percent"
+                            />
+                          </td>
+                          <td>頻率基準(Hz)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="FP_main_f_set"
+                            />
+                          </td>
+                          <td>啟用台電移頻指令</td>
+                          <td>
+                            <input type="checkbox" id="FP_main_f_set_source" />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>f1(HZ)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="f1_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>p1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="p1_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>f2(HZ)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="f2_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>p2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="p2_line_set"
+                              readonly
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>f3(HZ)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="f3_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>p3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="p3_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>f4(HZ)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="f4_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>p4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="p4_line_set"
+                              readonly
+                            />
+                          </td>
+                        </tr>
+                        <tr class="tr_FP_point5_6">
+                          <td>f5(HZ)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="f5_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>p5(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="p5_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>f6(HZ)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="f6_line_set"
+                              readonly
+                            />
+                          </td>
+                          <td>p6(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue readonly_setvalue"
+                              id="p6_line_set"
+                              readonly
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                      <div class="w-100 px-5 mt-2">
+                        <div id="mode5_plot"></div>
+                      </div>
+                    </div>
+                    <!--電壓虛功-->
+                    <div class="d-none mode_div mode2_div mode11_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="8" id="mode2">
+                            <label>電壓虛功模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td colspan="2">電壓參考值(kV)</td>
+                          <td colspan="2">
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_v_base"
+                            />
+                          </td>
+                          <td colspan="2">虛功參考值(kVAR)</td>
+                          <td colspan="2">
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_q_base"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_v1_set"
+                            />
+                          </td>
+                          <td>q1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_q1_set"
+                            />
+                          </td>
+                          <td>v2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_v2_set"
+                            />
+                          </td>
+                          <td>q2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_q2_set"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_v3_set"
+                            />
+                          </td>
+                          <td>q3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_q3_set"
+                            />
+                          </td>
+                          <td>v4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_v4_set"
+                            />
+                          </td>
+                          <td>q4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_q4_set"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v5(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_v5_set"
+                            />
+                          </td>
+                          <td>q5(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_q5_set"
+                            />
+                          </td>
+                          <td>v6(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_v6_set"
+                            />
+                          </td>
+                          <td>q6(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_q6_set"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v7(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_v7_set"
+                            />
+                          </td>
+                          <td>q7(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vq_q7_set"
+                            />
+                          </td>
+                          <td colspan="4"></td>
+                        </tr>
+                      </table>
+                      <div class="w-100 px-5 mt-2">
+                        <div id="mode2_plot"></div>
+                      </div>
+                    </div>
+                    <!--電壓實功-->
+                    <div class="d-none mode_div mode3_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="8" id="mode3">
+                            <label>電壓實功模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td colspan="2">電壓參考值(kV)</td>
+                          <td colspan="2">
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_v_base"
+                            />
+                          </td>
+                          <td colspan="2">實功參考值(kW)</td>
+                          <td colspan="2">
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_p_base"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_v1_set"
+                            />
+                          </td>
+                          <td>p1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_p1_set"
+                            />
+                          </td>
+                          <td>v2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_v2_set"
+                            />
+                          </td>
+                          <td>p2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_p2_set"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_v3_set"
+                            />
+                          </td>
+                          <td>p3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_p3_set"
+                            />
+                          </td>
+                          <td>v4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_v4_set"
+                            />
+                          </td>
+                          <td>p4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_p4_set"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v5(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_v5_set"
+                            />
+                          </td>
+                          <td>p5(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_p5_set"
+                            />
+                          </td>
+                          <td>v6(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_v6_set"
+                            />
+                          </td>
+                          <td>p6(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vp_p6_set"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--電壓實虛功-->
+                    <div class="d-none mode_div mode4_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="8" id="mode4">
+                            <label>電壓實虛功模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>電壓參考值(kV)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_v_base"
+                            />
+                          </td>
+                          <td colspan="2">實功參考值(kW)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_base"
+                            />
+                          </td>
+                          <td colspan="2">虛功參考值(kVAR)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_base"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="4">實功</td>
+                          <td colspan="4">虛功</td>
+                        </tr>
+                        <tr>
+                          <td>v1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_v1_set"
+                            />
+                          </td>
+                          <td>p1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_p1_set"
+                            />
+                          </td>
+                          <td>v1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_v1_set"
+                            />
+                          </td>
+                          <td>q1(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_q1_set"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_v2_set"
+                            />
+                          </td>
+                          <td>p2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_p2_set"
+                            />
+                          </td>
+                          <td>v2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_v2_set"
+                            />
+                          </td>
+                          <td>q2(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_q2_set"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_v3_set"
+                            />
+                          </td>
+                          <td>p3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_p3_set"
+                            />
+                          </td>
+                          <td>v3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_v3_set"
+                            />
+                          </td>
+                          <td>q3(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_q3_set"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>v4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_v4_set"
+                            />
+                          </td>
+                          <td>p4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_p_p4_set"
+                            />
+                          </td>
+                          <td>v4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_v4_set"
+                            />
+                          </td>
+                          <td>q4(%)</td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Vpq_q_q4_set"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--實虛功控制-->
+                    <div class="d-none mode_div mode6_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="2" id="mode6">
+                            <label class="align-實虛功控制模式"
+                              >實虛功控制模式</label
+                            >
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>實功(kW)</td>
+                          <td>虛功(kVAR)</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="text" class="setvalue" id="PQ_p_ref" />
+                          </td>
+                          <td>
+                            <input type="text" class="setvalue" id="PQ_q_ref" />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--穩定實功-->
+                    <div class="d-none mode_div mode7_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="3" id="mode7">
+                            <label>穩定實功模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>PV_Steady_Capacity(kW)</td>
+                          <td>實功(kW)</td>
+                          <td>升降載率(%)</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="PV_Steady_Capacity"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Stable_p_tr_new"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Stable_p_ramp"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--平滑化-->
+                    <div class="d-none mode_div mode8_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="2" id="mode8">
+                            <label>平滑化模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>PV_Smooth_Capacity(kW)</td>
+                          <td>功率變動率(%)</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="PV_Smooth_Capacity"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Smooth_p_variance"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--功率逆送-->
+                    <div class="d-none mode_div mode9_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="3" id="mode9">
+                            <label>功率逆送模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>PV_Reverse_Capacity(kW)</td>
+                          <td>逆送實功限制(kW)</td>
+                          <td>降載率(%)</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="PV_Reverse_Capacity"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Anti_p_limit_new"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="setvalue"
+                              id="Power_Reverse_Watt_Limit"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--SOC校正模式-->
+                    <div class="d-none mode_div mode10_div">
+                      <table class="table01">
+                        <tr>
+                          <th colspan="2" id="mode10">
+                            <label>SOC校正模式</label>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>SOC校正狀態</td>
+                          <td>
+                            <input
+                              readonly
+                              type="text"
+                              class="setvalue"
+                              id="ess_soc_calibration_status"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!--排程-->
+                    <div class="d-none mode_div schedule_div">
+                      <div id="calendar"></div>
+                    </div>
+                  </div>
+                </div>
+                <!---------------------------MBMS控制---------------------------->
+                <div class="mbmsBox d-none displayBox">
+                  <!-- P3A -->
+                  <div class="d-none w-100 BoxContent mbmsBoxContent P3A">
+                    <div
+                      class="custom-control custom-switch custom-switch-lg mt-1"
+                    >
+                      <input
+                        type="checkbox"
+                        class="custom-control-input mbmsControl"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="mbmsControl"
+                        style="font-size: 1.5rem"
+                        >起停控制(OFF/ON)</label
+                      >
+                    </div>
+                    <div
+                      class="custom-control custom-switch custom-switch-lg mt-1"
+                    >
+                      <input
+                        type="checkbox"
+                        class="custom-control-input mbmsReset"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="mbmsReset"
+                        style="font-size: 1.5rem"
+                        >復歸</label
+                      >
+                    </div>
+                    <button class="btn btn-primary mbms_set">儲存</button>
+                  </div>
+                  <!--Kokam-mbms-->
+                  <div
+                    class="
+                      d-none
+                      w-100
+                      BoxContent
+                      mbmsBoxContent
+                      Kokam-mbms Kokam-bank
+                    "
+                  >
+                    <div
+                      class="custom-control custom-switch custom-switch-lg mt-1"
+                    >
+                      <input
+                        type="checkbox"
+                        class="custom-control-input mbmsControl"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="mbmsControl"
+                        style="font-size: 1.5rem"
+                        >起停控制(OFF/ON)</label
+                      >
+                    </div>
+                    <button class="btn btn-primary mbms_set">儲存</button>
+                  </div>
+                </div>
+                <!---------------------------PCS控制---------------------------->
+                <div class="pcsBox d-none displayBox">
+                  <!--Destin_Power_1200-->
+                  <div
+                    class="
+                      d-none
+                      w-100
+                      BoxContent
+                      pcsBoxContent
+                      Destin_Power_1200
+                    "
+                  >
+                    <div
+                      class="custom-control custom-switch custom-switch-lg mt-1"
+                    >
+                      <input
+                        type="checkbox"
+                        class="custom-control-input pcsControl"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="pcsControl"
+                        style="font-size: 1.5rem"
+                        >起停控制(OFF/ON)</label
+                      >
+                    </div>
+                    <div
+                      class="custom-control custom-switch custom-switch-lg mt-1"
+                    >
+                      <input
+                        type="checkbox"
+                        class="custom-control-input pcsReset"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="pcsReset"
+                        style="font-size: 1.5rem"
+                        >復歸</label
+                      >
+                    </div>
+                    <button class="btn btn-primary pcs_set">儲存</button>
+                  </div>
+                  <!--TE-PCS-1500K-->
+                  <div
+                    class="d-none w-100 BoxContent pcsBoxContent TE-PCS-1500K"
+                  >
+                    <div
+                      class="custom-control custom-switch custom-switch-lg mt-1"
+                    >
+                      <input
+                        type="checkbox"
+                        class="custom-control-input pcsControl"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="pcsControl"
+                        style="font-size: 1.5rem"
+                        >起停控制(OFF/ON)</label
+                      >
+                    </div>
+                    <button class="btn btn-primary pcs_set">儲存</button>
+                  </div>
+                </div>
+                <!---------------------------貨櫃控制---------------------------->
+                <div class="containterBox d-none displayBox">
+                  <div class="d-none w-100 BoxContent containterBoxContent air">
+                    <div
+                      class="custom-control custom-switch custom-switch-lg mt-1"
+                    >
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="airControl"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="airControl"
+                        style="font-size: 1.5rem"
+                        >起停控制(OFF/ON)</label
+                      >
+                    </div>
+                    <button class="btn btn-primary air_set">儲存</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 比例設定 -->
+    <div
+      class="modal fade-scale"
+      id="scaleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="scaleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl animated">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="background-color: rgb(247, 247, 247)"
+          >
+            <h5 id="scaleModalHeader"></h5>
+            <button type="button" class="mx-3" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div id="scale_box" class="modal-body">
+            <button id="auto_scale" class="btn btn-success">自動調配</button>
+            <table id="scale_table" class="table01 mt-1">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>名稱</th>
+                  <th>單機容量(kVA)</th>
+                  <th>比例(%)</th>
+                </tr>
+              </thead>
+            </table>
+            <button id="scale_set" class="btn btn-primary mt-1">儲存</button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              data-dismiss="modal"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 排程設定 -->
+    <div
+      class="modal fade-scale"
+      id="scheduleModal"
+      s
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="scheduleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xxl animated">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="background-color: rgb(247, 247, 247)"
+          >
+            <div class="noWhite">
+              <div class="datepickerBox d-flex align-items-center">
+                <div class="p-1">
+                  起始:&nbsp
+                  <i
+                    class="far fa-calendar-alt calendar"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; vertical-align: sub"
+                  ></i>
+                  <input
+                    type="text"
+                    readonly
+                    id="datepicker1"
+                    class="datepicker"
+                    placeholder="Start_date"
+                    name="datepicker1"
+                  />
+                </div>
+                <div class="p-1">
+                  結束:&nbsp
+                  <i
+                    class="far fa-calendar-alt calendar"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; vertical-align: sub"
+                  ></i>
+                  <input
+                    type="text"
+                    readonly
+                    id="datepicker2"
+                    class="datepicker"
+                    placeholder="End_date"
+                    name="datepicker2"
+                  />
+                  <!-- <button type="button" id="search" class="btn btn-danger">查詢</button> -->
+                </div>
+                <div class="p-1">
+                  <button class="btn btn-primary scheduleEvent_search">
+                    <i class="fas fa-search" style="font-size: 1.3rem"></i> 查詢
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center ml-auto">
+              <div class="p-1">
+                <button class="btn btn-success scheduleEvent_insert">
+                  <i class="fas fa-plus" style="font-size: 1.3rem"></i>
+                  加入
+                </button>
+                <button class="btn btn-danger scheduleEvent_remove d-none">
+                  <i class="fas fa-minus" style="font-size: 1.3rem"></i>
+                  移除
+                </button>
+              </div>
+            </div>
+            <button type="button" class="mx-3" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div id="schedule_box" class="modal-body container-fluid p-0">
+            <div class="row mt-2 mx-2">
+              <div
+                class="col-12 p-3"
+                style="
+                  background-color: white;
+                  box-shadow: 6px 6px 3px rgba(0, 0, 0, 0.7);
+                "
+              >
+                <div class="row px-3">
+                  <div
+                    class="col-12 col-md-3 col-lg-3 col-xl-1 p-0"
+                    style="min-width: 250px"
+                  >
+                    <div class="d-flex align-items-center p-1">
+                      <div class="p-1">
+                        條件:&nbsp
+                        <select id="scheduleEvent_checkboxSelect">
+                          <option value="0">無</option>
+                          <option value="1">全選未排程時段</option>
+                          <option value="2">全選已排程時段</option>
+                          <option value="3">取消選取時段</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      id="scheduleEventList"
+                      class="mx-1 p-1"
+                      style="
+                        height: 76.1vh;
+                        overflow-y: auto;
+                        border: 1px solid black;
+                      "
+                    ></div>
+                  </div>
+                  <div class="col p-0" style="min-width: 250px">
+                    <div class="d-flex align-items-center p-1">
+                      模式選擇:&nbsp
+                      <div class="p-1">
+                        <select id="schedule_setmode" class="w-100 d-inline">
+                          <option value="0">停止模式</option>
+                          <!-- <option value="1">1.固定功因模式</option> -->
+                          <option value="2">2.電壓虛功模式</option>
+                          <!-- <option value="3">3.電壓實功模式</option>
+                                <option value="4">4.電壓實虛功模式</option> -->
+                          <option value="5">5.頻率實功模式</option>
+                          <option value="6">6.實虛功控制模式</option>
+                          <!-- <option value="7">7.穩定實功模式</option>
+                                <option value="8">8.平滑化模式</option>
+                                <option value="9">9.功率逆送模式</option>
+                              <option value="10">10.SOC校正模式</option> -->
+                          <option value="11">AFC模式</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      class="mx-1 p-3"
+                      style="
+                        height: 76.1vh;
+                        border: 3px double black;
+                        overflow-y: auto;
+                      "
+                    >
+                      <div class="schedule_controlBox displayBox">
+                        <div
+                          class="w-100 BoxContent schedule_controlBoxContent"
+                        >
+                          <!--constraint-->
+                          <div
+                            class="d-none schedule_mode_div"
+                            id="schedule_constranit"
+                          >
+                            <table class="table01">
+                              <tr>
+                                <th colspan="6">
+                                  <label>限制條件</label>
+                                </th>
+                              </tr>
+                              <tr>
+                                <!-- <td>系統最大輸出功率(kW)</td> -->
+                                <td>最高SOC(%)</td>
+                                <td>最低SOC(%)</td>
+                                <td>最高放電實功(kW)</td>
+                                <td>最高充電實功(kW)</td>
+                                <td>最高虛功(kVAR)</td>
+                                <td>最低虛功(kVAR)</td>
+                              </tr>
+                              <tr>
+                                <!-- <td>
+                                  <input type="text" class="setvalue" id="bess_p_max" />
+                                </td> -->
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_soc_max"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_soc_min"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_System_p_max"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_System_p_min"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_System_q_max"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_System_q_min"
+                                  />
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                          <!--頻率實功-->
+                          <div
+                            class="
+                              d-none
+                              schedule_mode_div
+                              schedule_mode5_div
+                              schedule_mode11_div
+                            "
+                          >
+                            <table class="table01">
+                              <tr>
+                                <th colspan="8" id="mode5">
+                                  <select id="schedule_FP_type">
+                                    <option value="0">dReg0.5</option>
+                                    <option value="1">dReg0.25</option>
+                                    <!-- <option value="2">自訂</option> -->
+                                    <option value="3">sReg</option>
+                                  </select>
+                                  <label>頻率實功模式</label>
+                                </th>
+                              </tr>
+                              <tr>
+                                <td colspan="2">功率參考值(kW)</td>
+                                <td colspan="2">
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_FP_line_p_base"
+                                  />
+                                </td>
+                                <td>SoC目標值(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_FP_soc_goal_percent"
+                                  />
+                                </td>
+                                <td>頻率基準(Hz)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_FP_main_f_set"
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>f1(HZ)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_f1_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>p1(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_p1_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>f2(HZ)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_f2_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>p2(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_p2_line_set"
+                                    readonly
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>f3(HZ)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_f3_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>p3(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_p3_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>f4(HZ)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_f4_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>p4(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_p4_line_set"
+                                    readonly
+                                  />
+                                </td>
+                              </tr>
+                              <tr class="tr_FP_point5_6">
+                                <td>f5(HZ)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_f5_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>p5(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_p5_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>f6(HZ)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_f6_line_set"
+                                    readonly
+                                  />
+                                </td>
+                                <td>p6(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue readonly_setvalue"
+                                    id="schedule_p6_line_set"
+                                    readonly
+                                  />
+                                </td>
+                              </tr>
+                            </table>
+                            <div class="w-100 px-5 mt-2">
+                              <div id="schedule_mode5_plot"></div>
+                            </div>
+                          </div>
+                          <!--實虛功控制-->
+                          <div
+                            class="d-none schedule_mode_div schedule_mode6_div"
+                          >
+                            <table class="table01">
+                              <tr>
+                                <th colspan="2" id="schedule_mode6">
+                                  <label class="align-實虛功控制模式"
+                                    >實虛功控制模式</label
+                                  >
+                                </th>
+                              </tr>
+                              <tr>
+                                <td>實功(kW)</td>
+                                <td>虛功(kVAR)</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_PQ_p_ref"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_PQ_q_ref"
+                                  />
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                          <!--電壓虛功-->
+                          <div
+                            class="
+                              d-none
+                              schedule_mode_div
+                              schedule_mode2_div
+                              schedule_mode11_div
+                            "
+                          >
+                            <table class="table01">
+                              <tr>
+                                <th colspan="8" id="mode2">
+                                  <label>電壓虛功模式</label>
+                                </th>
+                              </tr>
+                              <tr>
+                                <td colspan="2">電壓參考值(kV)</td>
+                                <td colspan="2">
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_v_base"
+                                  />
+                                </td>
+                                <td colspan="2">虛功參考值(kVAR)</td>
+                                <td colspan="2">
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_q_base"
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>v1(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_v1_set"
+                                  />
+                                </td>
+                                <td>q1(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_q1_set"
+                                  />
+                                </td>
+                                <td>v2(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_v2_set"
+                                  />
+                                </td>
+                                <td>q2(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_q2_set"
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>v3(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_v3_set"
+                                  />
+                                </td>
+                                <td>q3(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_q3_set"
+                                  />
+                                </td>
+                                <td>v4(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_v4_set"
+                                  />
+                                </td>
+                                <td>q4(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_q4_set"
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>v5(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_v5_set"
+                                  />
+                                </td>
+                                <td>q5(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_q5_set"
+                                  />
+                                </td>
+                                <td>v6(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_v6_set"
+                                  />
+                                </td>
+                                <td>q6(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_q6_set"
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>v7(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_v7_set"
+                                  />
+                                </td>
+                                <td>q7(%)</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    class="setvalue"
+                                    id="schedule_Vq_q7_set"
+                                  />
+                                </td>
+                                <td colspan="4"></td>
+                              </tr>
+                            </table>
+                            <div class="w-100 px-5 mt-2">
+                              <div id="schedule_mode2_plot"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              data-dismiss="modal"
+            ></button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

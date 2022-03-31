@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <title>EMS</title>
+    <link
+      href="/static/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/popper.min.js"></script>
+    <script
+      type="text/javascript"
+      src="/static/jquery-ui/jquery-ui.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/bootstrap/js/bootstrap.min.js"
+    ></script>
+
+    <script type="text/javascript" src="/static/plotly.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/static/js/SLD.js"></script>
+    <script type="text/javascript" src="/static/svg-pan-zoom.js"></script>
+    <script type="text/javascript" src="/static/hammer.js"></script>
+    <link href="/static/jquery-ui/jquery-ui.css" rel="stylesheet" />
+
+    <link href="/static/fontawesome/css/all.css" rel="stylesheet" />
+    <link
+      href="/static/datatable/dataTables.bootstrap4.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/static/datatable/fixedHeader.dataTables.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/static/datatable/responsive.dataTables.min.css"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="/static/datatable/datatables.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/datatable/dataTables.fixedHeader.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/datatable/dataTables.responsive.min.js"
+    ></script>
+    <style></style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      $(function () {
+        //---------------------------------------------------
+        //切換顯示欄位
+        $(".buttonType1").on("click", function () {
+          if(this.innerText==='系統狀態'){
+            $(".equipment").addClass("d-none");
+            $(".equipment").removeClass("select");
+            $(".system").removeClass("d-none");
+            $(".system").addClass("select");
+          }
+          else{
+            $(".system").addClass("d-none");
+            $(".system").removeClass("select");
+            $(".equipment").removeClass("d-none");
+            $(".equipment").addClass("select");
+          }
+        });
+        //---------------------------------------------------
+        //取得 EMS 伺服器和資料庫狀態
+        let get_ems_pc_info_data = function (e) {
+          $.getJSON(
+            $SCRIPT_ROOT + "/get_ems_pc_info_data",
+            {},
+            function (data) {
+              let info = [
+                "IP",
+                "mongoState",
+                "cpu",
+                "memory total",
+                "memory free",
+                "memory mem_per",
+                "boot_time",
+                "time",
+              ];
+              var data = data.data
+              for (let i in data) {
+                console.log(i)
+                let IP = "IP" in data[i] ? data[i].IP : "離線";
+                let cpu = "cpu" in data[i] ? data[i].cpu : "---";
+                let mem_per =
+                  "memory" in data[i]
+                    ? round(data[i].memory.mem_per * 100, 1)
+                    : "---";
+
+                let mongoState = data[i].mongoState;
+                let boot_time =
+                  "boot_time" in data[i] ? data[i].boot_time : "---";
+                let time = "time" in data[i] ? data[i].time : "---";
+                switch (mongoState) {
+                  case 1:
+                    $("#" + i + " .mongoState")
+                      .css({ color: "black" })
+                      .html("主節點");
+                    break;
+                  case 2:
+                    $("#" + i + " .mongoState")
+                      .css({ color: "black" })
+                      .html("副節點");
+                    break;
+                  case -1:
+                    $("#" + i + " .mongoState")
+                      .css({ color: "black" })
+                      .html("無");
+                    break;
+                  default:
+                    $("#" + i + " .mongoState")
+                      .css({ color: "red" })
+                      .html("異常");
+                }
+
+                $("#" + i + " .IP")
+                  .css({ color: IP == "離線" ? "red" : "black" })
+                  .html(IP == 1 ? "主伺服器" : IP == 0 ? "副伺服器" : IP);
+                $("#" + i + " .cpu")
+                  .css({ color: cpu > 90 ? "red" : "black" })
+                  .html(cpu + "%");
+                $("#" + i + " .memory.mem_per")
+                  .css({ color: mem_per > 90 ? "red" : "black" })
+                  .html(mem_per + "%");
+                $("#" + i + " .boot_time").html(boot_time);
+                $("#" + i + " .time").html(time);
+              }
+            }
+          );
+          return false;
+        };
+        get_ems_pc_info_data();
+        //---------------------------------------------------
+        //create status table
+        function create_status_table(url, table, get_data_first){
+          $.getJSON($SCRIPT_ROOT + url, {}, function (data) {
+            const programStatus = data.data;
+            if (get_data_first === true) {
+              programStatus.forEach((program) => {
+                console.log(program)
+                $(table).append(
+                  $("<tr/>")
+                    .attr("id", program.ID)
+                    .css("color", status2color(program.status[0]))
+                    .append(
+                      $("<td/>").addClass("name").text(program.name),
+                      $("<td/>").addClass("place").text(program.place),
+                      $("<td/>")
+                        .addClass("status")
+                        .text(status2string(program.status[0])),
+                      $("<td/>").addClass("limit").text(program.limit),
+                      $("<td/>")
+                        .addClass("count")
+                        .text(count2time(program.count))
+                    )
+                );
+              });
+            } else {
+              programStatus.forEach((program) => {
+                console.log(program)
+                $(`#${program.ID}`).css("color", status2color(program.status[0]));
+                $(`#${program.ID} .status`).text(status2string(program.status[0]));
+                $(`#${program.ID} .count`).text(count2time(program.count));
+              });
+            }
+            get_data_first = false
+            return get_data_first
+          });
+        }
+        //---------------------------------------------------
+        //取得 program 狀態
+        let get_program_data_first = true;
+        let get_program_data = function (e) {
+          get_program_data_first = create_status_table("/get_program_data", "#programTable", get_program_data_first)
+          return false;
+        };
+        get_program_data();
+        //---------------------------------------------------
+        //取得設備狀態
+        let get_equipment_status_data_first = true;
+        let get_equipment_status_data = function (e) {
+          get_equipment_status_data_first = create_status_table("/get_equipment_status_data", "#equipmentSatusTable", get_equipment_status_data_first)
+          return false;
+        };
+        get_equipment_status_data();
+        //---------------------------------------------------
+        setInterval(function(){
+          if ($(".system").hasClass("select")){
+            get_ems_pc_info_data()
+            get_program_data()
+          }
+          else{
+            get_equipment_status_data()
+          }
+        },1000)
+        //---------------------------------------------------
+        protection_get()
+        alarm_get_show1_level1_checktimeNull()
+        alarm_get_show1_level2_checktimeNull()
+        setInterval(() => {
+          protection_get()
+          alarm_get_show1_level1_checktimeNull()
+          alarm_get_show1_level2_checktimeNull()
+        }, 2000);
+        //---------------------------------------------------
+      });
+    </script>
+    {% extends 'navbar.html' %} {% block content %}
+    <div class="container-fluid p-0">
+      <div class="row mt-2 mx-2">
+        <div class="col-12 p-0 mb-1">
+          <button class="buttonType1" style="background-color: #fff2cc">
+            系統狀態
+          </button>
+          <button class="buttonType1" style="background-color: #fff2cc">
+            設備狀態
+          </button>
+        </div>
+        <div
+          class="d-none col-24 col-md-12 p-3 equipment"
+          style="border: 3px double black; background-color: rgb(241, 239, 239);"
+        >
+        <div
+            class=""
+            style="background-color: rgb(53, 114, 138); color: white"
+          >
+            <h4 class="font-weight-bold py-2 px-3">設備狀態</h4>
+          </div>
+          <table id="equipmentSatusTable" class="table table01" style="width: 100%">
+            <thead>
+              <tr>
+                <th>設備</th>
+                <th>位置</th>
+                <th>狀態</th>
+                <th>閾值(s)</th>
+                <th>時間</th>
+              </tr>
+            </thead>
+            <tbody>
+             
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="col-12 col-md-6 p-3 system select"
+          style="border: 3px double black; background-color: rgb(241, 239, 239);"
+        >
+          <div
+            class=""
+            style="background-color: rgb(53, 114, 138); color: white"
+          >
+            <h4 class="font-weight-bold py-2 px-3">主機狀態</h4>
+          </div>
+          <div style="max-height: 71vh;overflow-y: auto;padding-right: 15px;">
+          <div class="row">
+            <div class="col-12 col-lg-6 p-0">
+              <div
+                id="ems1"
+                class="m-1 p-1"
+                style="background-color: rgba(196, 196, 196, 0.281)"
+              >
+                <div
+                  class="d-flex"
+                  style="border-bottom: 5px solid rgb(51, 102, 168)"
+                >
+                  <div class="p-2 flex-grow-1">
+                    <h4 class="title pt-1">EMS1主機</h4>
+                  </div>
+                  <div class="p-2" style="font-size: 0.8rem">
+                    <div>系統啟動時間</div>
+                    <div class="boot_time"></div>
+                  </div>
+                </div>
+                <div class="d-flex mx-1">
+                  <div
+                    class="m-1 p-1"
+                    style="width: 50%; background-color: rgb(182, 206, 226)"
+                  >
+                    <h6>伺服器</h6>
+                    <div class="d-flex">
+                      <div
+                        class="ml-1 flex-grow-1"
+                        style="border-left: 3px solid blue"
+                      ></div>
+                      <div class="px-3 font-weight-bold IP">主伺服器</div>
+                    </div>
+                  </div>
+                  <div
+                    class="m-1 p-1"
+                    style="width: 50%; background-color: rgb(182, 206, 226)"
+                  >
+                    <h6>資料庫</h6>
+                    <div class="d-flex">
+                      <div
+                        class="ml-1 flex-grow-1"
+                        style="border-left: 3px solid blue"
+                      ></div>
+                      <div class="px-3 font-weight-bold mongoState">主節點</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mx-1">
+                  <div
+                    class="m-1 p-1"
+                    style="width: 50%; background-color: rgb(182, 206, 226)"
+                  >
+                    <h6>CPU</h6>
+                    <div class="d-flex">
+                      <div
+                        class="ml-1 flex-grow-1"
+                        style="border-left: 3px solid blue"
+                      ></div>
+                      <h5 class="px-3 m-0 font-weight-bold cpu"></h5>
+                    </div>
+                  </div>
+                  <div
+                    class="m-1 p-1"
+                    style="width: 50%; background-color: rgb(182, 206, 226)"
+                  >
+                    <h6>Memory</h6>
+                    <div class="d-flex">
+                      <div
+                        class="ml-1 flex-grow-1"
+                        style="border-left: 3px solid blue"
+                      ></div>
+                      <h5 class="px-3 m-0 font-weight-bold memory mem_per">
+                        100 %
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="d-flex flex-row-reverse pt-1"
+                  style="
+                    border-top: 5px solid rgb(51, 102, 168);
+                    font-size: 0.8rem;
+                  "
+                >
+                  <div>
+                    <div class="d-inline">更新時間</div>
+                    <div class="update_time d-inline time"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6 p-0">
+              <div
+                id="ems2"
+                class="m-1 p-1"
+                style="background-color: rgba(196, 196, 196, 0.281)"
+              >
+                <div
+                  class="d-flex"
+                  style="border-bottom: 5px solid rgb(51, 102, 168)"
+                >
+                  <div class="p-2 flex-grow-1">
+                    <h4 class="title pt-1">EMS2主機</h4>
+                  </div>
+                  <div class="p-2" style="font-size: 0.8rem">
+                    <div>系統啟動時間</div>
+                    <div class="boot_time"></div>
+                  </div>
+                </div>
+                <div class="d-flex mx-1">
+                  <div
+                    class="m-1 p-1"
+                    style="width: 50%; background-color: rgb(182, 206, 226)"
+                  >
+                    <h6>伺服器</h6>
+                    <div class="d-flex">
+                      <div
+                        class="ml-1 flex-grow-1"
+                        style="border-left: 3px solid blue"
+                      ></div>
+                      <div class="px-3 font-weight-bold IP">主伺服器</div>
+                    </div>
+                  </div>
+                  <div
+                    class="m-1 p-1"
+                    style="width: 50%; background-color: rgb(182, 206, 226)"
+                  >
+                    <h6>資料庫</h6>
+                    <div class="d-flex">
+                      <div
+                        class="ml-1 flex-grow-1"
+                        style="border-left: 3px solid blue"
+                      ></div>
+                      <div class="px-3 font-weight-bold mongoState">主節點</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mx-1">
+                  <div
+                    class="m-1 p-1"
+                    style="width: 50%; background-color: rgb(182, 206, 226)"
+                  >
+                    <h6>CPU</h6>
+                    <div class="d-flex">
+                      <div
+                        class="ml-1 flex-grow-1"
+                        style="border-left: 3px solid blue"
+                      ></div>
+                      <h5 class="px-3 m-0 font-weight-bold cpu"></h5>
+                    </div>
+                  </div>
+                  <div
+                    class="m-1 p-1"
+                    style="width: 50%; background-color: rgb(182, 206, 226)"
+                  >
+                    <h6>Memory</h6>
+                    <div class="d-flex">
+                      <div
+                        class="ml-1 flex-grow-1"
+                        style="border-left: 3px solid blue"
+                      ></div>
+                      <h5 class="px-3 m-0 font-weight-bold memory mem_per">
+                        100 %
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="d-flex flex-row-reverse pt-1"
+                  style="
+                    border-top: 5px solid rgb(51, 102, 168);
+                    font-size: 0.8rem;
+                  "
+                >
+                  <div>
+                    <div class="d-inline">更新時間</div>
+                    <div class="update_time d-inline time"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- GC -->
+          <div class="row">
+              <div class="col-12 col-lg-6 p-0">
+                <div
+                  id="gc1"
+                  class="m-1 p-1"
+                  style="background-color: rgba(196, 196, 196, 0.281)"
+                >
+                  <div
+                    class="d-flex"
+                    style="border-bottom: 5px solid rgb(51, 102, 168)"
+                  >
+                    <div class="p-2 flex-grow-1">
+                      <h4 class="title pt-1">GC1主機</h4>
+                    </div>
+                    <div class="p-2" style="font-size: 0.8rem">
+                      <div>系統啟動時間</div>
+                      <div class="boot_time"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>伺服器</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold IP">主伺服器</div>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>資料庫</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold mongoState">主節點</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>CPU</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold cpu"></h5>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>Memory</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold memory mem_per">
+                          100 %
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex flex-row-reverse pt-1"
+                    style="
+                      border-top: 5px solid rgb(51, 102, 168);
+                      font-size: 0.8rem;
+                    "
+                  >
+                    <div>
+                      <div class="d-inline">更新時間</div>
+                      <div class="update_time d-inline time"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 p-0">
+                <div
+                  id="gc2"
+                  class="m-1 p-1"
+                  style="background-color: rgba(196, 196, 196, 0.281)"
+                >
+                  <div
+                    class="d-flex"
+                    style="border-bottom: 5px solid rgb(51, 102, 168)"
+                  >
+                    <div class="p-2 flex-grow-1">
+                      <h4 class="title pt-1">GC2主機</h4>
+                    </div>
+                    <div class="p-2" style="font-size: 0.8rem">
+                      <div>系統啟動時間</div>
+                      <div class="boot_time"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>伺服器</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold IP">主伺服器</div>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>資料庫</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold mongoState">主節點</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>CPU</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold cpu"></h5>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>Memory</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold memory mem_per">
+                          100 %
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex flex-row-reverse pt-1"
+                    style="
+                      border-top: 5px solid rgb(51, 102, 168);
+                      font-size: 0.8rem;
+                    "
+                  >
+                    <div>
+                      <div class="d-inline">更新時間</div>
+                      <div class="update_time d-inline time"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- mbms dc -->
+          <div class="row">
+              <div class="col-12 col-lg-6 p-0">
+                <div
+                  id="mbms"
+                  class="m-1 p-1"
+                  style="background-color: rgba(196, 196, 196, 0.281)"
+                >
+                  <div
+                    class="d-flex"
+                    style="border-bottom: 5px solid rgb(51, 102, 168)"
+                  >
+                    <div class="p-2 flex-grow-1">
+                      <h4 class="title pt-1">MBMS主機</h4>
+                    </div>
+                    <div class="p-2" style="font-size: 0.8rem">
+                      <div>系統啟動時間</div>
+                      <div class="boot_time"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>伺服器</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold IP">主伺服器</div>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>資料庫</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold mongoState">主節點</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>CPU</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold cpu"></h5>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>Memory</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold memory mem_per">
+                          100 %
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex flex-row-reverse pt-1"
+                    style="
+                      border-top: 5px solid rgb(51, 102, 168);
+                      font-size: 0.8rem;
+                    "
+                  >
+                    <div>
+                      <div class="d-inline">更新時間</div>
+                      <div class="update_time d-inline time"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 p-0">
+                <div
+                  id="dc"
+                  class="m-1 p-1"
+                  style="background-color: rgba(196, 196, 196, 0.281)"
+                >
+                  <div
+                    class="d-flex"
+                    style="border-bottom: 5px solid rgb(51, 102, 168)"
+                  >
+                    <div class="p-2 flex-grow-1">
+                      <h4 class="title pt-1">DC主機</h4>
+                    </div>
+                    <div class="p-2" style="font-size: 0.8rem">
+                      <div>系統啟動時間</div>
+                      <div class="boot_time"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>伺服器</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold IP">主伺服器</div>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>資料庫</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold mongoState">主節點</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>CPU</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold cpu"></h5>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>Memory</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold memory mem_per">
+                          100 %
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex flex-row-reverse pt-1"
+                    style="
+                      border-top: 5px solid rgb(51, 102, 168);
+                      font-size: 0.8rem;
+                    "
+                  >
+                    <div>
+                      <div class="d-inline">更新時間</div>
+                      <div class="update_time d-inline time"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- hmi gc3 -->
+          <div class="row">
+              <div class="col-12 col-lg-6 p-0">
+                <div
+                  id="hmi"
+                  class="m-1 p-1"
+                  style="background-color: rgba(196, 196, 196, 0.281)"
+                >
+                  <div
+                    class="d-flex"
+                    style="border-bottom: 5px solid rgb(51, 102, 168)"
+                  >
+                    <div class="p-2 flex-grow-1">
+                      <h4 class="title pt-1">人機界面主機</h4>
+                    </div>
+                    <div class="p-2" style="font-size: 0.8rem">
+                      <div>系統啟動時間</div>
+                      <div class="boot_time"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>伺服器</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold IP">主伺服器</div>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>資料庫</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold mongoState">主節點</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>CPU</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold cpu"></h5>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>Memory</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold memory mem_per">
+                          100 %
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex flex-row-reverse pt-1"
+                    style="
+                      border-top: 5px solid rgb(51, 102, 168);
+                      font-size: 0.8rem;
+                    "
+                  >
+                    <div>
+                      <div class="d-inline">更新時間</div>
+                      <div class="update_time d-inline time"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 p-0">
+                <div
+                  id="gc3"
+                  class="m-1 p-1"
+                  style="background-color: rgba(196, 196, 196, 0.281)"
+                >
+                  <div
+                    class="d-flex"
+                    style="border-bottom: 5px solid rgb(51, 102, 168)"
+                  >
+                    <div class="p-2 flex-grow-1">
+                      <h4 class="title pt-1">GC仲裁者主機</h4>
+                    </div>
+                    <div class="p-2" style="font-size: 0.8rem">
+                      <div>系統啟動時間</div>
+                      <div class="boot_time"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>伺服器</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold IP">主伺服器</div>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>資料庫</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <div class="px-3 font-weight-bold mongoState">主節點</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mx-1">
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>CPU</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold cpu"></h5>
+                      </div>
+                    </div>
+                    <div
+                      class="m-1 p-1"
+                      style="width: 50%; background-color: rgb(182, 206, 226)"
+                    >
+                      <h6>Memory</h6>
+                      <div class="d-flex">
+                        <div
+                          class="ml-1 flex-grow-1"
+                          style="border-left: 3px solid blue"
+                        ></div>
+                        <h5 class="px-3 m-0 font-weight-bold memory mem_per">
+                          100 %
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex flex-row-reverse pt-1"
+                    style="
+                      border-top: 5px solid rgb(51, 102, 168);
+                      font-size: 0.8rem;
+                    "
+                  >
+                    <div>
+                      <div class="d-inline">更新時間</div>
+                      <div class="update_time d-inline time"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-6 p-3 system select"
+          style="border: 3px double black; background-color: rgb(241, 239, 239)"
+        >
+          <div
+            class=""
+            style="background-color: rgb(53, 114, 138); color: white"
+          >
+            <h4 class="font-weight-bold py-2 px-3">監控程式狀態</h4>
+          </div>
+          <table id="programTable" class="table table01" style="width: 100%">
+            <thead>
+              <tr>
+                <th>程式</th>
+                <th>主機類別</th>
+                <th>狀態</th>
+                <th>閾值(s)</th>
+                <th>時間</th>
+              </tr>
+            </thead>
+            <tbody>
+             
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

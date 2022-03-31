@@ -1,0 +1,11 @@
+debug/emslink.o
+debug/main.o
+debug/mainwindow.o
+debug/mbmslink.o
+debug/meterlink.o
+debug/pcslink.o
+debug/moc_emslink.o
+debug/moc_mainwindow.o
+debug/moc_mbmslink.o
+debug/moc_meterlink.o
+debug/moc_pcslink.o
