@@ -3,7 +3,13 @@
     {{- partial "head.html" . -}}
     <body>
         {{- partial "header.html" . -}}
-        <div id="content">
+        <div id="cover_img" style="display:block;">
+          <img src="https://images.twgreatdaily.com/images/image/W30/W301iXMBiuFnsJQVilCU.jpg" usemap="#workmap"/>
+          <map name="workmap">
+            <area shape="circle" coords="385,235,30" alt="hole" onclick="toggleContent();">
+          </map>
+        </div>
+        <div id="content" style="display:none;">
         {{- block "main" . }}{{- end }}
         </div>
         {{- partial "footer.html" . -}}

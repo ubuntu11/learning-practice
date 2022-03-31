@@ -118,4 +118,25 @@
       padding: 2px;
     }
   </style>
+
+  <script src="jquery-3.6.0.min.js"></script>
+  <script src="https://kit.fontawesome.com/5e11364dc2.js" crossorigin="anonymous"></script>
+
+  <script>
+
+  function toggleContent() {
+    var x = document.getElementById("content");
+    var y = document.getElementById("cover_img");
+    toggle(x);
+    toggle(y)
+  }
+
+  function toggle(x) {
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+</script>
 </head>

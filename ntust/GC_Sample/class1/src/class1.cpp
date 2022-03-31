@@ -15,23 +15,25 @@ void Smooth_mode(double pv_p_now, double &total_p_per, double Smooth_p_one, doub
 	}
 	catch(...){}
 }
+
+
 int main() {
-	/*°ò¥»°Ñ¼Æ³]©w*/
-	double total_p_per = 0;/*(¤W¦¸¹B¦æ)PV+PCS*/
-	double pv_p_now = 0;/*(Åª­È)*/
-	double pcs_p_now = 0;/*(¼g­È)PQ_p_ref*/
+	/*ï¿½ò¥»°Ñ¼Æ³]ï¿½w*/
+	double total_p_per = 0;/*(ï¿½Wï¿½ï¿½ï¿½Bï¿½ï¿½)PV+PCS*/
+	double pv_p_now = 0;/*(Åªï¿½ï¿½)*/
+	double pcs_p_now = 0;/*(ï¿½gï¿½ï¿½)PQ_p_ref*/
 
-	double Smooth_p_variance = 10;/*(±±¨î°Ñ¼Æ)600¬í¥iÅÜ°Ê¶q*/
-	double max_pv = 6000;/*(±±¨î°Ñ¼Æ)pv³Ì¤j­È*/
-	double shift_win =1;/*(±±¨î°Ñ¼Æ)±±¨î®É¶¡¶¡®æ*/
+	double Smooth_p_variance = 10;/*(ï¿½ï¿½ï¿½ï¿½Ñ¼ï¿½)600ï¿½ï¿½iï¿½Ü°Ê¶q*/
+	double max_pv = 6000;/*(ï¿½ï¿½ï¿½ï¿½Ñ¼ï¿½)pvï¿½Ì¤jï¿½ï¿½*/
+	double shift_win =1;/*(ï¿½ï¿½ï¿½ï¿½Ñ¼ï¿½)ï¿½ï¿½ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½*/
 
-	double Smooth_p_one;/*(¦s¨ú°Ñ¼Æ)¨C¦¸¥iÅÜ°Ê¶q*/
+	double Smooth_p_one;/*(ï¿½sï¿½ï¿½ï¿½Ñ¼ï¿½)ï¿½Cï¿½ï¿½ï¿½iï¿½Ü°Ê¶q*/
 
 
 	Smooth_p_one = max_pv * Smooth_p_variance / 100 * shift_win / 60;
 
-	/*´ú¸Õ°Ñ¼Æ¥N¤J*/
-	total_p_per = 1000;/*ªì©l­È*/
+	/*ï¿½ï¿½ï¿½Õ°Ñ¼Æ¥Nï¿½J*/
+	total_p_per = 1000;/*ï¿½ï¿½lï¿½ï¿½*/
 	std::cout<<"-----------------------------------"<<std::endl;
 	pv_p_now = 1020;
 	Smooth_mode(pv_p_now, total_p_per, Smooth_p_one, pcs_p_now);
