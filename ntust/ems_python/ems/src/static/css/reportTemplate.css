@@ -1,0 +1,144 @@
+@charset "UTF-8";
+@font-face {
+    font-family: Fira Sans;
+    font-weight: 400;
+    src: url(FiraSans-Regular.otf);
+}
+
+@font-face {
+    font-family: Fira Sans;
+    font-style: italic;
+    font-weight: 400;
+    src: url(FiraSans-Italic.otf);
+}
+
+@font-face {
+    font-family: Fira Sans;
+    font-weight: 300;
+    src: url(FiraSans-Light.otf);
+}
+
+@font-face {
+    font-family: Fira Sans;
+    font-style: italic;
+    font-weight: 300;
+    src: url(FiraSans-LightItalic.otf);
+}
+
+@font-face {
+    font-family: Fira Sans;
+    font-weight: bold;
+    src: url(FiraSans-Bold.otf);
+}
+
+@page {
+    margin: 5cm;
+    @top-left {
+        background: #fbc847;
+        content: counter(page);
+        height: 1cm;
+        text-align: center;
+        width: 1cm;
+    }
+    @top-center {
+        background: #fbc847;
+        content: '';
+        display: block;
+        height: .05cm;
+        opacity: .5;
+        width: 100%;
+    }
+    @top-right {
+        content: string(heading);
+        font-size: 9pt;
+        height: 1cm;
+        vertical-align: middle;
+        width: 100%;
+    }
+}
+
+
+
+@page mychapter {
+    /* background: #fbc847; */
+    margin: 0.5cm;
+
+    @top-left {
+        content: none;
+    }
+    @top-center {
+        content: none;
+    }
+    @top-right {
+        content: none;
+    }
+
+} 
+
+
+html {
+    color: #000000 ;
+    /* font-family: Fira Sans; */
+    font-family: DFKai-sb;
+
+    font-size: 11pt;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+
+
+table,
+td,
+th {
+
+    border: 1px solid black;
+}
+
+.dataCol{
+    font-size: 11pt;
+    padding: 0;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 0.5cm;
+    margin-bottom: 0.5cm; 
+    text-align: center;
+    font-size: 13pt;
+}
+.outer {
+    margin: 0cm;
+    text-align: center;
+
+}
+.title{
+    margin: 0;
+    padding: 0;
+    font-size: 18pt;
+    height: 25px;
+}
+
+/* div.image {
+    width:150px;
+    height:50px;
+    background-image:url(data:image/png;base64,{{img}});
+  } */
+
+  html body .myArticle{
+    /* break-before: right;*/
+    break-after: page; 
+    page:mychapter;
+}
+
+html body h1 {
+    width: 100%;
+
+}
+#footer {
+    position: absolute;
+     bottom: 0;
+     width: 100%;
+     text-align: center;
+    
+}

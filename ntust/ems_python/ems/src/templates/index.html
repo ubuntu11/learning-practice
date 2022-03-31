@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <title>EMS</title>
+
+    <link
+      href="/static/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/popper.min.js"></script>
+    <script
+      type="text/javascript"
+      src="/static/jquery-ui/jquery-ui.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/static/bootstrap/js/bootstrap.min.js"
+    ></script>
+
+    <script type="text/javascript" src="/static/plotly.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/static/js/SLD.js"></script>
+    <script type="text/javascript" src="/static/svg-pan-zoom.js"></script>
+    <script type="text/javascript" src="/static/hammer.js"></script>
+    <link href="/static/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="/static/fontawesome/css/all.css" rel="stylesheet" />
+    <link href="/static/bootstrap/css/animate.min.css" rel="stylesheet" />
+    <link href="/static/loaders/loaders.min.css" rel="stylesheet" />
+    <style>
+      #Box1 > svg,
+      #Box2 > svg{
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+      }
+      #Box1 > svg div,
+      #Box2 > svg div {
+        vertical-align: middle;
+      }
+      #sysCurve {
+        background: #FFFFFF;
+        margin-top: 30px;
+        /* width: 100%; */
+        /* height: 100%; */
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      $(function () {
+        //------------------------------------------------
+        // 導入SVG
+        searchList = []
+        count = 0
+        loadSVG("Box1", "layout");
+        loadSVG("Box2", "layout2");
+        //---------------------------------------------------------------------------
+        const timer = setInterval(function () {
+          if(count==2){
+            getSVGIDList().then(() => {
+              getSearchListData(1)
+            })
+            clearInterval(timer);
+          }
+        }, 100)
+        setInterval(function () {
+          getSearchListData()
+        }, 2000)
+        //------------------------------------------------
+        c_chooseday("datepicker1");
+        c_chooseday("datepicker2");
+        $(".calendar").on("click", calendarsetdate);
+        $(".calendarleft").on("click", calendardateleft);
+        $(".calendarright").on("click", calendardateright);
+        $(".calendarleft2").on("click", calendardateleft2);
+        $(".calendarright2").on("click", calendardateright2);
+        //---------------------------------------------------
+        function sys_curve(id, update = false, starttime=undefined, endtime=undefined){
+          if (starttime===undefined)
+            var starttime = $(`#${id}`).attr("time")
+          $.getJSON(
+            $SCRIPT_ROOT + "/sys_data_list",
+            {starttime: starttime, endtime: endtime},
+            function (data) {
+              // console.log("sys_curve............................................................", data.x_axis)
+              // console.log(data.y_axis)
+              if(data.x_axis.length!=0){
+                if (data.y_axis.length>3)
+                  var names =  ["有效功率","執行率","頻率", data.y_axis[data.y_axis.length-6][0],data.y_axis[data.y_axis.length-5][0],data.y_axis[data.y_axis.length-4][0],data.y_axis[data.y_axis.length-3][0],data.y_axis[data.y_axis.length-2][0],data.y_axis[data.y_axis.length-1][0]]
+                else
+                  var names =  ["有效功率","執行率","頻率"]
+                $(`#${id}`).attr("time", data.x_axis[data.x_axis.length-1])
+                for (var i in data.y_axis) {
+                  if (data.y_axis[i].length===1){
+                    if(endtime===undefined)
+                      data.y_axis[i] = fillArray(data.y_axis[i][0], data.y_axis[0].length)
+                    else
+                      data.y_axis[i] = fillArray(data.y_axis[i][0], 2)
+                  }
+                }
+                plot_sys_curve(
+                  id,
+                  data.x_axis,
+                  data.y_axis,
+                  "系統曲線圖",
+                  names,
+                  type = "scatter",
+                  ["P(MW)", "f(Hz)"],
+                  update = update,
+                  pf = false
+                )
+                if(id === "history_plot")
+                  $("#history_loading").addClass("d-none").removeClass("d-flex");
+              }
+            }
+          )
+        }
+        // 歷史查詢初始化及查詢
+        plotType = "scatter"
+        function history_search() {
+          if((new Date($("#datepicker2").val() + " 00:00:00")-new Date($("#datepicker1").val() + " 00:00:00"))>86400000*2){
+            alert("時間範圍過大！！！(<=3天)")
+            return
+          }
+          Plotly.purge("history_plot");
+          $("#history_loading").addClass("d-flex").removeClass("d-none");
+          $("#history_info").empty();
+          if (history_search_first == true) {
+            $("#date_range").empty();
+            if (plotType === "scatter") {
+              $("#date_range").append(
+                $("<option value=0>" + "即時" + "</option>")
+              );
+              $("#date_range").val(0);
+            } else if (plotType === "bar") {
+              $("#date_range").append(
+                $("<option value=1>" + "時" + "</option>"),
+                $("<option value=2>" + "天" + "</option>"),
+                $("<option value=3>" + "月" + "</option>")
+              );
+            }
+            history_search_first = false;
+          }
+          sys_curve("history_plot", false, $("#datepicker1").val() + " 00:00:00", $("#datepicker2").val() + " 00:00:00");
+        }
+        $(".history_search").on("click", history_search);
+        // 歷史彈跳視窗初始化
+        function historyModalset() {
+          history_search_first = true;
+          c_chooseday("datepicker1");
+          c_chooseday("datepicker2");
+          history_search();
+          $("#historyModal").modal({});
+        }
+        $(".historyCurve").on("click", function () {
+          // datatype = $(this).attr("data-value");
+          // datacollection = "mbms";
+          historyModalset();
+        });
+        //---------------------------------------------------
+        $("#downloadexcel_a").on("click", oneline_download);
+        protection_get()
+        alarm_get_show1_level1_checktimeNull()
+        alarm_get_show1_level2_checktimeNull()
+        sys_curve("sysCurve")
+        updateStatus("/equipment_status_list",$('g[data-status]'), 'data-eid', $('g[data-status]').find('ellipse'), 'fill');
+        setInterval(() => {
+          protection_get()
+          alarm_get_show1_level1_checktimeNull()
+          alarm_get_show1_level2_checktimeNull()
+          sys_curve("sysCurve", true);
+          updateStatus("/equipment_status_list",$('g[data-status]'), 'data-eid', $('g[data-status]').find('ellipse'), 'fill');
+          updateStatus("/pcs_status_list",$('g[data-pc_status]'), 'data-eid', $('g[data-pc_status]').find('rect'), 'fill');
+        }, 2000);
+        //---------------------------------------------------
+      });
+    </script>
+    {% extends 'navbar.html' %} {% block content %}
+
+    <div class="container-fluid p-0 mt-5">
+      <div class="row mt-2 mx-2">
+        <div id="Box1" class="col-12 col-xl-8"></div>
+        <div class="col-12 col-xl-4">
+          <div class="p-0 m-0 h-100">
+            <div id="Box2" class="w-100 p-2 mx-auto mb-1">2</div>
+            <div style="margin-top: 30px;">
+              <button class="buttonType1 historyCurve" style="background-color: #fff2cc">
+                歷史曲線
+              </button>
+            </div>
+            <div id="sysCurve" class="d-flex justify-content-center"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 歷史彈跳視窗 -->
+    <div
+      class="modal fade-scale"
+      id="historyModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="historyModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl animated">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="background-color: rgb(247, 247, 247)"
+          >
+            <div class="dateselect noWhite">
+              <div class="datepickerBox d-flex align-items-center">
+                <div class="p-1">
+                  起始:&nbsp
+                  <i
+                    class="far fa-calendar-alt calendar"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; vertical-align: sub"
+                  ></i>
+                  <input
+                    type="text"
+                    readonly
+                    id="datepicker1"
+                    class="datepicker"
+                    placeholder="Start_date"
+                    name="datepicker1"
+                  />
+                  <i
+                    class="far fa-caret-square-left calendarleft2"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="fas fa-caret-square-left calendarleft"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="fas fa-caret-square-right calendarright"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="far fa-caret-square-right calendarright2"
+                    data-value="#datepicker1"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                </div>
+                <div class="p-1">
+                  結束:&nbsp
+                  <i
+                    class="far fa-calendar-alt calendar"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; vertical-align: sub"
+                  ></i>
+                  <input
+                    type="text"
+                    readonly
+                    id="datepicker2"
+                    class="datepicker"
+                    placeholder="End_date"
+                    name="datepicker2"
+                  />
+                  <i
+                    class="far fa-caret-square-left calendarleft2"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="fas fa-caret-square-left calendarleft"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="fas fa-caret-square-right calendarright"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  <i
+                    class="far fa-caret-square-right calendarright2"
+                    data-value="#datepicker2"
+                    style="font-size: 2em; cursor: pointer; vertical-align: sub"
+                  ></i>
+                  &nbsp
+                  <!-- <button type="button" id="search" class="btn btn-danger">查詢</button> -->
+                </div>
+                <div class="p-1">
+                  <select id="date_range">
+                    <option>日</option>
+                    <option>月</option>
+                    <option>年</option>
+                  </select>
+                </div>
+                <div class="p-1">
+                  <button class="btn btn-primary history_search">
+                    <i class="fas fa-search" style="font-size: 1.3rem"></i> 查詢
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="ml-auto">
+              <a id="downloadexcel_a">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="downloadexcel"
+                >
+                  CSV
+                </button>
+              </a>
+            </div>
+            <button type="button" class="mx-3" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="history_plot" class="d-flex justify-content-center"></div>
+            <div
+              id="history_loading"
+              class="loader d-flex justify-content-center"
+            >
+              <div class="loader-inner ball-grid-pulse">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <span class="mt-3"> <p>載入中...</p></span>
+            </div>
+            <table id="history_info" class="table01"></table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              data-dismiss="modal"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,15 @@
+[
+    {"ID":"6055e92d7445a0a1cb1bb41e","name":"高壓側電表","place":"VCB盤","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb41f","name":"低壓側電表","place":"ACB盤","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb420","name":"輔助電源電表","place":"ACB盤","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb421","name":"PCS","place":"戶外","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb423","name":"SBMS","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb425","name":"門禁","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb426","name":"UPS1","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb427","name":"UPS2","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb428","name":"環境數據","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb429","name":"RIO1","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb42a","name":"RIO2","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb42b","name":"RIO3","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0},
+    {"ID":"6055e92d7445a0a1cb1bb42c","name":"空調","place":"20呎電池貨櫃","limit":10,"level":1,"status":[0, 0],"count":0}
+]

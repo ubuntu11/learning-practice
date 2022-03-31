@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- <link href="report.css" rel="stylesheet"> -->
+    <!-- <link rel=stylesheet type=text/css href="./css/reportTemplate.css"> -->
+
+
+    <title>Report</title>
+    <meta name="description" content="Report example">
+</head>
+
+<body>
+
+
+
+    <article class="myArticle">
+        <div class="outer">
+            <div class="title">股份有限公司</div>
+            <div id="title" class="title">6月份報表</div>
+
+            <table>
+                <thead></thead>
+                <tbody>
+
+
+
+                    <tr class="item_title">
+                        <td colspan="4">案件 : 儲能專案</td>
+                        <td colspan="4">承攬商 : 股份有限公司</td>
+                    </tr>
+                    <tr class="item_title">
+                        <td colspan="4">容量 : ---MW/---MWH</td>
+                        <td colspan="4" id="genDate">產出日期 : 2021年7月15日</td>
+                    </tr>
+
+
+
+
+
+                    <tr class="item_title">
+                        <td style='width:60px'>日期<br>月份 </td>
+                        <td style='width:60px'>平均<br>執行率(%)</td>
+                        <td style='width:100px'>輔助電源<br>耗電量(kWh)</td>
+                        <td style='width:100px'>輔助電源<br>損耗率(％)</td>
+
+                        <td style='width:105px'>高壓側<br>輸出電能(kWh) </td>
+                        <td style='width:105px'>高壓側<br>輸入電能(kWh) </td>
+                        <td style='width:105px'>高壓側<br>損失電能(kWh)</td>
+                        <td style='width:60px'>RTE(％)</td>
+
+                    </tr>
+
+
+                    <tr class="item_title">
+                        <td>本期電池<br>健康度</td>
+                        <td>本期平均<br>執行率(%)</td>
+                        <td>本期輔助電源<br>耗電量(kWh)</td>
+                        <td>本期輔助電源<br>損耗率(％)</td>
+
+                        <td>本期高壓側<br>輸出電能(kWh)</td>
+                        <td>本期高壓側<br>輸入電能(kWh)</td>
+                        <td>本期高壓側<br>損失電能(kWh)</td>
+                        <td>本期<br>RTE(％)</td>
+
+                    </tr>
+                    <tr>
+
+                        <td><span class="short" id="soh_sys"></span></td>
+                        <td><span class="short" id="SPM"></span></td>
+
+                        <td><span class="long" id="a_tot_kwh"></span></td>
+
+                        <td><span class="short" id="apm_loss"></span></td>
+
+                        <td><span class="long" id="h_imp_kwh"></span></td>
+                        <td><span class="long" id="h_imp_kwh"></span></td>
+                        <td><span class="long" id="h_net_kwh"></span></td>
+                        <td><span class="short" id="battery_loss"></span></td>
+
+                    </tr>
+
+
+
+
+
+
+                </tbody>
+            </table>
+
+
+        </div>
+        <div id="footer">股份有限公司</div>
+
+    </article>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+eclipse.preferences.version=1
+org.eclipse.cdt.codan.checkers.errnoreturn=Warning
+org.eclipse.cdt.codan.checkers.errnoreturn.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u6C92\u6709 return\\")",implicit\=>false}
+org.eclipse.cdt.codan.checkers.errreturnvalue=Error
+org.eclipse.cdt.codan.checkers.errreturnvalue.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u672A\u4F7F\u7528\u7684\u50B3\u56DE\u503C\\")"}
+org.eclipse.cdt.codan.checkers.localvarreturn=-Warning
+org.eclipse.cdt.codan.checkers.localvarreturn.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Returning the address of a local variable\\")"}
+org.eclipse.cdt.codan.checkers.nocommentinside=-Error
+org.eclipse.cdt.codan.checkers.nocommentinside.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Nesting comments\\")"}
+org.eclipse.cdt.codan.checkers.nolinecomment=-Error
+org.eclipse.cdt.codan.checkers.nolinecomment.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Line comments\\")"}
+org.eclipse.cdt.codan.checkers.noreturn=Error
+org.eclipse.cdt.codan.checkers.noreturn.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u6C92\u6709\u50B3\u56DE\u503C\\")",implicit\=>false}
+org.eclipse.cdt.codan.internal.checkers.AbstractClassCreation=Error
+org.eclipse.cdt.codan.internal.checkers.AbstractClassCreation.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u4E0D\u80FD\u70BA\u62BD\u8C61\u985E\u5225\u5EFA\u7ACB\u5BE6\u4F8B\\")"}
+org.eclipse.cdt.codan.internal.checkers.AmbiguousProblem=Error
+org.eclipse.cdt.codan.internal.checkers.AmbiguousProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u8A9E\u610F\u4E0D\u660E\u554F\u984C\\")"}
+org.eclipse.cdt.codan.internal.checkers.AssignmentInConditionProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.AssignmentInConditionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u5728\u689D\u4EF6\u5F0F\u4E2D\u6307\u6D3E\\")"}
+org.eclipse.cdt.codan.internal.checkers.AssignmentToItselfProblem=Error
+org.eclipse.cdt.codan.internal.checkers.AssignmentToItselfProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u81EA\u6211\u6307\u6D3E\\")"}
+org.eclipse.cdt.codan.internal.checkers.BlacklistProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.BlacklistProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Function or method is blacklisted\\")",blacklist\=>()}
+org.eclipse.cdt.codan.internal.checkers.CStyleCastProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.CStyleCastProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"C-Style cast instead of C++ cast\\")",checkMacro\=>true}
+org.eclipse.cdt.codan.internal.checkers.CaseBreakProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.CaseBreakProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u5728 case \u7D50\u5C3E\u8655\u6C92\u6709 break\\")",no_break_comment\=>"no break",last_case_param\=>false,empty_case_param\=>false,enable_fallthrough_quickfix_param\=>false}
+org.eclipse.cdt.codan.internal.checkers.CatchByReference=Warning
+org.eclipse.cdt.codan.internal.checkers.CatchByReference.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u5EFA\u8B70\u4EE5\u53C3\u7167\u65B9\u5F0F\u50B3\u5165 catch \u9673\u8FF0\u5F0F\\")",unknown\=>false,exceptions\=>()}
+org.eclipse.cdt.codan.internal.checkers.CircularReferenceProblem=Error
+org.eclipse.cdt.codan.internal.checkers.CircularReferenceProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u5FAA\u74B0\u7E7C\u627F\\")"}
+org.eclipse.cdt.codan.internal.checkers.ClassMembersInitialization=Warning
+org.eclipse.cdt.codan.internal.checkers.ClassMembersInitialization.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u985E\u5225\u6210\u54E1\u61C9\u88AB\u9069\u7576\u521D\u59CB\u5316\\")",skip\=>true}
+org.eclipse.cdt.codan.internal.checkers.CopyrightProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.CopyrightProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Lack of copyright information\\")",regex\=>".*Copyright.*"}
+org.eclipse.cdt.codan.internal.checkers.DecltypeAutoProblem=Error
+org.eclipse.cdt.codan.internal.checkers.DecltypeAutoProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Invalid 'decltype(auto)' specifier\\")"}
+org.eclipse.cdt.codan.internal.checkers.FieldResolutionProblem=Error
+org.eclipse.cdt.codan.internal.checkers.FieldResolutionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6CD5\u89E3\u6790\u6B04\u4F4D\\")"}
+org.eclipse.cdt.codan.internal.checkers.FloatCompareProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.FloatCompareProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Direct float comparison\\")"}
+org.eclipse.cdt.codan.internal.checkers.FunctionResolutionProblem=Error
+org.eclipse.cdt.codan.internal.checkers.FunctionResolutionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6CD5\u89E3\u6790\u51FD\u5F0F\\")"}
+org.eclipse.cdt.codan.internal.checkers.GotoStatementProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.GotoStatementProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Goto statement used\\")"}
+org.eclipse.cdt.codan.internal.checkers.InvalidArguments=Error
+org.eclipse.cdt.codan.internal.checkers.InvalidArguments.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6548\u7684\u5F15\u6578\\")"}
+org.eclipse.cdt.codan.internal.checkers.InvalidTemplateArgumentsProblem=Error
+org.eclipse.cdt.codan.internal.checkers.InvalidTemplateArgumentsProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6548\u7684\u7BC4\u672C\u5F15\u6578\\")"}
+org.eclipse.cdt.codan.internal.checkers.LabelStatementNotFoundProblem=Error
+org.eclipse.cdt.codan.internal.checkers.LabelStatementNotFoundProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u627E\u4E0D\u5230\u6A19\u7C64\u9673\u8FF0\u5F0F\\")"}
+org.eclipse.cdt.codan.internal.checkers.MagicNumberProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.MagicNumberProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Avoid magic numbers\\")",checkArray\=>true,checkOperatorParen\=>true,exceptions\=>(1,0,-1,2,1.0,0.0,-1.0)}
+org.eclipse.cdt.codan.internal.checkers.MemberDeclarationNotFoundProblem=Error
+org.eclipse.cdt.codan.internal.checkers.MemberDeclarationNotFoundProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u627E\u4E0D\u5230\u6210\u54E1\u5BA3\u544A\\")"}
+org.eclipse.cdt.codan.internal.checkers.MethodResolutionProblem=Error
+org.eclipse.cdt.codan.internal.checkers.MethodResolutionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6CD5\u89E3\u6790\u65B9\u6CD5\\")"}
+org.eclipse.cdt.codan.internal.checkers.MissCaseProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.MissCaseProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Missing cases in switch\\")"}
+org.eclipse.cdt.codan.internal.checkers.MissDefaultProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.MissDefaultProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Missing default in switch\\")",defaultWithAllEnums\=>false}
+org.eclipse.cdt.codan.internal.checkers.MissReferenceProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.MissReferenceProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Missing reference return value in assignment operator\\")"}
+org.eclipse.cdt.codan.internal.checkers.MissSelfCheckProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.MissSelfCheckProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Missing self check in assignment operator\\")"}
+org.eclipse.cdt.codan.internal.checkers.MultipleDeclarationsProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.MultipleDeclarationsProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Multiple variable declaration\\")"}
+org.eclipse.cdt.codan.internal.checkers.NamingConventionFunctionChecker=-Info
+org.eclipse.cdt.codan.internal.checkers.NamingConventionFunctionChecker.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u51FD\u5F0F\u7684\u547D\u540D\u6163\u4F8B\\")",pattern\=>"^[a-z]",macro\=>true,exceptions\=>()}
+org.eclipse.cdt.codan.internal.checkers.NoDiscardProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.NoDiscardProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Return value not evaluated\\")",macro\=>true}
+org.eclipse.cdt.codan.internal.checkers.NonVirtualDestructorProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.NonVirtualDestructorProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u985E\u5225\u6709\u865B\u64EC\u65B9\u6CD5\u4EE5\u53CA\u975E\u865B\u64EC\u7684\u89E3\u69CB\u5B50\\")"}
+org.eclipse.cdt.codan.internal.checkers.OverloadProblem=Error
+org.eclipse.cdt.codan.internal.checkers.OverloadProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6548\u7684\u91CD\u8F09\\")"}
+org.eclipse.cdt.codan.internal.checkers.RedeclarationProblem=Error
+org.eclipse.cdt.codan.internal.checkers.RedeclarationProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6548\u7684\u91CD\u8907\u5BA3\u544A\\")"}
+org.eclipse.cdt.codan.internal.checkers.RedefinitionProblem=Error
+org.eclipse.cdt.codan.internal.checkers.RedefinitionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6548\u7684\u91CD\u8907\u5B9A\u7FA9\\")"}
+org.eclipse.cdt.codan.internal.checkers.ReturnStyleProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.ReturnStyleProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u50B3\u56DE\u6642\u4F7F\u7528\u62EC\u865F\\")"}
+org.eclipse.cdt.codan.internal.checkers.ScanfFormatStringSecurityProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.ScanfFormatStringSecurityProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u683C\u5F0F\u5B57\u4E32\u6F0F\u6D1E\\")"}
+org.eclipse.cdt.codan.internal.checkers.ShallowCopyProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.ShallowCopyProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Miss copy constructor or assignment operator\\")",onlynew\=>false}
+org.eclipse.cdt.codan.internal.checkers.StatementHasNoEffectProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.StatementHasNoEffectProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u9673\u8FF0\u5F0F\u6C92\u6709\u4F5C\u7528\\")",macro\=>true,exceptions\=>()}
+org.eclipse.cdt.codan.internal.checkers.StaticVariableInHeaderProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.StaticVariableInHeaderProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Static variable in header file\\")"}
+org.eclipse.cdt.codan.internal.checkers.SuggestedParenthesisProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.SuggestedParenthesisProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u5EFA\u8B70\u4EE5\u62EC\u865F\u62EC\u4F4F\u8868\u793A\u5F0F\\")",paramNot\=>false}
+org.eclipse.cdt.codan.internal.checkers.SuspiciousSemicolonProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.SuspiciousSemicolonProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u53EF\u7591\u5206\u865F\\")",else\=>false,afterelse\=>false}
+org.eclipse.cdt.codan.internal.checkers.SymbolShadowingProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.SymbolShadowingProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Symbol shadowing\\")",paramFuncParameters\=>true}
+org.eclipse.cdt.codan.internal.checkers.TypeResolutionProblem=Error
+org.eclipse.cdt.codan.internal.checkers.TypeResolutionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6CD5\u89E3\u6790\u985E\u578B\\")"}
+org.eclipse.cdt.codan.internal.checkers.UnusedFunctionDeclarationProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.UnusedFunctionDeclarationProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u672A\u4F7F\u7528\u7684\u51FD\u5F0F\u5BA3\u544A\\")",macro\=>true}
+org.eclipse.cdt.codan.internal.checkers.UnusedStaticFunctionProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.UnusedStaticFunctionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u672A\u4F7F\u7528\u7684\u975C\u614B\u51FD\u5F0F\\")",macro\=>true}
+org.eclipse.cdt.codan.internal.checkers.UnusedVariableDeclarationProblem=Warning
+org.eclipse.cdt.codan.internal.checkers.UnusedVariableDeclarationProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u4F5C\u7528\u7BC4\u570D\u70BA\u6A94\u6848\u4E2D\u7684\u672A\u4F7F\u7528\u8B8A\u6578\u5BA3\u544A\\")",macro\=>true,exceptions\=>("@(\#)","$Id")}
+org.eclipse.cdt.codan.internal.checkers.UsingInHeaderProblem=-Warning
+org.eclipse.cdt.codan.internal.checkers.UsingInHeaderProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Using directive in header\\")"}
+org.eclipse.cdt.codan.internal.checkers.VariableResolutionProblem=Error
+org.eclipse.cdt.codan.internal.checkers.VariableResolutionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"\u7121\u6CD5\u89E3\u6790\u7B26\u865F\\")"}
+org.eclipse.cdt.codan.internal.checkers.VirtualMethodCallProblem=-Error
+org.eclipse.cdt.codan.internal.checkers.VirtualMethodCallProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Virtual method call in constructor/destructor\\")"}

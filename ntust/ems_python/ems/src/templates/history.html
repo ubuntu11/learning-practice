@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <title>PV & BESS Monitoring System</title>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/plotly.js"></script>
+    <!-- <link href="/static/css/reset.css" rel="stylesheet" type="text/css" /> -->
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <link href="/static/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/gauge.js"></script>
+    <link href="/static/fontawesome/css/all.css" rel="stylesheet" />
+    <style>
+      .header-tags:hover {
+        /*added by 柯柯0323*/
+        box-shadow: 0px -2px 4px 1px #f5f4f4e1;
+      }
+
+      .wblock {
+        border: 6px solid white;
+        margin-top: 1vh;
+        margin-left: 1.5vw;
+        margin-right: 0;
+        border-radius: 10px;
+        background-color: rgba(6, 115, 224, 0.246);
+      }
+
+      .bblock1_label {
+        color: rgb(56, 75, 110);
+        margin-left: 3%;
+        font-size: 20px;
+      }
+
+      .bblock1 {
+        width: 96%;
+        color: white;
+        margin-left: 2%;
+        background-color: rgb(0, 0, 0);
+        padding-left: 0.7vw;
+        padding-right: 0.7vw;
+        font-weight: bold;
+      }
+
+      .mode_title {
+        background-color: white;
+        padding: 3px;
+      }
+
+      .mode_box {
+        width: 100%;
+        height: 500px;
+        background-color: rgba(225, 241, 243, 0.507);
+      }
+
+      .datepicker {
+        margin: 0px;
+      }
+
+      .search {
+        color: black;
+        background-color: orange;
+        border-radius: 4px;
+        border: none;
+      }
+
+      .search:hover {
+        background-color: rgb(255, 136, 0);
+      }
+
+      .input_data {
+        height: 25px;
+        width: 100px;
+      }
+      .form-check{
+        float: right;
+        bottom: 0.1em;
+        left: 0.2em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      $(function () {
+        var content_list = [];
+        var content = [];   //儲存[col, device_id, prepare_data]
+        var max_choices = 2;
+        var flag = 0;
+        var temp = 0;
+        //----------------------------------------------------------------------
+        c_chooseday("datepicker1")
+        c_chooseday("datepicker2")
+        //----------------------------------------------------------------------
+        var get_history_plot = function (e) {
+          content_list = [];
+          content = [];
+          for (var i = 1; i <= 6; i++) {
+            //search content 1
+            if ($("#collectionname_" + i.toString()).val() != "" && $("#device_id_" + i.toString()).val() != "" && $("#prepare_data_" + i.toString()).val() != "") {
+              // console.log($("#collectionname_"+i.toString()).val())
+              content = [$("#collectionname_" + i.toString()).val(),
+              $("#device_id_" + i.toString()).val(),
+              $("#prepare_data_" + i.toString()).val()];
+              content_list = content_list.concat([content]);
+            }
+            else{
+              content_list.push([]);
+            };
+          };
+          $.getJSON(
+            "/get_history_plot",
+            {
+              datepickerstart: $("#datepicker1").val(),
+              list: JSON.stringify(content_list),
+            },
+            function (data) {
+              $("#history_Plot").empty();
+              var tag = [];
+              for (var i=0;i<=data.y_axis.length;i++){
+                if (data.y_axis[i] != []){
+                  tag.push($("#prepare_data_"+String(i+1)).val())
+                };
+              };  
+              plot_multi_yaxis("history_Plot", data.x_axis, data.y_axis, null,tag,temp)
+              var update = {
+                plot_bgcolor: "rgba(255,255,255,0)",
+                paper_bgcolor: "rgba(255,255,255,0)",
+                margin: {
+                  l: 70,
+                  r: 20,
+                  t: 40,
+                  b: 40,
+                },
+              }
+              Plotly.relayout("history_Plot", update)
+            }
+          )
+          return false
+        }
+        //----------------------------------------------------------------------
+        //--子程式2: 匯出成csv    by睿彬0407 
+        function history_csv_OneDay() {
+          content_list = [];
+          content = [];
+          for (var i = 1; i <= 3; i++) {
+            //search content 1
+            if ($("#collectionname_" + i.toString()).val() != "" && $("#device_id_" + i.toString()).val() != "" && $("#prepare_data_" + i.toString()).val() != "") {
+              // console.log($("#collectionname_"+i.toString()).val())
+              content = [$("#collectionname_" + i.toString()).val(),
+              $("#device_id_" + i.toString()).val(),
+              $("#prepare_data_" + i.toString()).val()];
+              content_list = content_list.concat([content]);
+            }
+          };
+          $.getJSON(
+            "/history_csv_OneDay",
+            {
+              date: $("#datepicker1").val(),
+              list: JSON.stringify(content_list)
+            },
+            function (back) {
+              if (back.result == '0') {
+                alert('輸出Excel檔失敗' + " 原因: " + back.error);
+              }
+            }
+          );
+          // 下載:到與請求相同的url
+          window.location.href =
+            "/history_csv_OneDay?date=" +
+            $("#datepicker1").val() +
+            "&list=" +
+            encodeURIComponent(JSON.stringify(content_list));
+        };
+        $("#search1").on("click", get_history_plot);
+        $("#to_csv").on("click", history_csv_OneDay);    //added by 柯柯0319
+        //----------------------------------------------------------------------
+        //存取checkbox程式
+        $("[name=check_box]").on("change",function(){
+          temp = 0;
+          var items = document.getElementsByName('check_box');
+          for(var index=0;index<items.length;index++){
+            if(items[index].checked){
+              temp = temp + Math.pow(2,index); //用二進制去記憶哪個CHECKBOX被按 000000
+            }
+          }
+        });
+        
+        //---------------------------------------------------
+        protection_get();
+        alarm_get_show1_level1_checktimeNull();
+        alarm_get_show1_level2_checktimeNull();
+        updateStatus("/equipment_status_list", $('.selectDiv'), 'id', $(".commStatus"), 'color');
+        setInterval(() => {
+          protection_get();
+          alarm_get_show1_level1_checktimeNull();
+          alarm_get_show1_level2_checktimeNull();
+          updateStatus("/equipment_status_list", $('.selectDiv'), 'id', $(".commStatus"), 'color');
+        }, 2000);
+        //---------------------------------------------------
+        //----------------------------------------------------------------------
+        // ShowTime()
+        // alarm_count()
+        // status_count()
+        // operate_check()
+        //------------------------加入上一筆查詢的紀錄值--------------------------
+        $("#collectionname_1").val("{{ pre_data['collection_name1'] }}");
+        $("#collectionname_2").val("{{ pre_data['collection_name2'] }}");
+        $("#collectionname_3").val("{{ pre_data['collection_name3'] }}");
+        $("#collectionname_4").val("{{ pre_data['collection_name4'] }}");
+        $("#collectionname_5").val("{{ pre_data['collection_name5'] }}");
+        $("#collectionname_6").val("{{ pre_data['collection_name6'] }}");
+        $("#device_id_1").val("{{ pre_data['device_id1'] }}");
+        $("#device_id_2").val("{{ pre_data['device_id2'] }}");
+        $("#device_id_3").val("{{ pre_data['device_id3'] }}");
+        $("#device_id_4").val("{{ pre_data['device_id4'] }}");
+        $("#device_id_5").val("{{ pre_data['device_id5'] }}");
+        $("#device_id_6").val("{{ pre_data['device_id6'] }}");
+        $("#prepare_data_1").val("{{ pre_data['needed_data1'] }}");
+        $("#prepare_data_2").val("{{ pre_data['needed_data2'] }}");
+        $("#prepare_data_3").val("{{ pre_data['needed_data3'] }}");
+        $("#prepare_data_4").val("{{ pre_data['needed_data4'] }}");
+        $("#prepare_data_5").val("{{ pre_data['needed_data5'] }}");
+        $("#prepare_data_6").val("{{ pre_data['needed_data6'] }}");
+        //----------------------------------------------------------------------
+
+        //--------------------------------------------------------------------------------------
+      })
+      //----------------------------------------------------------------------
+      // var max_choices = 2;
+      // var flag = 0;
+      // function limit_checkbox(checkbox){
+      //   if(checkbox.checked){
+      //     flag++;
+      //     if(flag > max_choices){
+      //       checkbox.checked = false;
+      //       alert("最多只能勾選2個")
+      //       flag--;
+      //     }
+      //   }
+      //   else{
+      //     flag--;
+      //   }
+        
+      // }
+      //----------------------------------------------------------------------
+    </script>
+    {% extends 'navbar.html' %} {% block content %}
+    <div style="min-width: 1500px; overflow-x: hidden">
+      <!--============================header====================================-->
+      
+      <div style="
+            width: 100%;
+            height: 870px;
+            overflow-x: hidden;
+            overflow-y: hidden;
+          ">
+        <div class="wblock row" style="
+              float: left;
+              width: 98%;
+              height: 98%;
+              overflow: auto;
+              padding: 5px;
+              padding-bottom: 10px;
+            ">
+          <div class="col-12">
+            <label class="mode_title">歷史查詢(test)</label>
+            <br>
+            <div id="search_area" style=" display: inline-block;">
+              <div id="search_content_1">
+                <!--  class="float-right" -->
+                Collections Name 1:
+                <input id="collectionname_1" type="text" class="input_data" />
+                欲查詢的裝置 1:
+                <input id="device_id_1" type="text" class="input_data" />
+                欲查詢的資料 1:
+                <input id="prepare_data_1" type="text" class="input_data" />
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="check_box" id="checkbox1" >
+                  <label class="form-check-label" for="checkbox1">
+                    使用為右方副軸
+                  </label>
+                </div>  
+              </div>
+              <div id="search_content_2">
+                Collections Name 2:
+                <input id="collectionname_2" type="text" class="input_data" />
+                欲查詢的裝置 2:
+                <input id="device_id_2" type="text" class="input_data" />
+                欲查詢的資料 2:
+                <input id="prepare_data_2" type="text" class="input_data" />
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="check_box" id="checkbox2" >
+                  <label class="form-check-label" for="checkbox1">
+                    使用為右方副軸
+                  </label>
+                </div> 
+              </div>
+              <div id="search_content_3">
+                Collections Name 3:
+                <input id="collectionname_3" type="text" class="input_data" />
+                欲查詢的裝置 3:
+                <input id="device_id_3" type="text" class="input_data" />
+                欲查詢的資料 3:
+                <input id="prepare_data_3" type="text" class="input_data" />
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="check_box" id="checkbox3" >
+                  <label class="form-check-label" for="checkbox1">
+                    使用為右方副軸
+                  </label>
+                </div> 
+              </div>
+              <div id="search_content_4">
+                Collections Name 4:
+                <input id="collectionname_4" type="text" class="input_data" />
+                欲查詢的裝置 4:
+                <input id="device_id_4" type="text" class="input_data" />
+                欲查詢的資料 4:
+                <input id="prepare_data_4" type="text" class="input_data" />
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="check_box" id="checkbox4" >
+                  <label class="form-check-label" for="checkbox1">
+                    使用為右方副軸
+                  </label>
+                </div> 
+              </div>
+              <div id="search_content_4">
+                Collections Name 5:
+                <input id="collectionname_5" type="text" class="input_data" />
+                欲查詢的裝置 5:
+                <input id="device_id_5" type="text" class="input_data" />
+                欲查詢的資料 5:
+                <input id="prepare_data_5" type="text" class="input_data" />
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="check_box"" id="checkbox5" >
+                  <label class="form-check-label" for="checkbox1">
+                    使用為右方副軸
+                  </label>
+                </div> 
+              </div>
+              <div id="search_content_6">
+                Collections Name 6:
+                <input id="collectionname_6" type="text" class="input_data" />
+                欲查詢的裝置 6:
+                <input id="device_id_6" type="text" class="input_data" />
+                欲查詢的資料 6:
+                <input id="prepare_data_6" type="text" class="input_data" />
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="check_box" id="checkbox6" >
+                  <label class="form-check-label" for="checkbox1">
+                    使用為右方副軸
+                  </label>
+                </div> 
+              </div>
+
+            </div>
+            <div class="float-right" style=" display: inline; position: relative; top: 142px;">
+              起始時間:
+              <input id="datepicker1" class="datepicker" />
+              <button id="search1" class="search">查詢</button>
+              <button id="to_csv" class="search">匯出CSV</button>
+              <!--by 柯柯 0319-->
+            </div>
+            <div id="history_Plot" class="mode_box"></div>
+          </div>
+          <div>
+            
+            請留意字串前後不能空白!!
+            <br>
+            -----------------------------------------------------------------------------------------------------------------
+            <br>
+            查詢電池相關資訊，請依序輸入: <br>
+            Collection Name : "mbms",
+            欲查詢的裝置 : "c1_mbms",
+            欲查詢的資料 : "mbms_v" , "mbms_soc" , "mbms_p", "mbms_v_max", "mbms_v_min", "mbms_temp_max", "mbms_temp_max"
+            <br>
+            -----------------------------------------------------------------------------------------------------------------
+            <br><br>
+            查詢PCS的P(實功)資料，請依序輸入:   <br>
+            Collection Name  : "pcs",         
+            欲查詢的裝置 :    "c1_pcs",      
+            欲查詢的資料 :    "p_sum  "         
+
+             <!-- 查詢PV輸出資料，請依序輸入: <br>
+            Collection Name  :"acm",
+            欲查詢的裝置 : "c1_acm1",
+            欲查詢的資料: "p"  -->
+            <br><br>
+            查詢電表輸出資料，請依序輸入: <br>
+            Collection Name  :"acm",
+            欲查詢的裝置 : "c1_acm3",
+            欲查詢的資料: "f", "p", "v", "ActiveEnergyDelivered" , "ActiveEnergyReceived"
+
+
+
+
+
+
+
+
+
+            <!-- 現在把第三行修改成讀取另一個資料庫 (delta)<br>
+            電池: Collection : mbms,
+            裝置名稱 : c1_mbms,
+            key : mbms_v,mbms_soc, mbms_p
+            <br>
+            <br><br>
+            查看頻率的方法 :
+            宜蘭頻率: Collection: billion_pm9000,
+            裝置名稱 : c1_acm3,
+            欲查詢的資料 : f,vl<br>
+            台科頻率: Collection: acm,
+            裝置名稱 : c1_acm3,
+            欲查詢的資料 : f,vl
+            <br>
+            曲線右上角的標示 會輸入的順序一樣 (由上到下)
+            第一條線 就是第一行輸入的資料  -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+
+</html>
