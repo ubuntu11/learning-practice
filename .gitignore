@@ -46,3 +46,6 @@ vmd-filestore/
 
 # sqlite db file
 *.db
+
+# visual paradigm backup files
+*.bak*

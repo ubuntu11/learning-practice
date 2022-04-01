@@ -1,0 +1,9 @@
+/build/
+vmd-filestore/
+static_model.*
+server
+client
+.project
+.cproject
+.settings/
+*.db

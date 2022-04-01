@@ -1,0 +1,90 @@
+' ------------------------------
+' ER Diagram
+' ------------------------------
+
+' ERD for AFC 61850 Communication
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+'skinparam backgroundColor transparent
+skinparam backgroundColor #F2F2F2
+
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 5
+skinparam titleBorderColor green
+skinparam titleBackgroundColor Gold
+title <size:32>AFC 61850 Communication ER Diagram</size>
+
+entity "Group" as e00 {
+  id : Integer <<generated>>
+  --
+  ' 合格交易者代碼
+  vendorId : Integer
+  ' 報價代碼
+  quotationId : Integer
+  name : String
+  ' 輔助服務商品, AFC=1
+  serviceType : Integer
+}
+
+entity "Resource" as e01 {
+  id : Integer <<generated>>
+  --
+  ' 交易資訊代號
+  resourceId : Integer
+  quotationId : Integer
+  name : String
+  ' 輔助服務商品, AFC=1
+  serviceType : Integer
+}
+
+entity "GroupRealPower" as e02 {
+  id : Integer <<generated>>
+  --
+  ' 報價代碼
+  quotationId : Integer
+  totalWatt : Integer
+  timestamp : Integer
+}
+
+entity "GroupPerformance" as e03 {
+  id : Integer <<generated>>
+  --
+  ' 報價代碼
+  quotationId : Integer
+  ' 執行率
+  executionRate : Integer
+  timestamp : Integer
+}
+
+entity "ResourceMeasurement" as e04 {
+  id : Integer <<generated>>
+  --
+  ' 交易資訊代號
+  resourceId : Integer
+  phvA : Integer
+  phvB : Integer
+  phvC : Integer
+  currentA : Integer
+  currentB : Integer
+  currentC : Integer
+  frequency : Integer
+  totalWatt : Integer
+  totalVar : Integer
+  powerFactor : Integer
+  soc : Integer
+  essState : Integer
+  timestamp : Integer
+}
+
+e00 ||..o{ e01
+e00 ||..o{ e03
+e03 ||..o{ e02
+e01 ||..o{ e04
+
+
+@enduml
