@@ -1,4 +1,4 @@
-/*modbus ­«·s³s½u*/
+/*modbus é‡æ–°é€£ç·š*/
 #include <iostream>
 #include <windows.h>
 #include <string>

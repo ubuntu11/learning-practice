@@ -266,7 +266,7 @@ int main() {
 	mongocxx::client client_local(uri_local);
 	db2_local = client_local["AFC_local"];
 	/*----------------------------------*/
-	/*´ú¸Õ°Ñ¼Æ*/
+	/*æ¸¬è©¦åƒæ•¸*/
 	bool thread_end = false;
 	int thread_count = 0;
 	int pcs_read_error_count = 0;

@@ -1,7 +1,7 @@
 /*
  * dllgc.h
  *
- *  Created on: 2021¦~12¤ë13¤é
+ *  Created on: 2021å¹´12æœˆ13æ—¥
  *      Author: XU
  */
 

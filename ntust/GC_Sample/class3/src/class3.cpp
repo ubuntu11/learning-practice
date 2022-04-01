@@ -1,4 +1,4 @@
-/*µ{¦¡½Õ«×¾¹*/
+/*ç¨‹å¼èª¿åº¦å™¨*/
 #include "timercpp.h"
 #include <windows.h>
 #include <stdio.h>
@@ -25,8 +25,8 @@ void HM_link_thread(bool &thread_end, int &thread_count){
 	thread_end--;
 }
 int main() {
-	std::string test_string = "None";/*(¥~³¡±a¤J)*/
-	bool stopflag = false;/*(¥~³¡±a¤J)*/
+	std::string test_string = "None";/*(å¤–éƒ¨å¸¶å…¥)*/
+	bool stopflag = false;/*(å¤–éƒ¨å¸¶å…¥)*/
 	Timer *t = new Timer();
 	std::string test_string_buffer = test_string;
 	t->test_string = "None";

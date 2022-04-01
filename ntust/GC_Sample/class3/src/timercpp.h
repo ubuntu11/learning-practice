@@ -37,7 +37,7 @@ void Timer::setFixedTime_AFG(T1 control_thread, T2 HM_link_thread) {
 		});
 		while (true) {
 			while (lock_buffer_10ms
-					== int(currentTime.wMilliseconds / 10)) { //¨C10ms¸õ¥X¥h
+					== int(currentTime.wMilliseconds / 10)) { //æ¯10msè·³å‡ºå»
 				if (this->clear) {
 					thread_end = true;
 					std::cout << "AFC_run STOP start" << std::endl;
@@ -52,11 +52,11 @@ void Timer::setFixedTime_AFG(T1 control_thread, T2 HM_link_thread) {
 			lock_buffer_10ms = int(currentTime.wMilliseconds / 10);
 
 			if (lock_buffer_100ms
-					!= int(currentTime.wMilliseconds / 100)) { //´«0.1¬í
+					!= int(currentTime.wMilliseconds / 100)) { //æ›0.1ç§’
 				lock_buffer_100ms = int(
 						currentTime.wMilliseconds / 100);
 
-				if (lock_buffer_1s != int(currentTime.wSecond)) { //¬O§_´«¬í
+				if (lock_buffer_1s != int(currentTime.wSecond)) { //æ˜¯å¦æ›ç§’
 					lock_buffer_1s = int(currentTime.wSecond);
 					next_sec = true;
 				}

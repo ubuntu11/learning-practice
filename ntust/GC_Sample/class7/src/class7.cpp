@@ -109,7 +109,7 @@ void EMS_ReadData_thread(bool &thread_end, int &thread_count, double *emsdata,
 			lock_buffer_1s = int(currentTime_start_new.wSecond);
 			thread_count++;
 			try {
-				mongocxx::options::find opts; /*­­¨î·j´M¼Æ¶q*/
+				mongocxx::options::find opts; /*é™åˆ¶æœå°‹æ•¸é‡*/
 				auto order = bsoncxx::builder::stream::document { } << "time"
 						<< -1 << bsoncxx::builder::stream::finalize;
 				opts.sort(order.view());
@@ -186,8 +186,8 @@ void EMS_ReadData_thread(bool &thread_end, int &thread_count, double *emsdata,
 								//						mongo_data(doc,"PF_p_ref",PF_p_ref);
 								//						mongo_data(doc,"scheduleFlag",scheduleFlag);
 								count++;
-								/*§ó·s±±¨î³W«h*/
-								/*dReg ­pºâ*/
+								/*æ›´æ–°æ§åˆ¶è¦å‰‡*/
+								/*dReg è¨ˆç®—*/
 								FP_soc_adjust = FP_soc_adjust / 100.0;
 								p_arr[0] = p_arr[0] * FP_line_p_base / 100;
 								p_arr[1] = p_arr[1] * FP_line_p_base / 100;
@@ -204,7 +204,7 @@ void EMS_ReadData_thread(bool &thread_end, int &thread_count, double *emsdata,
 										* 1.000;
 								a23 = ((p_arr[2] - (FP_soc_adjust * FP_line_p_base))
 										- p_arr[1]) / (f_arr[2] - f_arr[1]) * 1.000;
-								//						a3 = 0; /*¤¤¶¡­È¦Û¥Ñ½Õ¾ã¬°0µL¶·±×²v*/
+								//						a3 = 0; /*ä¸­é–“å€¼è‡ªç”±èª¿æ•´ç‚º0ç„¡é ˆæ–œç‡*/
 								a41 = (p_arr[4]
 										- (p_arr[3]
 												+ (FP_soc_adjust * FP_line_p_base)))
@@ -227,30 +227,30 @@ void EMS_ReadData_thread(bool &thread_end, int &thread_count, double *emsdata,
 								b42 = p_arr[4] - a42 * f_arr[4] * 1.000;
 								b43 = p_arr[4] - a43 * f_arr[4] * 1.000;
 								b5 = p_arr[5] - a5 * f_arr[5] * 1.000;
-								/*sReg­pºâ*/
+								/*sRegè¨ˆç®—*/
 								a_sReg = (p_arr[3] - p_arr[2])
 										/ (f_arr[3] - f_arr[2]) * 1.000;
 								;
 								b_sReg = p_arr[3] - a_sReg * f_arr[3] * 1.000;
-								/*VQ­pºâ*/
+								/*VQè¨ˆç®—*/
 								a_qAuto = Vq_droop;
 								b_qAuto = Vq_q_base - (Vq_droop * Vq_v_base);
 							} catch (...) {
 								std::cout << "error" << std::endl;
 							}
 							if (count == 0) {
-								/*¨SÅª¨ì*/
+								/*æ²’è®€åˆ°*/
 								ems_count++;
-								/*¦^¶Çui*/
+								/*å›å‚³ui*/
 								for (int x = 0; x < 48; x++) {
 									emsdata[x] = -1;
 								}
 								//
 							} else {
-								/*¦³Åª¨ì¸ê®Æ*/
+								/*æœ‰è®€åˆ°è³‡æ–™*/
 								ems_count = 0;
 								remote_first_run = false;
-								/*¦^¶Çui*/
+								/*å›å‚³ui*/
 								emsdata[0] = mode;
 								//					emsdata[1] = mode;
 								emsdata[2] = soc_max;
@@ -407,7 +407,7 @@ int main() {
 	modbus_set_response_timeout(pcs_read_ctx, 0, 300000);
 	int pcs_read_ret = modbus_connect(pcs_read_ctx);
 	/*----------------------------------*/
-	/*´ú¸Õ°Ñ¼Æ*/
+	/*æ¸¬è©¦åƒæ•¸*/
 	int pcs_read_ret_ = pcs_read_ret;
 	bool thread_end = false;
 	int thread_count = 0;

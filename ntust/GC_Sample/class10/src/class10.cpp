@@ -116,7 +116,7 @@ double Read_upload(auto point, int **modbus_data) {
 				return_data = ((uint32_t) return_data << 16)
 						+ modbus_data[point.order][point.Address + x];
 			}
-		} else if (point.type == "bit") {/*Åã¥Ü¥Î*/
+		} else if (point.type == "bit") {/*é¡¯ç¤ºç”¨*/
 			for (int x = 0; x < point.length; x++) {
 //				std::cout<<modbus_data[point.order][point.Address+x]<<std::endl;
 				return_data = ((uint32_t) return_data << 16)
@@ -196,14 +196,14 @@ void control_thread(bool &function_run, int &thread_count,
 	thread_count++;
 	std::string fc_name = "control_thread";
 	try {
-		if (function_run == false) { /*¬O§_¤w¦³½u§e¶i¤J*/
+		if (function_run == false) { /*æ˜¯å¦å·²æœ‰ç·šå‘ˆé€²å…¥*/
 			function_run = true;
 //			std::cout <<"control_thread runing"<< std::endl;
 			int pcs_write_buffer;
 			/*1*/
-			int xorbit = 65535; /*256ªº2¦¸¤è - 1*/
+			int xorbit = 65535; /*256çš„2æ¬¡æ–¹ - 1*/
 			/*2*//*
-			 int xorbit=4294967295; *//*256ªº4¦¸¤è - 1*/
+			 int xorbit=4294967295; *//*256çš„4æ¬¡æ–¹ - 1*/
 
 			time_t now = time(0);
 			now += 28800;
@@ -252,7 +252,7 @@ void control_thread(bool &function_run, int &thread_count,
 
 //			long usage = memChecker::get_maxMem_kb() ;
 //			std::cout<<usage<<std::endl ;
-			/*modbus Åª¨ú°ªÀ£ªí*/
+			/*modbus è®€å–é«˜å£“è¡¨*/
 //			std::cout << "modbus read HM start" << std::endl;
 			try {
 				if (HM_ret == -1) {
@@ -274,10 +274,10 @@ void control_thread(bool &function_run, int &thread_count,
 							HM_arr, Meter_ION9000.Address, Meter_ION9000.Length,
 							Meter_ION9000.order);
 //					std::cout << HM_time[lock_buffer_100ms] << std::endl;
-					if (HM_read_ok == true) {/*°ªÀ£¿öÅª¨ú¦¨¥\*/
+					if (HM_read_ok == true) {/*é«˜å£“éŒ¶è®€å–æˆåŠŸ*/
 						HM_error_count = 0;
 //						std::cout <<"HM_arr:" << HM_arr[0][0] << std::endl;
-					} else {/*°ªÀ£¿öÅª¥¢±Ñ*/
+					} else {/*é«˜å£“éŒ¶è®€å¤±æ•—*/
 //						std::cout << "modbus HM dont find HM_ret : " << HM_ret
 //								<< " HM_error_count : " << HM_error_count
 //								<< std::endl;
@@ -337,26 +337,26 @@ void control_thread(bool &function_run, int &thread_count,
 					HM_data[40][lock_buffer_100ms] = Read_upload(net_kvah,
 							HM_arr);
 
-				} else if (modbus_link_HM_flag == false) {/*µLªk³s½uµ¥«İ¥t¤@­Ó ½u§e³s½u¦¨¥\*/
+				} else if (modbus_link_HM_flag == false) {/*ç„¡æ³•é€£ç·šç­‰å¾…å¦ä¸€å€‹ ç·šå‘ˆé€£ç·šæˆåŠŸ*/
 //					std::cout << "HM dont link wait" << std::endl;
-					if (HM_ret == 0) {/*³s½u¦¨¥\*/
+					if (HM_ret == 0) {/*é€£ç·šæˆåŠŸ*/
 						modbus_link_HM_flag = true;
 					} else {
 						HM_error_count++;
 					}
 				}
-				if (HM_read_ok == true) {/*°ªÀ£¿öÅª¨ú¦¨¥\*/
+				if (HM_read_ok == true) {/*é«˜å£“éŒ¶è®€å–æˆåŠŸ*/
 					HM_f = Read_upload(f, HM_arr);
 					HM_p = Read_upload(p, HM_arr);
 					HM_v = Read_upload(v, HM_arr);
 					HM_q = Read_upload(q, HM_arr);
 //					std::cout <<"11111111111111111"<< std::endl;
 //					std::cout <<"data HM_read_ok end"<< std::endl;
-					/*¦^¶Çui*/
+					/*å›å‚³ui*/
 					for (int x = 0; x < 41; x++) {
 						HMdata[x] = HM_data[x][lock_buffer_100ms];
 					}
-				} else if (HM_read_ok == false and HM_error_count < 30) {/*°ªÀ£¿öÅª¥¢±Ñ <30*/
+				} else if (HM_read_ok == false and HM_error_count < 30) {/*é«˜å£“éŒ¶è®€å¤±æ•— <30*/
 					int pro_order;
 					if (lock_buffer_100ms == 0) {
 						pro_order = 9;
@@ -371,7 +371,7 @@ void control_thread(bool &function_run, int &thread_count,
 					HM_v = HM_data[12][pro_order];
 					HM_q = HM_data[20][pro_order];
 //					std::cout <<"22222222222222222222222"<< std::endl;
-					/*¦^¶Çui*/
+					/*å›å‚³ui*/
 					for (int x = 0; x < 41; x++) {
 						HMdata[x] = HM_data[x][lock_buffer_100ms];
 					}
@@ -380,7 +380,7 @@ void control_thread(bool &function_run, int &thread_count,
 						HM_data[x][lock_buffer_100ms] = -1;
 					}
 //					std::cout <<"333333333333333"<< std::endl;
-					/*¦^¶Çui*/
+					/*å›å‚³ui*/
 					for (int x = 0; x < 41; x++) {
 						HMdata[x] = -1;
 					}
@@ -398,25 +398,25 @@ void control_thread(bool &function_run, int &thread_count,
 			} catch (...) {
 			}
 
-//			std::cout << "read HM¡@end"<< std::endl;
-			double pcs_out_p_now;/*¦¹¦¸P 0.1s*/
-			double pcs_out_q_now;/*¦¹¦¸Q 0.1s*/
-			if (next_sec == true) { /*´«¬í*/
+//			std::cout << "read HMã€€end"<< std::endl;
+			double pcs_out_p_now;/*æ­¤æ¬¡P 0.1s*/
+			double pcs_out_q_now;/*æ­¤æ¬¡Q 0.1s*/
+			if (next_sec == true) { /*æ›ç§’*/
 
-				/*HM¦³Åª¨ì­È*/
-				/*¨SÅª¨ì­È30¦¸ (¤S¤£¬O²Ä¤@¦¸)*/
+				/*HMæœ‰è®€åˆ°å€¼*/
+				/*æ²’è®€åˆ°å€¼30æ¬¡ (åˆä¸æ˜¯ç¬¬ä¸€æ¬¡)*/
 //				std::cout << "next_sec == true"<< std::endl;
 //				std::cout << "first_run :" << first_run << std::endl;
 //				std::cout << "ems_count :" << ems_count <<" mbms_count :" << mbms_count << std::endl;
 				if ((HM_ret > 0
 						or (HM_ret < 0 and HM_error_count < 30
 								and first_run == false))
-						and (ems_count < 60 and mbms_count < 60)) { /*3¬í¤ºÅª¤£¨ìÁÙ¬O·|¶i*/
+						and (ems_count < 60 and mbms_count < 60)) { /*3ç§’å…§è®€ä¸åˆ°é‚„æ˜¯æœƒé€²*/
 //					std::cout << "read High meter OK"<< std::endl;
 //					std::cout << "HM_f :" << HM_f << " HM_p :" << HM_p
 //							<< " HM_v :" << HM_v << " HM_q :" << HM_q
 //							<< std::endl;
-					/*¼Ò¦¡±±¨î*/
+					/*æ¨¡å¼æ§åˆ¶*/
 //					std::cout << "mode :" << mode << "  FP_type :" << FP_type
 //							<< "  VC_type :" << VC_type << std::endl;
 					if (mode == 0) {
@@ -426,7 +426,7 @@ void control_thread(bool &function_run, int &thread_count,
 						std::cout << "mode dont find" << std::endl;
 					}
 //					std::cout << "pcs_out_p :"<<pcs_out_p<< "  pcs_out_q :"<<pcs_out_q<<"  soc :"<<soc<< std::endl;
-					/*·¥­­­È­pºâ*/
+					/*æ¥µé™å€¼è¨ˆç®—*/
 					if (pcs_out_p > System_p_max) {
 						pcs_out_p = System_p_max;
 					} else if (pcs_out_p < System_p_min) {
@@ -445,7 +445,7 @@ void control_thread(bool &function_run, int &thread_count,
 
 					first_run = false;
 				}
-				/*¨SÅª¨ì­È(EMSµo§iÄµ)(À³¹ïPCS¤U«ü¥O°±¤î)*/
+				/*æ²’è®€åˆ°å€¼(EMSç™¼å‘Šè­¦)(æ‡‰å°PCSä¸‹æŒ‡ä»¤åœæ­¢)*/
 				else {
 //					std::cout << "dont read High meter" << std::endl;
 					pcs_out_p = 0;
@@ -458,7 +458,7 @@ void control_thread(bool &function_run, int &thread_count,
 				pcs_out_p_now = pcs_out_p;
 				pcs_out_q_now = pcs_out_q;
 				next_sec = false;
-			} else { /*¨S´«¬í ­×¥¿Åª¨ú­È©M«e¤@¦¸±±¨î­È®t­È(·l¥¢¸ÉÀv)*/
+			} else { /*æ²’æ›ç§’ ä¿®æ­£è®€å–å€¼å’Œå‰ä¸€æ¬¡æ§åˆ¶å€¼å·®å€¼(æå¤±è£œå„Ÿ)*/
 //				std::cout << "pcs_out_pre_p :" << std::to_string(pcs_out_pre_p)<< std::endl;
 //				std::cout << "pcs_out_p :" << std::to_string(pcs_out_p)<< std::endl;
 //				std::cout << "HM_p :" << std::to_string(HM_p)<< std::endl;
@@ -470,24 +470,24 @@ void control_thread(bool &function_run, int &thread_count,
 					pcs_out_p_now = pcs_out_pre_p;
 					pcs_out_q_now = pcs_out_pre_q;
 				}
-				/*¥ı°µ¥u¦³¤@¥xªº*/
+				/*å…ˆåšåªæœ‰ä¸€å°çš„*/
 			}
-			/*±±¨îPCS¿é¥X*/
+			/*æ§åˆ¶PCSè¼¸å‡º*/
 			if (set_source == "Local"
-					or (set_source == "Remote" and remote_first_run == false)) {/*­nÅª¨ì¤~¯à±±¨î*/
-				/*vvvvvvvvvvvvvvvvv¼È®É¼g¦º¸ê®Ævvvvvvvvvvvvvvvvvvv*/
-				int pcs_start_p = 10; /*P¼g¤J*/
+					or (set_source == "Remote" and remote_first_run == false)) {/*è¦è®€åˆ°æ‰èƒ½æ§åˆ¶*/
+				/*vvvvvvvvvvvvvvvvvæš«æ™‚å¯«æ­»è³‡æ–™vvvvvvvvvvvvvvvvvvv*/
+				int pcs_start_p = 10; /*På¯«å…¥*/
 				int pcs_len_p = 1;
-				int pcs_start_q = 11; /*Q¼g¤J*/
+				int pcs_start_q = 11; /*Qå¯«å…¥*/
 				int pcs_len_q = 1;
 
 				double pcs_scale_p = 10.0;
 				double pcs_scale_q = 10.0;
-				/*^^^^^^^^^^^^^^^^^^^¼È®É¼g¦º¸ê®Æ^^^^^^^^^^^^^^^^^^^*/
+				/*^^^^^^^^^^^^^^^^^^^æš«æ™‚å¯«æ­»è³‡æ–™^^^^^^^^^^^^^^^^^^^*/
 				uint16_t *pcs_write_arr_p = new uint16_t[pcs_len_p];
 				uint16_t *pcs_write_arr_q = new uint16_t[pcs_len_q];
 
-				/*modbus PCS ±±¨î    P(pcs_out_p_now)*/
+				/*modbus PCS æ§åˆ¶    P(pcs_out_p_now)*/
 				pcs_write_buffer = int(pcs_out_p_now * pcs_scale_p);
 				if (pcs_out_p_now >= 0) {
 				} else {
@@ -499,7 +499,7 @@ void control_thread(bool &function_run, int &thread_count,
 				 pcs_write_arr_p[0] = pcs_write_buffer>>16;
 				 pcs_write_arr_p[1] = pcs_write_buffer - ((pcs_write_buffer>>16)<<16);*/
 
-				/*modbus PCS ±±¨î    Q(pcs_out_q_now)*/
+				/*modbus PCS æ§åˆ¶    Q(pcs_out_q_now)*/
 				pcs_write_buffer = int(pcs_out_q_now * pcs_scale_q);
 				if (pcs_out_q_now >= 0) {
 				} else {
@@ -518,20 +518,20 @@ void control_thread(bool &function_run, int &thread_count,
 				if (modbus_write_register(pcs_read_ctx, pcs_start_p,
 						pcs_write_arr_p[0]) == 1) {
 //				if (modbus_write_register(pcs_write_ctx, 10, 100) == 1) {
-					/*p¼g¤J¦¨¥\*/
-					pcs_out_pre_p = pcs_out_p_now;/*¦³¼g¤J¦¨¥\¤~¯à¥Nªí¦³¿é¥X*/
+					/*på¯«å…¥æˆåŠŸ*/
+					pcs_out_pre_p = pcs_out_p_now;/*æœ‰å¯«å…¥æˆåŠŸæ‰èƒ½ä»£è¡¨æœ‰è¼¸å‡º*/
 
 				} else {
-					/*p¼g¤J¥¢±Ñ*/
+					/*på¯«å…¥å¤±æ•—*/
 					pcs_read_ret = -1;
 				}
 //				if (modbus_write_register(pcs_write_ctx, pcs_start_q,
 //						pcs_len_q, pcs_write_arr_q) != -1) {
 				if (modbus_write_register(pcs_read_ctx, pcs_start_q,
 						pcs_write_arr_q[0]) == 1) {
-					/*q¼g¤J¦¨¥\*/
-					pcs_out_pre_q = pcs_out_q_now;/*¦³¼g¤J¦¨¥\¤~¯à¥Nªí¦³¿é¥X*/
-				} else {/*q¼g¤J¥¢±Ñ*/
+					/*qå¯«å…¥æˆåŠŸ*/
+					pcs_out_pre_q = pcs_out_q_now;/*æœ‰å¯«å…¥æˆåŠŸæ‰èƒ½ä»£è¡¨æœ‰è¼¸å‡º*/
+				} else {/*qå¯«å…¥å¤±æ•—*/
 					pcs_read_ret = -1;
 				}
 				delete pcs_write_arr_p;
@@ -927,7 +927,7 @@ void control_thread(bool &function_run, int &thread_count,
 
 			function_run = false;
 //			std::cout << "control_thread end " << std::endl;
-		} else { /*¤w¸g¦³µ{¦¡¦b¹B¦æ(¤W¦¸¶W¹L0.1s)*/
+		} else { /*å·²ç¶“æœ‰ç¨‹å¼åœ¨é‹è¡Œ(ä¸Šæ¬¡è¶…é0.1s)*/
 			std::cout << " control_thread over 0.1s " << std::endl;
 			for (int x = 0; x < 41; x++) {
 				HM_data[x][lock_buffer_100ms] = -1;

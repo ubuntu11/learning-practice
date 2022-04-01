@@ -10,6 +10,9 @@
 # IDE files
 .idea/
 .settings/
+Debug/
+.project/
+.cproject/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

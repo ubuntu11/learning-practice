@@ -82,7 +82,7 @@ int main() {
 	db = client["AFC"];
 
 	/*----------------------------------*/
-	/*代刚把计*/
+	/*娓│鍙冩暩*/
 	int scale_len = 1;
 	std::string scale_name[scale_len] = { "60f8e79f54841d42146b31df" };
 	double scale_data[scale_len];
@@ -92,7 +92,7 @@ int main() {
 	std::string PCS_eid = "61e8f76742259b767d248a17";
 	/*----------------------------------*/
 
-	/*肚*/
+	/*涓婂偝*/
 	time_t now = time(0);
 	now += 28800;
 	std::vector<bsoncxx::document::value> PCS_docs;
@@ -113,8 +113,8 @@ int main() {
 				kvp("pf_grid", 9)
 				));
 	db["pcs_test"].insert_many(PCS_docs);
-	/*穓碝*/
-	mongocxx::options::find opts; /*穓碝计秖*/
+	/*鎼滃皨*/
+	mongocxx::options::find opts; /*闄愬埗鎼滃皨鏁搁噺*/
 	auto order = bsoncxx::builder::stream::document { } << "time"
 			<< -1 << bsoncxx::builder::stream::finalize;
 	opts.sort(order.view());
@@ -140,7 +140,7 @@ int main() {
 		}
 		catch (...) {}
 	}
-	/*穝*/
+	/*鏇存柊*/
 	db["equipment"].update_one(
 		make_document(kvp("_id", bsoncxx::oid(PCS_eid))),
 		make_document(kvp("$set",make_document(kvp("count", 0)))));

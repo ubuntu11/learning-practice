@@ -48,7 +48,7 @@ double Read_upload(auto point, int **modbus_data) {
 				return_data = ((uint32_t) return_data << 16)
 						+ modbus_data[point.order][point.Address + x];
 			}
-		} else if (point.type == "bit") {/*Åã¥Ü¥Î*/
+		} else if (point.type == "bit") {/*é¡¯ç¤ºç”¨*/
 			for (int x = 0; x < point.length; x++) {
 //				std::cout<<modbus_data[point.order][point.Address+x]<<std::endl;
 				return_data = ((uint32_t) return_data << 16)
@@ -152,7 +152,7 @@ void PCS_ReadData_thread(double *pcsdata, std::string set_source, double &pcs_co
 		bool function_run2 = false;
 		if (function_run2 == false) {
 			function_run2 = true;
-			/*modbus Åª¨úPCS¸ê°T*/
+			/*modbus è®€å–PCSè³‡è¨Š*/
 //			std::cout << "modbus read PCS start" << std::endl;
 			time_t now = time(0);
 			now += 28800;
@@ -255,8 +255,8 @@ void PCS_ReadData_thread(double *pcsdata, std::string set_source, double &pcs_co
 					int write_data = ( table_16[0] & (control_bit xor 0b1111111111111111) ) | control_bit;
 //					std::cout << write_data <<std::endl;
 					if (modbus_write_register(pcs_read_ctx, 0 , write_data) != -1) {
-						/*p¼g¤J¦¨¥\*/
-						/*¤W¶Ç±Ò°Ê¸ê°T*/
+						/*på¯«å…¥æˆåŠŸ*/
+						/*ä¸Šå‚³å•Ÿå‹•è³‡è¨Š*/
 //						std::cout << "PCS reset" << std::endl;
 						std::vector<bsoncxx::document::value> status_docs;
 						time_t now = time(0);
@@ -269,7 +269,7 @@ void PCS_ReadData_thread(double *pcsdata, std::string set_source, double &pcs_co
 										kvp("level", 1), kvp("show", 1)));
 						db_local["status"].insert_many(status_docs);
 					} else {
-						/*p¼g¤J¥¢±Ñ*/
+						/*på¯«å…¥å¤±æ•—*/
 //						std::cout << "PCS reset" << std::endl;
 						std::vector<bsoncxx::document::value> status_docs;
 						time_t now = time(0);
@@ -294,11 +294,11 @@ void PCS_ReadData_thread(double *pcsdata, std::string set_source, double &pcs_co
 					int PQ_mode = 1;
 					if ( ((table_16[0] & RdyRef) != RdyRef) or ((table_16[3] & PQ_mode) != PQ_mode)){/*RdyRef_bit == 0 or PQ_mode_bit == 0*/
 					}
-					else{/*¥i±±¨î*/
+					else{/*å¯æ§åˆ¶*/
 					}
 				}
 			}
-			/*¤W¶ÇPCS¸ê°T*/
+			/*ä¸Šå‚³PCSè³‡è¨Š*/
 			int status_pcs_1_arr[16];
 			int status_pcs_2_arr[16];
 			int status_system_arr[16];
@@ -343,7 +343,7 @@ void PCS_ReadData_thread(double *pcsdata, std::string set_source, double &pcs_co
 						pcs_read_error_count++;
 					}
 
-					if (pcs_read_ok == true) {/*PCSÅª¨ú¦¨¥\*/
+					if (pcs_read_ok == true) {/*PCSè®€å–æˆåŠŸ*/
 
 //						std::cout << "pcs_read_arr:" << pcs_read_arr[0]
 //								<< std::endl;
@@ -740,7 +740,7 @@ void PCS_ReadData_thread(double *pcsdata, std::string set_source, double &pcs_co
 				try{
 					db_local["pcs"].insert_many(PCS_docs);
 				}catch(...){}
-				if (pcs_read_ret == 0) {/*³s½u¦¨¥\*/
+				if (pcs_read_ret == 0) {/*é€£ç·šæˆåŠŸ*/
 					modbus_link_pcs_read_flag = true;
 				} else {
 				}

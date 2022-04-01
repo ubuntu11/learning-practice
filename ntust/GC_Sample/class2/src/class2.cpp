@@ -1,4 +1,4 @@
-/*½u§e¶}±Ò*/
+/*ç·šå‘ˆé–‹å•Ÿ*/
 #include <iostream>
 #include <windows.h>
 #include <string>
@@ -9,7 +9,7 @@ void test_thread(bool &thread_end, int &thread_count){
 	int lock_buffer_100ms = int(currentTime.wMilliseconds / 100);
 	std::string fc_name = "control_thread";
 	/*----------------------------------*/
-	/*´ú¸Õ°Ñ¼Æ*/
+	/*æ¸¬è©¦åƒæ•¸*/
 	int count = 0;
 	/*----------------------------------*/
 	while (uint16_t(currentTime.wMilliseconds / 100) != 9) {
@@ -28,20 +28,20 @@ void test_thread(bool &thread_end, int &thread_count){
 		lock_buffer_100ms = int(currentTime.wMilliseconds / 100);
 		if (thread_end == true)
 			return;
-		/*0.1¬í°Ê§@¦ì¸m*/
+		/*0.1ç§’å‹•ä½œä½ç½®*/
 		std::cout << "test_thread 0.1s run :"<< lock_buffer_100ms/10.0 <<std::endl;
 		if (lock_buffer_1s != int(currentTime.wSecond)) {
 			lock_buffer_1s = int(currentTime.wSecond);
 			thread_count++;
 			try {
-				/*1¬í°Ê§@¦ì¸m*/
+				/*1ç§’å‹•ä½œä½ç½®*/
 				std::cout<<"test_thread 1s run :" << lock_buffer_1s <<std::endl;
 			}
 			catch(...){}
 			}
 			thread_count--;
 		/*----------------------------------*/
-		/*´ú¸Õ°Ñ¼Æ*/
+		/*æ¸¬è©¦åƒæ•¸*/
 		count++;
 		if (count > 30){
 			break;
@@ -51,11 +51,11 @@ void test_thread(bool &thread_end, int &thread_count){
 }
 int main() {
 	std::cout<<"main start"<<std::endl;
-	/*½u§e°Ñ¼Æ*/
+	/*ç·šå‘ˆåƒæ•¸*/
 	bool thread_end = false;
 	int thread_count = 0;
 	std::thread *t_test_thread = nullptr;
-	/*¶}±Ò½uµ{*/
+	/*é–‹å•Ÿç·šç¨‹*/
 	t_test_thread = new std::thread(
 		[&]() {
 		test_thread(std::ref(thread_end), std::ref(thread_count));
@@ -65,7 +65,7 @@ int main() {
 		std::cout<<"main run"<<std::endl;
 		Sleep(1000);
 		/*----------------------------------*/
-		/*´ú¸Õ°Ñ¼Æ*/
+		/*æ¸¬è©¦åƒæ•¸*/
 		break;
 		/*----------------------------------*/
 	}
