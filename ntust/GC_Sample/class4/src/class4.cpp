@@ -1,28 +1,59 @@
 /*modbus 重新連線*/
 #include <iostream>
-#include <windows.h>
+#include <ctime>
+#include <math.h>
 #include <string>
 #include <thread>
 #include <modbus/modbus.h>
-SYSTEMTIME currentTime;
+#include <unistd.h>
+
+struct timespec currentTime;
+
+/**
+ * 取得目前系統時間
+ * @return current time as struct timespec
+ */
+void get_current_timestamp(struct timespec *ts) {
+	timespec_get(ts, TIME_UTC);
+}
+
+/**
+ * 從系統時間取得秒數的部份.
+ * @param ts current time as struct timespec
+ * @return seconds in current time
+ */
+int get_seconds(struct timespec ts) {
+	return ts.tv_sec % 60;
+}
+
+/**
+ * 從系統時間取得毫秒的部份.
+ * @param ts current time as struct timespec
+ * @return milliseconds in current time
+ */
+int get_milliseconds(struct timespec ts) {
+	return (ts.tv_sec*1000 + lround(ts.tv_nsec/1e6)) % 1000;
+}
+
 void HM_link_thread(bool &thread_end, int &thread_count, modbus_t *HM_ctx,
 		int &HM_ret, bool &modbus_link_HM_flag, bool &error_flag) {
-	int lock_buffer_1s = int(currentTime.wSecond);
-	int lock_buffer_100ms = int(currentTime.wMilliseconds / 100);
+	int lock_buffer_1s = get_seconds(currentTime);
+	int lock_buffer_100ms = int(get_milliseconds(currentTime) / 100);
 	std::string fc_name = "HM_link_thread";
 	while (true) {
 		while (lock_buffer_100ms
-				== int(currentTime.wMilliseconds / 100)) {
+				== int(get_milliseconds(currentTime) / 100)) {
 			if (thread_end == true)
 				return;
-			GetSystemTime(&currentTime);
-			Sleep(100);
+			get_current_timestamp(&currentTime);
+			//休眠0.1秒
+			usleep(1000 * 100);
 		}
-		lock_buffer_100ms = int(currentTime.wMilliseconds / 100);
+		lock_buffer_100ms = int(get_milliseconds(currentTime) / 100);
 		if (thread_end == true)
 			return;
-		if (lock_buffer_1s != int(currentTime.wSecond)) {
-			lock_buffer_1s = int(currentTime.wSecond);
+		if (lock_buffer_1s != get_seconds(currentTime)) {
+			lock_buffer_1s = get_seconds(currentTime);
 			thread_count++;
 			try {
 				if (modbus_link_HM_flag == false and HM_ret == -1) {
@@ -36,6 +67,7 @@ void HM_link_thread(bool &thread_end, int &thread_count, modbus_t *HM_ctx,
 		}
 	}
 }
+
 int main() {
 	std::string ip="127.0.0.1";
 	int port =502;
