@@ -1,3 +1,10 @@
+/**
+ * class6.cpp, 用程式的方式讀取GC電腦的CPU與記憶體使用情況並保存到Mongodb中.
+ *
+ * 智電提供的是windows版本,參考"How to determine CPU and memory consumption from
+ * inside a process" in stackoverflow, 改為可在Linux上執行.
+ */
+
 #include <iostream>
 #include "stdlib.h"
 #include "stdio.h"
