@@ -5,14 +5,23 @@
 #include <mongocxx/pool.hpp>
 #include <mongocxx/cursor.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
+#include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/builder/basic/array.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types/value.hpp>
+// Eclipse一直顯示kvp這個symble cannot be resolved,但compile仍可以完成
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_array;
 using bsoncxx::builder::basic::make_document;
 using bsoncxx::builder::basic::sub_array;
+
+/**
+ * 將mongodb回傳結果中屬於bson的k_date型態的資料轉為C++的double.
+ * @param doc
+ * @param point_name
+ * @param return_data
+ */
 void mongo_time(auto doc, std::string point_name, double &return_data){
 	try{
 		bsoncxx::document::element bson_data = doc[point_name];
@@ -27,6 +36,13 @@ void mongo_time(auto doc, std::string point_name, double &return_data){
 	}
 	catch(...){}
 }
+
+/**
+ * 將mongodb回傳結果中屬於bson的double或int32型態的資料轉為C++的double.
+ * @param doc
+ * @param point_name
+ * @param return_data
+ */
 void mongo_data(auto doc, std::string point_name ,double &return_data){
 	try{
 		bsoncxx::document::element bson_data = doc[point_name];
@@ -45,6 +61,15 @@ void mongo_data(auto doc, std::string point_name ,double &return_data){
 		return_data=-1;
 	}
 }
+
+/**
+ * 將資料點位的縮放比例(scale)從bson的k_document型態轉成C++的陣列.
+ * @param doc
+ * @param point_name
+ * @param name
+ * @param data
+ * @param scale_len
+ */
 void mongo_dic(auto doc, std::string point_name,
 		std::string *name, double *data, int scale_len){
 	try{
@@ -68,14 +93,14 @@ void mongo_dic(auto doc, std::string point_name,
 		}
 	}
 }
+
 int main() {
-
-
 //	mongocxx::instance instance{};
 	mongocxx::instance::current();
 
 	mongocxx::database db;
-	std::string url_data="mongodb://root:pc152@127.0.0.1:27017/admin?authSource=admin";
+	// std::string url_data="mongodb://root:pc152@127.0.0.1:27017/admin?authSource=admin";
+	std::string url_data="mongodb://127.0.0.1:27017";
 	std::cout<<url_data<<std::endl;
 	mongocxx::uri uri(url_data);
 	mongocxx::client client(uri);

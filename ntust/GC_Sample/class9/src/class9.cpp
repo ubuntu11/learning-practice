@@ -15,6 +15,7 @@ using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_array;
 using bsoncxx::builder::basic::make_document;
 using bsoncxx::builder::basic::sub_array;
+
 double Read_upload(auto point, int **modbus_data) {
 	double return_data = 0;
 	try {
@@ -81,6 +82,7 @@ double Read_upload(auto point, int **modbus_data) {
 	}
 	return return_data;
 }
+
 void Read_upload_bit(auto point, int **modbus_data, int *bin16) {
 	try {
 		if (point.type == "bit") {
@@ -98,6 +100,7 @@ void Read_upload_bit(auto point, int **modbus_data, int *bin16) {
 	} catch (...) {
 	}
 }
+
 void modbus_find(modbus_t *ctx, int *fc, int &ret, bool &read_ok, int **arr,
 		int *read_start, int *read_length, int order) {
 	for (int y = 0; y < order; y++) {
@@ -142,6 +145,7 @@ void modbus_find(modbus_t *ctx, int *fc, int &ret, bool &read_ok, int **arr,
 		}
 	}
 }
+
 void PCS_ReadData_thread(double *pcsdata, std::string set_source, double &pcs_connect_local, double &pcs_reset_local, double &pcs_reset,
 		double &pcs_control, double &control_flag, double &pcs_control_time_local, double &pcs_control_time_remote, double &pcs_control_time, int &pcs_read_error_count,
 		int **pcs_read_arr, std::string pcs_ip, int pcs_port, int pcs_id,

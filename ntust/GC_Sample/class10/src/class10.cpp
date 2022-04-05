@@ -13,15 +13,14 @@
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types/value.hpp>
-
 #include <cmath>
-
 #include <iomanip>
 #include <vector>
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_array;
 using bsoncxx::builder::basic::make_document;
 using bsoncxx::builder::basic::sub_array;
+
 void modbus_find(modbus_t *ctx, int *fc, int &ret, bool &read_ok, int **arr,
 		int *read_start, int *read_length, int order) {
 	for (int y = 0; y < order; y++) {
@@ -66,6 +65,7 @@ void modbus_find(modbus_t *ctx, int *fc, int &ret, bool &read_ok, int **arr,
 		}
 	}
 }
+
 void Smooth_mode(double pv_p_now, double &total_p_per, double Smooth_p_one, double &pcs_p_now){
 	try{
 //		std::cout<<"Smooth_p_one :"<<Smooth_p_one<<std::endl;
@@ -149,6 +149,7 @@ double Read_upload(auto point, int **modbus_data) {
 	}
 	return return_data;
 }
+
 void Read_upload_bit(auto point, int **modbus_data, int *bin16) {
 	try {
 		if (point.type == "bit") {
@@ -166,6 +167,7 @@ void Read_upload_bit(auto point, int **modbus_data, int *bin16) {
 	} catch (...) {
 	}
 }
+
 void control_thread(bool &function_run, int &thread_count,
 		bool remote_first_run, std::string set_source, double pcs_connect_local,
 		double pcs_reset_local,  double pcs_control_time_local, double *HMdata, bool &next_sec,
@@ -959,6 +961,5 @@ void control_thread(bool &function_run, int &thread_count,
 }
 
 int main() {
-
 	return 0;
 }

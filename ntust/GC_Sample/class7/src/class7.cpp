@@ -1,5 +1,10 @@
+/**
+ *  class7.cpp, EMS read thread..
+ *
+ *  Read EMS control (pcs_control) and mbms soc.
+ */
+
 #include <iostream>
-#include <windows.h>
 #include <modbus/modbus.h>
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
@@ -12,11 +17,47 @@
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types/value.hpp>
 #include <thread>
+#include <unistd.h>
+#include <math.h>
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_array;
 using bsoncxx::builder::basic::make_document;
 using bsoncxx::builder::basic::sub_array;
-SYSTEMTIME currentTime_start_new;
+
+struct timespec currentTime;
+
+/**
+ * 取得目前系統時間
+ * @return current time as struct timespec
+ */
+void get_current_timestamp(struct timespec *ts) {
+	timespec_get(ts, TIME_UTC);
+}
+
+/**
+ * 從系統時間取得秒數的部份.
+ * @param ts current time as struct timespec
+ * @return seconds in current time
+ */
+int get_seconds(struct timespec ts) {
+	return ts.tv_sec % 60;
+}
+
+/**
+ * 從系統時間取得毫秒的部份.
+ * @param ts current time as struct timespec
+ * @return milliseconds in current time
+ */
+int get_milliseconds(struct timespec ts) {
+	return (ts.tv_sec*1000 + lround(ts.tv_nsec/1e6)) % 1000;
+}
+
+/**
+ * 將mongodb回傳結果中屬於bson的k_date型態的資料轉為C++的double.
+ * @param doc
+ * @param point_name
+ * @param return_data
+ */
 void mongo_time(auto doc, std::string point_name, double &return_data){
 	try{
 		bsoncxx::document::element bson_data = doc[point_name];
@@ -31,6 +72,13 @@ void mongo_time(auto doc, std::string point_name, double &return_data){
 	}
 	catch(...){}
 }
+
+/**
+ * 將mongodb回傳結果中屬於bson的double或int32型態的資料轉為C++的double.
+ * @param doc
+ * @param point_name
+ * @param return_data
+ */
 void mongo_data(auto doc, std::string point_name ,double &return_data){
 	try{
 		bsoncxx::document::element bson_data = doc[point_name];
@@ -49,6 +97,15 @@ void mongo_data(auto doc, std::string point_name ,double &return_data){
 		return_data=-1;
 	}
 }
+
+/**
+ * 將資料點位的縮放比例(scale)從bson的k_document型態轉成C++的陣列.
+ * @param doc
+ * @param point_name
+ * @param name
+ * @param data
+ * @param scale_len
+ */
 void mongo_dic(auto doc, std::string point_name,
 		std::string *name, double *data, int scale_len){
 	try{
@@ -72,6 +129,7 @@ void mongo_dic(auto doc, std::string point_name,
 		}
 	}
 }
+
 void EMS_ReadData_thread(bool &thread_end, int &thread_count, double *emsdata,
 		double *mbmsdata, bool &remote_first_run, std::string set_source,
 		std::string *scale_name, double *scale_data, int &scale_len, int &mode,
@@ -91,22 +149,25 @@ void EMS_ReadData_thread(bool &thread_end, int &thread_count, double *emsdata,
 		double &pcs_control, double &pcs_control_time_remote,modbus_t *pcs_read_ctx, int pcs_read_ret,
 		std::string MBMS_id, std::string PCS_id, mongocxx::database db,
 		mongocxx::database db_local, bool &error_flag) {
-	int lock_buffer_1s = int(currentTime_start_new.wSecond);
-	int lock_buffer_100ms = int(currentTime_start_new.wMilliseconds / 100);
+	get_current_timestamp(&currentTime);
+	int lock_buffer_1s = get_seconds(currentTime);
+	int lock_buffer_100ms = int(get_milliseconds(currentTime) / 100);
 	std::string fc_name = "EMS_ReadData_thread";
+
 	while (true) {
 		while (lock_buffer_100ms
-				== int(currentTime_start_new.wMilliseconds / 100)) {
+				== int(get_milliseconds(currentTime) / 100)) {
 			if (thread_end == true)
 				return;
-			GetSystemTime(&currentTime_start_new);
-			Sleep(100);
+			get_current_timestamp(&currentTime);
+			// 休眠0.1秒
+			usleep(1000 * 100);
 		}
-		lock_buffer_100ms = int(currentTime_start_new.wMilliseconds / 100);
+		lock_buffer_100ms = int(get_milliseconds(currentTime) / 100);
 		if (thread_end == true)
 			return;
-		if (lock_buffer_1s != int(currentTime_start_new.wSecond)) {
-			lock_buffer_1s = int(currentTime_start_new.wSecond);
+		if (lock_buffer_1s != get_seconds(currentTime)) {
+			lock_buffer_1s = get_seconds(currentTime);
 			thread_count++;
 			try {
 				mongocxx::options::find opts; /*限制搜尋數量*/
@@ -376,6 +437,7 @@ void EMS_ReadData_thread(bool &thread_end, int &thread_count, double *emsdata,
 		}
 	}
 }
+
 int main() {
 	std::thread *t_EMS_ReadData_thread = nullptr;
 
@@ -497,7 +559,8 @@ int main() {
 					PCS_eid, db4, db4_local, std::ref(error_flag4));
 		});
 	while (true){
-		Sleep(1000);
+		// 休眠1秒
+		usleep(1000 * 1000);
 	}
 	t_EMS_ReadData_thread->join();
 	delete t_EMS_ReadData_thread;
