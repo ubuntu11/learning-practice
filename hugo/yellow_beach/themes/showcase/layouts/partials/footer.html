@@ -26,7 +26,7 @@
         </svg>
       </a>
       {{ end }} {{ if .Site.Social.twitter }}
-      <a class="ml-3 text-gray-500" href="{{ .Site.Social.twitter }}">
+      <a class="ml-3 text-gray-500" onclick="getIn();">
         <svg
           fill="currentColor"
           stroke-linecap="round"
@@ -42,7 +42,7 @@
       </a>
       {{ end }} {{ if .Site.Social.instagram }}
       <!-- <a class="ml-3 text-gray-500" href="{{ .Site.Social.instagram }}"> -->
-        <a class="ml-3 text-gray-500" onclick="toggleContent();">
+        <a class="ml-3 text-gray-500" onclick="getOut();">
         <svg
           fill="none"
           stroke="currentColor"

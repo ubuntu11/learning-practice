@@ -120,10 +120,43 @@
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script src="https://kit.fontawesome.com/5e11364dc2.js" crossorigin="anonymous"></script>
   <script src="http://mattstow.com/experiment/responsive-image-maps/jquery.rwdImageMaps.min.js"></script>
+  <script src="https://kit.fontawesome.com/5e11364dc2.js" crossorigin="anonymous"></script>
 
   <script>
+  function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+          }
+      }
+      return "";
+  }
+
+  function showContent() {
+    var x = document.getElementById("content");
+    var y = document.getElementById("cover_img");
+    x.style.display = "block";
+    y.style.display = "none";
+  }
+
+  function getIn() {
+    document.cookie = "get_in=true";
+    showContent();
+  }
+
+  function getOut() {
+    document.cookie = "get_in=false";
+    toggleContent();
+  }
+
   function toggleContent() {
     var x = document.getElementById("content");
     var y = document.getElementById("cover_img");

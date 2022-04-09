@@ -49,3 +49,6 @@ vmd-filestore/
 
 # visual paradigm backup files
 *.bak*
+
+# Mac image 
+.DS_Store
