@@ -1,6 +1,11 @@
+/**
+ * clss8.cpp, modbus讀取.
+ *
+ */
 #include <iostream>
 #include <modbus/modbus.h>
 #include "dllgc.h"
+
 void modbus_find(modbus_t *ctx, int *fc, int &ret, bool &read_ok, int **arr,
 		int *read_start, int *read_length, int order) {
 	for (int y = 0; y < order; y++) {
@@ -45,6 +50,7 @@ void modbus_find(modbus_t *ctx, int *fc, int &ret, bool &read_ok, int **arr,
 		}
 	}
 }
+
 int main() {
 	ModbusData::PCS_delta PCS_delta;
 	ModbusData::PCS_delta::v1_grid v1_grid;

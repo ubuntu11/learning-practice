@@ -1,5 +1,14 @@
+/**
+ * class6.cpp, 用程式的方式讀取GC電腦的CPU與記憶體使用情況並保存到Mongodb中.
+ *
+ * 智電提供的是windows版本,參考"How to determine CPU and memory consumption from
+ * inside a process" in stackoverflow, 改為可在Linux上執行.
+ */
+
 #include <iostream>
-#include <windows.h>
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
 #include <string>
 #include <thread>
 #include <mongocxx/client.hpp>
@@ -12,137 +21,149 @@
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types/value.hpp>
-
 #include <cmath>
 #include <iomanip>
 #include <stdio.h>
-
+#include <unistd.h>
+#include "sys/types.h"
+#include "sys/sysinfo.h"
 
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_array;
 using bsoncxx::builder::basic::make_document;
 using bsoncxx::builder::basic::sub_array;
-SYSTEMTIME currentTime;
-typedef struct CPUPACKED
-{
-	char name[20];
-	unsigned int user;
-	unsigned int nice;
-	unsigned int system;
-	unsigned int idle;
-	unsigned int lowait;
-	unsigned int irq;
-	unsigned int softirq;
-} CPU_OCCUPY;
-double GetTotalPhysicalMemoryUsed() {/*memory GB*/
-	MEMORYSTATUSEX memInfo;
-	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
-	GlobalMemoryStatusEx(&memInfo);
-	double physMemUsed = (((memInfo.ullTotalPhys - memInfo.ullAvailPhys) / 1024
-			/ 1024) * 100) / 1024;
-	double fTemMemUsed = physMemUsed / 100.0;
-	return fTemMemUsed;
+
+static unsigned long long lastTotalUser, lastTotalUserLow, lastTotalSys,
+		lastTotalIdle;
+struct timespec currentTime;
+struct sysinfo memInfo;
+
+/**
+ * 取得目前系統時間
+ * @return current time as struct timespec
+ */
+void get_current_timestamp(struct timespec *ts) {
+	timespec_get(ts, TIME_UTC);
 }
+
+/**
+ * 從系統時間取得秒數的部份.
+ * @param ts current time as struct timespec
+ * @return seconds in current time
+ */
+int get_seconds(struct timespec ts) {
+	return ts.tv_sec % 60;
+}
+
+/**
+ * 從系統時間取得毫秒的部份.
+ * @param ts current time as struct timespec
+ * @return milliseconds in current time
+ */
+int get_milliseconds(struct timespec ts) {
+	return (ts.tv_sec * 1000 + lround(ts.tv_nsec / 1e6)) % 1000;
+}
+
+double GetTotalPhysicalMemoryUsed() {/*memory GB*/
+	long long physMemUsed = memInfo.totalram - memInfo.freeram;
+	//Multiply in next statement to avoid int overflow on right hand side...
+	physMemUsed *= memInfo.mem_unit;
+	return physMemUsed / 1024 / 1024 / 1024;
+}
+
 double GetPhysicalMemoryUsage() {/*memory %*/
-	MEMORYSTATUSEX memInfo;
-	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
-	GlobalMemoryStatusEx(&memInfo);
-	double MemUsage = memInfo.dwMemoryLoad;
+	double MemUsage = (memInfo.totalram - memInfo.freeram)
+			/ (double) memInfo.totalram * 100;
 	return MemUsage;
 }
-__int64 CompareFileTime(FILETIME time1, FILETIME time2) {
-	__int64 a = time1.dwHighDateTime << 32 | time1.dwLowDateTime;
-	__int64 b = time2.dwHighDateTime << 32 | time2.dwLowDateTime;
 
-	return (b - a);
-}
-double getWin_CpuUsage() {
-	HANDLE hEvent;
-	BOOL res;
-	FILETIME preidleTime;
-	FILETIME prekernelTime;
-	FILETIME preuserTime;
-	FILETIME idleTime;
-	FILETIME kernelTime;
-	FILETIME userTime;
+double getCpuUsage() {
+	double percent;
+	FILE *file;
+	unsigned long long totalUser, totalUserLow, totalSys, totalIdle, total;
 
-	res = GetSystemTimes(&idleTime, &kernelTime, &userTime);
-	preidleTime = idleTime;
-	prekernelTime = kernelTime;
-	preuserTime = userTime;
+	file = fopen("/proc/stat", "r");
+	fscanf(file, "cpu %llu %llu %llu %llu", &totalUser, &totalUserLow,
+			&totalSys, &totalIdle);
+	fclose(file);
 
-	hEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
-
-	WaitForSingleObject(hEvent, 300);
-	res = GetSystemTimes(&idleTime, &kernelTime, &userTime);
-
-	__int64 idle = CompareFileTime(preidleTime, idleTime);
-	__int64 kernel = CompareFileTime(prekernelTime, kernelTime);
-	__int64 user = CompareFileTime(preuserTime, userTime);
-
-	__int64 cpu = (kernel + user - idle) * 100 / (kernel + user);
-//	__int64 cpuidle = (idle) * 100 / (kernel + user);
-//	cout << "CPU_user:" << cpu << "%" << " CPU_space:" << cpuidle << "%" << endl;
-	preidleTime = idleTime;
-	prekernelTime = kernelTime;
-	preuserTime = userTime;
-	if (cpu > 100) {
-		cpu = 100;
+	if (totalUser < lastTotalUser || totalUserLow < lastTotalUserLow
+			|| totalSys < lastTotalSys || totalIdle < lastTotalIdle) {
+		//Overflow detection. Just skip this value.
+		percent = -1.0;
+	} else {
+		total = (totalUser - lastTotalUser) + (totalUserLow - lastTotalUserLow)
+				+ (totalSys - lastTotalSys);
+		percent = total;
+		total += (totalIdle - lastTotalIdle);
+		percent /= total;
+		percent *= 100;
 	}
-	if (cpu < 0) {
-		cpu = 0;
-	}
-	return cpu;
+
+	lastTotalUser = totalUser;
+	lastTotalUserLow = totalUserLow;
+	lastTotalSys = totalSys;
+	lastTotalIdle = totalIdle;
+
+	return percent;
 }
+
 void error_thread(bool &thread_end, int &thread_count,
 		int &pcs_read_error_count, int &HM_error_count, std::string HM_eid,
 		std::string PCS_eid, mongocxx::database db, mongocxx::database db_local,
 		bool &error_flag) {
-	int lock_buffer_1s = int(currentTime.wSecond);
-	int lock_buffer_100ms = int(currentTime.wMilliseconds / 100);
+	int lock_buffer_1s = get_seconds(currentTime);
+	int lock_buffer_100ms = int(get_milliseconds(currentTime) / 100);
 	std::string fc_name = "error_thread";
 	bool pcs_error = false;
 	bool HM_error = false;
 	while (true) {
-		while (lock_buffer_100ms
-				== int(currentTime.wMilliseconds / 100)) {
+		while (lock_buffer_100ms == int(get_milliseconds(currentTime) / 100)) {
 			if (thread_end == true)
 				return;
-			GetSystemTime(&currentTime);
-			Sleep(100);
+			get_current_timestamp(&currentTime);
+			// 休眠0.1秒
+			usleep(1000 * 100);
 		}
-		lock_buffer_100ms = int(currentTime.wMilliseconds / 100);
+
+		lock_buffer_100ms = int(get_milliseconds(currentTime) / 100);
 		if (thread_end == true)
 			return;
 
-		if (lock_buffer_1s != int(currentTime.wSecond)) {
-			lock_buffer_1s = int(currentTime.wSecond);
+		if (lock_buffer_1s != get_seconds(currentTime)) {
+			lock_buffer_1s = get_seconds(currentTime);
 			thread_count++;
 			try {
 				if (lock_buffer_1s % 10 == 0 or lock_buffer_1s % 10 == 5) {
-					int iRunTime = GetTickCount();
+					// GetTickCount(): 從作業系統啟動到現在所經過的毫秒數
+					// int iRunTime = GetTickCount();
+					int iRunTime = 32768;
 					time_t nowtime = time(0);
 					nowtime += 28800;
 					time_t DateTime = nowtime - (iRunTime / 1000);
-					CHAR cUserNameBuffer[256];
-					DWORD dwUserNameSize = 256;
-					if (GetUserName(cUserNameBuffer, &dwUserNameSize)) {
-						printf("The user name is %s \n", cUserNameBuffer);
-					} else {
-						printf("Get user name failed with error: %lu \n", GetLastError());
-					}
+					//CHAR cUserNameBuffer[256];
+					//DWORD dwUserNameSize = 256;
+					//if (GetUserName(cUserNameBuffer, &dwUserNameSize)) {
+					//	printf("The user name is %s \n", cUserNameBuffer);
+					//} else {
+					// GetLastError(): a Windows API to 獲取錯誤代碼
+					//	printf("Get user name failed with error: %lu \n", GetLastError());
+					//}
+					sysinfo (&memInfo);
 					double memory_data = GetTotalPhysicalMemoryUsed();
 					double memory_per = GetPhysicalMemoryUsage();
-					double cpu = getWin_CpuUsage();
-					std::cout<<"nowtime :"<<nowtime<<std::endl;
-					std::cout<<"user name :"<<cUserNameBuffer<<std::endl;
-					std::cout<<"memory (GB)"<<memory_data<<std::endl;
-					std::cout<<"memory (%)"<<memory_per<<std::endl;
-					std::cout<<"CPU (%)"<<cpu<<std::endl;
+					double cpu = getCpuUsage();
+					std::cout << "nowtime :" << nowtime << std::endl;
+					// std::cout<<"user name :"<<cUserNameBuffer<<std::endl;
+					std::cout << "user name :" << "Ken Hu" << std::endl;
+					std::cout << "memory (GB)" << memory_data << std::endl;
+					std::cout << "memory (%)" << memory_per << std::endl;
+					std::cout << "CPU (%)" << cpu << std::endl;
 
 					std::vector<bsoncxx::document::value> Status;
 					Status.push_back(
-							make_document(kvp("ID", cUserNameBuffer),
+					// make_document(kvp("ID", cUserNameBuffer),
+							make_document(kvp("ID", "Ken Hu"),
 									kvp("time",
 											bsoncxx::types::b_date {
 													std::chrono::system_clock::from_time_t(
@@ -157,17 +178,18 @@ void error_thread(bool &thread_end, int &thread_count,
 													kvp("total", memory_data),
 													kvp("mem_per",
 															memory_per)))));
-					try{
+					try {
 						db["pc_info"].insert_many(Status);
-					}catch(...){}
+					} catch (...) {
+					}
 				}
 //				std::cout<<"pcs_read_error_count :"<<pcs_read_error_count<<std::endl;
 				if (pcs_read_error_count < 1) {/*1s(1s)*/
-				db["equipment"].update_one(
-						make_document(kvp("_id", bsoncxx::oid(PCS_eid))),
-						make_document(
-								kvp("$set",
-										make_document(kvp("count", 0)))));
+					db["equipment"].update_one(
+							make_document(kvp("_id", bsoncxx::oid(PCS_eid))),
+							make_document(
+									kvp("$set",
+											make_document(kvp("count", 0)))));
 					pcs_error = false;
 				} else {
 					if (pcs_error == false) {
@@ -184,9 +206,10 @@ void error_thread(bool &thread_end, int &thread_count,
 												"PCS meter dont read data"),
 										kvp("group", fc_name), kvp("level", 1),
 										kvp("show", 1)));
-						try{
+						try {
 							db_local["alarm"].insert_many(error_docs);
-						}catch(...){}
+						} catch (...) {
+						}
 						pcs_error = true;
 					}
 				}
@@ -213,9 +236,10 @@ void error_thread(bool &thread_end, int &thread_count,
 										kvp("event", "HV meter dont read data"),
 										kvp("group", fc_name), kvp("level", 1),
 										kvp("show", 1)));
-						try{
+						try {
 							db_local["alarm"].insert_many(error_docs);
-						}catch(...){}
+						} catch (...) {
+						}
 						HM_error = true;
 					}
 				}
@@ -236,9 +260,10 @@ void error_thread(bool &thread_end, int &thread_count,
 									kvp("event", "unknow error " + fc_name),
 									kvp("group", fc_name), kvp("level", 1),
 									kvp("show", 1)));
-					try{
+					try {
 						db_local["alarm"].insert_many(error_docs);
-					}catch(...){}
+					} catch (...) {
+					}
 					error_flag = true;
 				}
 			}
@@ -253,18 +278,21 @@ int main() {
 	mongocxx::instance::current();
 
 	mongocxx::database db2;
-	std::string url_data="mongodb://root:pc152@127.0.0.1:27017/admin?authSource=admin";
-	std::cout<<url_data<<std::endl;
+	std::string url_data =
+			"mongodb://root:pc152@127.0.0.1:27017/admin?authSource=admin";
+	std::cout << url_data << std::endl;
 	mongocxx::uri uri(url_data);
 	mongocxx::client client(uri);
 	db2 = client["AFC"];
 
 	mongocxx::database db2_local;
-	std::string url_data_local="mongodb://root:pc152@127.0.0.1:27017/admin?authSource=admin";
-	std::cout<<url_data_local<<std::endl;
+	std::string url_data_local =
+			"mongodb://root:pc152@127.0.0.1:27017/admin?authSource=admin";
+	std::cout << url_data_local << std::endl;
 	mongocxx::uri uri_local(url_data_local);
 	mongocxx::client client_local(uri_local);
 	db2_local = client_local["AFC_local"];
+
 	/*----------------------------------*/
 	/*測試參數*/
 	bool thread_end = false;
@@ -275,15 +303,18 @@ int main() {
 	std::string PCS_eid = "";
 	bool error_flag2;
 	/*----------------------------------*/
+
+	get_current_timestamp(&currentTime);
 	t_error_thread = new std::thread(
-		[&]() {
-			error_thread(std::ref(thread_end), std::ref(thread_count),
-					std::ref(pcs_read_error_count),
-					std::ref(HM_error_count), HM_eid, PCS_eid, db2,
-					db2_local, std::ref(error_flag2));
-		});
-	while (true){
-		Sleep(1000);
+			[&]() {
+				error_thread(std::ref(thread_end), std::ref(thread_count),
+						std::ref(pcs_read_error_count),
+						std::ref(HM_error_count), HM_eid, PCS_eid, db2,
+						db2_local, std::ref(error_flag2));
+			});
+	while (true) {
+		// 休眠1秒
+		usleep(1000 * 1000);
 	}
 	t_error_thread->join();
 	delete t_error_thread;
