@@ -23,6 +23,7 @@ typedef struct {
 
 // function prototypes
 void createGraph(MyGraph *g);
+void clearGraph(MyGraph *g);
 
 void main_graph() {
 	MyGraph g;
@@ -38,7 +39,7 @@ void main_graph() {
  */
 void createGraph(MyGraph *g) {
 	char startv, endv;
-	int weight;
+	int weight, idx1, idx2;
 
 	for (int i = 0; i < g->verticNumber; i++) {
 		getchar();
@@ -50,7 +51,24 @@ void createGraph(MyGraph *g) {
 		getchar();
 		printf("edge weight between 2 vertics\n");
 		scanf("%c %c %d", &startv, &endv, &weight);
-		// char不能用%s列印: segmentation fault
-		printf("%s\n", startv);
+		// 找出頂點名稱所對應的陣列index
+		for(idx1=0;g->vertics[idx1] != startv; idx1++);
+		for(idx2=0;g->vertics[idx2] != endv; idx2++);
+		g->weights[idx1][idx2] = weight;
+		// 無向圖,矩陣值在對角線兩側為對稱
+		if (g->type ==0) {
+			g->weights[idx2][idx1] = weight;
+		}
+	}
+}
+
+/**
+ * 把圖結構清空,將矩陣上各cell值設為我們選用的Max value.
+ */
+void clearGraph(MyGraph *g) {
+	for (int i=0; i < g->verticNumber; i++) {
+		for (int j=0; j < g->verticNumber; j++) {
+			g->weights[i][j] = MAX_VALUE;
+		}
 	}
 }
