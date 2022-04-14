@@ -31,7 +31,7 @@ login_manger=LoginManager()
 login_manger.session_protection='strong'
 login_manger.init_app(app)
 #-------------------------------------------------------------------------------
-# conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017, 127.0.0.1:27018', replicaset='rs0', serverSelectionTimeoutMS=10) 
+# conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017, 127.0.0.1:27018', replicaset='rs0', serverSelectionTimeoutMS=10)
 conn = pymongo.MongoClient('mongodb://127.0.0.1:27017', serverSelectionTimeoutMS=10)
 #-------------------------------------------------------------------------------
 class User(UserMixin):
@@ -42,7 +42,7 @@ def before_request():
   session.permanent = True
   app.permanent_session_lifetime = datetime.timedelta(minutes=60)
   session.modified = True
-  g.user = current_user 
+  g.user = current_user
 #-------------------------------------------------------------------------------
 #對照是否有此用戶
 def user_list(user_id):
@@ -67,7 +67,7 @@ def unauthorized_handler():
   return render_template('login.html')
 #-------------------------------------------------------------------------------
 def check_user():
-  user_id = current_user.get_id() 
+  user_id = current_user.get_id()
   # db_username
   try:
     user = user_id.split('_')
@@ -103,8 +103,8 @@ def login():
         c.SOE(db,"system","使用者:"+username+' 登入',"system")
         return redirect('/')
   flash('Wrong infornation!!')
-  return render_template('login.html') 
-#-------------------------------------------------------------------------------  
+  return render_template('login.html')
+#-------------------------------------------------------------------------------
 #logout
 @app.route('/logout')
 def logout():
@@ -136,7 +136,7 @@ def getSearchListData():
   searchList = json.loads(request.args.get('searchList', type=str))
   data = {}
   equipData = {}
-  
+
   for search in searchList:
 
     try:
@@ -158,8 +158,8 @@ def getSearchListData():
     else:
       data[search["ID"]] = c.current_data(db,search["col"],search["ID"],search["project"],errortime=60)[0]
     # print(data)
-    
-  
+
+
   data = simplejson.dumps({'data':data, 'equipData':equipData}, ignore_nan=True, default=datetime.datetime.isoformat)
   # return jsonify(data=data,equipData=equipData)
   return data
@@ -224,7 +224,7 @@ def get_control_equipList():
 def get_mbms_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   # data = c.current_data(db,"mbms",ID,errortime=60)[0]
   data = c.current_data(db,"mbms",ID,errortime=60)[0] #test only#
@@ -234,7 +234,7 @@ def get_mbms_data():
 def get_pcs_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"pcs",ID,errortime=60)[0]
   return jsonify(data = data)
@@ -243,7 +243,7 @@ def get_pcs_data():
 def get_ups_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"ups",ID,errortime=60)[0]
   return jsonify(data = data)
@@ -252,7 +252,7 @@ def get_ups_data():
 def get_env_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"env",ID,errortime=60)[0]
   return jsonify(data = data)
@@ -261,7 +261,7 @@ def get_env_data():
 def get_protective_relay_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"protective_relay",ID,errortime=60)[0]
   return jsonify(data = data)
@@ -270,7 +270,7 @@ def get_protective_relay_data():
 def get_rio_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"rio",ID,errortime=60)[0]
   return jsonify(data = data)
@@ -279,7 +279,7 @@ def get_rio_data():
 def get_air_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"air",ID,errortime=60)[0]
   return jsonify(data = data)
@@ -288,7 +288,7 @@ def get_air_data():
 def get_acm_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = {"data":c.current_data(db,"acm",ID,errortime=60)[0]}
   data = simplejson.dumps(data, ignore_nan=True, default=datetime.datetime.isoformat)
@@ -299,7 +299,7 @@ def get_acm_data():
 def get_mbms_control_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"mbms_control",ID)[0]
   return jsonify(data = data)
@@ -308,7 +308,7 @@ def get_mbms_control_data():
 def get_pcs_control_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"pcs_control",ID)[0]
   return jsonify(data = data)
@@ -317,7 +317,7 @@ def get_pcs_control_data():
 def get_air_control_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = request.args.get('ID',type=str)
   data = c.current_data(db,"air_control",ID)[0]
   return jsonify(data = data)
@@ -327,7 +327,7 @@ def history_data_list():
   tStart1 = time.time()
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   history_ID = request.args.get('history_ID', type=str)
   datacollection = request.args.get('datacollection', type=str)
   datatype = request.args.get('datatype', type=str)
@@ -378,7 +378,7 @@ def history_data_list():
   print(np.array(y_axis).shape)
   # print(y_axis)
   #列印結果
-  print("status cost %f sec" % (tEnd1 - tStart1),"SSSSSSSSSSSSSSSSSSSSSs")#會自動做近位  
+  print("status cost %f sec" % (tEnd1 - tStart1),"SSSSSSSSSSSSSSSSSSSSSs")#會自動做近位
   return jsonify(x_axis=x_axis,y_axis=y_axis, name=names)
 #--------------------------------------------------------------------------------------------------
 @app.route('/sys_data_list')
@@ -386,7 +386,7 @@ def sys_data_list():
   tStart1 = time.time()
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   ID = "iec61850"
   datacollection = "iec61850"
   datatype = ["second.7", "executive_rate", "second.6"]
@@ -425,7 +425,7 @@ def sys_data_list():
   tEnd1 = time.time()#計時結束
   #列印結果
   print(len(x_axis))
-  print("status cost %f sec" % (tEnd1 - tStart1),"SSSSSSSSSSSSSSSSSSSSSs")#會自動做近位  
+  print("status cost %f sec" % (tEnd1 - tStart1),"SSSSSSSSSSSSSSSSSSSSSs")#會自動做近位
   return jsonify(x_axis=x_axis,y_axis=y_axis)
 #--------------------------------------------------------------------------------------------------
 #取得site_control mode資料
@@ -433,7 +433,7 @@ def sys_data_list():
 def site_control_mode_data():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   mode_data = c.current_data(db,'site_control','site_control')[0]
   return jsonify(mode_data=mode_data)
 #-------------------------------------------------------------------------------------------------------------------
@@ -442,7 +442,7 @@ def site_control_mode_data():
 def site_control_set_mode():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   mode_data = json.loads(request.args.get('mode_data', type=str))
   print(mode_data)
   mode_data_old = c.current_data(db,'site_control',"site_control")[0]
@@ -669,8 +669,8 @@ def site_control_set_mode():
       elif(mode_data['mode']=='9'):
         mode_data_old['mode'] = 9
         mode_data_old['scheduleFlag'] = 0
-        mode_data_old['Anti_p_limit_new'] = c.tonum(mode_data['Anti_p_limit_new'])    
-        mode_data_old['Power_Reverse_Watt_Limit'] = c.tonum(mode_data['Power_Reverse_Watt_Limit'])    
+        mode_data_old['Anti_p_limit_new'] = c.tonum(mode_data['Anti_p_limit_new'])
+        mode_data_old['Power_Reverse_Watt_Limit'] = c.tonum(mode_data['Power_Reverse_Watt_Limit'])
         mode_data_old['PV_Reverse_Capacity'] = c.tonum(mode_data['PV_Reverse_Capacity'])
         event = "設定系統模式參數(模式:功率逆送模式, PV_Reverse_Capacity:"+mode_data['PV_Reverse_Capacity']+"kW, 逆送實功限制:"+mode_data['Anti_p_limit_new']+"kW, 降載率:"+mode_data['Power_Reverse_Watt_Limit']+"%)"
       elif(mode_data['mode']=='10'):
@@ -737,9 +737,9 @@ def site_control_set_mode():
         mode_data_old['scheduleFlag'] = 1
         event = "設定系統模式參數(模式:排程模式-停止模式-初始化)"
     status = "下達指令成功"
-    db.site_control.insert(mode_data_old)
+    db.site_control.insert_one(mode_data_old)
     c.SOE(db,"site_control",event,"systemMode")
-  
+
   return jsonify(status = status)
 #------------------------------------------------------------------------------------------------------
 # 比例設定 儲存
@@ -747,13 +747,13 @@ def site_control_set_mode():
 def scale_set():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   scale_set = json.loads(request.args.get('scale_set', type=str))
   ID_name_dict = json.loads(request.args.get('ID_name_dict', type=str))
   mode_data_old = c.current_data(db,'site_control',"site_control")[0]
   now = datetime.datetime.now()
   mode_data_old['time'] = now
-  
+
   event = "設定系統模式之每台PCS發電佔比("
   first = 0
   _scale_set = {}
@@ -773,7 +773,7 @@ def scale_set():
   mode_data_old["scale"] = _scale_set
   status = "下達指令成功"
   print(mode_data_old)
-  db.site_control.insert(mode_data_old)
+  db.site_control.insert_one(mode_data_old)
   c.SOE(db,"site_control",event,"systemMode")
   return jsonify(status = status)
 #------------------------------------------------------------------------------------------------------
@@ -782,7 +782,7 @@ def scale_set():
 def ess_set():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   set_data = json.loads(request.args.get('set_data', type=str))
   equipType = request.args.get('equipType', type=str)
   now = datetime.datetime.now()
@@ -816,7 +816,7 @@ def ess_set():
       statusTable = {0:"關閉",1:"開啟"}
       event = "設定PCS控制參數(狀態:"+str(statusTable[set_data['control']])+", 復歸:"+str(set_data['reset'])+")"
       set_data['time'] = now
-      db.pcs_control.insert(set_data)
+      db.pcs_control.insert_one(set_data)
       c.SOE(db,set_data["ID"],event,"equipControl")
       status ="下達指令成功"
   elif(equipType=='mbms'):
@@ -837,16 +837,16 @@ def ess_set():
       statusTable = {0:"關閉",1:"開啟"}
       event = "設定電池控制參數(狀態:"+str(statusTable[set_data['control']])+", 復歸:"+str(set_data['reset'])+")"
       set_data['time'] = now
-      db.mbms_control.insert(set_data)
+      db.mbms_control.insert_one(set_data)
       c.SOE(db,set_data["ID"],event,"equipControl")
       status ="下達指令成功"
   elif(equipType=='air'):
     statusTable = {0:"關閉",1:"開啟"}
     event = "設定空調控制參數(狀態:"+str(statusTable[set_data['control']])+")"
     set_data['time'] = now
-    db.air_control.insert(set_data)
+    db.air_control.insert_one(set_data)
     c.SOE(db,set_data["ID"],event,"equipControl")
-           
+
   return jsonify(status = status)
 #--------------------------------------------------------------------------------------------------
 # 取得排程事件
@@ -854,7 +854,7 @@ def ess_set():
 def get_event_in_schedule():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   right = request.args.get('right',type=str)
   starttime = request.args.get('starttime',type=str)
   endtime = request.args.get('endtime',type=str)
@@ -863,10 +863,10 @@ def get_event_in_schedule():
   starttime = datetime.datetime.strptime(starttime,"%Y-%m-%d %H:%M:%S")
   endtime = datetime.datetime.strptime(endtime,"%Y-%m-%d %H:%M:%S")
   schedule = []
-  modeLabel = {0:"停止模式",1:"1.固定功因模式",2:"2.電壓虛功模式",3:"3.電壓實功模式",4:"4.電壓實虛功模式",5:"5.頻率實功模式",6:"實虛功控制模式",7:"7.穩定實功模式",8:"8.平滑化模式",9:"9.功率逆送模式",10:"10.SOC校正模式" ,11:"AFC模式"}           
+  modeLabel = {0:"停止模式",1:"1.固定功因模式",2:"2.電壓虛功模式",3:"3.電壓實功模式",4:"4.電壓實虛功模式",5:"5.頻率實功模式",6:"實虛功控制模式",7:"7.穩定實功模式",8:"8.平滑化模式",9:"9.功率逆送模式",10:"10.SOC校正模式" ,11:"AFC模式"}
   FP_typeLable = {0:"dReg0.5",1:"dReg0.25",2:"自訂",3:"sReg"}
   search = {}
-    
+
   if right == "EMS" or right == "USER" or right == "TPC":
     search = {'right':right,'start': {'$gte': starttime,'$lt':endtime},'show':1}
   elif right == " ":
@@ -881,11 +881,11 @@ def get_event_in_schedule():
   # for i in db.schedule.find(search,{"start":1,"end":1,"time":1,"mode":1,"eventOrder":1,"right":1,"FP_type":1,"FP_main_f_set":1}):
     i["_id"] = str(i["_id"])
     try:
-      if i["mode"] == 0 and i["eventOrder"] == 0 and i["right"] == "USER":  
+      if i["mode"] == 0 and i["eventOrder"] == 0 and i["right"] == "USER":
         i["title"] = "提出中止待命"
       elif i["mode"] == 0 and i["eventOrder"] == 0 and i["right"] == "EMS":
         i["title"] = "中止待命"
-      elif i["mode"] == 11:  
+      elif i["mode"] == 11:
         i["title"] = modeLabel[i["mode"]]+"("+FP_typeLable[i["FP_type"]]+"-"+str(i["FP_main_f_set"])+")"
       elif i["mode"] == [5,11] and i["right"] == "TPC" and i["eventOrder"] == 2 and "FP_main_f_set" in i :
         i["title"] = "移頻指令("+str(i["FP_main_f_set"])+")"
@@ -908,9 +908,9 @@ def get_event_in_schedule():
 def get_latest_event_in_schedule():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   right = request.args.get('right',type=str)
- 
+
   search = {}
   if right!=" ":
     search = {'right':right,'show':1}
@@ -934,7 +934,7 @@ def get_latest_event_in_schedule():
 def insert_event_in_schedule():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   eventTimeList = request.args.get('eventTimeList',type=str).split(",")
   mode_data = json.loads(request.args.get('mode_data', type=str))
   print(mode_data)
@@ -952,10 +952,10 @@ def insert_event_in_schedule():
       'PQ_p_ref','PQ_q_ref']
   for i in keyList:
     mode_data[i] = c.tonum(mode_data[i])
-  
+
   for i in eventTimeList:
     try:
-      mode_data.pop("_id")  
+      mode_data.pop("_id")
     except:
       pass
     starttime = datetime.datetime.strptime(i,"%Y-%m-%d %H:%M:%S")
@@ -963,7 +963,7 @@ def insert_event_in_schedule():
     endtime = starttime + relativedelta(hours=1)
     mode_data['end'] = endtime
     db.schedule.insert_one(mode_data)
-  
+
   status = "完成"
   return jsonify(status=status)
 #------------------------------------------------------------------------------------------------------
@@ -972,7 +972,7 @@ def insert_event_in_schedule():
 def remove_event_in_schedule():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   eventIDList = request.args.get('eventIDList',type=str).split(",")
   # print(eventIDList)
   now = datetime.datetime.now()
@@ -986,7 +986,7 @@ def remove_event_in_schedule():
 def insert_stopEvent_in_today_schedule():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
 
   now = datetime.datetime.now() + relativedelta(second=0,microsecond=0)
   # starttime = now + relativedelta(hours=1,minutes=30,second=0,microsecond=0)
@@ -1019,15 +1019,15 @@ def insert_stopEvent_in_today_schedule():
     event["start"] = starttime
     event["end"] = endtime
     event["mode"] = 0
-    db.schedule.insert(event)
+    db.schedule.insert_one(event)
     # 提出中止待命至開始中止待命區間
     event["right"] = "USER"
     event["start"] = now
     event["end"] = starttime
     event["command_id"] = str(event.pop("_id"))
-    db.schedule.insert(event)
+    db.schedule.insert_one(event)
     status = "完成"
-    
+
   return jsonify(status=status)
 #------------------------------------------------------------------------------------------------------
 # 停止中止待命排程事件
@@ -1035,7 +1035,7 @@ def insert_stopEvent_in_today_schedule():
 def stop_stopEvent_in_today_schedule():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
 
   eventID = request.args.get('eventID',type=str)
   start = request.args.get('start',type=str)
@@ -1043,7 +1043,7 @@ def stop_stopEvent_in_today_schedule():
 
   now = datetime.datetime.now()
   if(start<now):
-    db.schedule.update({"_id":ObjectId(eventID)},{"$set":{"end":now,"stopFlag":1}})
+    db.schedule.update_one({"_id":ObjectId(eventID)},{"$set":{"end":now,"stopFlag":1}})
     status = "完成"
   else:
     status = "系統暫無法停止中止待命，若要移除此事件，請取消已提出的中止命令"
@@ -1053,7 +1053,7 @@ def stop_stopEvent_in_today_schedule():
 def alarm_get():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   limit = request.args.get('limit',type=int)
   start = request.args.get('start',type=int)
   page = request.args.get('page',type=int)
@@ -1097,12 +1097,12 @@ def alarm_get():
     equip_list += list(db.program.find({}))
     equip_list += [{"_id":None,"ID":"system", "name":"系統", "place":"系統", "show":1, "level":1}]
     equipment_dict = {}
-   
+
     for i in equip_list:
       if 'ID' not in i:
         i['ID'] = str(i['_id'])
       i.pop('_id')
-      equipment_dict[i['ID']] = i  
+      equipment_dict[i['ID']] = i
       for j in show:
         for k in level:
           condiction_list.append({'ID':i['ID'],'show':j,'level':k})
@@ -1141,7 +1141,7 @@ def alarm_get():
         i['index'] = start
         i['equip'] = equipment_dict[i['ID']]['name']
         i['place'] = equipment_dict[i['ID']]['place']
-        data.append(i) 
+        data.append(i)
   return jsonify(data=data, total=total)
 #--------------------------------------------------------------------------------------------------
 #告警確認
@@ -1149,11 +1149,11 @@ def alarm_get():
 def alarm_check():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   event_id = request.args.get('event_id', type=str).split(',')
   now = datetime.datetime.now()
   for i in event_id:
-    db.alarm.update({'_id':ObjectId(i),'checktime':None},{'$set':{'checktime':now}})
+    db.alarm.update_one({'_id':ObjectId(i),'checktime':None},{'$set':{'checktime':now}})
   return jsonify()
 #--------------------------------------------------------------------------------------------------
 #告警歸檔
@@ -1161,10 +1161,10 @@ def alarm_check():
 def alarm_save():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   event_id = request.args.get('event_id', type=str).split(',')
   for i in event_id:
-    db.alarm.update({'_id':ObjectId(i)},{'$set':{'show':2}})
+    db.alarm.update_one({'_id':ObjectId(i)},{'$set':{'show':2}})
   return jsonify()
 #--------------------------------------------------------------------------------------------------
 #告警刪除
@@ -1172,18 +1172,18 @@ def alarm_save():
 def alarm_delete():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   event_id = request.args.get('event_id', type=str).split(',')
   for i in event_id:
-    db.alarm.update({'_id':ObjectId(i)},{'$set':{'show':0}})
+    db.alarm.update_one({'_id':ObjectId(i)},{'$set':{'show':0}})
   return jsonify()
 #--------------------------------------------------------------------------------------------------
 #取得 EMS 伺服器和資料庫狀態
 @app.route('/get_ems_pc_info_data')
 def get_ems_pc_info_data():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   pc_list = ["ems1", "ems2", "gc1", "gc2", "mbms", "dc", "hmi", "sdc"]
   pc_status = {}
   for pc in pc_list:
@@ -1199,26 +1199,26 @@ def get_ems_pc_info_data():
 #取得 program 狀態
 @app.route('/get_program_data')
 def get_program_data():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   data = list(db.program.find({},{"_id":0}))
   return jsonify(data=data)
 #--------------------------------------------------------------------------------------------------
 #取得 program 狀態
 @app.route('/get_equipment_status_data')
 def get_equipment_status_data():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   data = list(db.equipment_status.find({},{"_id":0}))
   return jsonify(data=data)
 #--------------------------------------------------------------------------------------------------
 @app.route('/soe_get')
 def soe_get():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   limit = request.args.get('limit',type=int)
   start = request.args.get('start',type=int)
   page = request.args.get('page',type=int)
@@ -1294,7 +1294,7 @@ def soe_get():
         i['place'] = equip_list[index]['place']
         index = None
       else:
-        index2 = next((index for index,program in enumerate(program_list) if str(program["ID"]) == i['ID']), None) 
+        index2 = next((index for index,program in enumerate(program_list) if str(program["ID"]) == i['ID']), None)
       if(index2 != None):
         i['item'] = program_list[index2]['name']
         i['place'] = program_list[index2]['place']
@@ -1303,7 +1303,7 @@ def soe_get():
 #--------------------------------------------------------------------------------------------------
 @app.route('/protection_get')
 def protection_get():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
     return logout()
   data = c.current_data(db,"sys_control","system")[0]
@@ -1311,7 +1311,7 @@ def protection_get():
 #--------------------------------------------------------------------------------------------------
 @app.route('/equipment_status_list')
 def equipment_status_list():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
     return logout()
   status_ID = json.loads(request.args.get('status_ID', type=str))
@@ -1329,7 +1329,7 @@ def equipment_status_list():
 #--------------------------------------------------------------------------------------------------
 @app.route('/pcs_status_list')
 def pcs_status_list():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
     return logout()
   status_ID = json.loads(request.args.get('status_ID', type=str))
@@ -1354,7 +1354,7 @@ def pcs_status_list():
 def index():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   for user in db.users.find({'username':user[1]}):
     username = user['username']
     level = user['level']
@@ -1365,7 +1365,7 @@ def index():
 def info():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   equipType = request.args.get('equipType',type=str)
   for user in db.users.find({'username':user[1]}):
     username = user['username']
@@ -1377,7 +1377,7 @@ def info():
 def control():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   equipType = request.args.get('equipType',type=str)
   for user in db.users.find({'username':user[1]}):
     username = user['username']
@@ -1389,7 +1389,7 @@ def control():
 def status():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   for user in db.users.find({'username':user[1]}):
     username = user['username']
     level = user['level']
@@ -1400,7 +1400,7 @@ def status():
 def alarm():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   for user in db.users.find({'username':user[1]}):
     username = user['username']
     level = user['level']
@@ -1411,28 +1411,28 @@ def alarm():
 def soe():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   for user in db.users.find({'username':user[1]}):
     username = user['username']
     level = user['level']
   return render_template('SOE.html',username=username,level=level)
 #--------------------------------------------------------------------------------------------------
 #==================================工程頁面撈資料edited by睿彬-=====================================
-@app.route('/get_history_plot') 
+@app.route('/get_history_plot')
 def get_history_plot():
     # db = conn[ 'school' ]
     # db1 = conn['delta']
 
     user,db = check_user()
     if(db == None):
-      return logout() 
+      return logout()
     interval = 1
     y_axis = []
     #-------------------------------接收輸入資料 ----------------------------
     datepickerstart = request.args.get('datepickerstart',type = str)
     starttime = datetime.datetime.strptime(datepickerstart, "%Y-%m-%d")
     content_list = eval( request.args.get('list',type= str) )
-    #-------------------------------傳送預設資料到mongodb-------------------- 
+    #-------------------------------傳送預設資料到mongodb--------------------
     # plot_one_day.save_pre_data(db=db,collection='pre_data',content_list=content_list)
     #-----------------------------------------------------------------------
     x_axis = plot_one_day.x_one_day_line(starttime) # 生成X軸(區間為一天)
@@ -1456,7 +1456,7 @@ def get_history_plot():
 def history_csv_one_day():
     user,db = check_user()
     if(db == None):
-      return logout() 
+      return logout()
     try:
         # db0 = conn[ 'school' ]
         # db1 = conn['delta']
@@ -1475,7 +1475,7 @@ def history_csv_one_day():
             data_list.append(data)
             data_tag.append( content[0] + ' / ' + content[1] + ' / ' + content[2])
         csvList.append(data_tag)
-        for i,time in enumerate(Time): 
+        for i,time in enumerate(Time):
             row = []
             row.append(time)
             for index in range(0,len(data_list)):
@@ -1507,7 +1507,7 @@ def history_csv_one_day():
 # def modeChartbyurl(time):
 #     user,db = check_user()
 #     if(db == None):
-#       return logout() 
+#       return logout()
 #     try:
 #         # db = conn['delta']
 #         x_axis =[]
@@ -1530,9 +1530,9 @@ def history_csv_one_day():
 #             f = t.hourline_one(db,"acm","c1_acm3","f",nexttime,interval=1)
 #             ideal_p =t.hourline_one(db,"afc_ideal","c1_acm3","ideal_p",nexttime,interval=1)
 #             pm =caculate_pm(f,p)
-            
+
 #             pm_avg = avg_pm(pm[0]) #edit by 睿彬 3/23
-            
+
 #         for i in range(x_len):
 #             x_axis.append(datetime.datetime.strftime(starttime,"%H:%M:%S.%f"))
 #             starttime  = starttime + relativedelta(microseconds=1000000)
@@ -1552,8 +1552,8 @@ def history_csv_one_day():
 # def history():
 #   user,db = check_user()
 #   if(db == None):
-#     return logout() 
-#   # db = conn['school'] 
+#     return logout()
+#   # db = conn['school']
 #   collection = db['pre_data']
 #   pre_data = collection.find_one()
 #   for user in db.users.find({'username':user[1]}):
@@ -1570,7 +1570,7 @@ def history_csv_one_day():
 def report():
   user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   for user in db.users.find({'username':user[1]}):
     username = user['username']
     level = user['level']
@@ -1579,9 +1579,9 @@ def report():
   #--------------------------------------------------------------------------------------------------
 @app.route('/report_get')
 def report_get():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   limit = request.args.get('limit',type=int)
   start = request.args.get('start',type=int)
   page = request.args.get('page',type=int)
@@ -1631,9 +1631,9 @@ def report_get():
 @app.route('/downloadReport', methods=['GET'])
 @login_required
 def downloadReport():
-  user,db = check_user()  
+  user,db = check_user()
   if(db == None):
-    return logout() 
+    return logout()
   FileName = request.args.get('FileName',type=str)
 
   file=db.report.find_one({"FileName":FileName})
@@ -1650,5 +1650,5 @@ def downloadReport():
   return  response
 #--------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
-  app.run(host='0.0.0.0',port='8080')
+  app.run(host='0.0.0.0',port='5000')
   # app.run(host='127.0.0.1',port='8080') #test only#

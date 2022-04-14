@@ -12,8 +12,8 @@ from report import genReport
 
 
 conn_self = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017/',serverSelectionTimeoutMS=10)
-conn = pymongo.MongoClient('mongodb://user:pwd@127.0.0.1:27017/',serverSelectionTimeoutMS=10)
-# conn = pymongo.MongoClient('mongodb://user:pwd@192.168.1.2:27017, 192.168.1.3:27017', replicaset='rs0', serverSelectionTimeoutMS=10) 
+conn = pymongo.MongoClient('mongodb://127.0.0.1:27017/',serverSelectionTimeoutMS=10)
+# conn = pymongo.MongoClient('mongodb://user:pwd@192.168.1.2:27017, 192.168.1.3:27017', replicaset='rs0', serverSelectionTimeoutMS=10)
 # conn = pymongo.MongoClient(['192.168.1.2:27017','192.168.1.3:27017'],replicaset='rs0',serverSelectionTimeoutMS=10000)
 
 db = conn['AFC']
@@ -22,9 +22,9 @@ _db = conn_self['admin']
 def live():
     db.wathcdog
 #----------------------------------------------------------------------------------------------------------------------------------------
-# def GetLocalIPByPrefix(prefix='172.16.0.20'):
-def GetLocalIPByPrefix(prefix='192.168.0.100'):
-# def GetLocalIPByPrefix(prefix='127.0.0.1'):
+
+#def GetLocalIPByPrefix(prefix='192.168.0.100'):
+def GetLocalIPByPrefix(prefix='127.0.0.1'):
     r"""
     多网卡情况下，根据前缀获取IP
     测试可用：Windows、Linux，Python 3.6.x，psutil 5.4.x
@@ -37,7 +37,7 @@ def GetLocalIPByPrefix(prefix='192.168.0.100'):
         snicList = dic[adapter]
         for snic in snicList:
             if not snic.family.name.startswith('AF_INET'):
-                continue                
+                continue
             ip = snic.address
             if ip.startswith(prefix):
                 localIP = 1
@@ -56,19 +56,19 @@ def status():
             ID = i["ID"]
             if(i["status"][0]==0 and i["count"]>i["limit"]): # 異常
                 print("異常")
-                event = i["name"]+"異常" 
+                event = i["name"]+"異常"
                 level = i["level"]
-                db.program.update({'_id':i['_id']},{'$set':{'status.0':1}})
-                db.equipment_status.update({'_id':i['_id']},{'$set':{'status.0':1}})
-                db.alarm.insert({'ID':ID,'time':now,'event':event,'level':level,'checktime':None,'returntime':None,"value":None,'show':1})
+                db.program.update_one({'_id':i['_id']},{'$set':{'status.0':1}})
+                db.equipment_status.update_one({'_id':i['_id']},{'$set':{'status.0':1}})
+                db.alarm.insert_one({'ID':ID,'time':now,'event':event,'level':level,'checktime':None,'returntime':None,"value":None,'show':1})
                 c.SOE(db,ID,event,"status")
             elif(i["status"][0]==1 and i["count"]<i["limit"]): #恢復
                 print("恢復")
-                event = i["name"]+"異常" 
-                db.program.update({'_id':i['_id']},{'$set':{'status.0':0}})
-                db.equipment_status.update({'_id':i['_id']},{'$set':{'status.0':0}})
+                event = i["name"]+"異常"
+                db.program.update_one({'_id':i['_id']},{'$set':{'status.0':0}})
+                db.equipment_status.update_one({'_id':i['_id']},{'$set':{'status.0':0}})
                 db.alarm.update_many({'ID':ID,'event':event},{'$set':{'returntime':now}})
-                event = i["name"]+"恢復正常" 
+                event = i["name"]+"恢復正常"
                 c.SOE(db,ID,event,"status")
             else: # 正常
                 pass
@@ -77,12 +77,12 @@ def status():
         #print('---------------------------------')
         tEnd1 = time.time()#計時結束
         #列印結果
-        print("status cost %f sec" % (tEnd1 - tStart1))#會自動做近位     
+        print("status cost %f sec" % (tEnd1 - tStart1))#會自動做近位
     else:
         print("status不在本機執行！！")
 #----------------------------------------------------------------------------------------------------------------------------------------
 def reset():
-    db.program.update({},{'$set':{"status":0,'count':0}},multi=True)
+    db.program.update_one({},{'$set':{"status":0,'count':0}},multi=True)
     return False
 #----------------------------------------------------------------------------------------------------------------------------------------
 def info():
@@ -102,15 +102,15 @@ def info():
     try:
         name = socket.gethostname()
         print(GetLocalIPByPrefix(),'ssssssssssss')
-        db.pc_info.insert({"ID":name,"time":now,'boot_time':boot_time,"cpu":cpu,"memory":{"total":total,"mem_per":memory},"IP":GetLocalIPByPrefix(),"mongoState":mongoState})
+        db.pc_info.insert_one({"ID":name,"time":now,'boot_time':boot_time,"cpu":cpu,"memory":{"total":total,"mem_per":memory},"IP":GetLocalIPByPrefix(),"mongoState":mongoState})
         print('---------------------------------------------------------')
         print('時間：',now)
         print("MongoDB狀態: %s" % mongoState)
         print("172.16.0.20: %s" % GetLocalIPByPrefix())
-        print(u"系统啟動时间: %s" % boot_time.strftime("%Y-%m-%d %H:%M:%S")) 
+        print(u"系统啟動时间: %s" % boot_time.strftime("%Y-%m-%d %H:%M:%S"))
         print(u"cup使用率: %s %%" % cpu)
-        print(u"物理内存： %s G" % total) 
-        print(u"記憶體使用率： %s %%" % int(memory*100)) 
+        print(u"物理内存： %s G" % total)
+        print(u"記憶體使用率： %s %%" % int(memory*100))
         print('---------------------------------------------------------')
     except:
         print('event: info error')
@@ -130,7 +130,7 @@ def accessToSOE():
                     event+=tag["name"]+":"+data[tag["tag"]]
                     if(index!=length-1):
                         event+=", "
-                db.access.update({"_id":data["_id"]},{"$set":{"read":1}})
+                db.access.update_one({"_id":data["_id"]},{"$set":{"read":1}})
                 c.SOE(db,data["ID"],event,"access")
     else:
         print("accessToSOE不在本機執行！！")
@@ -155,10 +155,10 @@ def alarm_detector():
                             try:
                                 alarmData = format(int(data[tag["tag"]]),'016b')
                             except:
-                                alarmData = format(0,'016b')        
+                                alarmData = format(0,'016b')
                             for idx,i in enumerate(alarmData):
                                 _idx = (idx - 15) * -1
-                                if(i=='1'):    
+                                if(i=='1'):
                                     # print(tag["tag"],_idx,i)
                                     sameIndex = next((index for index,bit in enumerate(tag['bits']) if bit["index"] == _idx), None)
                                     if(sameIndex!=None):
@@ -171,7 +171,7 @@ def alarm_detector():
                                             # print(alarm[0])
                                             print(event,"protection:",alarm[0].get("protection",0))
                                             if (db.alarm.find_one({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0}},{})== None):#發生異常
-                                                db.alarm.insert({
+                                                db.alarm.insert_one({
                                                     "ID":equip["ID"],
                                                     "time":now,
                                                     "event":event,
@@ -181,9 +181,9 @@ def alarm_detector():
                                                     "value":None,
                                                     "show":1,
                                                     "count":1
-                                                })  
+                                                })
                                             else: #持續異常
-                                                db.alarm.update({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0},"count":0},{"$set":{"count":1}})   
+                                                db.alarm.update_one({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0},"count":0},{"$set":{"count":1}})
                                                 # print("持續異常")
                     elif(tag["tagType"] == "bitsArray"):
                         if tag["tag"] in data:
@@ -191,10 +191,10 @@ def alarm_detector():
                                 try:
                                     alarmData = format(int(i),'016b')
                                 except:
-                                    alarmData = format(0,'016b')        
+                                    alarmData = format(0,'016b')
                                 for idx,i in enumerate(alarmData):
                                     _idx = (idx - 15) * -1
-                                    if(i=='1'):    
+                                    if(i=='1'):
                                         # print(tag["tag"],_idx,i)
                                         sameIndex = next((index for index,bit in enumerate(tag['bits']) if bit["index"] == _idx), None)
                                         if(sameIndex!=None):
@@ -206,7 +206,7 @@ def alarm_detector():
                                                 protection = max(alarm[0].get("protection",0), protection)
                                                 print(event,"protection:",alarm[0].get("protection",0))
                                                 if (db.alarm.find_one({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0}},{})== None):#發生異常
-                                                    db.alarm.insert({
+                                                    db.alarm.insert_one({
                                                         "ID":equip["ID"],
                                                         "time":now,
                                                         "event":event,
@@ -216,9 +216,9 @@ def alarm_detector():
                                                         "value":None,
                                                         "show":1,
                                                         "count":1
-                                                    })  
+                                                    })
                                                 else: #持續異常
-                                                    db.alarm.update({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0},"count":0},{"$set":{"count":1}})   
+                                                    db.alarm.update_one({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0},"count":0},{"$set":{"count":1}})
                                                     # print("持續異常")
                     elif(tag["tagType"] == "bitsArray2"):
                         if tag["tag"] in data:
@@ -227,17 +227,17 @@ def alarm_detector():
                                     try:
                                         alarmData = format(int(j),'08b')
                                     except:
-                                        alarmData = format(0,'08b')  
-                                    #print(alarmData)  
+                                        alarmData = format(0,'08b')
+                                    #print(alarmData)
                                     for idx,k in enumerate(alarmData):
                                         _idx = (idx - 7) * -1
-                                        if(k=='1'):    
+                                        if(k=='1'):
                                             # print(tag["tag"],_idx,i)
                                             sameIndex = next((index for index,bit in enumerate(tag['bits']) if bit["index"] == _idx), None)
-                                            # print(sameIndex)  
+                                            # print(sameIndex)
                                             if(sameIndex!=None):
                                                 alarm = tag['bits'][sameIndex].get("alarm",[])
-                                                # print(alarm)  
+                                                # print(alarm)
                                                 if(len(alarm)>0):
                                                     # print(alarm[0])
                                                     event = tag["name"]+":"+alarm[0]["event"]+" (""Index:["+str(i_index+1)+","+str(j_index+1)+"])"
@@ -245,7 +245,7 @@ def alarm_detector():
                                                     protection = max(alarm[0].get("protection",0), protection)
                                                     print(event,"protection:",alarm[0].get("protection",0))
                                                     if (db.alarm.find_one({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0}},{})== None):#發生異常
-                                                        db.alarm.insert({
+                                                        db.alarm.insert_one({
                                                             "ID":equip["ID"],
                                                             "time":now,
                                                             "event":event,
@@ -255,9 +255,9 @@ def alarm_detector():
                                                             "value":None,
                                                             "show":1,
                                                             "count":1
-                                                        })  
+                                                        })
                                                     else: #持續異常
-                                                        db.alarm.update({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0},"count":0},{"$set":{"count":1}})   
+                                                        db.alarm.update_one({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0},"count":0},{"$set":{"count":1}})
                                                         # print("持續異常")
                     elif(tag["tagType"] == "number" or tag["tagType"] == "text"):
                         if(tag["tag"]  in data):
@@ -285,7 +285,7 @@ def alarm_detector():
                                         print(event,"protection:",alarm.get("protection",0))
                                         if (db.alarm.find_one({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0}},{})== None):#發生異常
                                             #print("insert","code:"+str(i))
-                                            db.alarm.insert({
+                                            db.alarm.insert_one({
                                                 "ID":equip["ID"],
                                                 "time":now,
                                                 "event":event,
@@ -297,20 +297,20 @@ def alarm_detector():
                                                 "count":1
                                             })
                                         else: #持續異常
-                                            db.alarm.update({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0},"count":0},{"$set":{"value":alarmData,"count":1}})   
+                                            db.alarm.update_one({"ID":equip["ID"],"returntime":None,"event":event,"show":{"$gt":0},"count":0},{"$set":{"value":alarmData,"count":1}})
 
-                db.alarm.update_many({"ID":equip["ID"],"returntime":None,"show":{"$gt":0},"count":0},{"$set":{"returntime":now,"count":-1,"show":2}})     
+                db.alarm.update_many({"ID":equip["ID"],"returntime":None,"show":{"$gt":0},"count":0},{"$set":{"returntime":now,"count":-1,"show":2}})
         #print('---------------------------------')
         protect(protection)
         tEnd1 = time.time()#計時結束
         #列印結果
-        print("alarm_detector cost %f sec" % (tEnd1 - tStart1))#會自動做近位               
+        print("alarm_detector cost %f sec" % (tEnd1 - tStart1))#會自動做近位
     else:
         print("alarm_detector不在本機執行！！")
 if True:
     for equip in db.equipment.find():
         equip['ID'] = str(equip['_id'])
-        equip.pop('_id') 
+        equip.pop('_id')
         modeltag = db.model.find_one({"ID":equip["model"],"type":equip["type"]},{"tags":1})
         # print(modeltag)
         alarm = 0
@@ -356,45 +356,45 @@ def protect(protection=0):
     #     protect_time = None
     print("protection:",protection)
     # if protection == 1 or (pcs_operation_mode != 0 and protection == 2):
-    if(protection == 1 or protection_reg == 1 or  ((protection >= 2 or protection_reg >= 2) and protect_time == None) ):    
+    if(protection == 1 or protection_reg == 1 or  ((protection >= 2 or protection_reg >= 2) and protect_time == None) ):
         if(db.sys_protect_log.find_one({"ID":"system","returntime":None}) == None):
-            db.sys_protect_log.insert({"ID":"system","time":now,"returntime":None,"protect":protection})  
+            db.sys_protect_log.insert_one({"ID":"system","time":now,"returntime":None,"protect":protection})
             protect_time = now
             # air condition stop
             if protection == 3:
                 # protection flag
                 if(old_sys_set=={}):
                     old_sys_set = {"ID":"system","time":now,"protection":3}
-                    db.sys_control.insert(old_sys_set)
+                    db.sys_control.insert_one(old_sys_set)
                 else:
-                    old_sys_set.update({"protection":3,"time":now}) 
+                    old_sys_set.update_one({"protection":3,"time":now})
                     if "_id" in old_sys_set:
                         del old_sys_set["_id"]
-                    db.sys_control.insert(old_sys_set)
+                    db.sys_control.insert_one(old_sys_set)
                 for i in airIDList:
-                    db.air_control.insert({"ID":i,"time":now,"control":0,"reset":0}) 
+                    db.air_control.insert_one({"ID":i,"time":now,"control":0,"reset":0})
                 c.SOE(db,"system","保護邏輯-Step0.冷氣設定關閉","protection")
             # protection flag
             if(old_sys_set=={}):
                 old_sys_set = {"ID":"system","time":now,"protection":1}
-                db.sys_control.insert(old_sys_set)
+                db.sys_control.insert_one(old_sys_set)
             else:
-                old_sys_set.update({"protection":1,"time":now}) 
+                old_sys_set.update_one({"protection":1,"time":now})
                 if "_id" in old_sys_set:
                     del old_sys_set["_id"]
-                db.sys_control.insert(old_sys_set)
+                db.sys_control.insert_one(old_sys_set)
             # mode = 0 stop
             old_mode_set = c.current_data(db,'site_control','site_control')[0]
             if(old_mode_set=={}):
                 old_mode_set = {"ID":"site_control","mode":0}
-            old_mode_set.update({"mode":0,"time":now})
-            db.site_control.insert(old_mode_set)
+            old_mode_set.update_one({"mode":0,"time":now})
+            db.site_control.insert_one(old_mode_set)
             c.SOE(db,"system","保護邏輯-Step1.模式設定為停止模式","protection")
             # pcs stop
-            # db.pcs_mode.insert(old_mode_set)
+            # db.pcs_mode.insert_one(old_mode_set)
             for i in pcsIDList:
-                db.pcs_control.insert({"ID":i,"time":now,"control":0,"reset":0}) 
-            # now = now + relativedelta(microseconds=+100000) 
+                db.pcs_control.insert_one({"ID":i,"time":now,"control":0,"reset":0})
+            # now = now + relativedelta(microseconds=+100000)
             c.SOE(db,"system","保護邏輯-Step2.PCS設定關閉,解除PCS搭接狀態","protection")
             if protection_reg==1:
                 protection_reg=-1
@@ -420,16 +420,16 @@ def protect(protection=0):
                 if(db.sys_protect_log.find_one({"ID":"system","returntime":None,"protect":{'$gte':2}}) == None or protection_reg >= 2):
                     if(old_sys_set=={}):
                         old_sys_set = {"ID":"system","time":now,"protection":2}
-                        db.sys_control.insert(old_sys_set)
+                        db.sys_control.insert_one(old_sys_set)
                     else:
-                        old_sys_set.update({"protection":2,"time":now}) 
+                        old_sys_set.update_one({"protection":2,"time":now})
                         if "_id" in old_sys_set:
                             del old_sys_set["_id"]
-                        db.sys_control.insert(old_sys_set)
-                    # db.sys_protect_log.update({"ID":"system","returntime":None},{"$set":{"protect":2}}) 
+                        db.sys_control.insert_one(old_sys_set)
+                    # db.sys_protect_log.update_one({"ID":"system","returntime":None},{"$set":{"protect":2}})
                     # print("#################################battery open!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                     for i in mbmsIDList:
-                        db.mbms_control.insert({"ID":i,"time":now,"control":0,"reset":0})
+                        db.mbms_control.insert_one({"ID":i,"time":now,"control":0,"reset":0})
                     c.SOE(db,"system","保護邏輯-Step3.電池組設定切離,解除Realy搭接狀態","protection")
                     protection_reg=-1
                 else:
@@ -440,19 +440,19 @@ def protect(protection=0):
         protect_time = None
         if(db.sys_protect_log.find_one({"ID":"system","returntime":None}) != None):
             c.SOE(db,"system","保護邏輯解除","protection")
-   
-        db.sys_protect_log.update({"ID":"system","returntime":None},{"$set":{"returntime":now}})
+
+        db.sys_protect_log.update_one({"ID":"system","returntime":None},{"$set":{"returntime":now}})
         if old_sys_set["protection"] == 1 or old_sys_set["protection"] >= 2:
-            old_sys_set.update({"protection":0,"time":now})
-            db.sys_control.insert(old_sys_set)
+            old_sys_set.update_one({"protection":0,"time":now})
+            db.sys_control.insert_one(old_sys_set)
         print("normal")
 if True:
     for equip in db.equipment.find({"type":"pcs"}):
         pcsIDList.append(str(equip['_id']))
     for equip in db.equipment.find({"type":"mbms"}):
-        mbmsIDList.append(str(equip['_id'])) 
+        mbmsIDList.append(str(equip['_id']))
     for equip in db.equipment.find({"type":"air"}):
-        airIDList.append(str(equip['_id'])) 
+        airIDList.append(str(equip['_id']))
 #-------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     print('---------------------------------------------------------')
@@ -468,7 +468,7 @@ if __name__ == '__main__':
     scheduler.add_job(accessToSOE,'cron', hour='*',minute='*',second='*')
     # alarm偵測
     scheduler.add_job(alarm_detector,'cron', hour='*',minute='*',second='*')
-    
+
     #月報
     scheduler.add_job(genReport,'cron', day='1',hour='1',minute='0',second='1' ,args=["month"])
     #季報
@@ -478,11 +478,11 @@ if __name__ == '__main__':
     #報表測試
     #scheduler.add_job(genReport,'cron',minute='*/5',second='1' ,args=["quarter"])
 
-    
+
     try:
     # This is here to simulate application activity (which keeps the main thread alive).
         while True:
-            time.sleep(1) 
+            time.sleep(1)
     except (KeyboardInterrupt, SystemExit):
         # Not strictly necessary if daemonic mode is enabled but should be done if possible
         scheduler.shutdown()
