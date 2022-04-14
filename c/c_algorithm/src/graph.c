@@ -14,23 +14,33 @@
 
 // 定義圖結構
 typedef struct {
-	char type;         // 圖類型,0無向,1有向
+	int type;         // 圖類型,0無向,1有向
 	int  verticNumber; // 幾個頂點
 	int  edgeNumber;   // 幾個邊
 	char vertics[MAX_NUMBER];    // 頂點名
 	int  weights[MAX_NUMBER][MAX_NUMBER]; // 各邊的權重
+	int  isTraversed[MAX_NUMBER]; //遍歷時,某頂點是否訪問過
 } MyGraph;
 
 // function prototypes
 void createGraph(MyGraph *g);
 void clearGraph(MyGraph *g);
+void printOutGraph(MyGraph *g);
+void traverseGraph(MyGraph *g);
 
 void main_graph() {
 	MyGraph g;
-	g.type = 0;
-	g.verticNumber = 3;
-	g.edgeNumber = 3;
+	printf("input graph type(0: undirected, 1: directed");
+	scanf("%d", &(g.type));
+	printf("input number of vertices");
+	scanf("%d", &(g.verticNumber));
+	printf("input number of edges");
+	scanf("%d", &(g.edgeNumber));
+
+	clearGraph(&g);
 	createGraph(&g);
+	printOutGraph(&g);
+	traverseGraph(&g);
 }
 
 /**
@@ -71,4 +81,62 @@ void clearGraph(MyGraph *g) {
 			g->weights[i][j] = MAX_VALUE;
 		}
 	}
+}
+
+/**
+ * 把圖結構用矩陣的型式列印出來, ex:
+ *    A B C
+ *  A Z 1 1
+ *  B Z Z 1
+ *  C Z Z Z
+ *
+ *  Z代表MAX VALUE,代表沒有連成邊
+ */
+void printOutGraph(MyGraph *g) {
+	for (int i=0; i< g->verticNumber; i++) {
+		printf("\t%c", g->vertics[i]);
+	}
+	printf("\n");
+
+	for (int i=0; i< g->verticNumber; i++) {
+		printf("%c", g->vertics[i]);
+		for (int j=0; j< g->verticNumber; j++) {
+			if (g->weights[i][j] == MAX_VALUE) {
+				printf("\t%s", "Z");
+			} else {
+				printf("\t%d", g->weights[i][j]);
+			}
+		}
+		printf("\n");
+	}
+}
+
+/**
+ * 以某個頂點為起點,以深度優先方式遍歷與其相連的頂點.
+ */
+void visitOneVertex(MyGraph *g, int vIdx) {
+	g->isTraversed[vIdx] = 1;
+	printf("->%c", g->vertics[vIdx]);
+
+	for (int i=0; i< g->verticNumber; i++) {
+		if (g->weights[vIdx][i] != MAX_VALUE && g->isTraversed[i] != 1) {
+			visitOneVertex(g, i);
+		}
+	}
+}
+
+/**
+ * 基於深度優先方式遍歷圖結構, 訪問過的頂點會在isTraversed陣列中標為1.
+ */
+void traverseGraph(MyGraph *g) {
+	for (int i=0; i < g->verticNumber; i++) {
+		g->isTraversed[i] = 0;
+	}
+
+	for (int i=0; i< g->verticNumber; i++) {
+		if (g->isTraversed[i] == 0) {
+			visitOneVertex(g, i);
+		}
+	}
+	printf("\n");
 }
