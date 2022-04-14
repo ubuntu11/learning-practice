@@ -13,6 +13,6 @@
 #include "commons.h"
 
 int main(void) {
-	main_sequential_list();
+	main_graph();
 	return EXIT_SUCCESS;
 }

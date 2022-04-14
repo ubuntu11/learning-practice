@@ -9,5 +9,6 @@
 #define COMMONS_H_
 
 void main_sequential_list();
+void main_graph();
 
 #endif /* COMMONS_H_ */
