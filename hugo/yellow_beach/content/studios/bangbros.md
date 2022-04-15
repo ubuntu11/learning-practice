@@ -1,7 +1,7 @@
 ---
 title: "Bangbros"
 link: studios/bangbros
-image: https://media.istockphoto.com/vectors/speeding-racing-car-design-vector-id636708030?k=20&m=636708030&s=612x612&w=0&h=JtOP-Zet0rROuv_FDcfkwP9UxqxvaJ_bzPetwM52g6s=
+image: https://upload.cc/i1/2022/04/15/XAYKjZ.jpg
 date: 2022-04-14T14:52:14+08:00
 draft: true
 ---
