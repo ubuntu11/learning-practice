@@ -5,6 +5,26 @@ from model import equipment
 from getpass import getuser
 
 
+def compute_modbus_reading(target: dict):
+    """
+    根據定義(model.py),計算modbus記憶體的讀取長度等資訊.
+    :param target:
+    :return: None
+    """
+    try:
+        for key in target.keys():
+            if (key != 'read_data') and (target[key]['order'] != None):
+                target[key]['return_address'] = target[key]['address'] - target['read_data']['start'][
+                    target[key]['order']]
+            elif key == 'read_data':
+                target['read_data']['length'] = []
+                for x in range(len(target['read_data']['start'])):
+                    target['read_data']['length'].append(
+                        target['read_data']['end'][x] - target['read_data']['start'][x] + 1)
+    except Exception as mesg:
+        print(target, ' read_data error: ', mesg)
+
+
 def update_status(db_client):
     computer_state = {'ID':'dc',
                 'time':0,

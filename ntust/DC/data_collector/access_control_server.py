@@ -4,10 +4,10 @@ import socket
 from data_access import insert_doc
 
 
-def start_server(db_client):
+def start_server(db_client, tcp_server_ip, tcp_server_port):
     try:
-        HOST = '192.168.2.103'
-        PORT = 5502
+        HOST = tcp_server_ip
+        PORT = int(tcp_server_port)
         count = 0
         while True:
             try:

@@ -1,4 +1,8 @@
-def Bytes_Array_To_Float32(value_high ,value_low):
+from math import isnan
+from struct import unpack
+
+
+def bytes_array_to_float32(value_high, value_low):
     try:
         total = (value_high << 16) + value_low
         total = format(total, 'x')
@@ -20,8 +24,9 @@ def Bytes_Array_To_Float32(value_high ,value_low):
         print('BytearrayToFloat32 error')
         print(meg)
         return False
-        
-def Bytes_Array_To_Uint(value_array ,point_data):
+
+
+def bytes_array_to_uint(value_array, point_data):
     try:
         total=value_array[point_data['return_address']]
         for x in range(1,point_data['length']):
@@ -36,7 +41,8 @@ def Bytes_Array_To_Uint(value_array ,point_data):
         print(meg)
         return False
 
-def Bytes_Array_To_Int(value_array,point_data):
+
+def bytes_array_to_int(value_array, point_data):
     try:
         total=value_array[point_data['return_address']]
         for x in range(1,point_data['length']):
