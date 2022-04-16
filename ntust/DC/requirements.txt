@@ -1,5 +1,0 @@
-APScheduler
-psutil
-pymongo
-pyModbusTCP
-pyjavaproperties
