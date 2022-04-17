@@ -17,9 +17,12 @@ class Sprint:
         self.id = sprint_dict['id']
         self.state = sprint_dict['state']
         self.name = sprint_dict['name']
-        self.start = datetime.strptime(sprint_dict['startDate'], DATE_FORMAT) if 'startDate' in sprint_dict else None
-        self.end = datetime.strptime(sprint_dict['endDate'], DATE_FORMAT) if 'endDate' in sprint_dict else None
-        self.complete = datetime.strptime(sprint_dict['completeDate'], DATE_FORMAT) if 'completeDate' in sprint_dict else None
+        self.start = datetime.strptime(sprint_dict['startDate'], DATE_FORMAT) \
+            if 'startDate' in sprint_dict else None
+        self.end = datetime.strptime(sprint_dict['endDate'], DATE_FORMAT) \
+            if 'endDate' in sprint_dict else None
+        self.complete = datetime.strptime(sprint_dict['completeDate'], DATE_FORMAT) \
+            if 'completeDate' in sprint_dict else None
         self.goal = sprint_dict['goal']
 
     def finish(self):
@@ -45,7 +48,7 @@ class VirtualSprint:
 
 
 class Issue:
-    def __init__(self, issue_dict, story_point_col_name: str, sprint: Sprint = None, sub_tasks = None):
+    def __init__(self, issue_dict, story_point_col_name: str, sprint: Sprint = None, sub_tasks=None):
         """
         time_estimate, time_spent should be summed up by subtasks
         compute time_estimate_str, time_spent_str from time_estimate, time_spent
@@ -56,17 +59,27 @@ class Issue:
         self.id = issue_dict['key']
         self.summary = issue_dict['fields']['summary']
         self.type = IssueType[issue_dict['fields']['issuetype']['name'].upper().replace('-','_')]
-        self.time_estimate = round(issue_dict['fields']['timeoriginalestimate'] / 3600, 2) if issue_dict['fields']['timeoriginalestimate'] else 0
-        self.time_spent = round(issue_dict['fields']['timetracking']['timeSpentSeconds'] / 3600, 2) if 'timeSpentSeconds' in issue_dict['fields']['timetracking'] else 0
-        self.time_estimate_str = issue_dict['fields']['timetracking']['originalEstimate'] if 'originalEstimate' in issue_dict['fields']['timetracking'] else ''
-        self.time_spent_str = issue_dict['fields']['timetracking']['timeSpent'] if 'timeSpent' in issue_dict['fields']['timetracking'] else ''
-        self.points = float(issue_dict['fields'][story_point_col_name]) if story_point_col_name in issue_dict['fields'] and issue_dict['fields'][story_point_col_name] else 0.0
+        self.time_estimate = round(issue_dict['fields']['timeoriginalestimate'] / 3600, 2) \
+            if issue_dict['fields']['timeoriginalestimate'] else 0
+        self.time_spent = round(issue_dict['fields']['timetracking']['timeSpentSeconds'] / 3600, 2) \
+            if 'timeSpentSeconds' in issue_dict['fields']['timetracking'] else 0
+        self.time_estimate_str = issue_dict['fields']['timetracking']['originalEstimate'] \
+            if 'originalEstimate' in issue_dict['fields']['timetracking'] else ''
+        self.time_spent_str = issue_dict['fields']['timetracking']['timeSpent'] \
+            if 'timeSpent' in issue_dict['fields']['timetracking'] else ''
+        # 若無故事點數欄位,則視為1點
+        self.points = float(issue_dict['fields'][story_point_col_name]) \
+            if story_point_col_name in issue_dict['fields'] \
+               and issue_dict['fields'][story_point_col_name] else 1.0
         self.status = issue_dict['fields']['status']['name']
-        self.owner = issue_dict['fields']['assignee']['displayName'] if issue_dict['fields']['assignee'] else ''
+        self.owner = issue_dict['fields']['assignee']['displayName'] \
+            if issue_dict['fields']['assignee'] else ''
         if issue_dict['fields']['resolutiondate']:
-            self.resolution_at = datetime.strptime(issue_dict['fields']['resolutiondate'], DATE_FORMAT_WITH_OFFSET)
+            self.resolution_at = datetime.strptime(issue_dict['fields']['resolutiondate'],
+                                                   DATE_FORMAT_WITH_OFFSET)
         if 'worklog' in issue_dict['fields']:
-            self.work_logs = [WorkLog(work_log_dict) for work_log_dict in issue_dict['fields']['worklog']['worklogs']]
+            self.work_logs = [WorkLog(work_log_dict) for work_log_dict
+                              in issue_dict['fields']['worklog']['worklogs']]
         else:
             self.work_logs = []
 
@@ -106,9 +119,12 @@ class WorkLog:
     def __init__(self, work_log_dict):
         self.reporter = work_log_dict['author']['displayName']
         self.created_at = datetime.strptime(work_log_dict['created'], DATE_FORMAT_WITH_OFFSET)
-        self.updated_at = datetime.strptime(work_log_dict['updated'], DATE_FORMAT_WITH_OFFSET) if 'updated' in work_log_dict else None
-        self.started_at = datetime.strptime(work_log_dict['started'], DATE_FORMAT_WITH_OFFSET) if 'started' in work_log_dict else None
-        self.time_spent_seconds = work_log_dict['timeSpentSeconds'] if 'timeSpentSeconds' in work_log_dict else 0.0
+        self.updated_at = datetime.strptime(work_log_dict['updated'], DATE_FORMAT_WITH_OFFSET) \
+            if 'updated' in work_log_dict else None
+        self.started_at = datetime.strptime(work_log_dict['started'], DATE_FORMAT_WITH_OFFSET) \
+            if 'started' in work_log_dict else None
+        self.time_spent_seconds = work_log_dict['timeSpentSeconds'] if 'timeSpentSeconds' \
+                                                                       in work_log_dict else 0.0
 
 
 class PersonalPerformance:

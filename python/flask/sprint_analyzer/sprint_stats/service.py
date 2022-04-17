@@ -54,6 +54,7 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
     issue_unsorted = []
     issues_json_list = []
     story_point_col_name_dict = __config()['STORY_POINT_COL_NAME']
+
     for i, s in enumerate(virtual_sprint.sprints):
         issue_url = f'{__base_url(team_id)[i]}/sprint/{s.id}/issue'
         response = requests.get(issue_url, headers=__request_header())
@@ -73,9 +74,13 @@ def load_sprint_issues(team_id: str, sprint_id_list: list[int]):
         sprint_id = issue_json_dict[key]['fields']['sprint']['id']
         current_sprint = virtual_sprint.sprint_dict[sprint_id]
         project_id = issue_json_dict[key]['fields']['project']['id']
-        sub_task_list = [Issue(issue_json_dict[sub_task['key']], story_point_col_name_dict[project_id], current_sprint) for sub_task in issue_json_dict[key]['fields']['subtasks']]
+        story_point_col_name = story_point_col_name_dict[project_id] \
+            if project_id in story_point_col_name_dict else None
+        sub_task_list = [Issue(issue_json_dict[sub_task['key']],
+                               story_point_col_name, current_sprint)
+                         for sub_task in issue_json_dict[key]['fields']['subtasks']]
         issue_unsorted.append(Issue(issue_json_dict[key],
-                                    story_point_col_name_dict[project_id],
+                                    story_point_col_name,
                                     current_sprint,
                                     sub_task_list))
 

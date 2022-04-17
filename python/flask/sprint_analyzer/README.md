@@ -61,5 +61,6 @@ docker build --build-arg config_file=config.py.sample --build-arg JIRA_CREDENTIA
 |Team|Board Name|Board id|
 |---|---|---|
 |RD2|SOM board|8|
-|RD2|SRP board|7|
+||SRP board|7|
+||OKR22 board|9|
 |RD5|TCIS1 baord|5|
