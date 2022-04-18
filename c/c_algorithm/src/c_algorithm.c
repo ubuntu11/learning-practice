@@ -13,6 +13,6 @@
 #include "commons.h"
 
 int main(void) {
-	main_graph();
+	main_3_5();
 	return EXIT_SUCCESS;
 }

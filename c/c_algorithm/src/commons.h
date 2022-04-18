@@ -10,5 +10,9 @@
 
 void main_sequential_list();
 void main_graph();
+void main_3_2();
+void main_3_3();
+void main_3_4();
+void main_3_5();
 
 #endif /* COMMONS_H_ */
