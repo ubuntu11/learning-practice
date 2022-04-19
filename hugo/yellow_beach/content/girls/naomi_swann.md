@@ -1,5 +1,5 @@
 ---
-title: "Naomi_swann"
+title: "Naomi Swann"
 link: girls/naomi_swann
 image: https://upload.cc/i1/2022/03/29/NJ9bUr.jpg
 date: 2022-03-29T17:02:33+08:00

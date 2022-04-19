@@ -1,5 +1,5 @@
 ---
-title: "Kalina_ryu"
+title: "Kalina Ryu"
 link: girls/kalina_ryu
 image: https://upload.cc/i1/2022/03/31/R1jkrA.jpg
 date: 2022-03-31T11:33:32+08:00

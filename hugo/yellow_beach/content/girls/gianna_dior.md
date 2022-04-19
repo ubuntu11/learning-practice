@@ -1,5 +1,5 @@
 ---
-title: "Gianna_dior"
+title: "Gianna Dior"
 link: girls/gianna_dior
 image: https://upload.cc/i1/2022/03/31/5Ar2WZ.jpeg
 date: 2022-03-31T12:24:15+08:00
