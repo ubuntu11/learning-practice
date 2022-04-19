@@ -10,61 +10,40 @@
 #include <stdlib.h>
 #define MAX_COINS 30
 
-void findFakeCoinEven(int coins[], int coinsNumber) {
-	int a[coinsNumber / 2], b[coinsNumber / 2];
-	int weightA=0, weightB=0;
-	for (int i=0; i<coinsNumber; i++) {
-		if (i < coinsNumber / 2) {
-			a[i] = coins[i];
-			weightA+= coins[i];
-		} else {
-			b[i - coinsNumber / 2] = coins[i];
-			weightB+= coins[i];
-		}
-	}
+int coins[MAX_COINS];
 
-	if (weightA < weightB) {
-		findFakeCoin(a, coinsNumber / 2);
-	} else {
-		findFakeCoin(b, coinsNumber / 2);
-	}
-}
+/**
+ *
+ * lowerLimit: 要處理的硬幣群中最小的陣列索引值(最小為0)
+ * upperLimit: 要處理的硬幣群中最大的陣列索引值(最大為陣列大小-1)
+ */
+void findFakeCoin(int lowerLimit, int upperLimit) {
+	int size, mid;
 
-void findFakeCoinOdd(int coins[], int coinsNumber) {
-	int mid = coinsNumber / 2 + 1;
-	int a[coinsNumber / 2], b[coinsNumber / 2];
-	int weightA=0, weightB=0;
-	for (int i=0; i < coinsNumber; i++) {
-		if (i < coinsNumber / 2) {
-			weightA+= coins[i];
-			a[i] = coins[i];
-		} else if (i > coinsNumber / 2) {
-			weightB+= coins[i];
-			b[i] = coins[i - coinsNumber / 2 - 1];
-		}
-	}
+	size = upperLimit - lowerLimit + 1;
+	mid = size / 2;
 
-	if (weightA == weightB) {
-		printf("coin %d is fake!\n", coinsNumber / 2 + 1);
-	}
-
-	if (weightA > weightB) {
-		findFakeCoin(b, coinsNumber / 2);
-	} else {
-		findFakeCoin(a, coinsNumber / 2);
-	}
-}
-
-void findFakeCoin(int coins[], int coinsNumber) {
-	if (coinsNumber % 2 == 0) {
-		findFakeCoinEven(coins, coinsNumber);
-	} else {
-		findFakeCoinOdd(coins, coinsNumber);
+	int a[mid], b[mid];
+	for (int i=lowerLimit; i<=upperLimit; i++) {
+        if (i < mid) {
+        	a[i] = coins[i];
+        	printf("a[%d]=%d\n",i, coins[i]);
+        } else {
+        	if (size % 2 == 0) {
+        		b[i - mid] = coins[i];
+        		printf("b[%d]=%d\n",i - mid, coins[i]);
+        	} else {
+        		if (i == mid) {
+        			continue;
+        		}
+        		b[i - mid - 1] = coins[i];
+        		printf("b[%d]=%d\n",i - mid - 1, coins[i]);
+        	}
+        }
 	}
 }
 
 void main_3_5() {
-	int coins[MAX_COINS];
 	int n=0;
 	printf("input how many coins? ");
 	scanf("%d", &n);
@@ -79,5 +58,5 @@ void main_3_5() {
 		scanf("%d", &coins[i]);
 	}
 
-	findFakeCoin(coins, n);
+	findFakeCoin(0, n - 1);
 }
